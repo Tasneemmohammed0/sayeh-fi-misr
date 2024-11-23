@@ -1,15 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-function signToken(id) {
-  jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-}
-function createSendToken(user, status, res) {
-  const token = signToken(user.id);
-}
-
 exports.signup = async (req, res, next) => {
   if (!req.body.firstName)
     res.status(404).json({
