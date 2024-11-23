@@ -73,7 +73,7 @@ exports.protect = (req, res, next) => {
   // (TBA) 4) Check if user changed password after JWT was issued (tell him to login again)
 
   // 5) Grant access
-  req.body = currentUser;
+  req.user = currentUser;
   next();
 };
 
@@ -81,7 +81,7 @@ exports.getMe = (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      curr_user: req.body,
+      curr_user: req.user,
     },
   });
 };
