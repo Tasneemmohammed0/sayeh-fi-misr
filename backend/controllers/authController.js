@@ -1,3 +1,4 @@
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -43,4 +44,45 @@ exports.signup = async (req, res, next) => {
       message: err.message,
     });
   }
+};
+
+exports.protect = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) {
+    return res.status(401).json({
+      status: "fail",
+      message: "Not logged in",
+    });
+  }
+
+  // 2) Token verification
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(401).json({
+        message: token,
+      });
+    }
+    req.body = user;
+    next();
+  }); // sets the user in request body
+
+  // (TBA) Check if user still exists
+  // (TBA) Check if user changed password after JWT was issued (tell him to login again)
+
+  //   res.status(200).json({
+  //     status: "success",
+  //     data: {
+  //       user: req.user,
+  //     },
+  //   });
+};
+
+exports.getMe = (req, res, next) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      curr_user: req.body,
+    },
+  });
 };
