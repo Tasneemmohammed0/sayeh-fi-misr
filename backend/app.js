@@ -4,6 +4,8 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const xss = require("xss-clean");
 
+const userRouter = require("./routes/userRoutes");
+
 const app = express();
 
 // Limit 1000 requests from same IP within 30 minutes
@@ -32,6 +34,8 @@ app.get("/api", (req, res, next) => {
     message: "Main Route",
   });
 });
+
+app.post("/api/v1/users", userRouter);
 
 app.all("*", (req, res, next) => {
   const msg = `Can't find ${req.originalUrl}`;
