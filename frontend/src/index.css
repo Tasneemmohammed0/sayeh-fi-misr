@@ -12,15 +12,15 @@ html{
   scroll-behavior: smooth;
 }
 body{
-  --main-color:#fcb700 !important;
-  --dark-color:#222222 !important;
-  --parg-color:#666666 !important;
-  --dark-red:#d01418  !important;
-  --border-color:#6666662a !important;
-  --name-item:#0066c0 !important;
-  --background-color:#f5f6f9 !important;
+  --our-blue:#0C3E69;
+  --our-black:#283037;
+  --our-brown:#674636;
+  --our-yellow:#E9932E;
+  --our-green:#AAB396;
+  --our-white:#F7EED3;
   --main-font:"Luxurious Roman", serif !important;
   --second-font:"Noto Sans Georgian", sans-serif !important;
+  font-family: var(--main-font);
 }
 /* Default (Mobile-first) */
 .container{
