@@ -35,7 +35,7 @@ app.get("/api", (req, res, next) => {
   });
 });
 
-app.post("/api/v1/users", userRouter);
+app.use("/api/v1/users", userRouter);
 
 app.all("*", (req, res, next) => {
   const msg = `Can't find ${req.originalUrl}`;
