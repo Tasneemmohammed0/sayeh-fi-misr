@@ -47,6 +47,7 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.protect = (req, res, next) => {
+  // 1) Get token and check if it exists
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
@@ -57,25 +58,23 @@ exports.protect = (req, res, next) => {
   }
 
   // 2) Token verification
+  let currentUser;
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(401).json({
         message: token,
       });
     }
-    req.body = user;
-    next();
+    currentUser = user;
   }); // sets the user in request body
 
-  // (TBA) Check if user still exists
-  // (TBA) Check if user changed password after JWT was issued (tell him to login again)
+  // (TBA) 3) Check if user still exists
 
-  //   res.status(200).json({
-  //     status: "success",
-  //     data: {
-  //       user: req.user,
-  //     },
-  //   });
+  // (TBA) 4) Check if user changed password after JWT was issued (tell him to login again)
+
+  // 5) Grant access
+  req.body = currentUser;
+  next();
 };
 
 exports.getMe = (req, res, next) => {
