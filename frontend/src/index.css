@@ -1,0 +1,81 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luxurious+Roman&family=Noto+Sans+Georgian:wght@100..900&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+html{
+  scroll-behavior: smooth;
+}
+body{
+  --main-color:#fcb700 !important;
+  --dark-color:#222222 !important;
+  --parg-color:#666666 !important;
+  --dark-red:#d01418  !important;
+  --border-color:#6666662a !important;
+  --name-item:#0066c0 !important;
+  --background-color:#f5f6f9 !important;
+  --main-font:"Luxurious Roman", serif !important;
+  --second-font:"Noto Sans Georgian", sans-serif !important;
+}
+/* Default (Mobile-first) */
+.container{
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Small devices (Tablets, 768px and up) */
+@media (min-width: 768px) {
+  .container {
+      width: 750px;
+  }
+}
+
+/* Medium devices (Desktops, 992px and up) */
+@media (min-width: 992px) {
+  .container {
+      width: 970px;
+  }
+}
+
+/* Large devices (Large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+      width: 1170px;
+  }
+}
+
+/* Extra large devices (Extra large desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  .container {
+      width: 1320px;
+  }
+}
+
+/* Ultra large devices (1600px and up) */
+@media (min-width: 1600px) {
+  .container {
+      width: 1470px;
+  }
+}
+
+
+
+
+/* screen */
+
+input:focus, textarea:focus{
+  outline: none;
+}
+ul {
+  list-style-type: none;
+}
+/*  */
+a{
+  text-decoration: none;
+}
