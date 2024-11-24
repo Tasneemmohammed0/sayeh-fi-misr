@@ -5,6 +5,7 @@ const userController = require("../controllers/userController");
 const router = express.Router();
 
 router.post("/signup", authController.signup); //http://localhost:1123/api/v1/users/signup
+router.post("/login", authController.login);
 router.get(
   "/me",
   authController.protect,

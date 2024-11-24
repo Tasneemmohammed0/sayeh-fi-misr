@@ -4,6 +4,35 @@ const jwt = require("jsonwebtoken");
 
 exports.allUsers = [];
 
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = this.allUsers.find((u) => u.email === email);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({
+        status: "fail",
+        message: "wrong email or password",
+      });
+    }
+
+    const token = jwt.sign(user, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
+    res.cookie("jwt", token);
+    res.status(200).json({
+      status: "success",
+      token,
+      data: user,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
 exports.signup = async (req, res, next) => {
   try {
     if (!req.body.firstName)
@@ -30,7 +59,10 @@ exports.signup = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    res.cookie("jwt", token);
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
 
     // Add user to database here, then remove the password key/value from response output
     this.allUsers.push(newUser);
