@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const xss = require("xss-clean");
+const cookieParser = require("cookie-parser");
 
 const userRouter = require("./routes/userRoutes");
 
@@ -26,6 +27,8 @@ app.use(helmet());
 // Data sanitization against XSS attacks
 app.use(xss());
 
+// Cookie parser middleware to parse cookies into req.cookie
+app.use(cookieParser());
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 app.get("/api", (req, res, next) => {
