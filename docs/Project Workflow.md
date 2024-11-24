@@ -71,7 +71,7 @@ We follow **Conventional Commits** to standardize the commit messages. This make
    docs(readme): update setup instructions
    ```
 
-## Workflow
+## 4. Workflow
 
 1. **Create a Branch**
    - Always create a new branch from `develop` for your work.
