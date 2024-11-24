@@ -2,6 +2,8 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+exports.allUsers = [];
+
 exports.signup = async (req, res, next) => {
   try {
     if (!req.body.firstName)
@@ -12,6 +14,7 @@ exports.signup = async (req, res, next) => {
       });
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = {
+      id: req.body.id,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       username: req.body.username,
@@ -30,7 +33,7 @@ exports.signup = async (req, res, next) => {
     res.cookie("jwt", token);
 
     // Add user to database here, then remove the password key/value from response output
-
+    this.allUsers.push(newUser);
     res.status(201).json({
       status: "success",
       token,
@@ -75,13 +78,4 @@ exports.protect = (req, res, next) => {
   // 5) Grant access
   req.user = currentUser;
   next();
-};
-
-exports.getMe = (req, res, next) => {
-  res.status(200).json({
-    status: "success",
-    data: {
-      curr_user: req.user,
-    },
-  });
 };
