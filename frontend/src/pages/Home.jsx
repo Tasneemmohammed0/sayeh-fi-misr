@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import NavBar from "../components/NavBar";
+import Hero from "../components/Hero";
 
 function Home() {
   return (
-    <div>Home</div>
-  )
+    <main>
+      <NavBar />
+      <Hero />
+    </main>
+  );
 }
 
-export default Home
+export default Home;
