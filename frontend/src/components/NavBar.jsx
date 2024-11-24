@@ -13,16 +13,22 @@ function NavBar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/gatherings">Gatherings</NavLink>
+          <NavLink to="/gatherings" activeClassName="active-link">
+            Gatherings
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/trending">Trending Places</NavLink>
+          <NavLink to="/trending" activeClassName="active-link">
+            Trending Places
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/signin">Sign Up</NavLink>
+          <NavLink to="/signin" activeClassName="active-link">
+            Sign Up
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/profile">
+          <NavLink to="/profile" activeClassName="active-link">
             <FaUserCircle className="profile-icon" />
           </NavLink>
         </li>
