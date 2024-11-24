@@ -17,7 +17,9 @@ body{
   --our-brown: #674636; /* Accent brown */
   --our-yellow: #E9932E; /* Bright yellow accent */
   --our-green: #AAB396; /* Background green */
-  --our-white: rgb(247, 238, 211); /* Form background */
+  --our-white: #f7eed3; /* Form background */
+  --our-dark-sand:#C29D78;
+  --our-light-sand:#EBD1B5;
   --our-hover-blue: #145a99; /* Hover effect for buttons */
   --our-light-gray: #E4D7C5; /* Light border color */
   --main-font:"Luxurious Roman", serif !important;
@@ -82,4 +84,13 @@ ul {
 /*  */
 a{
   text-decoration: none;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: black !important; /* Changes the arrow color to black */
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  color: gray !important; /* Optional: Changes the arrow color on hover */
 }
