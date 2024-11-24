@@ -23,7 +23,7 @@ function NavBar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/signin" activeClassName="active-link">
+          <NavLink to="/signup" activeClassName="active-link">
             Sign Up
           </NavLink>
         </li>
