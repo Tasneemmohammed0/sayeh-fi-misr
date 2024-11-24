@@ -9,9 +9,6 @@ p,
 }
 
 .card {
-  margin-left: 100px; /*to be deleted*/
-  margin-top: 100px; /*to be deleted*/
-  margin-bottom: 100px;
   width: 309px;
   height: 420px;
   background-color: var(--our-light-white);
@@ -85,7 +82,7 @@ p,
 }
 
 .dotted-line {
-  border-top: 2px dashed var(--our-yellow); /* Dashed line */
+  border-top: 2px dashed var(--our-yellow);
 }
 
 .card-footer {

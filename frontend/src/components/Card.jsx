@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineReviews, MdOutlineArrowRightAlt } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";

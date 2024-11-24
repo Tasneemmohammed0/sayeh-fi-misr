@@ -7,7 +7,7 @@ function Home() {
     <main>
       <NavBar />
       <Hero />
-      <Card />
+      {/* <Card /> */}
     </main>
   );
 }
