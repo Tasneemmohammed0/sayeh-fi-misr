@@ -11,4 +11,5 @@ router.get(
   userController.getMe,
   userController.getUser
 );
+router.get("/:id", userController.getUser);
 module.exports = router;
