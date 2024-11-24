@@ -1,4 +1,5 @@
 import "../styles/Hero.css";
+import NavBar from "./NavBar";
 
 function Hero() {
   return (

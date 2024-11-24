@@ -1,1 +1,49 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background-color: transparent;
+  position: fixed;
+}
 
+.logo {
+  color: var(--our-white);
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.5rem 1.6rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 1.5rem;
+  padding: 0.5rem 4rem;
+  height: 2.5rem;
+  width: 75%;
+}
+
+.profile-icon {
+  color: var(--our-white);
+  font-size: 1.7rem;
+  transition: color 0.1s ease;
+  margin-top: 0.3rem;
+}
+
+.nav-links a {
+  color: var(--our-white);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover,
+.profile-icon:hover,
+.logo:hover,
+.active-link {
+  color: var(--our-yellow);
+}
