@@ -1,0 +1,59 @@
+.backGround {
+  background: linear-gradient(
+    180deg,
+    var(--our-dark-sand) 53.15%,
+    var(--our-light-sand) 50%
+  );
+  height: 100vh;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 24px;
+}
+
+.head {
+  font-size: 30px;
+  color: white;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.place {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px 5px;
+}
+.image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+.image:hover {
+  transform: translateY(-10px);
+}
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: black !important; /* Changes the arrow color to black */
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  color: gray !important; /* Optional: Changes the arrow color on hover */
+}

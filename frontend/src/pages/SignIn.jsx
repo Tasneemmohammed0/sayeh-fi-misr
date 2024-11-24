@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 //// form validation
 import { useFormik } from "formik";
 import * as yup from "Yup";
@@ -42,7 +41,6 @@ function SignIn() {
   });
 
   return (
-
     <div className={styles.background}>
       <form className={styles.form} onSubmit={formik.handleSubmit} noValidate>
         <h2> Welcome back! </h2>
@@ -60,7 +58,6 @@ function SignIn() {
           />
         </div>
 
-
         <div className={styles.inputWrapper}>
           <HiOutlineLockClosed className={styles.inputIcon} />
           <input 
@@ -75,7 +72,6 @@ function SignIn() {
           />
         </div>
 
-
         <Link to="/forgetpassword" className={styles.forget}>
           {" "}
           Forget Password ?{" "}
@@ -88,7 +84,6 @@ function SignIn() {
           Don't have an account ?<Link to="/signup"> Register </Link>
         </p>
         {submit && (
-
           <ul className={styles.errorList}>
             {formik.touched.email && formik.errors.email && (
               <div className={styles.error}>{formik.errors.email}</div>
