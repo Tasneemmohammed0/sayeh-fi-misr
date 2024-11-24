@@ -1,9 +1,15 @@
-import React from 'react'
+import NavBar from "../components/NavBar";
+import Hero from "../components/Hero";
+import Card from "../components/Card";
 
 function Home() {
   return (
-    <div>Home</div>
-  )
+    <main>
+      <NavBar />
+      <Hero />
+      <Card />
+    </main>
+  );
 }
 
-export default Home
+export default Home;
