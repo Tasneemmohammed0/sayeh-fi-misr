@@ -1,16 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Luxurious+Roman&family=Noto+Sans+Georgian:wght@100..900&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Luxurious+Roman&family=Noto+Sans+Georgian:wght@100..900&display=swap');
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
-html{
+html {
   scroll-behavior: smooth;
 }
+
 body{
   --our-blue: #0C3E69; /* Main blue */
   --our-black: #283037; /* Dark shade */
@@ -25,11 +24,10 @@ body{
   --main-font:"Luxurious Roman", serif !important;
   --second-font:"Noto Sans Georgian", sans-serif !important;
   --main-transition:  all 0.6s ;
- 
   font-family: var(--main-font);
 }
 /* Default (Mobile-first) */
-.container{
+.container {
   width: 100%;
   margin: 0 auto;
   padding: 0 15px;
@@ -38,51 +36,49 @@ body{
 /* Small devices (Tablets, 768px and up) */
 @media (min-width: 768px) {
   .container {
-      width: 750px;
+    width: 750px;
   }
 }
 
 /* Medium devices (Desktops, 992px and up) */
 @media (min-width: 992px) {
   .container {
-      width: 970px;
+    width: 970px;
   }
 }
 
 /* Large devices (Large desktops, 1200px and up) */
 @media (min-width: 1200px) {
   .container {
-      width: 1170px;
+    width: 1170px;
   }
 }
 
 /* Extra large devices (Extra large desktops, 1400px and up) */
 @media (min-width: 1400px) {
   .container {
-      width: 1320px;
+    width: 1320px;
   }
 }
 
 /* Ultra large devices (1600px and up) */
 @media (min-width: 1600px) {
   .container {
-      width: 1470px;
+    width: 1470px;
   }
 }
 
-
-
-
 /* screen */
 
-input:focus, textarea:focus{
+input:focus,
+textarea:focus {
   outline: none;
 }
 ul {
   list-style-type: none;
 }
 /*  */
-a{
+a {
   text-decoration: none;
 }
 .swiper-button-prev,

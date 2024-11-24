@@ -9,6 +9,7 @@ function reducer(state, action) {
       if (action.payload.length < 1) {
         return {
           ...state,
+          first_name: action.payload,
           error_firstname: "Firstname must be at least 3 characters long",
         };
       } else if (action.payload.length > 50) {
@@ -28,6 +29,7 @@ function reducer(state, action) {
       if (action.payload.length < 3) {
         return {
           ...state,
+          last_name: action.payload,
           error_lastname: "Lastname must be at least 3 characters long",
         };
       } else if (action.payload.length > 50) {
