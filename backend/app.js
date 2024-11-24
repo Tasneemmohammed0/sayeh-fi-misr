@@ -3,6 +3,9 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const xss = require("xss-clean");
+const cookieParser = require("cookie-parser");
+
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 
@@ -24,6 +27,8 @@ app.use(helmet());
 // Data sanitization against XSS attacks
 app.use(xss());
 
+// Cookie parser middleware to parse cookies into req.cookie
+app.use(cookieParser());
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 app.get("/api", (req, res, next) => {
@@ -32,6 +37,8 @@ app.get("/api", (req, res, next) => {
     message: "Main Route",
   });
 });
+
+app.use("/api/v1/users", userRouter);
 
 app.all("*", (req, res, next) => {
   const msg = `Can't find ${req.originalUrl}`;
