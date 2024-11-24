@@ -1,0 +1,46 @@
+.backGround{
+
+    background-color: var(--our-green);
+    height: 100vh;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../assets/images/photo-1539768942893-daf53e448371.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+   
+}
+
+
+
+.head{
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--our-brown);
+    margin: 20px 0;
+    text-align: center;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

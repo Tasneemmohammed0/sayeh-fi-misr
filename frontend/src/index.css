@@ -12,14 +12,18 @@ html{
   scroll-behavior: smooth;
 }
 body{
-  --our-blue:#0C3E69;
-  --our-black:#283037;
-  --our-brown:#674636;
-  --our-yellow:#E9932E;
-  --our-green:#AAB396;
-  --our-white:#F7EED3;
+  --our-blue: #0C3E69; /* Main blue */
+  --our-black: #283037; /* Dark shade */
+  --our-brown: #674636; /* Accent brown */
+  --our-yellow: #E9932E; /* Bright yellow accent */
+  --our-green: #AAB396; /* Background green */
+  --our-white: rgb(247, 238, 211); /* Form background */
+  --our-hover-blue: #145a99; /* Hover effect for buttons */
+  --our-light-gray: #E4D7C5; /* Light border color */
   --main-font:"Luxurious Roman", serif !important;
   --second-font:"Noto Sans Georgian", sans-serif !important;
+  --main-transition:  all 0.6s ;
+ 
   font-family: var(--main-font);
 }
 /* Default (Mobile-first) */
