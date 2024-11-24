@@ -1,53 +1,51 @@
-.backGround{
-
-
-  background: linear-gradient(180deg, var(--our-dark-sand) 53.15%, var(--our-light-sand) 50%);
-    height: 100vh;
-    position: relative;
-    align-items: center;
-    flex-direction: column;
-    width: 100vw;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 0 24px;
-
-   
-
+.backGround {
+  background: linear-gradient(
+    180deg,
+    var(--our-dark-sand) 53.15%,
+    var(--our-light-sand) 50%
+  );
+  height: 100vh;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 24px;
 }
 
-.head{
+.head {
   font-size: 30px;
   color: white;
   margin: 0;
   text-transform: capitalize;
 }
 
-.place{
+.place {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 24px;
-  padding: 20px  5px;
+  padding: 20px 5px;
 }
-.image{
+.image {
   width: 100%;
-  max-width: 400px; 
-  height: auto; 
-  border-radius: 12px; 
-  object-fit: cover; 
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
   margin-bottom: 12px;
-  transition: transform 0.3s ease; 
+  transition: transform 0.3s ease;
 }
-.image:hover{
-  transform: translateY(-10px); 
+.image:hover {
+  transform: translateY(-10px);
 }
-.title{
+.title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #333; 
+  color: #333;
   margin: 0;
-  text-transform: capitalize; 
+  text-transform: capitalize;
 }
 
 .swiper-button-prev,
