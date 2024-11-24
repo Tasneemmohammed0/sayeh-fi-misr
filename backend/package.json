@@ -1,8 +1,11 @@
 {
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "license": "ISC",
+  "engines": {
+    "node": "20.5.0"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
