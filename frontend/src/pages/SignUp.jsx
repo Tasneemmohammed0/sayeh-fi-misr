@@ -97,6 +97,33 @@ function reducer(state, action) {
     case "updateRole":
       return { ...state, role: action.payload };
 
+    case "updatePhone":
+      if (action.payload.length < 11) {
+        return {
+          ...state,
+          phone: action.payload,
+          error_phone: "Phone number must be at least 11 characters long",
+
+        };
+      } else if (action.payload.length > 11) {
+        return {
+          ...state,
+          phone: action.payload,
+          error_phone: "Phone number must be less than 11 characters long",
+        };
+      }
+      else if(!action.payload.match(/^0\d*$/) ){
+      return { ...state,
+        phone: action.payload,
+         error_phone: "the phone number must number & start with zero " 
+        };
+      }
+      return { ...state, phone: action.payload, error_phone: "" };
+
+    case "updateBackGround":
+      return { ...state, background: action.payload };
+
+
     default:
       throw new Error("Unknown action type");
   }
@@ -121,6 +148,10 @@ function SignUp() {
     password: "",
     error_password: "",
     role: "",
+    phone: "",
+    error_phone: "",
+    background: "",
+
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);

@@ -5,7 +5,8 @@ import { MdOutlineReviews, MdOutlineArrowRightAlt } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
 import "../styles/Card.css";
 
-function Card() {
+function Card({}) {
+
   const [photo, setPhoto] = useState(
     "images/photo-1502250493741-939d1c76eaad.png"
   );
