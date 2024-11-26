@@ -24,9 +24,10 @@ function PlaceDetails() {
       >
         <h1 className="place-title">Pyramids of Giza</h1>
       </div>
-      <div className="place-details">
+      <div className="place-details-container">
         <div className="place-breif">
-          <h2>Breif</h2>
+          <h3>Breif</h3>
+          <p>{place.breif}</p>
         </div>
       </div>
     </main>
