@@ -3,12 +3,13 @@
 }
 
 h3 {
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: var(--our-blue);
 }
 
 main {
   background-color: var(--our-light-white);
+  height: 100vh;
 }
 
 .place-image {
@@ -36,4 +37,12 @@ main {
 .place-breif {
   font-size: 1.5rem;
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.place-breif p {
+  margin: 0.5rem 0;
+  font-size: 17px;
+  color: var(--our-black);
 }

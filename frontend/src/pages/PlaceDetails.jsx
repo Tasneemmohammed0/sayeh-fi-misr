@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/placedetails.css";
+import SeeMoreText from "../components/SeeMoreText";
 
 function PlaceDetails() {
   const { placeId } = useParams();
@@ -27,7 +28,7 @@ function PlaceDetails() {
       <div className="place-details-container">
         <div className="place-breif">
           <h3>Breif</h3>
-          <p>{place.breif}</p>
+          <SeeMoreText text={place.breif} />
         </div>
       </div>
     </main>
