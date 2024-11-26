@@ -1,13 +1,10 @@
-CREATE TABLE public."HOST"
+CREATE TABLE HOST
 (
-    phone_number character varying(15) NOT NULL UNIQUE,
-    ssn character varying(20) NOT NULL UNIQUE,
-    background character varying NOT NULL,
-    start_date date NOT NULL,
+    phone_number VARCHAR(15) NOT NULL UNIQUE,
+    ssn VARCHAR(20) NOT NULL UNIQUE,
+    background VARCHAR NOT NULL,
+    start_date DATE NOT NULL,
     PRIMARY KEY (user_id)
   
 )
-    INHERITS (public."USER");
-
-ALTER TABLE IF EXISTS public."HOST"
-    OWNER to postgres;
+    INHERITS ("USER");

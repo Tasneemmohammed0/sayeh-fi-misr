@@ -8,4 +8,4 @@ CREATE TABLE PLACE_WISHLIST (
   CONSTRAINT fk_place_wishlist_wishlist FOREIGN KEY(wishlist_id) REFERENCES WISHLIST(wishlist_id) 
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);

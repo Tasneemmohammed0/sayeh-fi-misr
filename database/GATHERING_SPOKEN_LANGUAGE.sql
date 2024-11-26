@@ -5,4 +5,4 @@ CREATE TABLE GATHERING_SPOKEN_LANGUAGE (
   CONSTRAINT fk_gathering_spoken_language_gathering FOREIGN KEY(gathering_id) REFERENCES GATHERING(gathering_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE     
-)
+);

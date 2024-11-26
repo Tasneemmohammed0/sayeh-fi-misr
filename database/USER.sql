@@ -1,18 +1,15 @@
-CREATE TABLE public."USER"
+CREATE TABLE "USER"
 (
-    user_id serial NOT NULL ,
-    first_name character varying NOT NULL,
-    last_name character varying NOT NULL,
-    username character varying(50) NOT NULL  UNIQUE,
-    email character varying NOT NULL  UNIQUE,
-    password character varying(50) NOT NULL,
-    country character varying NOT NULL,
-    city character varying NOT NULL,
-    profile_pic character varying,
-    gender character varying(10),
-    PRIMARY KEY (user_id),
+    user_id SERIAL NOT NULL PRIMARY KEY ,
+    first_name VARCHAR NOT NULL,
+    last_name VARCHAR NOT NULL,
+    username VARCHAR(50) NOT NULL  UNIQUE,
+    email VARCHAR NOT NULL  UNIQUE,
+    password VARCHAR(50) NOT NULL,
+    country VARCHAR NOT NULL,
+    city VARCHAR NOT NULL,
+    profile_pic VARCHAR,
+    gender VARCHAR(10),
+  
     CONSTRAINT check_password_length CHECK (LENGTH(password) > 8)
 );
-
-ALTER TABLE IF EXISTS public."USER"
-    OWNER to postgres;

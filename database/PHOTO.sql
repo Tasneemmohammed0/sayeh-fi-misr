@@ -1,16 +1,16 @@
-CREATE TABLE public."PHOTO"
+CREATE TABLE PHOTO
 (
-    photo_id serial NOT NULL UNIQUE,
-    photo character varying NOT NULL,
-    date time with time zone NOT NULL,
-    caption character varying,
-    user_id serial NOT NULL,
-    place_id serial NOT NULL,
-    PRIMARY KEY (photo_id)
-	CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES public."USER" (user_id) ON DELETE CASCADE ON UPDATE CASCADE
-	CONSTRAINT fk_place FOREIGN KEY (place_id) REFERENCES public."PLACE" (place_id) ON DELETE CASCADE ON UPDATE CASCADE
+    photo_id SERIAL NOT NULL  PRIMARY KEY,
+    photo VARCHAR NOT NULL,
+    date TIMESTAMP with time zone NOT NULL,
+    caption VARCHAR,
+    user_id INT NOT NULL,
+    place_id INT NOT NULL,
+	CONSTRAINT fk_photo_user FOREIGN KEY (user_id) REFERENCES "USER" (user_id)
+	ON DELETE CASCADE 
+	ON UPDATE CASCADE,
+	CONSTRAINT fk_photo_place FOREIGN KEY (place_id) REFERENCES PLACE (place_id) 
+	ON DELETE CASCADE 
+	ON UPDATE CASCADE
 
 );
-
-ALTER TABLE IF EXISTS public."PHOTO"
-    OWNER to postgres;

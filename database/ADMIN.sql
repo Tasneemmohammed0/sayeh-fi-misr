@@ -1,9 +1,7 @@
-CREATE TABLE public."ADMIN"
+CREATE TABLE "ADMIN"
 (
     PRIMARY KEY (user_id)
 
 )
-    INHERITS (public."USER");
+    INHERITS ("USER");
 
-ALTER TABLE IF EXISTS public."ADMIN"
-    OWNER to postgres;
