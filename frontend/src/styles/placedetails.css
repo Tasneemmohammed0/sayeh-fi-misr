@@ -1,0 +1,23 @@
+* {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.place-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  background-position: center;
+  background-position: no-repeat;
+}
+
+.place-title {
+  color: var(--our-light-white);
+  position: absolute;
+  top: 220px;
+  left: 50px;
+}
+
+.place-breif {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
