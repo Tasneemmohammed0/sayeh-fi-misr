@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "../styles/placeslist.module.css";
 import Card from "./Card";
-function PlacesList({search,filter}) {
+function PlacesList({search,filter,count=100}) {
 
 
 
@@ -16,7 +16,7 @@ function PlacesList({search,filter}) {
     image:"/src/assets/images/temple.png",
     rate:4,
   }
-  for(let i=0;i<100;i++){
+  for(let i=0;i<count;i++){
     places.push(temp)
   }
 
