@@ -9,8 +9,8 @@ p,
 }
 
 .card {
-  width: 309px;
-  height: 420px;
+  width: 310px;
+  height: 100%;
   background-color: var(--our-light-white);
   border-radius: 16px;
   overflow: hidden;
@@ -18,13 +18,21 @@ p,
   border: 1px solid var(--our-black);
   display: flex;
   flex-direction: column;
+  margin: 1rem;
+  transition: var(--main-transition);
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .card img {
   width: 287.16px;
   /*center the photo*/
-  margin-left: 10px;
-  margin-top: 10px;
+  /* margin-left: 10px;
+  margin-top: 10px; */
+  margin: 10px 0 0 10px;
   border-radius: 10px;
   height: 205px;
   object-fit: cover;
@@ -98,4 +106,9 @@ p,
   width: 34px;
   height: 18px;
   border-radius: 40px;
+  transition: var(--main-transition);
+}
+.right-arrow:hover {
+  background-color: green;
+  transform: scale(1.10) translateX(10px) ;
 }

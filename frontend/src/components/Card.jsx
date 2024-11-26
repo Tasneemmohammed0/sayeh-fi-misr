@@ -1,28 +1,12 @@
-import { useState } from "react";
-import { FaStar } from "react-icons/fa";
+
+
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineReviews, MdOutlineArrowRightAlt } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
+import Stars from "./Stars";
 import "../styles/Card.css";
 
-function Card({}) {
-
-  const [photo, setPhoto] = useState(
-    "images/photo-1502250493741-939d1c76eaad.png"
-  );
-  const [placeName, setplaceName] = useState("Karnak Temple");
-  const [rate, setRate] = useState(3);
-  const [location, setLocation] = useState("Egypt, Cairo, Luxor");
-
-  function renderStars() {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      if (i <= rate) {
-        stars.push(<FaStar className="star-icon" key={i} />);
-      }
-    }
-    return stars;
-  }
+function Card({photo="/src/assets/images/temple.png", placeName="Luxor Tempale", location="Luxor ", rate=5}) {
 
   return (
     <div className="card">
@@ -31,7 +15,7 @@ function Card({}) {
       </div>
       <div className="card-content">
         <h2 className="card-title">{placeName}</h2>
-        <div className="rating">{renderStars()}</div>
+        <div className="rating">{<Stars count={rate}/>}</div>
       </div>
       <div className="card-info">
         <div>
