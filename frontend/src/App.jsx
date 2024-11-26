@@ -9,7 +9,7 @@ function App() {
         <Route path="/" element={<Home />} index />
         <Route path="/home" element={<Home />} />\
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/placeDetails" element={<PlaceDetails />} />
+        <Route path="/places/:placeId" element={<PlaceDetails />} />
         {/* <Route path="/signup" element={<SignUp />} /> */}
       </Routes>
 
