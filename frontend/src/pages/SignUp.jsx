@@ -26,7 +26,7 @@ function reducer(state, action) {
       return { ...state, first_name: action.payload, error_firstname: "" };
 
     case "updateLastname":
-      if (action.payload.length < 3) {
+      if (action.payload.length < 1) {
         return {
           ...state,
           last_name: action.payload,
