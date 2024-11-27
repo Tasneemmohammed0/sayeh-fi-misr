@@ -32,13 +32,14 @@ function PlaceDetails() {
           <SeeMoreText className={styles.breifText} text={place.breif} />
         </div>
         <hr></hr>
-        <div>
+        <div className={styles.info}>
           <PlaceTicketPrice
             egyptianChildPrice={place.egyptian_child_ticket_price}
             egyptianAdultPrice={place.egyptian_adult_ticket_price}
             otherChildPrice={place.foreign_child_ticket_price}
             otherAdultPrice={place.foreign_adult_ticket_price}
           />
+          <hr className={styles.vLine}></hr>
         </div>
       </div>
     </main>
