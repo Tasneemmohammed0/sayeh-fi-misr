@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import styles from "../styles/PlaceTicketPrice.module.css";
 function PlaceTicketPrice({
@@ -9,7 +10,7 @@ function PlaceTicketPrice({
   const [selectedTab, setSelectedTab] = useState("Egyptian");
   return (
     <div className={styles.container}>
-      <h3>Ticket Price</h3>
+      <h3 className={styles.header}>Ticket Price</h3>
       <div className={styles.tabs}>
         <button
           className={`${styles.tab} ${
@@ -27,14 +28,31 @@ function PlaceTicketPrice({
         >
           Other Nationality
         </button>
-        {/* <div className={styles.tabContent}>
-          {selectedTab === "Egyptian" ? (
-            <div className={price}>
-
-
-              </div>
-          )}
-        </div> */}
+      </div>
+      <div className={styles.tabContent}>
+        {selectedTab === "Egyptian" ? (
+          <div className={styles.price}>
+            <div className={styles.adult}>
+              <h4>Adult</h4>
+              <p>EGP{egyptianAdultPrice}</p>
+            </div>
+            <div className={styles.child}>
+              <h4>Student</h4>
+              <p>EGP{egyptianChildPrice}</p>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.price}>
+            <div className={styles.adult}>
+              <h4>Adult</h4>
+              <p>EGP{otherAdultPrice}</p>
+            </div>
+            <div className={styles.child}>
+              <h4>Student</h4>
+              <p>EGP{otherChildPrice}</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

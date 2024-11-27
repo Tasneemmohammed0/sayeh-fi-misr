@@ -5,16 +5,17 @@
   width: 350px;
   background-color: var(--our-gray);
   height: 60px;
-  width: 50%;
+  width: 100%;
   border-radius: 50px;
 }
 
 .tab {
-  padding: 0.5rem 0.4rem;
+  padding: 1rem 1rem;
   cursor: pointer;
   background-color: var(--our-gray);
-  color: var(--our-brown);
+  color: var(--our-black);
   border-radius: 50px;
+  border: none;
   width: 50%;
 }
 
@@ -26,6 +27,27 @@
   background-color: var(--our-green);
 }
 
-.tabContent.hidden {
-  display: none;
+.header {
+  color: var(--our-blue);
+  font-size: 1.6rem;
+  margin-top: 1.6rem;
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+  color: var(--our-blue);
+  font-size: 1.1rem;
+  padding: 1rem 1rem;
+}
+
+.adult,
+.child {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.container {
+  width: 50%;
 }
