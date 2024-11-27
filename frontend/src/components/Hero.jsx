@@ -1,9 +1,9 @@
-import "../styles/Hero.css";
+import  styles from  "../styles/Hero.module.css";
 
 function Hero() {
   return (
-    <section className="hero">
-      <h2 className="hero-title">UNCOVER EGYPT’S SOUL</h2>
+    <section className={styles.hero}>
+      <h2 className={styles.heroTitle}>UNCOVER EGYPT’S SOUL</h2>
     </section>
   );
 }
