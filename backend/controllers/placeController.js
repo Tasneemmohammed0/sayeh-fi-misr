@@ -11,7 +11,8 @@ const Place = {
   foreign_child_ticket_price: 50,
   egyptian_adult_ticket_price: 10,
   egyptian_child_ticket_price: 5,
-  opening_hours: "8:00 AM - 5:00 PM",
+  opening_hours_normal: "9:00am to 5:00pm",
+  opening_hours_holidays: "9:00am to 8:00pm",
 };
 
 exports.getPlace = (req, res, next) => {

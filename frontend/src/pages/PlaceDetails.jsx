@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styles from "../styles/PlaceDetails.module.css";
 import SeeMoreText from "../components/SeeMoreText";
 import PlaceTicketPrice from "../components/PlaceTicketPrice";
+import OpeningHours from "../components/OpeningHours";
 
 function PlaceDetails() {
   const { placeId } = useParams();
@@ -39,7 +40,11 @@ function PlaceDetails() {
             otherChildPrice={place.foreign_child_ticket_price}
             otherAdultPrice={place.foreign_adult_ticket_price}
           />
-          <hr className={styles.vLine}></hr>
+          {/* <hr className={styles.vLine}></hr> */}
+          <OpeningHours
+            openingHoursNormal={place.opening_hours_normal}
+            openingHoursHoliday={place.opening_hours_holidays}
+          />
         </div>
       </div>
     </main>

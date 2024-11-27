@@ -1,0 +1,32 @@
+.container {
+  width: 50%;
+  margin-left: 2rem;
+  margin-bottom: 6.3rem;
+}
+
+.header {
+  color: var(--our-blue);
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+}
+
+.select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dropList {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: var(--our-gray);
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.dropList:focus {
+  outline: none;
+  border: 1px solid var(--our-green);
+}
