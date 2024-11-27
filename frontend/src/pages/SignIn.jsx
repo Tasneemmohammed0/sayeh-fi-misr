@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+//// form validation
 import { useFormik } from "formik";
 import * as yup from "Yup";
+//// router
 import { Link } from "react-router-dom";
-import "../styles/SignIn.css";
+///// icons
+
 import { HiOutlineMail } from "react-icons/hi";
 import { HiOutlineLockClosed } from "react-icons/hi";
+////
+import styles from "../styles/signIn.module.css";
 function SignIn() {
   const [submit, setSubmit] = useState(false);
   const validationSchema = yup.object({
@@ -36,12 +41,13 @@ function SignIn() {
   });
 
   return (
-    <div className="background">
-      <form className="form" onSubmit={formik.handleSubmit} noValidate>
-        <h1> Welcome Back </h1>
-        <div className="input-wapper">
-          <HiOutlineMail className="input-icon" />
+    <div className={styles.background}>
+      <form className={styles.form} onSubmit={formik.handleSubmit} noValidate>
+        <h2> Welcome back! </h2>
+        <div className={styles.inputWrapper}>
+          <HiOutlineMail className={styles.inputIcon} />
           <input
+           className={styles.input}
             type="email"
             name="email"
             placeholder="Email"
@@ -52,9 +58,10 @@ function SignIn() {
           />
         </div>
 
-        <div className="input-wapper">
-          <HiOutlineLockClosed className="input-icon" />
-          <input
+        <div className={styles.inputWrapper}>
+          <HiOutlineLockClosed className={styles.inputIcon} />
+          <input 
+            className={styles.input}
             type="password"
             name="password"
             placeholder="Password"
@@ -65,11 +72,11 @@ function SignIn() {
           />
         </div>
 
-        <Link to="/forgetpassword" className="forget">
+        <Link to="/forgetpassword" className={styles.forget}>
           {" "}
           Forget Password ?{" "}
         </Link>
-        <button type="submit" onClick={() => setSubmit(true)}>
+        <button type="submit" onClick={() => setSubmit(true)} className={styles.button}>
           Sign In
         </button>
         <p>
@@ -77,12 +84,12 @@ function SignIn() {
           Don't have an account ?<Link to="/signup"> Register </Link>
         </p>
         {submit && (
-          <ul className="error-list">
+          <ul className={styles.errorList}>
             {formik.touched.email && formik.errors.email && (
-              <div className="error">{formik.errors.email}</div>
+              <div className={styles.error}>{formik.errors.email}</div>
             )}
             {formik.touched.password && formik.errors.password && (
-              <li className="error">{formik.errors.password}</li>
+              <li className={styles.error}>{formik.errors.password}</li>
             )}
           </ul>
         )}

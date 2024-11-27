@@ -1,4 +1,4 @@
-nav {
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,6 +6,7 @@ nav {
   width: 100%;
   background-color: transparent;
   position: fixed;
+  z-index: 100;
 }
 
 .logo {
@@ -17,7 +18,7 @@ nav {
   transition: color 0.1s ease;
 }
 
-.nav-links {
+.navLinks {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,22 +29,22 @@ nav {
   width: 75%;
 }
 
-.profile-icon {
+.profileIcon {
   color: var(--our-white);
   font-size: 1.7rem;
   transition: color 0.1s ease;
   margin-top: 0.3rem;
 }
 
-.nav-links a {
+.link {
   color: var(--our-white);
   text-decoration: none;
   font-size: 1.1rem;
   transition: color 0.1s ease;
 }
 
-.nav-links a:hover,
-.profile-icon:hover,
+.link:hover,
+.profileIcon:hover,
 .logo:hover,
 .active-link {
   color: var(--our-yellow);
