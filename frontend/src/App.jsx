@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import AllPlaces from './pages/AllPlaces'
 import UserProfile from './pages/UserProfile'
+import WishList from './components/WishList'
 import axios from 'axios'
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
       <Route path="/signup" element={<SignUp/>} />
       <Route path="/allplaces" element={<AllPlaces/>} />
       <Route path="/profile" element={<UserProfile/>} />
+
+      <Route path="/profile/wishlist/:id" element={<WishList/>} />
     </Routes>
   );
 }

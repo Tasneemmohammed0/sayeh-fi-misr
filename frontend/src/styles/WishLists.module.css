@@ -1,0 +1,48 @@
+.create{
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    padding: 10px;
+    background-color: var(--our-yellow);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.create:hover{
+    background-color: white;
+    color: var(--our-yellow);
+    transform: translateY(-5px);
+}
+
+.wishListInfo {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 40px 10px 10px 10px;
+    
+    transition: all 0.5s;
+}
+.wishListInfo:hover {
+    transform: translateY(-5px);
+    background-color: var(--our-dark-sand);
+    border: 1px solid var(--our-light-sand);
+}
+
+.titleStyle  {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.description {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+}

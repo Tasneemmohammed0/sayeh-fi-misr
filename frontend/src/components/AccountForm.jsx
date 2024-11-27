@@ -54,6 +54,7 @@ function AccountForm({state, dispatch,handleCount}) {
       User.phone = state.phone;
       User.background = state.background;
     }
+    
 
      //// send the data to Loay API 
      navigate("/home");
