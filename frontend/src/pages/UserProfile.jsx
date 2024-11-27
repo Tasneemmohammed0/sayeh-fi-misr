@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from '../styles/userprofile.module.css'
+
 import UserInfo from '../components/UserInfo'
 import ReviewsList from '../components/ReviewsList'
 import VistedList from '../components/VistedList'
@@ -47,7 +48,6 @@ function UserProfile() {
       }
     </section>
     </>
-  )
-}
+
 
 export default UserProfile

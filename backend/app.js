@@ -4,10 +4,21 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const xss = require("xss-clean");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const userRouter = require("./routes/userRoutes");
-
+const placeRouter = require("./routes/placeRoutes");
 const app = express();
+
+// Enable CORS
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow cookies and authentication headers
+  })
+);
 
 // Limit 1000 requests from same IP within 30 minutes
 // To be reduced in production
@@ -39,6 +50,7 @@ app.get("/api", (req, res, next) => {
 });
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/places", placeRouter);
 
 app.all("*", (req, res, next) => {
   const msg = `Can't find ${req.originalUrl}`;

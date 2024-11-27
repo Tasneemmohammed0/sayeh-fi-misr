@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PiMapPinLight } from "react-icons/pi";
 import { HiOutlineMail } from "react-icons/hi";
@@ -66,3 +67,4 @@ function UserInfo({ user,selectedList,setSelectedList }) {
 }
 
 export default UserInfo;
+
