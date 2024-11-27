@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { IoIosSearch } from "react-icons/io";
 import styles from  "../styles/AllPlaces.module.css";
@@ -33,3 +34,4 @@ function AllPlaces() {
 }
 
 export default AllPlaces
+
