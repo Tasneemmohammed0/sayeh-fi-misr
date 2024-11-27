@@ -61,7 +61,7 @@ const ErrorMessage = ({ error, fontSize = "14px", variant = "default" }) => {
   return (
     <div style={wrapperStyle}>
       <AlertCircle style={{ width: "16px", height: "16px" }} />
-      <p style={{ fontSize, margin: 0 }}>{error}</p>
+      <p style={{ fontSize, margin: 0, color:"white" }}>{error}</p>
     </div>
   );
 };

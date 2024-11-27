@@ -24,11 +24,11 @@ body {
   --our-light-sand: #ebd1b5;
   --our-hover-blue: #145a99; /* Hover effect for buttons */
   --our-light-gray: #e4d7c5; /* Light border color */
-
   --main-font: "Luxurious Roman", serif !important;
   --second-font: "Noto Sans Georgian", sans-serif !important;
   --main-transition: all 0.6s;
   font-family: var(--main-font);
+
 }
 /* Default (Mobile-first) */
 .container {
