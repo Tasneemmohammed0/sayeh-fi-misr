@@ -3,10 +3,21 @@
   justify-content: space-between;
   margin-top: 1rem;
   width: 350px;
-  background-color: var(--our-brown);
+  background-color: var(--our-gray);
+  height: 60px;
+  width: 50%;
+  border-radius: 50px;
 }
 
 .tab {
   padding: 0.5rem 0.4rem;
   cursor: pointer;
+  background-color: var(--our-gray);
+  color: var(--our-brown);
+  border-radius: 50px;
+  width: 50%;
+}
+
+.tab.active {
+  background-color: var(--our-green);
 }
