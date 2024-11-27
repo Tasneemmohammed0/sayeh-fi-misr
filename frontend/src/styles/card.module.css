@@ -10,8 +10,8 @@ p,
 
 .card {
   width: 310px;
-  height: 100%;
-  background-color: var(--our-light-white);
+  height: 95%;
+  background-color: var(--our-white) !important;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -27,7 +27,7 @@ p,
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.card img {
+.cardImage {
   width: 287.16px;
   /*center the photo*/
   /* margin-left: 10px;
@@ -38,41 +38,32 @@ p,
   object-fit: cover;
 }
 
-.card-title {
+.cardTitle {
   font-size: 24px;
   color: var(--our-blue);
   font-weight: 700;
 }
 
-.card-content {
+.cardContent {
   padding: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.star-icon {
-  color: var(--our-yellow);
-  font-size: 20px;
-  margin-top: 0.3rem;
-}
-
-.card-info {
+.cardInfo {
   display: flex;
   justify-content: space-between;
   padding: 0 1.2rem;
 }
 
-.card-info div {
+.cardInfoDiv {
   text-align: center;
 }
 
-.card-info p,
-.location p {
-  font-size: 12px;
-}
 
-.card-info .card-icon {
+
+.cardIcon {
   width: 22px;
   height: 25px;
   font-size: 25px;
@@ -85,22 +76,22 @@ p,
   gap: 0.5rem;
 }
 
-.location .card-icon {
+.LocationCardIcon {
   color: var(--our-yellow);
 }
 
-.dotted-line {
+.dottedLine {
   border-top: 2px dashed var(--our-yellow);
 }
 
-.card-footer {
+.cardFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.7rem 1.4rem;
 }
 
-.right-arrow {
+.rightArrow {
   color: var(--our-white);
   background-color: var(--our-yellow);
   width: 34px;
@@ -108,7 +99,7 @@ p,
   border-radius: 40px;
   transition: var(--main-transition);
 }
-.right-arrow:hover {
+.rightArrow:hover {
   background-color: green;
   transform: scale(1.10) translateX(10px) ;
 }

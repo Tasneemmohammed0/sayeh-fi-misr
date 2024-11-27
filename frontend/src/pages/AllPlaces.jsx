@@ -9,7 +9,7 @@ function AllPlaces() {
   const cities=["Cairo","Giza","Alexandria","Luxor","Aswan","Suez","Ismailia","Marsa Matrouh","Al-Beheira","Kafr al-Sheikh","Gharbiyya","Sharqiyya","Fayyum","Beni Suef","Minya","Asyut","New Valley","Sohag","Qena","The Red Sea","South Sinai"   ];
 
   return (
-    <main>
+    <main className={styles.colorMain}>
       <div className={styles.imageContainer }>
         <img src="/src/assets/images/temple.png" alt='AllPlaces' className={styles.mainImage}/>
       </div>
