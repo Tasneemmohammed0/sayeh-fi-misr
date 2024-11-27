@@ -16,7 +16,7 @@ import styles from '../styles/trending.module.css'
 
 function TrandingPlaces({ places }) {
   return (
-    <section className={styles.backGround}>
+    <section className={styles.backGround} id="trending">
       <h2 className={styles.head}>Recent <span style={{color:"black"}}>Trending</span> Sights Of Egypt</h2>
     <Swiper
         effect={'coverflow'}

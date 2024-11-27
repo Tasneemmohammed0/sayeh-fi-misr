@@ -1,35 +1,35 @@
-import "../styles/NavBar.css";
+
 import { NavLink } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-
+import styles from "../styles/NavBar.module.css";
 function NavBar() {
   return (
-    <nav className="navbar">
-      <div className="logo">Sayeh fe Misr</div>
-      <ul className="nav-links">
+    <nav className={styles.navbar}>
+      <div className={styles.logo}>Sayeh fe Misr</div>
+      <ul className={styles.navLinks}>
         <li>
-          <NavLink to="/" activeclassname="active-link">
+          <NavLink to="/" activeclassname="active-link" className={styles.link}>
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink to="/gatherings" activeclassname="active-link">
+          <NavLink to="/gatherings" activeclassname="active-link"  className={styles.link}> 
             Gatherings
           </NavLink>
         </li>
         <li>
-          <NavLink to="/trending" activeclassname="active-link">
+          <NavLink to="#trending" activeclassname="active-link" className={styles.link}>
             Trending Places
           </NavLink>
         </li>
         <li>
-          <NavLink to="/signin" activeclassname="active-link">
+          <NavLink to="/signin" activeclassname="active-link" className={styles.link}>
             Sign In
           </NavLink>
         </li>
         <li>
-          <NavLink to="/profile" activeclassname="active-link">
-            <FaUserCircle className="profile-icon" />
+          <NavLink to="/profile" activeclassname="active-link" className={styles.link}>
+            <FaUserCircle className={styles.profileIcon} />
           </NavLink>
         </li>
       </ul>
