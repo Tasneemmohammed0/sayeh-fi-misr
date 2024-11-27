@@ -10,6 +10,7 @@ function SeeMoreText({ text }) {
           overflow: "hidden",
           transition: "max-height 0.3s ease",
           marginBottom: "0px",
+          fontSize: "1.1rem",
         }}
       >
         {text}
@@ -20,6 +21,7 @@ function SeeMoreText({ text }) {
           cursor: "pointer",
           display: "inline-block",
           marginTop: "0px",
+          fontSize: "1.1rem",
         }}
         onClick={() => setIsExpanded(!isExpanded)}
       >

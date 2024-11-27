@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "../styles/placedetails.css";
+import styles from "../styles/placeDetails.module.css";
 import SeeMoreText from "../components/SeeMoreText";
+import PlaceTicketPrice from "../components/PlaceTicketPrice";
 
 function PlaceDetails() {
   const { placeId } = useParams();
@@ -20,15 +21,19 @@ function PlaceDetails() {
   return (
     <main>
       <div
-        className="place-image"
+        className={styles.backgroundImage}
         style={{ backgroundImage: `url(${place.image})` }}
       >
-        <h1 className="place-title">Pyramids of Giza</h1>
+        <h1 className={styles.title}>Pyramids of Giza</h1>
       </div>
-      <div className="place-details-container">
-        <div className="place-breif">
+      <div className={styles.container}>
+        <div className={styles.breif}>
           <h3>Breif</h3>
-          <SeeMoreText text={place.breif} />
+          <SeeMoreText className={styles.breifText} text={place.breif} />
+        </div>
+        <hr></hr>
+        <div>
+          <PlaceTicketPrice />
         </div>
       </div>
     </main>

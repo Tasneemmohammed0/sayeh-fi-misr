@@ -1,0 +1,12 @@
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  width: 350px;
+  background-color: var(--our-brown);
+}
+
+.tab {
+  padding: 0.5rem 0.4rem;
+  cursor: pointer;
+}

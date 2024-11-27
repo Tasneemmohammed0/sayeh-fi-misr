@@ -17,6 +17,7 @@ body {
   --our-green: #aab396;
   --our-white: #f7eed3;
   --our-light-white: #fff8e8;
+  --our-gray: #D9D9D9
   --main-font: "Luxurious Roman", serif !important;
   --second-font: "Noto Sans Georgian", sans-serif !important;
   font-family: var(--main-font);

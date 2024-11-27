@@ -12,7 +12,7 @@ main {
   height: 100vh;
 }
 
-.place-image {
+.backgroundImage {
   width: 100%;
   height: 300px;
   /* object-fit: cover; */
@@ -21,28 +21,22 @@ main {
   background-repeat: no-repeat;
 }
 
-.place-title {
+.title {
   color: var(--our-light-white);
   position: absolute;
   top: 220px;
   left: 50px;
 }
 
-.place-details-container {
+.container {
   padding: 0rem 1.5rem;
 }
 
 /* breif section  */
 
-.place-breif {
+.breif {
   font-size: 1.5rem;
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
-}
-
-.place-breif p {
-  margin: 0.5rem 0;
-  font-size: 17px;
-  color: var(--our-black);
 }
