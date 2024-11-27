@@ -1,6 +1,11 @@
 import { useState } from "react";
 import styles from "../styles/PlaceTicketPrice.module.css";
-function PlaceTicketPrice() {
+function PlaceTicketPrice({
+  egyptianChildPrice,
+  egyptianAdultPrice,
+  otherChildPrice,
+  otherAdultPrice,
+}) {
   const [selectedTab, setSelectedTab] = useState("Egyptian");
   return (
     <div className={styles.container}>
@@ -22,6 +27,14 @@ function PlaceTicketPrice() {
         >
           Other Nationality
         </button>
+        {/* <div className={styles.tabContent}>
+          {selectedTab === "Egyptian" ? (
+            <div className={price}>
+
+
+              </div>
+          )}
+        </div> */}
       </div>
     </div>
   );

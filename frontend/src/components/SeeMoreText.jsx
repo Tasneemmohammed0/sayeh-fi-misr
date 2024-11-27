@@ -11,6 +11,7 @@ function SeeMoreText({ text }) {
           transition: "max-height 0.3s ease",
           marginBottom: "0px",
           fontSize: "1.1rem",
+          color: "black",
         }}
       >
         {text}

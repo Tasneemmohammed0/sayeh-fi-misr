@@ -18,6 +18,14 @@
   width: 50%;
 }
 
+.tab:hover {
+  background-color: inherit;
+}
+
 .tab.active {
   background-color: var(--our-green);
+}
+
+.tabContent.hidden {
+  display: none;
 }

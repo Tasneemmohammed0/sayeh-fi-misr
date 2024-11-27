@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import styles from "../styles/placeDetails.module.css";
+import styles from "../styles/PlaceDetails.module.css";
 import SeeMoreText from "../components/SeeMoreText";
 import PlaceTicketPrice from "../components/PlaceTicketPrice";
 
@@ -19,7 +19,7 @@ function PlaceDetails() {
   }, [placeId]);
 
   return (
-    <main>
+    <main className={styles.main}>
       <div
         className={styles.backgroundImage}
         style={{ backgroundImage: `url(${place.image})` }}
@@ -33,7 +33,12 @@ function PlaceDetails() {
         </div>
         <hr></hr>
         <div>
-          <PlaceTicketPrice />
+          <PlaceTicketPrice
+            egyptianChildPrice={place.egyptian_child_ticket_price}
+            egyptianAdultPrice={place.egyptian_adult_ticket_price}
+            otherChildPrice={place.foreign_child_ticket_price}
+            otherAdultPrice={place.foreign_adult_ticket_price}
+          />
         </div>
       </div>
     </main>

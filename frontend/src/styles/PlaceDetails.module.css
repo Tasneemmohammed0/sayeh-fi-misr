@@ -1,13 +1,4 @@
-* {
-  font-family: Georgia, "Times New Roman", Times, serif;
-}
-
-h3 {
-  font-size: 1.6rem;
-  color: var(--our-blue);
-}
-
-main {
+.main {
   background-color: var(--our-light-white);
   height: 100vh;
 }
@@ -22,7 +13,7 @@ main {
 }
 
 .title {
-  color: var(--our-light-white);
+  color: var(--our-white);
   position: absolute;
   top: 220px;
   left: 50px;
@@ -35,7 +26,8 @@ main {
 /* breif section  */
 
 .breif {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  color: var(--our-blue);
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
