@@ -1,0 +1,72 @@
+.places-cards {
+  background-color: var(--our-light-sand);
+  height: 100vh;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  /* justify-content: space-evenly; */
+  /* padding: 0 24px; */
+}
+h2 {
+  font-size: 30px;
+  color: var(--our-yellow);
+  font-family: var(--secondary-font);
+  margin: 0;
+}
+h1 {
+  font-size: 40px;
+  color: black;
+  font-family: var(--secondary-font);
+  margin: 0;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px; /* Space between links */
+  margin-bottom: 30px;
+}
+.links li {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+.links a {
+  color: var(--our-brown);
+  text-decoration: none;
+  font-size: 40px;
+}
+.see-more {
+  padding: 10px;
+  width: 10%;
+  border: 0;
+  background-color: var(--our-green);
+  color: var(--our-brown);
+  font-size: 25px;
+
+  border-radius: 10px;
+  transition: var(--main-transition);
+  font-family: var(--main-font);
+  letter-spacing: 1px;
+}
+
+.see-more:hover {
+  transform: translateY(-5px);
+}
+.links a:hover,
+.active-link {
+  color: var(--our-yellow);
+  border-bottom: 2px solid var(--our-yellow);
+}
+.cards-wrapper {
+  background-color: transparent; /* Ensure this wrapper doesn’t apply unwanted background */
+  padding: 0; /* Reset padding to avoid layout changes */
+}
+.solid-line {
+  border-top: 2px solid var(--our-yellow);
+  width: 20%;
+  margin-top: 8px;
+  margin-bottom: 50px;
+}
