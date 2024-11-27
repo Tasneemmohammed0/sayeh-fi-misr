@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  color: var(--our-blue);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.icon {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--our-blue);
+}
+
+.text:hover .icon {
+  color: var(--our-green); /* Change color on hover */
+}
+
+.text:hover span {
+  color: var(--our-green); /* Change text color on hover */
+}

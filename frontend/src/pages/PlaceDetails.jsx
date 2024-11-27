@@ -4,6 +4,7 @@ import styles from "../styles/PlaceDetails.module.css";
 import SeeMoreText from "../components/SeeMoreText";
 import PlaceTicketPrice from "../components/PlaceTicketPrice";
 import OpeningHours from "../components/OpeningHours";
+import PlaceLocation from "../components/PlaceLocation";
 
 function PlaceDetails() {
   const { placeId } = useParams();
@@ -41,10 +42,13 @@ function PlaceDetails() {
             otherAdultPrice={place.foreign_adult_ticket_price}
           />
           {/* <hr className={styles.vLine}></hr> */}
-          <OpeningHours
-            openingHoursNormal={place.opening_hours_normal}
-            openingHoursHoliday={place.opening_hours_holidays}
-          />
+          <div>
+            <OpeningHours
+              openingHoursNormal={place.opening_hours_normal}
+              openingHoursHoliday={place.opening_hours_holidays}
+            />
+            <PlaceLocation location={place.location} />
+          </div>
         </div>
       </div>
     </main>

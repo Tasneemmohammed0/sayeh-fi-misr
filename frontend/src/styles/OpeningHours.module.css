@@ -1,7 +1,7 @@
 .container {
-  width: 50%;
+  width: 100%;
   margin-left: 2rem;
-  margin-bottom: 6.3rem;
+  margin-bottom: 4.7rem;
 }
 
 .header {
@@ -24,6 +24,7 @@
   font-size: 14px;
   color: #333;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .dropList:focus {
