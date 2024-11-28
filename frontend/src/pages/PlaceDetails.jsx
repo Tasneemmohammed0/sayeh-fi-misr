@@ -11,6 +11,7 @@ function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
   const [error, setError] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   // fetch place data from the API
   useEffect(() => {
@@ -19,6 +20,19 @@ function PlaceDetails() {
       .then((res) => res.json())
       .then((data) => setPlace(data.data.Place))
       .then((err) => setError(err));
+  }, [placeId]);
+
+  // fetch all reviews of a certian place => getPlaceReviews API
+  // review => {rating, title, main_content, date, user_id, place_id, username, profile_photo}
+
+  // fetch place reviews
+  useState(() => {
+    fetch(` http://localhost:1123/api/v1/reviews/${placeId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data.reviews);
+        setReviews(data.data.reviews);
+      });
   }, [placeId]);
 
   return (

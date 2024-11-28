@@ -18,6 +18,9 @@ const Review2 = {
     "The Colosseum is a breathtaking testament to ancient Roman engineering and history. Walking through its massive arches and imagining the gladiatorial battles is an unforgettable experience. The architecture is stunning, with intricate details that have stood the test of time.Guided tours are highly recommended to fully appreciate its history and significance. While it can get crowded, the energy and atmosphere make it worthwhile.",
   user_id: 2,
   place_id: 1,
+  name: "Tasneem Mohammed",
+  profile_pic:
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyCF3FunYuwPDPL9ovTOR0MQXdDJpW_ofgXA&s",
 };
 
 const reviews = [Review1, Review2];
