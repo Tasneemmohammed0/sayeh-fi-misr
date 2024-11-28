@@ -1,13 +1,27 @@
 import styles from "../styles/ReviewCard.module.css";
 import { useState } from "react";
 
-function ReviewCard() {
+function ReviewCard({ placeId }) {
   // fetch all reviews of a certian place => getPlaceReviews API
   // review => {rating, title, main_content, date, user_id, place_id}
   // from user_id => get {username, profile photo}
   const [reviews, setReviews] = useState([]);
   const [username, setUserName] = useState("");
   const [userProfile, setUserProfile] = useState("");
+
+  // useEffect(() => {
+  //   console.log(placeId);
+  //   fetch()
+  //     .then((res) => res.json())
+  //     .then((data) => setPlace(data.data.Place))
+  //     .then((err) => setError(err));
+  // }, [placeId]);
+
+  useState(() => {
+    fetch(` http://localhost:1123/api/v1/reviews/${placeId}`)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, [placeId]);
 
   return (
     <div className={styles.container}>
