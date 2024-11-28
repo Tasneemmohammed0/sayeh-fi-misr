@@ -12,10 +12,10 @@ function ReviewCard({
 }) {
   return (
     <div className={styles.container}>
-      <Stars count={rating} />
+      <Stars className={styles.stars} count={rating} />
       <div className={styles.userInfo}>
         <img className={styles.profileImage} src={`${userProfilePic}`} />
-        <h3 className={styles.username}>{userName}</h3>
+        <h3 className={styles.userName}>{userName}</h3>
       </div>
       <h4 className={styles.title}>{title}</h4>
       <p className={styles.mainContent}>{mainContent}</p>

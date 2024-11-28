@@ -1,8 +1,6 @@
-
-import React from 'react'
+import React from "react";
 import { FaStar } from "react-icons/fa";
-function Stars({count=5}) {
-
+function Stars({ count = 5 }) {
   const rate = [];
   for (let i = 1; i <= count; i++) {
     if (i <= count) {
@@ -11,15 +9,14 @@ function Stars({count=5}) {
   }
 
   return (
-    <ul style={{display:"flex" , flexDirection:"rows" ,gap:"3px"}}>
+    <div style={{ display: "flex", flexDirection: "rows", gap: "3px" }}>
       {rate.map((item) => (
-        <li key={item} style={{color:"gold " , fontSize:"18px"}} >
+        <div key={item} style={{ color: "gold ", fontSize: "18px" }}>
           <FaStar />
-        </li>
+        </div>
       ))}
-    </ul>
-  )
+    </div>
+  );
 }
 
-
-export default Stars
+export default Stars;
