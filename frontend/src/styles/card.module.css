@@ -2,7 +2,7 @@
   font-family: Georgia, "Times New Roman";
 }
 
-p,
+.join,.details
 .card-icon {
   color: var(--our-blue);
   font-family: var(--second-font);

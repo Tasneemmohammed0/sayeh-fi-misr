@@ -6,7 +6,7 @@ import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
 import Stars from "./Stars";
 import styles from "../styles/card.module.css";
 
-function Card({photo="/src/assets/images/temple.png", placeName="Luxor Tempale", location="Luxor ", rate=5}) {
+function Card({photo="/src/assets/images/temple.png", placeName="Luxor Tempale", location="Luxor ", rate=5,type="place"}) {
 
   return (
     <div className={styles.card}>
@@ -28,7 +28,7 @@ function Card({photo="/src/assets/images/temple.png", placeName="Luxor Tempale",
         </div>
         <div className={styles.cardInfoDiv}>
           <IoPeopleOutline className={styles.cardIcon} />
-          <p style={{ fontSize: "12px"}}>People</p>
+          <p style={{ fontSize: "12px"}}>{type=="place" ? "Tours" :  "People"}</p>
         </div>
       </div>
       <div className={styles.location}>
@@ -37,8 +37,15 @@ function Card({photo="/src/assets/images/temple.png", placeName="Luxor Tempale",
       </div>
       <div className={styles.dottedLine}></div>
       <div className={styles.cardFooter}>
+       {type=="gathering" &&
+       <>
         <p className="join">JOIN</p>
         <MdOutlineArrowRightAlt className={styles.rightArrow} />
+        </>}
+        {
+          type=="place" &&
+          <p className="details">Read More</p>
+        }
       </div>
     </div>
   );

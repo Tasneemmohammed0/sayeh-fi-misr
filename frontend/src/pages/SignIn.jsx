@@ -10,6 +10,8 @@ import { HiOutlineMail } from "react-icons/hi";
 import { HiOutlineLockClosed } from "react-icons/hi";
 ////
 import styles from "../styles/signIn.module.css";
+
+import ErrorMessage from "../components/ErrorMessage";
 function SignIn() {
   const [submit, setSubmit] = useState(false);
   const validationSchema = yup.object({
@@ -86,10 +88,10 @@ function SignIn() {
         {submit && (
           <ul className={styles.errorList}>
             {formik.touched.email && formik.errors.email && (
-              <div className={styles.error}>{formik.errors.email}</div>
+              <li> <ErrorMessage error={formik.errors.email}   /> </li>
             )}
             {formik.touched.password && formik.errors.password && (
-              <li className={styles.error}>{formik.errors.password}</li>
+             <li> <ErrorMessage error={formik.errors.password}   /> </li>
             )}
           </ul>
         )}
