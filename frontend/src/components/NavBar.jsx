@@ -1,5 +1,5 @@
 
-import { NavLink } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import styles from "../styles/NavBar.module.css";
 function NavBar() {
@@ -18,9 +18,9 @@ function NavBar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="#trending" activeclassname="active-link" className={styles.link}>
+          <a href="#trending"  className={styles.link}>
             Trending Places
-          </NavLink>
+          </a>
         </li>
         <li>
           <NavLink to="/signin" activeclassname="active-link" className={styles.link}>

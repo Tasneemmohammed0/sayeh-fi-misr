@@ -94,3 +94,42 @@ a {
 .swiper-button-next:hover {
   color: gray !important; /* Optional: Changes the arrow color on hover */
 }
+
+
+
+
+
+
+
+
+
+::-webkit-scrollbar {
+  width: 12px; /* Width of the vertical scrollbar */
+  height: 12px; /* Height of the horizontal scrollbar */
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+  background-color: var(--our-green); /* Light background for the track */
+  
+}
+
+/* Scrollbar Thumb */
+::-webkit-scrollbar-thumb {
+  background-color: var(--our-hover-blue); /* Base color for the scrollbar thumb */
+  border-radius: 6px; /* Rounded corners for the thumb */
+  border: 2px solid transparent; /* Creates a padding effect */
+  background-clip: content-box; /* Allows border to create padding */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+/* Hover State for Scrollbar Thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Darker color on hover for better interaction feedback */
+}
+
+/* Optional: Corner where scrollbars meet */
+::-webkit-scrollbar-corner {
+  background-color: var(--our-dark-sand); /* Matches track color */
+}
+

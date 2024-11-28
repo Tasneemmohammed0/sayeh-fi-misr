@@ -1,15 +1,14 @@
-* {
-  font-family: Georgia, "Times New Roman", Times, serif;
-}
 
-h3 {
+
+/* h3 {
   font-size: 1.6rem;
   color: var(--our-blue);
-}
+} */
 
-main {
+.mainDetailsPlace {
   background-color: var(--our-light-white);
   height: 100vh;
+  font-family: var(--main-font) !important;
 }
 
 .backgroundImage {
