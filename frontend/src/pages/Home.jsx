@@ -2,7 +2,6 @@ import React from 'react'
 import TrendingPlaces from '../components/TrendingPlaces'
 import NavBar from "../components/NavBar";
 import Hero from "../components/Hero";
-import Card from "../components/Card";
 
 function Home() {
 
@@ -30,7 +29,6 @@ function Home() {
     <main>
       <NavBar />
       <Hero />
-      <Card />
       <TrendingPlaces places={trendingPlaces} />
     </main>
   );

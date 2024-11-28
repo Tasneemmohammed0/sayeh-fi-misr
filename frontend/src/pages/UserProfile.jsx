@@ -48,6 +48,6 @@ function UserProfile() {
       }
     </section>
     </>
-
-
-export default UserProfile
+  )
+    }
+export default UserProfile ;

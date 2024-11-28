@@ -124,7 +124,7 @@ function PersonalForm({state, dispatch,handleCount}) {
               </div>
               <div className={`${styles.inputWrapper}`}>
                 <label className={`${styles.label} ${styles.marginR}`}>Gender</label>
-                <select name="gender" value={state.gender} onChange={(e)=>dispatch({type:"updateGender",payload:e.target.value})} >
+                <select name="gender" value={state.gender} className={styles.select} onChange={(e)=>dispatch({type:"updateGender",payload:e.target.value})} >
                 <option value="" disabled selected >Select Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -140,6 +140,7 @@ function PersonalForm({state, dispatch,handleCount}) {
              <select required 
                 name="country"
                 value={state.country}
+                className={styles.select}
                 onChange={(e) => dispatch({ type:"updateCountry" , payload:e.target.value})}
               >
                 <option value="" disabled   >Select Country</option>
@@ -155,6 +156,7 @@ function PersonalForm({state, dispatch,handleCount}) {
               <select
                 name="city"
                 value={state.city}
+                className={styles.select}
                 onChange={(e) => dispatch({ type:"updateCity",  payload:e.target.value})}
               >
                 <option value="" disabled>Select City</option>

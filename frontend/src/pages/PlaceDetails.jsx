@@ -19,7 +19,7 @@ function PlaceDetails() {
   }, [placeId]);
 
   return (
-    <main>
+    <main className={styles.mainDetailsPlace}>
       <div
         className={styles.backgroundImage}
         style={{ backgroundImage: `url(${place.image})` }}
@@ -28,7 +28,7 @@ function PlaceDetails() {
       </div>
       <div className={styles.container}>
         <div className={styles.breif}>
-          <h3>Breif</h3>
+          <h3 style={{fontSize:"1.6rem",color:"#0c3e69"}}>Breif</h3>
           <SeeMoreText className={styles.breifText} text={place.breif} />
         </div>
         <hr></hr>
