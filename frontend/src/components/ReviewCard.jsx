@@ -9,14 +9,6 @@ function ReviewCard({ placeId }) {
   const [username, setUserName] = useState("");
   const [userProfile, setUserProfile] = useState("");
 
-  // useEffect(() => {
-  //   console.log(placeId);
-  //   fetch()
-  //     .then((res) => res.json())
-  //     .then((data) => setPlace(data.data.Place))
-  //     .then((err) => setError(err));
-  // }, [placeId]);
-
   useState(() => {
     fetch(` http://localhost:1123/api/v1/reviews/${placeId}`)
       .then((res) => res.json())
