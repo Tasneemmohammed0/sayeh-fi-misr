@@ -22,9 +22,7 @@ function PlaceDetails() {
       .then((err) => setError(err));
   }, [placeId]);
 
-  // fetch all reviews of a certian place => getPlaceReviews API
   // review => {rating, title, main_content, date, user_id, place_id, username, profile_photo}
-
   // fetch place reviews
   useState(() => {
     fetch(` http://localhost:1123/api/v1/reviews/${placeId}`)
@@ -65,7 +63,19 @@ function PlaceDetails() {
             <PlaceLocation location={place.location} />
           </div>
         </div>
-        <ReviewCard />
+        <div>
+          {reviews.map((review) => (
+            <ReviewCard
+              key={review.review_id}
+              rating={review.rating}
+              time={review.time}
+              title={review.title}
+              mainContent={review.main_content}
+              userName={review.name}
+              userProfilePic={review.profile_pic}
+            />
+          ))}
+        </div>
       </div>
     </main>
   );
