@@ -4,7 +4,6 @@ CREATE TABLE PLACE(
   location VARCHAR UNIQUE,
   city VARCHAR,
   photo VARCHAR,
-  card_photo VARCHAR,
   type VARCHAR(100),
   description VARCHAR(2000),
   foreign_adult_ticket_price INT,
