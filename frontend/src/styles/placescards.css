@@ -1,23 +1,23 @@
 .places-cards {
   background-color: var(--our-light-sand);
-  height: 100vh;
+  height: 100%;
   position: relative;
   align-items: center;
   flex-direction: column;
   display: flex;
   /* justify-content: space-evenly; */
-  /* padding: 0 24px; */
+  padding: 0 24px;
 }
-h2 {
+.secondary-heading {
   font-size: 30px;
   color: var(--our-yellow);
-  font-family: var(--secondary-font);
+  font-family: var(--main-font);
   margin: 0;
 }
-h1 {
+.main-heading {
   font-size: 40px;
   color: black;
-  font-family: var(--secondary-font);
+  font-family: var(--main-font);
   margin: 0;
 }
 
@@ -30,13 +30,17 @@ h1 {
 }
 .links li {
   display: flex;
+  justify-content: space-between;
+
   gap: 40px;
   list-style: none;
+  margin: 0 25px;
 }
 .links a {
   color: var(--our-brown);
   text-decoration: none;
   font-size: 40px;
+  position: relative;
 }
 .see-more {
   padding: 10px;
@@ -55,15 +59,12 @@ h1 {
 .see-more:hover {
   transform: translateY(-5px);
 }
-.links a:hover,
-.active-link {
+.active-link,
+.links a:hover {
   color: var(--our-yellow);
   border-bottom: 2px solid var(--our-yellow);
 }
-.cards-wrapper {
-  background-color: transparent; /* Ensure this wrapper doesn’t apply unwanted background */
-  padding: 0; /* Reset padding to avoid layout changes */
-}
+
 .solid-line {
   border-top: 2px solid var(--our-yellow);
   width: 20%;
