@@ -1,0 +1,11 @@
+CREATE TABLE GIFT (
+  product_code VARCHAR(50) PRIMARY KEY,
+  name VARCHAR(50) NOT NULL UNIQUE,
+  photo VARCHAR NOT NULL UNIQUE,
+  points INT NOT NULL,
+  description VARCHAR(2000),
+  place_id INT,
+  CONSTRAINT fk_gift_place FOREIGN KEY (place_id) REFERENCES PLACE(place_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE, 
+);
