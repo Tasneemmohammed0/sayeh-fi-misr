@@ -6,7 +6,6 @@
 .backgroundImage {
   width: 100%;
   height: 300px;
-  /* object-fit: cover; */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -44,4 +43,19 @@
 .info {
   display: flex;
   align-items: center;
+}
+
+.reviewCards {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.header {
+  font-size: 1.6rem;
+  color: var(--our-blue);
+  text-align: center;
 }

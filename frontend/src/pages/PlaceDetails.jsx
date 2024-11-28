@@ -63,18 +63,21 @@ function PlaceDetails() {
             <PlaceLocation location={place.location} />
           </div>
         </div>
-        <div>
-          {reviews.map((review) => (
-            <ReviewCard
-              key={review.review_id}
-              rating={review.rating}
-              time={review.time}
-              title={review.title}
-              mainContent={review.main_content}
-              userName={review.name}
-              userProfilePic={review.profile_pic}
-            />
-          ))}
+        <div className={styles.reviewSection}>
+          <h3 className={styles.header}>See what visitors are saying</h3>
+          <div className={styles.reviewCards}>
+            {reviews.map((review) => (
+              <ReviewCard
+                key={review.review_id}
+                rating={review.rating}
+                time={review.time}
+                title={review.title}
+                mainContent={review.main_content}
+                userName={review.name}
+                userProfilePic={review.profile_pic}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </main>
