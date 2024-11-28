@@ -5,6 +5,7 @@ import SeeMoreText from "../components/SeeMoreText";
 import PlaceTicketPrice from "../components/PlaceTicketPrice";
 import OpeningHours from "../components/OpeningHours";
 import PlaceLocation from "../components/PlaceLocation";
+import ReviewCard from "../components/ReviewCard";
 
 function PlaceDetails() {
   const { placeId } = useParams();
@@ -50,6 +51,7 @@ function PlaceDetails() {
             <PlaceLocation location={place.location} />
           </div>
         </div>
+        <ReviewCard />
       </div>
     </main>
   );
