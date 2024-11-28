@@ -1,8 +1,9 @@
 CREATE TABLE WISHLIST (
   wishlist_id SERIAL PRIMARY KEY,
+  name VARCHAR,
   user_id INT NOT NULL,
   date TIMESTAMP NOT NULL,
-  description TEXT,
+  description VARCHAR(2000),
   CONSTRAINT fk_wishlist_user FOREIGN KEY (user_id) REFERENCES "USER" (user_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE

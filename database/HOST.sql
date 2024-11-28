@@ -7,4 +7,4 @@ CREATE TABLE HOST
     PRIMARY KEY (user_id)
   
 )
-    INHERITS ("USER");
+    INHERITS (VISITOR);
