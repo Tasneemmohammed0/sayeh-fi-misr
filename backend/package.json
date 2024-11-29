@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "license": "ISC",
   "engines": {
