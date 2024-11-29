@@ -14,6 +14,7 @@ function PlaceDetails() {
   const [place, setPlace] = useState({});
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
 
   // fetch place data from the API
   useEffect(() => {
@@ -71,11 +72,18 @@ function PlaceDetails() {
             <h3>See what visitors are saying</h3>
             <div style={{ display: "flex", gap: "0.6rem" }}>
               <h5>Share Your Review</h5>
-              <IoAddCircleSharp className={styles.addIcon} />
+
+              <IoAddCircleSharp
+                className={styles.addIcon}
+                onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}
+              />
             </div>
           </div>
           <ReviewCards reviews={reviews} />
-          <ReviewForm />
+          <ReviewForm
+            isOpen={isReviewFormOpen}
+            setIsOpen={setIsReviewFormOpen}
+          />
         </div>
       </div>
     </main>
