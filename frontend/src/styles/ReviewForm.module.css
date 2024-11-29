@@ -28,7 +28,7 @@
 
 .form {
   position: relative;
-  height: 500px;
+  height: 520px;
   width: 500px;
   display: flex;
   flex-direction: column;
@@ -63,6 +63,7 @@
   padding: 10px;
   font-size: 15px;
   background-color: rgb(255, 240, 240);
+  margin-bottom: 10px;
 }
 
 .reviewText {
