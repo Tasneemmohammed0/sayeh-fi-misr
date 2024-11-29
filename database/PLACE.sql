@@ -4,13 +4,12 @@ CREATE TABLE PLACE(
   location VARCHAR UNIQUE,
   city VARCHAR,
   photo VARCHAR,
-  card_photo VARCHAR,
   type VARCHAR(100),
   description VARCHAR(2000),
   foreign_adult_ticket_price INT,
   foreign_student_ticket_price INT,
   egyptian_adult_ticket_price INT,
   egyptian_student_ticket_price INT,
-  opening_hours_holidays TIME,
-   opening_hours_working_days TIME
+  opening_hours_holidays VARCHAR(50),
+  opening_hours_working_days VARCHAR(50)
 );

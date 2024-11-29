@@ -1,6 +1,6 @@
 CREATE TABLE GATHERING (
   gathering_id SERIAL PRIMARY KEY,
-  title VARCHAR(255),
+  title VARCHAR(255) UNIQUE,
   duration BIGINT,
   gathering_date TIMESTAMP NOT NULL,
   is_open BOOLEAN NOT NULL,

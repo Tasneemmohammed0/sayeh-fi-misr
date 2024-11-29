@@ -4,7 +4,7 @@ CREATE TABLE REVIEW
     rating INT  NOT NULL,
     date TIMESTAMP with time zone NOT NULL,
     title VARCHAR,
-	main_content VARCHAR,
+    main_content VARCHAR(400),
     user_id INT NOT NULL,
     place_id INT NOT NULL,
      
