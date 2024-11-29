@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "../styles/placeslist.module.css";
 import Card from "./Card";
 
-function VistedList({ id }) {
+function VisitedList({ id }) {
   /// fetching by user id to get the visited places
 
   const [visitList, setVisitList] = React.useState([]);

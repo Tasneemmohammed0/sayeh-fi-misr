@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import UserInfo from "../components/UserInfo";
 import ReviewsList from "../components/ReviewsList";
-import VistedList from "../components/VistedList";
+import VisitedList from "../components/VistedList";
 import WishLists from "../components/WishLists";
 function UserProfile() {
   const [selectedList, setSelectedList] = React.useState("Reviews");
@@ -49,7 +49,7 @@ function UserProfile() {
 
         {selectedList === "Wish List" && <WishLists id={userId} />}
 
-        {selectedList === "Visted List" && <VistedList id={userId} />}
+        {selectedList === "Visted List" && <VisitedList id={userId} />}
       </section>
     </>
   );
