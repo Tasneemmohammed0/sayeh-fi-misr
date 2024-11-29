@@ -1,9 +1,9 @@
-import React,{useState,useEffect} from 'react'
-import styles from '../styles/personalForm.module.css'
+import React, { useState, useEffect } from "react";
+import styles from "../styles/personalForm.module.css";
 import { FaArrowRight } from "react-icons/fa";
-import ErrorMessage from './ErrorMessage';
-function PersonalForm({state, dispatch,handleCount}) {
-  const age= [];
+import ErrorMessage from "./ErrorMessage";
+function PersonalForm({ state, dispatch, handleCount }) {
+  const age = [];
 
   for (let i = 18; i <= 100; i++) {
     age.push(i);
@@ -26,7 +26,7 @@ function PersonalForm({state, dispatch,handleCount}) {
   //     try {
   //       const response = await fetch(url, options);
   //       let result = await response.json();
-  //       //// remove this non country from the list (don't remove it) 
+  //       //// remove this non country from the list (don't remove it)
   //       result= result.filter((item) => item.name !== 'Israel');
   //       ///////////////////////////////////////////////////////
   //       setCountries(result);
@@ -46,7 +46,7 @@ function PersonalForm({state, dispatch,handleCount}) {
   //     const country = countries.find((item) => item.name === state.country);
   //     if (!country || !country.isoCode) return;
 
-  //     const countryCode = country.isoCode; 
+  //     const countryCode = country.isoCode;
   //     const url = `https://country-state-city-search-rest-api.p.rapidapi.com/states-by-countrycode?countrycode=${countryCode}`;
   //     const options = {
   //       method: 'GET',
@@ -68,39 +68,36 @@ function PersonalForm({state, dispatch,handleCount}) {
   //   getCities();
   // }, [state.country, countries]);
 
-
   function handleSubmit(e) {
     e.preventDefault();
 
     console.log(state.first_name);
     console.log(state.last_name);
 
-    if(!state.first_name || !state.last_name){
+    if (!state.first_name || !state.last_name) {
       setError(1);
       console.log("error 1");
       return;
     }
-    if( !state.age || !state.gender || !state.nationality /*|| !state.country || !state.city*/){
+    if (
+      !state.age ||
+      !state.gender ||
+      !state.nationality /*|| !state.country || !state.city*/
+    ) {
       setError(1);
       console.log("error 2");
       return;
-    } 
+    }
     console.log("go to next");
-    handleCount(e,"next");
+    handleCount(e, "next");
     setError(0);
-   }
+  }
 
-
-
-
-
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
 
   console.log(state);
   return (
     <form className={styles.form}>
-
-
           <div className={styles.inputWrapper}>
                 <label className={styles.label}>First Name</label>
                 <input className={styles.input}   type="text" name="firstname" placeholder="First Name" value={state.first_name} onChange={(e)=>dispatch({type:"updateFirstname",payload:e.target.value})} />
@@ -178,7 +175,7 @@ function PersonalForm({state, dispatch,handleCount}) {
               </div> 
             }
     </form>
-  )
+  );
 }
 
-export default PersonalForm
+export default PersonalForm;

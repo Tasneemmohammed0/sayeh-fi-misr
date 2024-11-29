@@ -23,39 +23,6 @@ function PlacesList({ search, filter, count = 100 }) {
     fetchData();
   }, []);
 
-  //// test before connecting to the backend
-
-  // let places = [];
-  // const temp = {
-  //   id: 2,
-  //   name: "Karnak Temple",
-  //   city: "Luxor",
-  //   image: "/src/assets/images/temple.png",
-  //   rate: 4,
-  // };
-
-  // for (let i = 0; i < count; i++) {
-  //   places.push(temp);
-  // }
-
-  // const temp2 = {
-  //   id: 2,
-  //   name: "Hany Temple",
-  //   city: "Cairo",
-  //   image: "/src/assets/images/temple.png",
-  //   rate: 4,
-  // };
-  // places.push(temp2);
-
-  // const temp3 = {
-  //   id: 2,
-  //   name: "Hany Temple",
-  //   city: "Luxor",
-  //   image: "/src/assets/images/temple.png",
-  //   rate: 4,
-  // };
-  // places.push(temp3);
-
   if (search) {
     places = places.filter((item) =>
       item.name.toLowerCase().includes(search.toLowerCase())
@@ -65,7 +32,6 @@ function PlacesList({ search, filter, count = 100 }) {
   if (filter && filter !== "all") {
     places = places.filter((item) => item.city === filter);
   }
-
   return (
     <div className={styles.list}>
       {places.map((item, index) => (
