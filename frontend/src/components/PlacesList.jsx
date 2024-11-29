@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../styles/placeslist.module.css";
 import Card from "./Card";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PlacesList({ search, filter, count = 100 }) {
   let [places, setPlaces] = React.useState([]);
@@ -22,6 +23,11 @@ function PlacesList({ search, filter, count = 100 }) {
     };
     fetchData();
   }, []);
+  const navigate = useNavigate();
+  const handleSelectedPlace = (id) => {
+    console.log("nav");
+    navigate(`/places/${id}`);
+  };
 
   if (search) {
     places = places.filter((item) =>
@@ -48,6 +54,7 @@ function PlacesList({ search, filter, count = 100 }) {
             placeName={item.name}
             location={item.city}
             rate={item.rate}
+            onClick={() => handleSelectedPlace(item.place_id)}
           />
         </div>
       ))}
