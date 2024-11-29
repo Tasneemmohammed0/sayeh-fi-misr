@@ -49,7 +49,7 @@ function SignIn() {
         <div className={styles.inputWrapper}>
           <HiOutlineMail className={styles.inputIcon} />
           <input
-           className={styles.input}
+            className={styles.input}
             type="email"
             name="email"
             placeholder="Email"
@@ -62,7 +62,7 @@ function SignIn() {
 
         <div className={styles.inputWrapper}>
           <HiOutlineLockClosed className={styles.inputIcon} />
-          <input 
+          <input
             className={styles.input}
             type="password"
             name="password"
@@ -78,7 +78,11 @@ function SignIn() {
           {" "}
           Forget Password ?{" "}
         </Link>
-        <button type="submit" onClick={() => setSubmit(true)} className={styles.button}>
+        <button
+          type="submit"
+          onClick={() => setSubmit(true)}
+          className={styles.button}
+        >
           Sign In
         </button>
         <p>
@@ -88,10 +92,16 @@ function SignIn() {
         {submit && (
           <ul className={styles.errorList}>
             {formik.touched.email && formik.errors.email && (
-              <li> <ErrorMessage error={formik.errors.email}   /> </li>
+              <li>
+                {" "}
+                <ErrorMessage error={formik.errors.email} />{" "}
+              </li>
             )}
             {formik.touched.password && formik.errors.password && (
-             <li> <ErrorMessage error={formik.errors.password}   /> </li>
+              <li>
+                {" "}
+                <ErrorMessage error={formik.errors.password} />{" "}
+              </li>
             )}
           </ul>
         )}
