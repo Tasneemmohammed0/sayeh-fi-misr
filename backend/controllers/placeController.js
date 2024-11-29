@@ -23,8 +23,8 @@ exports.getAllPlaces = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      count: data.rows.length,
-      places: data.rows,
+      length: data.rows.length,
+      data: data.rows,
     });
   } catch (err) {
     console.log(err);
