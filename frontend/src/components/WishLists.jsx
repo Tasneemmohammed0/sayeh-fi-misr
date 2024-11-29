@@ -1,17 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 import WishListForm from "./WishListForm";
 import WishList from "./WishList";
 import styles from "../styles/WishLists.module.css";
 
-function WishLists({ user }) {
+function WishLists({ id }) {
   ////// fetching by user id to get the wishlists
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [wishLists, setWishLists] = useState([]);
-  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +18,6 @@ function WishLists({ user }) {
         const response = await axios.get(
           `http://localhost:1123/api/v1/users/wishlists/${id}`
         );
-        console.log(response.data.data);
         setWishLists(response.data.data);
       } catch (err) {
         console.log(err.message);

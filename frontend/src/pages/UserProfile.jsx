@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../styles/userprofile.module.css";
+import { useParams } from "react-router-dom";
 
 import UserInfo from "../components/UserInfo";
 import ReviewsList from "../components/ReviewsList";
@@ -9,7 +10,7 @@ function UserProfile() {
   const [selectedList, setSelectedList] = React.useState("Reviews");
 
   //// fetching user data by id
-
+  const { id: userId } = useParams();
   const usertemp = {
     id: 1,
     name: "Amr Hany",
@@ -44,11 +45,11 @@ function UserProfile() {
         />
       </section>
       <section style={{ background: "#D3C4A9", padding: "20px 10px " }}>
-        {selectedList === "Reviews" && <ReviewsList user={usertemp} />}
+        {selectedList === "Reviews" && <ReviewsList id={userId} />}
 
-        {selectedList === "Wish List" && <WishLists user={usertemp} />}
+        {selectedList === "Wish List" && <WishLists id={userId} />}
 
-        {selectedList === "Visted List" && <VistedList user={usertemp} />}
+        {selectedList === "Visted List" && <VistedList id={userId} />}
       </section>
     </>
   );

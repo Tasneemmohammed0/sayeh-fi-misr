@@ -1,13 +1,11 @@
 import React from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 import styles from "../styles/placeslist.module.css";
 import Card from "./Card";
 
-function VistedList({ user }) {
+function VistedList({ id }) {
   /// fetching by user id to get the visited places
-  const { id } = useParams();
 
   const [visitList, setVisitList] = React.useState([]);
   React.useEffect(() => {

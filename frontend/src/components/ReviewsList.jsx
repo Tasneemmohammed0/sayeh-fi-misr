@@ -1,11 +1,9 @@
 import React from "react";
 import Review from "../components/Review";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 
-function ReviewsList({ user }) {
+function ReviewsList({ id }) {
   const [reviews, setReviews] = React.useState([]);
-  const { id } = useParams();
 
   React.useEffect(() => {
     const fetchData = async () => {
