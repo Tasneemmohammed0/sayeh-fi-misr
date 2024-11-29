@@ -10,7 +10,7 @@ import { EffectCoverflow, Navigation, Autoplay } from "swiper/modules";
 //// our styles
 import styles from "../styles/trending.module.css";
 
-// Import required Swiper modules
+
 
 function TrandingPlaces({ places }) {
   return (

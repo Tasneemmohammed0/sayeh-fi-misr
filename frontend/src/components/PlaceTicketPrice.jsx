@@ -1,3 +1,4 @@
+
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import styles from "../styles/PlaceTicketPrice.module.css";
@@ -29,6 +30,7 @@ function PlaceTicketPrice({
           Other Nationality
         </button>
       </div>
+
       <div className={styles.tabContent}>
         {selectedTab === "Egyptian" ? (
           <div className={styles.price}>
@@ -54,6 +56,7 @@ function PlaceTicketPrice({
           </div>
         )}
       </div>
+
     </div>
   );
 }

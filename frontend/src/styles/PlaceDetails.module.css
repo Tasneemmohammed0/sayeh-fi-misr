@@ -13,6 +13,7 @@
 
 .title {
   color: var(--our-white);
+
   position: absolute;
   top: 220px;
   left: 50px;
@@ -27,6 +28,7 @@
 .breif {
   font-size: 1.6rem;
   color: var(--our-blue);
+
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
@@ -83,3 +85,4 @@
   text-decoration: underline;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
+

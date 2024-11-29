@@ -10,6 +10,8 @@ import { HiOutlineMail } from "react-icons/hi";
 import { HiOutlineLockClosed } from "react-icons/hi";
 ////
 import styles from "../styles/signIn.module.css";
+
+import ErrorMessage from "../components/ErrorMessage";
 function SignIn() {
   const [submit, setSubmit] = useState(false);
   const validationSchema = yup.object({
@@ -47,7 +49,7 @@ function SignIn() {
         <div className={styles.inputWrapper}>
           <HiOutlineMail className={styles.inputIcon} />
           <input
-           className={styles.input}
+            className={styles.input}
             type="email"
             name="email"
             placeholder="Email"
@@ -60,7 +62,7 @@ function SignIn() {
 
         <div className={styles.inputWrapper}>
           <HiOutlineLockClosed className={styles.inputIcon} />
-          <input 
+          <input
             className={styles.input}
             type="password"
             name="password"
@@ -76,7 +78,11 @@ function SignIn() {
           {" "}
           Forget Password ?{" "}
         </Link>
-        <button type="submit" onClick={() => setSubmit(true)} className={styles.button}>
+        <button
+          type="submit"
+          onClick={() => setSubmit(true)}
+          className={styles.button}
+        >
           Sign In
         </button>
         <p>
@@ -86,10 +92,18 @@ function SignIn() {
         {submit && (
           <ul className={styles.errorList}>
             {formik.touched.email && formik.errors.email && (
-              <div className={styles.error}>{formik.errors.email}</div>
+
+              <li>
+                {" "}
+                <ErrorMessage error={formik.errors.email} />{" "}
+              </li>
             )}
             {formik.touched.password && formik.errors.password && (
-              <li className={styles.error}>{formik.errors.password}</li>
+              <li>
+                {" "}
+                <ErrorMessage error={formik.errors.password} />{" "}
+              </li>
+
             )}
           </ul>
         )}
