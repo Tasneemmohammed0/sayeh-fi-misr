@@ -1,40 +1,30 @@
 import React from "react";
-import styles from "../styles/placeslist.module.css";
-import Card from "./Card";
 import axios from "axios";
 
-function PlacesList({ search, filter, count = 100 }) {
-  let [places, setPlaces] = React.useState([]);
+import styles from "../styles/placeslist.module.css";
+import Card from "./Card";
 
+function VisitedList({ id }) {
+  /// fetching by user id to get the visited places
+
+  const [visitList, setVisitList] = React.useState([]);
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:1123/api/v1/places`);
-        console.log(response.data);
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-        setPlaces(response.data.data);
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/users/visitlist/${id}`
+        );
+        setVisitList(response.data.data);
       } catch (err) {
         console.log(err.message);
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
-  if (search) {
-    places = places.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }
-
-  if (filter && filter !== "all") {
-    places = places.filter((item) => item.city === filter);
-  }
   return (
     <div className={styles.list}>
-      {places.map((item, index) => (
+      {visitList.map((item, index) => (
         <div
           style={{
             display: "flex",
@@ -55,4 +45,4 @@ function PlacesList({ search, filter, count = 100 }) {
   );
 }
 
-export default PlacesList;
+export default VisitedList;
