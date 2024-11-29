@@ -53,7 +53,7 @@ exports.getUserWishlists = async (req, res, next) => {
     FROM Wishlist
     WHERE user_id = $1
     `;
-    const params = [req.params.id];
+    const params = [+req.params.id];
     const result = await db.query(query, params);
     res.status(200).json({
       status: "success",
