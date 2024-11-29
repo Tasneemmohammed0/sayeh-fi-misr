@@ -7,6 +7,7 @@ import OpeningHours from "../components/OpeningHours";
 import PlaceLocation from "../components/PlaceLocation";
 import ReviewCards from "../components/ReviewCards";
 import { IoAddCircleSharp } from "react-icons/io5";
+import ReviewForm from "../components/ReviewForm";
 
 function PlaceDetails() {
   const { placeId } = useParams();
@@ -73,8 +74,8 @@ function PlaceDetails() {
               <IoAddCircleSharp className={styles.addIcon} />
             </div>
           </div>
-
           <ReviewCards reviews={reviews} />
+          <ReviewForm />
         </div>
       </div>
     </main>
