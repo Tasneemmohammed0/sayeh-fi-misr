@@ -9,7 +9,7 @@ exports.getPlace = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      place: data.rows,
+      data: data.rows[0],
     });
   } catch (err) {
     console.log(err);

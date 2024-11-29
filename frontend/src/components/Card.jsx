@@ -5,15 +5,15 @@ import Stars from "./Stars";
 import styles from "../styles/card.module.css";
 
 function Card({
-  onClick,
   photo = "/src/assets/images/temple.png",
   placeName = "Luxor Tempale",
   location = "Luxor ",
   rate = 5,
   type = "place",
+  onClick,
 }) {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={onClick}>
       <div>
         <img src={photo} alt="card image" className={styles.cardImage} />
       </div>

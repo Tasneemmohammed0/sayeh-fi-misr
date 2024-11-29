@@ -39,7 +39,7 @@ function PlaceDetails() {
       <div className={styles.container}>
         <div className={styles.breif}>
           <h3 style={{ fontSize: "1.6rem", color: "#0c3e69" }}>Breif</h3>
-          <SeeMoreText className={styles.breifText} text={place.breif} />
+          <SeeMoreText className={styles.breifText} text={place.description} />
         </div>
         <hr></hr>
         <div>
