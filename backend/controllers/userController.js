@@ -67,3 +67,25 @@ exports.getUserWishlists = async (req, res, next) => {
     });
   }
 };
+
+exports.getUserVisitLists = async (req, res, next) => {
+  try {
+    const query = `
+    SELECT P.name, P.photo, P.city
+    FROM Place P, Visitor_place VP
+    WHERE VP.place_id = P.place_id AND VP.user_id = $1
+    `;
+    const params = [+req.params.id];
+    const result = await db.query(query, params);
+    res.status(200).json({
+      status: "success",
+      length: result.rows.length,
+      data: result.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
