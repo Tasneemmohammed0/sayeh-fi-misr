@@ -1,3 +1,4 @@
+
 import React from "react";
 import styles from "../styles/placeslist.module.css";
 import Card from "./Card";

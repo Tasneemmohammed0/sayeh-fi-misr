@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import styles from "../styles/AllPlaces.module.css";
@@ -41,6 +42,7 @@ function AllGathering() {
       <div className={styles.bar}>
         <div className={styles.searchWrapper}>
           <IoIosSearch className={styles.searchIcon} />
+
           <input
             type="text"
             value={search}
