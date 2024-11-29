@@ -1,10 +1,8 @@
-
-import React from 'react'
+import React from "react";
 import { FaStar } from "react-icons/fa";
-function Stars({count=5,fontSize="18px"}) {
 
+function Stars({ count = 5, fontSize = "18px", color = "gold" }) {
   count = parseInt(count);
-
 
   const rate = [];
   for (let i = 1; i <= count; i++) {
@@ -14,15 +12,14 @@ function Stars({count=5,fontSize="18px"}) {
   }
 
   return (
-    <ul style={{display:"flex" , flexDirection:"rows" ,gap:"3px"}}>
+    <div style={{ display: "flex", flexDirection: "rows", gap: "3px" }}>
       {rate.map((item) => (
-        <li key={item} style={{color:"gold " , fontSize:`${fontSize}`}} >
+        <div key={item} style={{ color: `${color}`, fontSize: `${fontSize}` }}>
           <FaStar />
-        </li>
+        </div>
       ))}
-    </ul>
-  )
+    </div>
+  );
 }
 
-
-export default Stars
+export default Stars;

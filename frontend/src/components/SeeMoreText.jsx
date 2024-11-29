@@ -6,11 +6,12 @@ function SeeMoreText({ text }) {
     <div>
       <p
         style={{
-          maxHeight: isExpanded ? "none" : "50px",
+          maxHeight: isExpanded ? "none" : "40px",
           overflow: "hidden",
           transition: "max-height 0.3s ease",
           marginBottom: "0px",
           fontSize: "1.1rem",
+          color: "black",
         }}
       >
         {text}
