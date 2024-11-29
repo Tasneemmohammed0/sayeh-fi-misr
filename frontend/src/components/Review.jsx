@@ -5,11 +5,7 @@ function Review({ review }) {
   return (
     <div className={styles.review}>
       <div className={styles.info}>
-        <img
-          src={review.placePhoto}
-          alt={review.place}
-          className={styles.img}
-        />
+        <img src={review.photo} alt={review.name} className={styles.img} />
         <p style={{ display: "flex", gap: "10px ", fontSize: "20px" }}>
           {" "}
           <Stars count="1" fontSize="20px" /> {review.rating}/10{" "}
@@ -22,10 +18,10 @@ function Review({ review }) {
           {review.title}{" "}
           <span style={{ color: "#0C3E69", fontSize: "16px" }}>
             {" "}
-            on {review.place}{" "}
+            on {review.name}{" "}
           </span>{" "}
         </h2>
-        <p className={styles.p}> {review.description} </p>
+        <p className={styles.p}> {review.main_content} </p>
       </div>
     </div>
   );

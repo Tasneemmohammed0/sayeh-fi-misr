@@ -14,18 +14,19 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} index />
       <Route path="/home" element={<Home />} />
+        
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+
       <Route path="/places/:placeId" element={<PlaceDetails />} />
       <Route path="/places" element={<AllPlaces />} />
+        
       <Route path="/gatherings" element={<AllGathering />} />
-
+        
+      <Route path="/profile/:id" element={<UserProfile />} />
       <Route path="/profile" element={<UserProfile />} />
-
       <Route path="/profile/wishlist/:id" element={<WishList />} />
-
       <Route path="/places/:placeId" element={<PlaceDetails />} />
-      {/* <Route path="/profile" element={<UserProfile/>} /> */}
     </Routes>
   );
 }

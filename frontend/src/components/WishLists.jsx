@@ -1,34 +1,31 @@
 import React from "react";
-import { useState } from "react";
-import WishListForm from "./WishListForm";
-// import WishList from "./WishList";
-
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
+import WishListForm from "./WishListForm";
+import WishList from "./WishList";
 import styles from "../styles/WishLists.module.css";
 
-function WishLists({ user }) {
+function WishLists({ id }) {
   ////// fetching by user id to get the wishlists
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [wishLists, setWishLists] = useState([]);
 
-  const wishLists = [];
-  let temp = {
-    id: 1,
-    name: "My Wishlist",
-    description: "This is my wishlist",
-  };
-
-  let temp2 = {
-    id: 2,
-    name: "hany Wishlist",
-    description: "This is my  bad wishlist",
-  };
-
-  wishLists.push(temp);
-  wishLists.push(temp2);
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/users/wishlists/${id}`
+        );
+        setWishLists(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchData();
+  }, [id]);
   //// note validation if the user has no wishlists no need
-  console.log(wishLists);
 
   return (
     <div style={{ position: "relative" }}>

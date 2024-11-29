@@ -1,40 +1,33 @@
 import React from "react";
 import styles from "../styles/placeslist.module.css";
 import Card from "./Card";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PlacesList({ search, filter, count = 100 }) {
-  //// test before connecting to the backend
+  let [places, setPlaces] = React.useState([]);
 
-  let places = [];
-  const temp = {
-    id: 2,
-    name: "Karnak Temple",
-    city: "Luxor",
-    image: "/src/assets/images/temple.png",
-    rate: 4,
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:1123/api/v1/places`);
+        console.log(response.data);
+        if (response.status === "fail") {
+          console.log("error");
+          return;
+        }
+        setPlaces(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchData();
+  }, []);
+  const navigate = useNavigate();
+  const handleSelectedPlace = (id) => {
+    console.log("nav");
+    navigate(`/places/${id}`);
   };
-
-  for (let i = 0; i < count; i++) {
-    places.push(temp);
-  }
-
-  const temp2 = {
-    id: 2,
-    name: "Hany Temple",
-    city: "Cairo",
-    image: "/src/assets/images/temple.png",
-    rate: 4,
-  };
-  places.push(temp2);
-
-  const temp3 = {
-    id: 2,
-    name: "Hany Temple",
-    city: "Luxor",
-    image: "/src/assets/images/temple.png",
-    rate: 4,
-  };
-  places.push(temp3);
 
   if (search) {
     places = places.filter((item) =>
@@ -45,7 +38,6 @@ function PlacesList({ search, filter, count = 100 }) {
   if (filter && filter !== "all") {
     places = places.filter((item) => item.city === filter);
   }
-
   return (
     <div className={styles.list}>
       {places.map((item, index) => (
@@ -58,10 +50,11 @@ function PlacesList({ search, filter, count = 100 }) {
         >
           <Card
             key={index}
-            photo={item.image}
+            photo={item.photo}
             placeName={item.name}
             location={item.city}
             rate={item.rate}
+            onClick={() => handleSelectedPlace(item.place_id)}
           />
         </div>
       ))}
