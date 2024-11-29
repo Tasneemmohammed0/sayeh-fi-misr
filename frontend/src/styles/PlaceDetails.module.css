@@ -45,9 +45,41 @@
   align-items: center;
 }
 
-.header {
+.reviewsHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+  text-align: center;
+}
+
+.reviewsHeader > h3 {
   font-size: 1.6rem;
   color: var(--our-blue);
-  text-align: center;
-  margin: 30px;
+  margin-bottom: 0.6rem;
+}
+
+.reviewsHeader > div > h5 {
+  font-size: 1rem;
+  color: var(--our-brown);
+  cursor: pointer;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  transition: text-decoration 0.3s ease-in-out;
+}
+
+.addIcon {
+  color: var(--our-brown);
+  font-size: 1.2rem;
+  margin-left: 0.2rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.addIcon:hover {
+  color: #7b8b59;
+}
+
+.reviewsHeader > div > h5:hover {
+  text-decoration: underline;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }

@@ -6,6 +6,7 @@ import PlaceTicketPrice from "../components/PlaceTicketPrice";
 import OpeningHours from "../components/OpeningHours";
 import PlaceLocation from "../components/PlaceLocation";
 import ReviewCards from "../components/ReviewCards";
+import { IoAddCircleSharp } from "react-icons/io5";
 
 function PlaceDetails() {
   const { placeId } = useParams();
@@ -63,8 +64,16 @@ function PlaceDetails() {
             <PlaceLocation location={place.location} />
           </div>
         </div>
+        <hr></hr>
         <div className={styles.reviewSection}>
-          <h3 className={styles.header}>See what visitors are saying</h3>
+          <div className={styles.reviewsHeader}>
+            <h3>See what visitors are saying</h3>
+            <div style={{ display: "flex", gap: "0.6rem" }}>
+              <h5>Share Your Review</h5>
+              <IoAddCircleSharp className={styles.addIcon} />
+            </div>
+          </div>
+
           <ReviewCards reviews={reviews} />
         </div>
       </div>
