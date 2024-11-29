@@ -12,7 +12,8 @@
 
 .popupClose {
   position: absolute;
-  right: 150px;
+  right: 12px;
+  top: 12px;
   margin-bottom: 10px;
   background: none;
   border: none;
@@ -26,6 +27,7 @@
 }
 
 .form {
+  position: relative;
   height: 500px;
   width: 500px;
   display: flex;
@@ -35,7 +37,6 @@
   background-color: var(--our-green);
   margin-top: 100px;
   padding: 20px;
-  /* opacity: 0.9; */
   border-radius: 20px;
 }
 

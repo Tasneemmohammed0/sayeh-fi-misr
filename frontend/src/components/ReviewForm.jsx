@@ -57,7 +57,7 @@ function ReviewForm({ isOpen, setIsOpen }) {
             onChange={(e) => setTitle(e.target.value)}
           />
         </label>
-        {/* Rating */}
+
         <label className={styles.formLabel}>
           Review
           <textarea
