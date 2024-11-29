@@ -45,17 +45,9 @@
   align-items: center;
 }
 
-.reviewCards {
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-}
-
 .header {
   font-size: 1.6rem;
   color: var(--our-blue);
   text-align: center;
+  margin: 30px;
 }

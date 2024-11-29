@@ -5,7 +5,7 @@ import SeeMoreText from "../components/SeeMoreText";
 import PlaceTicketPrice from "../components/PlaceTicketPrice";
 import OpeningHours from "../components/OpeningHours";
 import PlaceLocation from "../components/PlaceLocation";
-import ReviewCard from "../components/ReviewCard";
+import ReviewCards from "../components/ReviewCards";
 
 function PlaceDetails() {
   const { placeId } = useParams();
@@ -65,19 +65,7 @@ function PlaceDetails() {
         </div>
         <div className={styles.reviewSection}>
           <h3 className={styles.header}>See what visitors are saying</h3>
-          <div className={styles.reviewCards}>
-            {reviews.map((review) => (
-              <ReviewCard
-                key={review.review_id}
-                rating={review.rating}
-                time={review.time}
-                title={review.title}
-                mainContent={review.main_content}
-                userName={review.name}
-                userProfilePic={review.profile_pic}
-              />
-            ))}
-          </div>
+          <ReviewCards reviews={reviews} />
         </div>
       </div>
     </main>
