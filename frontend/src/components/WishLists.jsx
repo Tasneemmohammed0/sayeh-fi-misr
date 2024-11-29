@@ -34,14 +34,7 @@ function WishLists({ id }) {
       </button>
       <WishListForm isOpen={isFormOpen} handleForm={setIsFormOpen} />
 
-      <ul
-        style={{
-          display: "flex",
-          gap: "20px",
-          flexDirection: "column",
-          paddingTop: "30px",
-        }}
-      >
+      <ul className={styles.allWishLists}>
         {wishLists.map((wishList, index) => {
           return (
             <NavLink key={index} to={`wishlist/${wishList.id}`}>

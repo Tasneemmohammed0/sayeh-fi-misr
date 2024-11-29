@@ -6,7 +6,7 @@ function Review({ review }) {
     <div className={styles.review}>
       <div className={styles.info}>
         <img src={review.photo} alt={review.name} className={styles.img} />
-        <p style={{ display: "flex", gap: "10px " }}>
+        <p style={{ display: "flex", gap: "10px ", fontSize: "20px" }}>
           {" "}
           <Stars count="1" fontSize="20px" /> {review.rating}/10{" "}
         </p>

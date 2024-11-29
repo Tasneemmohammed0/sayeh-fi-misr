@@ -11,6 +11,7 @@ function UserProfile() {
 
   //// fetching user data by id
   const { id: userId } = useParams();
+  
   const usertemp = {
     id: 1,
     name: "Amr Hany",
