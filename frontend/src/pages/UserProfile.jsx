@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import UserInfo from "../components/UserInfo";
 import ReviewsList from "../components/ReviewsList";
-import VisitedList from "../components/VistedList";
+import VisitedList from "../components/VisitedList";
 import WishLists from "../components/WishLists";
 function UserProfile() {
   const [selectedList, setSelectedList] = React.useState("Reviews");

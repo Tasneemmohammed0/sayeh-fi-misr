@@ -45,4 +45,4 @@ function VisitedList({ id }) {
   );
 }
 
-export default VistedList;
+export default VisitedList;
