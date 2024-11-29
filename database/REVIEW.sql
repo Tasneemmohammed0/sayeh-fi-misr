@@ -1,7 +1,7 @@
 CREATE TABLE REVIEW
 (
     review_id SERIAL PRIMARY KEY,
-    rating INT,
+    rating INT  NOT NULL,
     date TIMESTAMP with time zone NOT NULL,
     title VARCHAR,
 	main_content VARCHAR,
