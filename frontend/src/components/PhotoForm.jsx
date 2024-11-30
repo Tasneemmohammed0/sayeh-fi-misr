@@ -1,4 +1,4 @@
-import styles from "../styles/reviewForm.module.css";
+import styles from "../styles/PhotoForm.module.css";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import ErrorMessage from "./ErrorMessage";
@@ -13,6 +13,7 @@ function PhotoForm({ isOpen, setIsOpen, placeId }) {
   if (!isOpen) return null;
 
   function handleClose() {
+    setPhoto(null);
     setIsOpen(false);
   }
 
@@ -34,6 +35,7 @@ function PhotoForm({ isOpen, setIsOpen, placeId }) {
       const response = await axios.post(CLOUDINARY_URL, data);
 
       const urlImage = response.data.url;
+      setPhoto(urlImage);
       console.log(urlImage);
       return urlImage;
     } catch (err) {
@@ -90,9 +92,11 @@ function PhotoForm({ isOpen, setIsOpen, placeId }) {
         </label>
 
         {photo && (
-          <div className={styles.imagePreview}>
-            <img src={photo} />
-          </div>
+          <img
+            src={photo}
+            label="uploadedPhoto"
+            className={styles.imagePreview}
+          />
         )}
 
         <button type="submit" className={styles.formButton}>
