@@ -16,9 +16,11 @@ function PlaceDetails() {
   const [place, setPlace] = useState({});
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
 
+  // Fetch place details
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,6 +40,7 @@ function PlaceDetails() {
     fetchData();
   }, []);
 
+  // Fetch reviews
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -51,6 +54,22 @@ function PlaceDetails() {
       }
     };
     fetchReviews();
+  }, []);
+
+  // Fetch photos
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/places/${placeId}/photos`
+        );
+
+        setPhotos(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchPhotos();
   }, []);
 
   return (
@@ -74,7 +93,6 @@ function PlaceDetails() {
             otherChildPrice={place.foreign_student_ticket_price}
             otherAdultPrice={place.foreign_adult_ticket_price}
           />
-          {/* <hr className={styles.vLine}></hr> */}
           <div>
             <OpeningHours
               openingHoursNormal={place.opening_hours_working_days}
