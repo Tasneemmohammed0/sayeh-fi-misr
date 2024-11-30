@@ -60,11 +60,13 @@ function reducer(state, action) {
       if (action.payload.length < 3) {
         return {
           ...state,
+          username: action.payload,
           error_username: "Username must be at least 3 characters long",
         };
       } else if (action.payload.length > 50) {
         return {
           ...state,
+          username: action.payload,
           error_username: "Username must be less than 50 characters long",
         };
       }
@@ -73,13 +75,18 @@ function reducer(state, action) {
       return { ...state, profilepic: action.payload };
     case "updateEmail":
       if (!action.payload.includes("@")) {
-        return { ...state, error_email: "Invaild email " };
+        return {
+          ...state,
+          email: action.payload,
+          error_email: "Invaild email ",
+        };
       }
       return { ...state, email: action.payload, error_email: "" };
     case "updatePassword":
       if (action.payload.length < 8) {
         return {
           ...state,
+          password: action.payload,
           error_password: "Password must be at least 8 characters long",
         };
       } else if (
@@ -89,6 +96,7 @@ function reducer(state, action) {
       ) {
         return {
           ...state,
+          password: action.payload,
           error_password:
             "Password must contain at least one uppercase letter, one lowercase letter, and one number",
         };
@@ -103,7 +111,6 @@ function reducer(state, action) {
           ...state,
           phone: action.payload,
           error_phone: "Phone number must be at least 11 characters long",
-
         };
       } else if (action.payload.length > 11) {
         return {
@@ -111,18 +118,17 @@ function reducer(state, action) {
           phone: action.payload,
           error_phone: "Phone number must be less than 11 characters long",
         };
-      }
-      else if(!action.payload.match(/^0\d*$/) ){
-      return { ...state,
-        phone: action.payload,
-         error_phone: "the phone number must number & start with zero " 
+      } else if (!action.payload.match(/^0\d*$/)) {
+        return {
+          ...state,
+          phone: action.payload,
+          error_phone: "the phone number must number & start with zero ",
         };
       }
       return { ...state, phone: action.payload, error_phone: "" };
 
     case "updateBackGround":
       return { ...state, background: action.payload };
-
 
     default:
       throw new Error("Unknown action type");
@@ -142,7 +148,7 @@ function SignUp() {
     nationality: "",
     username: "",
     error_username: "",
-    profilepic: "",
+    profilepic: null,
     email: "",
     error_email: "",
     password: "",
@@ -151,7 +157,6 @@ function SignUp() {
     phone: "",
     error_phone: "",
     background: "",
-
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);

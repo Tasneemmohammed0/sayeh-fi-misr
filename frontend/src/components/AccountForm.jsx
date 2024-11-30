@@ -3,6 +3,7 @@ import styles from "../styles/accountForm.module.css";
 import ErrorMessage from "./ErrorMessage";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function AccountForm({ state, dispatch, handleCount }) {
   const backGrounds = [
     "Tourism and Hospitality Management",
@@ -14,7 +15,7 @@ function AccountForm({ state, dispatch, handleCount }) {
   const [error, setError] = useState(0);
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError(0);
     console.log(state);
@@ -43,6 +44,8 @@ function AccountForm({ state, dispatch, handleCount }) {
       return;
     }
 
+    let url = await handlesImage(state.profilepic);
+
     const User = {
       firstname: state.firstname,
       lastname: state.lastname,
@@ -53,7 +56,7 @@ function AccountForm({ state, dispatch, handleCount }) {
       nationality: state.nationality,
       username: state.username,
       email: state.email,
-      profilepic: state.profilepic,
+      profilepic: url,
       role: state.role,
       password: state.password,
     };
@@ -62,10 +65,28 @@ function AccountForm({ state, dispatch, handleCount }) {
       User.phone = state.phone;
       User.background = state.background;
     }
-    
 
     //// send the data to Loay API
+    console.log(User.profilepic);
     navigate("/home");
+  }
+
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dtnpd6qvp/image/upload";
+    if (file) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "Amrhany"); // Cloudinary upload preset
+      data.append("cloud_name", "dtnpd6qvp"); // Cloudinary cloud name
+
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      return urlimage.url;
+    } else {
+      return null;
+    }
   }
 
   return (
@@ -105,10 +126,9 @@ function AccountForm({ state, dispatch, handleCount }) {
           className={styles.input}
           type="file"
           name="profilepic"
-          value={state.profilepic}
           accept=".jpg,.jpeg,.png,.svg"
           onChange={(e) =>
-            dispatch({ type: "updateProfilepic", payload: e.target.value })
+            dispatch({ type: "updateProfilepic", payload: e.target.files[0] })
           }
         />
       </div>
