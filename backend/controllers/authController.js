@@ -1,13 +1,22 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const db = require("../db/index");
 
 exports.allUsers = [];
 
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = this.allUsers.find((u) => u.email === email);
+    const query = `
+      SELECT *
+      FROM visitor
+      WHERE email = $1
+    `;
+    const params = [email];
+    let user = await db.query(query, params);
+    user = user.rows[0];
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({
         status: "fail",
@@ -20,6 +29,7 @@ exports.login = async (req, res, next) => {
     });
 
     res.cookie("jwt", token);
+
     res.status(200).json({
       status: "success",
       token,
