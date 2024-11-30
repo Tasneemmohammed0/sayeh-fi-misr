@@ -30,3 +30,21 @@ exports.getAllPlaces = async (req, res) => {
     console.log(err);
   }
 };
+
+// Get All Place Reviews
+exports.getPlaceReviews = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const data = await db.query(`SELECT * FROM review WHERE place_id=$1`, [
+      req.params.id,
+    ]);
+
+    res.status(200).json({
+      status: "success",
+      legnth: data.rows.length,
+      data: data.rows,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
