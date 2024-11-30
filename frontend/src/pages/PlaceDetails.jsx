@@ -36,6 +36,15 @@ function PlaceDetails() {
     fetchData();
   }, []);
 
+  useState(() => {
+    fetch(` http://localhost:1123/api/v1/reviews/${placeId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data.reviews);
+        setReviews(data.data.reviews);
+      });
+  }, [placeId]);
+
   return (
     <main className={styles.main}>
       <div
