@@ -2,28 +2,36 @@ import React from "react";
 import styles from "../styles/placeslist.module.css";
 import Card from "./Card";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function PlacesList({ search, filter, count = 100 }) {
   let [places, setPlaces] = React.useState([]);
 
+  const navigate = useNavigate();
+  const location = useLocation();
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:1123/api/v1/places`);
+        const endpoint =
+          location.pathname === "/"
+            ? `http://localhost:1123/api/v1`
+            : `http://localhost:1123/api/v1/places`;
+
+        const response = await axios.get(endpoint);
         console.log(response.data);
         if (response.status === "fail") {
           console.log("error");
           return;
         }
+
         setPlaces(response.data.data);
       } catch (err) {
         console.log(err.message);
       }
     };
     fetchData();
-  }, []);
-  const navigate = useNavigate();
+  }, [location.pathname]);
+
   const handleSelectedPlace = (id) => {
     console.log("nav");
     navigate(`/places/${id}`);
@@ -38,6 +46,7 @@ function PlacesList({ search, filter, count = 100 }) {
   if (filter && filter !== "all") {
     places = places.filter((item) => item.city === filter);
   }
+
   return (
     <div className={styles.list}>
       {places.map((item, index) => (
