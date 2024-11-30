@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import Rate from "./Rate";
 import ErrorMessage from "./ErrorMessage";
 
-function ReviewForm({ isOpen, setIsOpen, placeID }) {
+function ReviewForm({ isOpen, setIsOpen, placeId }) {
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
@@ -21,8 +21,9 @@ function ReviewForm({ isOpen, setIsOpen, placeID }) {
       main_content: review,
     };
     try {
+      console.log(placeId);
       const res = await fetch(
-        `http://localhost:1123/api/v1/places/${placeID}/addReview`,
+        `http://localhost:1123/api/v1/places/${placeId}/addReview`,
         {
           method: "POST",
           headers: {
@@ -102,7 +103,7 @@ function ReviewForm({ isOpen, setIsOpen, placeID }) {
             maxLength={400}
           ></textarea>
         </label>
-        {error && <ErrorMessage error={error} />}
+        {/* {error && <ErrorMessage error={error} />} */}
 
         <button
           type="submit"

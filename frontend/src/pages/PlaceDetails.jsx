@@ -99,6 +99,7 @@ function PlaceDetails() {
           <ReviewForm
             isOpen={isReviewFormOpen}
             setIsOpen={setIsReviewFormOpen}
+            placeId={placeId}
           />
         </div>
       </div>
