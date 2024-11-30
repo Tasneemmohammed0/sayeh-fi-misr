@@ -23,13 +23,17 @@ function OpeningHours({ openingHoursNormal, openingHoursHoliday }) {
           <option>Friday</option>
           <option>Saturday</option>
         </select>
-        <p>
-          {selectedDay == "Friday" || selectedDay == "Saturday"
-            ? openingHoursHoliday
+        {openingHoursNormal ? (
+          <p>
+            {selectedDay == "Friday" || selectedDay == "Saturday"
               ? openingHoursHoliday
-              : openingHoursNormal
-            : openingHoursNormal}
-        </p>
+                ? openingHoursHoliday
+                : openingHoursNormal
+              : openingHoursNormal}
+          </p>
+        ) : (
+          <p>Closed</p>
+        )}
       </div>
     </div>
   );
