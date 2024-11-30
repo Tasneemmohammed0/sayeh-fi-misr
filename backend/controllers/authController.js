@@ -1,13 +1,20 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
-exports.allUsers = [];
+const db = require("../db/index");
 
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = this.allUsers.find((u) => u.email === email);
+    const query = `
+      SELECT *
+      FROM visitor
+      WHERE email = $1
+    `;
+    const params = [email];
+    let user = await db.query(query, params);
+    user = user.rows[0];
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({
         status: "fail",
@@ -15,11 +22,18 @@ exports.login = async (req, res, next) => {
       });
     }
 
+    user.password = undefined; //prevent hashed password from showing in the result
+
     const token = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    res.cookie("jwt", token);
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    });
+
     res.status(200).json({
       status: "success",
       token,
@@ -35,42 +49,71 @@ exports.login = async (req, res, next) => {
 
 exports.signup = async (req, res, next) => {
   try {
-    if (!req.body.firstName)
-      res.status(404).json({
-        status: "fail",
-        message:
-          "Not enough data [firstName, lastName, username, role, email, nationality, photo, gender, age, password",
-      });
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = {
-      id: req.body.id,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       username: req.body.username,
       role: req.body.role,
       email: req.body.email,
-      nationality: req.body.nationality,
       photo: req.body.photo,
       gender: req.body.gender,
-      age: req.body.age,
+      age: +req.body.age,
+      country: req.body.country,
+      city: req.body.city,
       password: hashedPassword,
+      nationalities: req.body.nationalities,
     };
-    const token = jwt.sign(newUser, process.env.JWT_SECRET, {
+
+    // Add user to database and return it
+    const insertUserQuery = `
+      INSERT INTO visitor 
+      (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      RETURNING *;
+    `;
+    const userParams = [
+      newUser.firstName,
+      newUser.lastName,
+      newUser.username,
+      newUser.email,
+      newUser.password,
+      newUser.age,
+      newUser.role,
+      newUser.country,
+      newUser.city,
+      newUser.photo,
+      newUser.gender,
+    ];
+    const result = await db.query(insertUserQuery, userParams); // contains the new user
+    const user = result.rows[0];
+    let insertNationalityQuery;
+    newUser.nationalities.forEach(async (nationality) => {
+      insertNationalityQuery = `
+        INSERT INTO visitor_nationality
+        VALUES($1, $2)
+      `;
+      await db.query(insertNationalityQuery, [user.user_id, nationality]);
+    });
+
+    user.password = undefined; // prevent hashed password from showing in the result
+    const token = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
+    // set response cookies to be the token
     res.cookie("jwt", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
+      sameSite: "lax",
     });
 
-    // Add user to database here, then remove the password key/value from response output
-    this.allUsers.push(newUser);
     res.status(201).json({
       status: "success",
       token,
+      rows: result.rowCount,
       data: {
-        user: newUser,
+        user,
       },
     });
   } catch (err) {
@@ -96,7 +139,8 @@ exports.protect = (req, res, next) => {
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(401).json({
-        message: token,
+        message: "unverified token",
+        token,
       });
     }
     currentUser = user;
