@@ -1,4 +1,3 @@
-
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import styles from "../styles/PlaceTicketPrice.module.css";
@@ -36,27 +35,26 @@ function PlaceTicketPrice({
           <div className={styles.price}>
             <div className={styles.adult}>
               <h4>Adult</h4>
-              <p>EGP{egyptianAdultPrice}</p>
+              <p>{egyptianAdultPrice ? `${egyptianAdultPrice} EGP` : `FREE`}</p>
             </div>
             <div className={styles.child}>
               <h4>Student</h4>
-              <p>EGP{egyptianChildPrice}</p>
+              <p>{egyptianChildPrice ? `${egyptianChildPrice} EGP` : `FREE`}</p>
             </div>
           </div>
         ) : (
           <div className={styles.price}>
             <div className={styles.adult}>
               <h4>Adult</h4>
-              <p>EGP{otherAdultPrice}</p>
+              <p>{otherAdultPrice ? `${otherAdultPrice} EGP` : `FREE`}</p>
             </div>
             <div className={styles.child}>
               <h4>Student</h4>
-              <p>EGP{otherChildPrice}</p>
+              <p>{otherChildPrice ? `${otherChildPrice} EGP` : `FREE`}</p>
             </div>
           </div>
         )}
       </div>
-
     </div>
   );
 }
