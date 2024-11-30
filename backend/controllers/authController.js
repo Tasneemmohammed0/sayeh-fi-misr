@@ -22,6 +22,8 @@ exports.login = async (req, res, next) => {
       });
     }
 
+    user.password = undefined; //prevent hashed password from showing in the result
+
     const token = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
@@ -43,12 +45,6 @@ exports.login = async (req, res, next) => {
 
 exports.signup = async (req, res, next) => {
   try {
-    if (!req.body.firstName)
-      res.status(404).json({
-        status: "fail",
-        message:
-          "Not enough data [firstName, lastName, username, role, email, nationality, photo, gender, age, password",
-      });
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = {
       firstName: req.body.firstName,
@@ -63,20 +59,13 @@ exports.signup = async (req, res, next) => {
       city: req.body.city,
       password: hashedPassword,
     };
-    const token = jwt.sign(newUser, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
 
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-    });
-
-    // Add user to database here, then remove the password key/value from response output
+    // Add user to database and return it
     const query = `
       INSERT INTO visitor 
       (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      RETURNING *;
     `;
     const params = [
       newUser.firstName,
@@ -91,13 +80,25 @@ exports.signup = async (req, res, next) => {
       newUser.photo,
       newUser.gender,
     ];
-    const result = await db.query(query, params);
-    console.log(result);
+    const result = await db.query(query, params); // contains the new user
+
+    result.rows[0].password = undefined; // prevent hashed password from showing in the result
+    const token = jwt.sign(result.rows[0], process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
+    // set response cookies to be the token
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+
     res.status(201).json({
       status: "success",
       token,
+      rows: result.rowCount,
       data: {
-        rows: result.rowCount,
+        rows: result.rows[0],
       },
     });
   } catch (err) {
