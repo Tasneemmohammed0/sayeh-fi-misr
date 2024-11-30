@@ -1,5 +1,5 @@
 import ReviewCard from "./ReviewCard";
-import styles from "../styles/ReviewCards.module.css";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
@@ -23,20 +23,24 @@ function ReviewCards({ reviews }) {
         },
       }}
     >
-      {reviews.map((review) => (
-        <SwiperSlide key={review.review_id}>
-          <ReviewCard
-            key={review.review_id}
-            rating={review.rating}
-            date={review.date}
-            title={review.title}
-            mainContent={review.main_content}
-            firstName={review.first_name}
-            lastName={review.last_name}
-            userProfilePic={review.profile_pic}
-          />
-        </SwiperSlide>
-      ))}
+      {reviews.map((review) => {
+        if (!review.title && !review.main_content) return null;
+
+        return (
+          <SwiperSlide key={review.review_id}>
+            <ReviewCard
+              key={review.review_id}
+              rating={review.rating}
+              date={review.date}
+              title={review.title}
+              mainContent={review.main_content}
+              firstName={review.first_name}
+              lastName={review.last_name}
+              userProfilePic={review.profile_pic}
+            />
+          </SwiperSlide>
+        );
+      })}
     </Swiper>
   );
 }

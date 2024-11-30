@@ -13,9 +13,9 @@ function ReviewCard({
   userProfilePic,
 }) {
   // check if title and main content are empty
-  if (!title && !mainContent) {
-    return null;
-  }
+  // if (!title && !mainContent) {
+  //   return null;
+  // }
   // format date
   const formattedDate = new Date(date);
   const formattedDateString = formattedDate.toLocaleDateString("en-GB", {
