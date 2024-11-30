@@ -54,6 +54,7 @@
   transition: var(--main-transition);
   font-family: var(--main-font);
   letter-spacing: 1px;
+  margin: 20px 0;
 }
 
 .see-more:hover {
