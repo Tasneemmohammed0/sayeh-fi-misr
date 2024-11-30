@@ -41,7 +41,11 @@ function ExploreSection() {
       )}
       <button
         className="see-more"
-        onClick={() => (window.location.href = "/places")}
+        onClick={
+          activeTab === "places"
+            ? () => (window.location.href = "/places")
+            : () => (window.location.href = "/gatherings")
+        }
       >
         See More
       </button>
