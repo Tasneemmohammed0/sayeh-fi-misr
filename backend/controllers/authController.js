@@ -58,16 +58,17 @@ exports.signup = async (req, res, next) => {
       country: req.body.country,
       city: req.body.city,
       password: hashedPassword,
+      nationalities: req.body.nationalities,
     };
 
     // Add user to database and return it
-    const query = `
+    const insertUserQuery = `
       INSERT INTO visitor 
       (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       RETURNING *;
     `;
-    const params = [
+    const userParams = [
       newUser.firstName,
       newUser.lastName,
       newUser.username,
@@ -80,10 +81,19 @@ exports.signup = async (req, res, next) => {
       newUser.photo,
       newUser.gender,
     ];
-    const result = await db.query(query, params); // contains the new user
+    const result = await db.query(insertUserQuery, userParams); // contains the new user
+    const user = result.rows[0];
+    let insertNationalityQuery;
+    newUser.nationalities.forEach(async (nationality) => {
+      insertNationalityQuery = `
+        INSERT INTO visitor_nationality
+        VALUES($1, $2)
+      `;
+      await db.query(insertNationalityQuery, [user.user_id, nationality]);
+    });
 
-    result.rows[0].password = undefined; // prevent hashed password from showing in the result
-    const token = jwt.sign(result.rows[0], process.env.JWT_SECRET, {
+    user.password = undefined; // prevent hashed password from showing in the result
+    const token = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
@@ -98,7 +108,7 @@ exports.signup = async (req, res, next) => {
       token,
       rows: result.rowCount,
       data: {
-        rows: result.rows[0],
+        user,
       },
     });
   } catch (err) {
