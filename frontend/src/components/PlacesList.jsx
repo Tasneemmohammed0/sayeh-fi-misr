@@ -41,9 +41,11 @@ function PlacesList({ search, filter, count = 100 }) {
   };
 
   if (search) {
-    places = places.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
-    );
+    // places = places.filter((item) =>
+    //   item.name.toLowerCase().includes(search.toLowerCase())
+    // );
+
+    set;
   }
 
   if (filter && filter !== "all") {

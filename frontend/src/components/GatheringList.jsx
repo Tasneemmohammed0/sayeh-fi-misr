@@ -1,48 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/placeslist.module.css";
-import Card from "./Card";
+import GatheringCard from "./GatheringCard";
 import { useNavigate, useLocation } from "react-router-dom";
+import Loading from "./Loading";
 import axios from "axios";
 function GatheringList({ search, filter, count = 100 }) {
-  //// test before connecting to the backend
-
-  // let gatherings = [];
-  // const temp = {
-  //   id: 2,
-  //   name: " CMP Temple",
-  //   city: "Giza",
-  //   image: "/src/assets/images/CMP27.jpg",
-  //   rate: 4,
-  // };
-
-  // for (let i = 0; i < count; i++) {
-  //   gatherings.push(temp);
-  // }
-
-  // const temp2 = {
-  //   id: 2,
-  //   name: "Hany Temple",
-  //   city: "Cairo",
-  //   image: "/src/assets/images/temple.png",
-  //   rate: 4,
-  // };
-  // gatherings.push(temp2);
-
-  // const temp3 = {
-  //   id: 2,
-  //   name: "Hany Temple",
-  //   city: "Luxor",
-  //   image: "/src/assets/images/temple.png",
-  //   rate: 4,
-  // };
-  // gatherings.push(temp3);
-  let [gatherings, setGatherings] = React.useState([]);
+  let [gatherings, setGatherings] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+
         const endpoint =
           location.pathname === "/"
             ? `http://localhost:1123/api/v1/exploregatherings`
@@ -56,6 +28,7 @@ function GatheringList({ search, filter, count = 100 }) {
         }
 
         setGatherings(response.data.data);
+        setLoading(false);
       } catch (err) {
         console.log(err.message);
       }
@@ -80,6 +53,8 @@ function GatheringList({ search, filter, count = 100 }) {
 
   return (
     <div className={styles.list}>
+      {loading && <Loading />}
+
       {gatherings.map((item, index) => (
         <div
           style={{
@@ -89,13 +64,14 @@ function GatheringList({ search, filter, count = 100 }) {
           }}
           key={index}
         >
-          <Card
+          <GatheringCard
             key={index}
             photo={item.photo}
             placeName={item.title}
             location={item.city}
-            rate={item.rate}
-            type="gathering"
+            hostname="Hany"
+            currentcapacity={0}
+            duration={1}
             onClick={() => handleSelectedGathering(item.gathering_id)}
           />
         </div>

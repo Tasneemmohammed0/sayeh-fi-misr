@@ -50,6 +50,7 @@ function NationalitySelect({ state, dispatch }) {
               },
               "&.Mui-selected": {
                 backgroundColor: "#004085", // Selected background
+                color: "white",
               },
               "&.Mui-selected:hover": {
                 backgroundColor: "#003366", // Selected and hovered background

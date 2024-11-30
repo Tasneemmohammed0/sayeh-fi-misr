@@ -2,31 +2,31 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import PlacesList from "./PlacesList";
 import GatheringList from "./GatheringList"; // New component for gatherings
-import "../styles/exploresection.css";
+import styles from "../styles/exploresection.module.css";
 
 function ExploreSection() {
   const [activeTab, setActiveTab] = useState("places"); // State to track active tab
 
   return (
-    <section className="places-cards">
-      <h2 className="secondary-heading">
+    <section className={styles.placesCards}>
+      <h2 className={styles.secondaryHeading}>
         Explore {activeTab === "places" ? "Places" : "Gatherings"}
       </h2>
-      <h1 className="main-heading">Let’s create your next adventure</h1>
-      <div className="solid-line"></div>
+      <h1 className={styles.mainHeading}>Let’s create your next adventure</h1>
+      <div className={styles.solidLine}></div>
       {/* Links to toggle between tabs */}
-      <ul className="links">
-        <li>
+      <ul className={styles.links}>
+        <li className={styles.item}>
           <Link
             to="#"
-            className={activeTab === "places" ? "active-link" : ""}
+            className={activeTab === "places" ? `${styles.activeLink}` : ""}
             onClick={() => setActiveTab("places")}
           >
             Places
           </Link>
           <Link
             to="#"
-            className={activeTab === "gatherings" ? "active-link" : ""}
+            className={activeTab === "gatherings" ? `${styles.activeLink}` : ""}
             onClick={() => setActiveTab("gatherings")}
           >
             Gatherings
@@ -40,7 +40,7 @@ function ExploreSection() {
         <GatheringList count={6} />
       )}
       <button
-        className="see-more"
+        className={styles.seeMore}
         onClick={
           activeTab === "places"
             ? () => (window.location.href = "/places")

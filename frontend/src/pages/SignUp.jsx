@@ -134,9 +134,7 @@ function reducer(state, action) {
       return {
         ...state,
         countries: action.payload,
-        nationalities: action.payload.map(
-          (country) => country.name.split(" ")[0]
-        ),
+        nationalities: action.payload.map((country) => country.name),
       };
     case "setCities":
       return { ...state, cities: action.payload };
