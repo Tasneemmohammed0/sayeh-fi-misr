@@ -19,6 +19,8 @@ import ErrorMessage from "../components/ErrorMessage";
 function SignIn() {
   const [submit, setSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
   const validationSchema = yup.object({
     email: yup
@@ -35,16 +37,21 @@ function SignIn() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      setLoading(true);
-      // add it to the database by calling an API
-      const res = await axios.post(
-        `http://localhost:1123/api/v1/users/login`,
-        values,
-        { withCredentials: true }
-      );
-      setLoading(false);
-      console.log(res.data);
-      navigate("/home");
+      try {
+        setLoading(true);
+        // add it to the database by calling an API
+        const res = await axios.post(
+          `http://localhost:1123/api/v1/users/login`,
+          values,
+          { withCredentials: true }
+        );
+        console.log("ERROR: ::::: ", res);
+        navigate("/home");
+      } catch (err) {
+        setError(err.response.data.message);
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -108,6 +115,11 @@ function SignIn() {
               <li>
                 {" "}
                 <ErrorMessage error={formik.errors.password} />{" "}
+              </li>
+            )}
+            {error && (
+              <li>
+                <ErrorMessage error={error} />
               </li>
             )}
           </ul>
