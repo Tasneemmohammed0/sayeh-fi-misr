@@ -68,8 +68,8 @@
 }
 
 .imagePreview {
-  height: 300px;
-  width: 300px;
+  height: 250px;
+  width: 250px;
   border-radius: 10px;
 }
 
@@ -82,4 +82,16 @@
   font-size: 1.1rem;
   cursor: pointer;
   margin-top: 15px;
+}
+
+.captionText {
+  margin-left: 10px;
+  padding: 10px;
+  height: 50px;
+  width: 300px;
+  background-color: rgb(255, 240, 240);
+  border: 1px solid var(--our-blue);
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--our-black);
 }

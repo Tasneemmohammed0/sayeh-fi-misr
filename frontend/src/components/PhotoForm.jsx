@@ -8,6 +8,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 
 function PhotoForm({ isOpen, setIsOpen, placeId }) {
   const [photo, setPhoto] = useState(null);
+  const [caption, setCaption] = useState("");
   const [error, setError] = useState(false);
 
   if (!isOpen) return null;
@@ -52,17 +53,19 @@ function PhotoForm({ isOpen, setIsOpen, placeId }) {
       setError("Please choose a photo to upload.");
       return;
     }
-
+    const date = new Date().toISOString();
     try {
       const data = {
         photo,
+        date,
         placeId,
+        caption,
       };
 
-      // axios.post(
-      //   `http://localhost:1123/api/v1/places/${placeId}/addPhoto`,
-      //   data
-      // );
+      axios.post(
+        `http://localhost:1123/api/v1/places/${placeId}/addPhoto`,
+        data
+      );
 
       handleClose();
     } catch (err) {
@@ -89,6 +92,16 @@ function PhotoForm({ isOpen, setIsOpen, placeId }) {
               if (url) setPhoto(url);
             }}
           />
+        </label>
+        <label className={styles.formLabel}>
+          Caption
+          <textarea
+            className={styles.captionText}
+            placeholder="Write your caption.."
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
+            maxLength={400}
+          ></textarea>
         </label>
 
         {photo && (
