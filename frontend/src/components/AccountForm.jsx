@@ -13,7 +13,6 @@ function AccountForm({ state, dispatch, handleCount }) {
     "Geography Studies",
   ];
 
-  console.log(state);
   const [error, setError] = useState(0);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,7 +21,6 @@ function AccountForm({ state, dispatch, handleCount }) {
     try {
       e.preventDefault();
       setError(0);
-      console.log(state);
       if (
         state.username === "" ||
         state.email === "" ||
@@ -30,12 +28,10 @@ function AccountForm({ state, dispatch, handleCount }) {
         state.password === ""
       ) {
         setError(1);
-        console.log("error 1");
         return;
       }
       if (state.password !== confirmPassword) {
         setError(2);
-        console.log("error 2");
         return;
       }
 
@@ -44,7 +40,6 @@ function AccountForm({ state, dispatch, handleCount }) {
         (state.phone === "" || state.background === "")
       ) {
         setError(1);
-        console.log("error 3");
         return;
       }
 
@@ -72,15 +67,12 @@ function AccountForm({ state, dispatch, handleCount }) {
       }
 
       //// send the data to Loay API
-      console.log("USER SENT TO API:", User);
       const result = await axios.post(
         "http://localhost:1123/api/v1/users/signup",
         User,
         { withCredentials: true }
       );
       setLoading(false);
-      console.log(result);
-      console.log(User.profilepic);
       navigate("/home");
     } catch (err) {
       console.log(err);

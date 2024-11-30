@@ -22,7 +22,6 @@ function PlacesList({ search, filter, count = 100 }) {
             : `http://localhost:1123/api/v1/places`;
 
         const response = await axios.get(endpoint);
-        console.log(response.data);
         if (response.status === "fail") {
           console.log("error");
           return;
@@ -38,7 +37,6 @@ function PlacesList({ search, filter, count = 100 }) {
   }, [location.pathname]);
 
   const handleSelectedPlace = (id) => {
-    console.log("nav");
     navigate(`/places/${id}`);
   };
 

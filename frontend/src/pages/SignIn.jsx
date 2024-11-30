@@ -45,7 +45,6 @@ function SignIn() {
           values,
           { withCredentials: true }
         );
-        console.log("ERROR: ::::: ", res);
         navigate("/home");
       } catch (err) {
         setError(err.response.data.message);
