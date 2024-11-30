@@ -9,6 +9,7 @@ import ReviewCards from "../components/ReviewCards";
 import { IoAddCircleSharp } from "react-icons/io5";
 import ReviewForm from "../components/ReviewForm";
 import axios from "axios";
+
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});

@@ -2,8 +2,9 @@ import styles from "../styles/reviewForm.module.css";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Rate from "./Rate";
+import ErrorMessage from "./ErrorMessage";
 
-function ReviewForm({ isOpen, setIsOpen }) {
+function ReviewForm({ isOpen, setIsOpen, placeID }) {
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
@@ -11,8 +12,38 @@ function ReviewForm({ isOpen, setIsOpen }) {
 
   if (!isOpen) return null;
 
-  function handleSubmit(e) {
-    // sent the review to the API
+  // send review to API
+  async function postReview() {
+    const reviewData = {
+      rating: rate,
+      date: new Date().toISOString(),
+      title,
+      main_content: review,
+    };
+    try {
+      const res = await fetch(
+        `http://localhost:1123/api/v1/places/${placeID}/addReview`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reviewData),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("❌ Error submitting review");
+      }
+
+      const result = await res.json();
+      console.log(result);
+    } catch (err) {
+      setError(err);
+    }
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!rate) {
@@ -20,6 +51,9 @@ function ReviewForm({ isOpen, setIsOpen }) {
       alert("⭐ Please rate the place");
       return;
     }
+
+    // send review to API
+    postReview();
 
     // show success message
     alert("🎉 Review Submitted Successfully!");
@@ -68,6 +102,7 @@ function ReviewForm({ isOpen, setIsOpen }) {
             maxLength={400}
           ></textarea>
         </label>
+        {error && <ErrorMessage error={error} />}
 
         <button
           type="submit"

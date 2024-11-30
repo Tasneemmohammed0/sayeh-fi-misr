@@ -31,7 +31,7 @@ exports.getAllPlaces = async (req, res) => {
   }
 };
 
-// Get All Place Reviews
+// Get All Place Reviews Route Handler
 exports.getPlaceReviews = async (req, res) => {
   try {
     console.log(req.params.id);
@@ -47,6 +47,15 @@ exports.getPlaceReviews = async (req, res) => {
       legnth: data.rows.length,
       data: data.rows,
     });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Post Review Route Handler
+exports.postReview = async (req, res) => {
+  try {
+    console.log(req.body);
   } catch (err) {
     console.error(err);
   }
