@@ -17,7 +17,7 @@ const app = express();
 // Enable CORS
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Allow cookies and authentication headers
@@ -42,6 +42,10 @@ app.use(helmet());
 // Data sanitization against XSS attacks
 app.use(xss());
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 // Cookie parser middleware to parse cookies into req.cookie
 app.use(cookieParser());
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));

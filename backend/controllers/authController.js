@@ -28,7 +28,11 @@ exports.login = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    res.cookie("jwt", token);
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    });
 
     res.status(200).json({
       status: "success",
@@ -100,7 +104,8 @@ exports.signup = async (req, res, next) => {
     // set response cookies to be the token
     res.cookie("jwt", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
+      sameSite: "lax",
     });
 
     res.status(201).json({
@@ -134,7 +139,8 @@ exports.protect = (req, res, next) => {
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(401).json({
-        message: token,
+        message: "unverified token",
+        token,
       });
     }
     currentUser = user;
