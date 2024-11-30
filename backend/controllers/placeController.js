@@ -82,3 +82,28 @@ exports.postReview = async (req, res) => {
     });
   }
 };
+
+exports.postPhoto = async (req, res) => {
+  req.user = 8; // to be deleted later
+  try {
+    console.log(req.body);
+    const data = await db.query(
+      `INSERT INTO photo (photo, date, caption, user_id, place_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [req.body.photo, req.body.date, req.body.caption, req.user, req.params.id]
+    );
+
+    // res.status(200).json({
+    //   status: "success",
+    //   data: data.rows[0],
+    // });
+    res.status(200).json({
+      status: "success",
+      data: req.body,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};

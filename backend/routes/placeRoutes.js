@@ -15,4 +15,9 @@ router.post(
   // authController.protect,
   placeController.postReview
 );
+router.post(
+  "/:id/addPhoto",
+  // authController.protect,
+  placeController.postPhoto
+);
 module.exports = router;
