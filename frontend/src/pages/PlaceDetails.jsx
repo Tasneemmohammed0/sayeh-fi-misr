@@ -103,6 +103,7 @@ function PlaceDetails() {
             placeId={placeId}
           />
         </div>
+        <hr style={{ margin: "20px" }}></hr>
         <div className={styles.reviewSection}>
           <div className={styles.reviewsHeader}>
             <h3>Captured Moments of {place.name} 🌍</h3>

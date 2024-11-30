@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
 
-function ReviewCards({ reviews }) {
+function ReviewCards({ reviews, photos }) {
   return (
     <Swiper
       spaceBetween={10}
