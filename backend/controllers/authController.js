@@ -88,7 +88,7 @@ exports.signup = async (req, res, next) => {
       newUser.role,
       newUser.country,
       newUser.city,
-      newUser.profile_pic,
+      newUser.photo,
       newUser.gender,
     ];
     const result = await db.query(query, params);
@@ -97,7 +97,7 @@ exports.signup = async (req, res, next) => {
       status: "success",
       token,
       data: {
-        user: result.rows,
+        rows: result.rowCount,
       },
     });
   } catch (err) {
