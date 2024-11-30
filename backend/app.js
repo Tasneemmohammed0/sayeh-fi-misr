@@ -8,7 +8,6 @@ const cors = require("cors");
 
 const userRouter = require("./routes/userRoutes");
 const placeRouter = require("./routes/placeRoutes");
-const reviewRouter = require("./routes/reviewRoutes");
 const homeRouter = require("./routes/homeRoutes");
 
 const app = express();
@@ -54,7 +53,6 @@ app.get("/api", (req, res, next) => {
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/places", placeRouter);
-app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1", homeRouter);
 
 app.all("*", (req, res, next) => {
