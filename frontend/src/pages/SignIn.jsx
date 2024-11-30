@@ -12,10 +12,14 @@ import { HiOutlineMail } from "react-icons/hi";
 import { HiOutlineLockClosed } from "react-icons/hi";
 ////
 import styles from "../styles/signIn.module.css";
+import Loading from "../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 import ErrorMessage from "../components/ErrorMessage";
 function SignIn() {
   const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -31,19 +35,22 @@ function SignIn() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      setLoading(true);
       // add it to the database by calling an API
       const res = await axios.post(
         `http://localhost:1123/api/v1/users/login`,
         values,
         { withCredentials: true }
       );
-
+      setLoading(false);
       console.log(res.data);
+      navigate("/home");
     },
   });
 
   return (
     <div className={styles.background}>
+      {loading && <Loading />}
       <form className={styles.form} onSubmit={formik.handleSubmit} noValidate>
         <h2> Welcome back! </h2>
         <div className={styles.inputWrapper}>

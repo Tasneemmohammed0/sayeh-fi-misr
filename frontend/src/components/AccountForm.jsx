@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+
 import styles from "../styles/accountForm.module.css";
 import ErrorMessage from "./ErrorMessage";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 import axios from "axios";
 function AccountForm({ state, dispatch, handleCount }) {
   const backGrounds = [
@@ -14,61 +16,75 @@ function AccountForm({ state, dispatch, handleCount }) {
   console.log(state);
   const [error, setError] = useState(0);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   async function handleSubmit(e) {
-    e.preventDefault();
-    setError(0);
-    console.log(state);
-    if (
-      state.username === "" ||
-      state.email === "" ||
-      state.role === "" ||
-      state.password === ""
-    ) {
-      setError(1);
-      console.log("error 1");
-      return;
+    try {
+      e.preventDefault();
+      setError(0);
+      console.log(state);
+      if (
+        state.username === "" ||
+        state.email === "" ||
+        state.role === "" ||
+        state.password === ""
+      ) {
+        setError(1);
+        console.log("error 1");
+        return;
+      }
+      if (state.password !== confirmPassword) {
+        setError(2);
+        console.log("error 2");
+        return;
+      }
+
+      if (
+        state.role == "guide" &&
+        (state.phone === "" || state.background === "")
+      ) {
+        setError(1);
+        console.log("error 3");
+        return;
+      }
+
+      setLoading(true);
+      let url = await handlesImage(state.profilepic);
+
+      const User = {
+        firstName: state.first_name,
+        lastName: state.last_name,
+        age: state.age,
+        gender: state.gender,
+        country: state.country,
+        city: state.city,
+        nationalities: state.nationality,
+        username: state.username,
+        email: state.email,
+        photo: url,
+        role: state.role,
+        password: state.password,
+      };
+
+      if (state.role === "guide") {
+        User.phone = state.phone;
+        User.background = state.background;
+      }
+
+      //// send the data to Loay API
+      console.log("USER SENT TO API:", User);
+      const result = await axios.post(
+        "http://localhost:1123/api/v1/users/signup",
+        User,
+        { withCredentials: true }
+      );
+      setLoading(false);
+      console.log(result);
+      console.log(User.profilepic);
+      navigate("/home");
+    } catch (err) {
+      console.log(err);
     }
-    if (state.password !== confirmPassword) {
-      setError(2);
-      console.log("error 2");
-      return;
-    }
-
-    if (
-      state.role == "guide" &&
-      (state.phone === "" || state.background === "")
-    ) {
-      setError(1);
-      console.log("error 3");
-      return;
-    }
-
-    let url = await handlesImage(state.profilepic);
-
-    const User = {
-      firstname: state.firstname,
-      lastname: state.lastname,
-      age: state.age,
-      gender: state.gender,
-      country: state.country,
-      city: state.city,
-      nationality: state.nationality,
-      username: state.username,
-      email: state.email,
-      profilepic: url,
-      role: state.role,
-      password: state.password,
-    };
-
-    if (state.role === "guide") {
-      User.phone = state.phone;
-      User.background = state.background;
-    }
-
-    //// send the data to Loay API
-    console.log(User.profilepic);
-    navigate("/home");
   }
 
   async function handlesImage(filex) {
@@ -91,6 +107,7 @@ function AccountForm({ state, dispatch, handleCount }) {
 
   return (
     <form className={styles.form}>
+      {loading && <Loading />}
       <div className={styles.inputWrapper}>
         <label className={styles.label}>User Name </label>
         <input
