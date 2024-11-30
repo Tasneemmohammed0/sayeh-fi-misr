@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styles from "../styles/ReviewCard.module.css";
 import Stars from "./Stars";
 import { useState } from "react";
@@ -11,6 +12,14 @@ function ReviewCard({
   lastName = "",
   userProfilePic,
 }) {
+  // format date
+  const formattedDate = new Date(date);
+  const formattedDateString = formattedDate.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
     <div className={styles.container}>
       <div className={styles.stars}>
@@ -25,7 +34,7 @@ function ReviewCard({
       </div>
       <h4 className={styles.title}>{title}</h4>
       <p className={styles.mainContent}>{mainContent}</p>
-      <p className={styles.time}>Written {date}</p>
+      <p className={styles.time}>Written {formattedDateString}</p>
     </div>
   );
 }
