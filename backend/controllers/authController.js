@@ -3,8 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../db/index");
 
-exports.allUsers = [];
-
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -53,16 +51,16 @@ exports.signup = async (req, res, next) => {
       });
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = {
-      id: req.body.id,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       username: req.body.username,
       role: req.body.role,
       email: req.body.email,
-      nationality: req.body.nationality,
       photo: req.body.photo,
       gender: req.body.gender,
-      age: req.body.age,
+      age: +req.body.age,
+      country: req.body.country,
+      city: req.body.city,
       password: hashedPassword,
     };
     const token = jwt.sign(newUser, process.env.JWT_SECRET, {
@@ -75,12 +73,31 @@ exports.signup = async (req, res, next) => {
     });
 
     // Add user to database here, then remove the password key/value from response output
-    this.allUsers.push(newUser);
+    const query = `
+      INSERT INTO visitor 
+      (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
+    `;
+    const params = [
+      newUser.firstName,
+      newUser.lastName,
+      newUser.username,
+      newUser.email,
+      newUser.password,
+      newUser.age,
+      newUser.role,
+      newUser.country,
+      newUser.city,
+      newUser.profile_pic,
+      newUser.gender,
+    ];
+    const result = await db.query(query, params);
+    console.log(result);
     res.status(201).json({
       status: "success",
       token,
       data: {
-        user: newUser,
+        user: result.rows,
       },
     });
   } catch (err) {
