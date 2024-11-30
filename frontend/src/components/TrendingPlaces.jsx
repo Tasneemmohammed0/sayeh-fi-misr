@@ -10,13 +10,11 @@ import { EffectCoverflow, Navigation, Autoplay } from "swiper/modules";
 //// our styles
 import styles from "../styles/trending.module.css";
 
-
-
 function TrandingPlaces({ places }) {
   return (
     <section className={styles.backGround} id="trending">
       <h2 className={styles.head}>
-        Recent <span style={{ color: "black" }}>Trending</span> Sights Of Egypt
+        Recent <span className={styles.special}>Trending</span> Sights Of Egypt
       </h2>
       <Swiper
         effect={"coverflow"}
