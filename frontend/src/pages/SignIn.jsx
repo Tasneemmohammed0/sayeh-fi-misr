@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+
 //// form validation
 import { useFormik } from "formik";
 import * as yup from "Yup";
@@ -19,14 +21,7 @@ function SignIn() {
       .string()
       .email("Invalid email format")
       .required(" Email is Required"),
-    password: yup
-      .string()
-      .min(8, "Password is too short - should be 8 chars minimum")
-      .matches(
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-      )
-      .required(" Password is Required"),
+    password: yup.string().required(" Password is Required"),
   });
 
   const formik = useFormik({
@@ -35,10 +30,15 @@ function SignIn() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       // add it to the database by calling an API
-      // but now conslog the values
-      console.log(values);
+      const res = await axios.post(
+        `http://localhost:1123/api/v1/users/login`,
+        values,
+        { withCredentials: true }
+      );
+
+      console.log(res.data);
     },
   });
 
@@ -92,7 +92,6 @@ function SignIn() {
         {submit && (
           <ul className={styles.errorList}>
             {formik.touched.email && formik.errors.email && (
-
               <li>
                 {" "}
                 <ErrorMessage error={formik.errors.email} />{" "}
@@ -103,7 +102,6 @@ function SignIn() {
                 {" "}
                 <ErrorMessage error={formik.errors.password} />{" "}
               </li>
-
             )}
           </ul>
         )}

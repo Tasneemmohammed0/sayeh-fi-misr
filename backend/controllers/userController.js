@@ -2,8 +2,11 @@ const authController = require("./authController");
 const db = require("../db/index");
 
 exports.getMe = (req, res, next) => {
-  req.params.id = req.user.id;
-  next();
+  // console.log(req.user);
+  res.status(200).json({
+    user: req.user,
+  });
+  // next();
 };
 
 exports.getUser = (req, res, next) => {
