@@ -2,15 +2,15 @@
   font-family: Georgia, "Times New Roman";
 }
 
-.join,.details
-.card-icon {
+.join,
+.details .card-icon {
   color: var(--our-blue);
   font-family: var(--second-font);
 }
 
 .card {
-  width: 310px;
-  height: 95%;
+  width: 350px;
+  height: 500px;
   background-color: var(--our-white) !important;
   border-radius: 16px;
   overflow: hidden;
@@ -28,18 +28,17 @@
 }
 
 .cardImage {
-  width: 287.16px;
-  /*center the photo*/
-  /* margin-left: 10px;
-  margin-top: 10px; */
-  margin: 10px 0 0 10px;
+  width: 90%;
   border-radius: 10px;
   height: 205px;
   object-fit: cover;
 }
+.rating {
+  margin: 5px 0;
+  align-self: center;
+}
 
 .cardTitle {
-  font-size: 24px;
   color: var(--our-blue);
   font-weight: 700;
 }
@@ -47,8 +46,12 @@
 .cardContent {
   padding: 1.2rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  height: 130px;
 }
 
 .cardInfo {
@@ -60,8 +63,6 @@
 .cardInfoDiv {
   text-align: center;
 }
-
-
 
 .cardIcon {
   width: 22px;
@@ -89,6 +90,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.7rem 1.4rem;
+  position: relative;
+  height: 60px;
 }
 
 .rightArrow {
@@ -101,5 +104,12 @@
 }
 .rightArrow:hover {
   background-color: green;
-  transform: scale(1.10) translateX(10px) ;
+  transform: scale(1.1) translateX(10px);
+}
+
+.details {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

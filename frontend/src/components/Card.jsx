@@ -14,12 +14,24 @@ function Card({
 }) {
   return (
     <div className={styles.card} onClick={onClick}>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+          paddingTop: "10px",
+        }}
+      >
         <img src={photo} alt="card image" className={styles.cardImage} />
       </div>
       <div className={styles.cardContent}>
-        <h2 className={styles.cardTitle}>{placeName}</h2>
-        <div className="rating">{<Stars count={rate} />}</div>
+        <h2
+          className={styles.cardTitle}
+          style={{ fontSize: `${placeName.length >= 20 ? "18px" : "24px"}` }}
+        >
+          {placeName}
+        </h2>
+        <div className={styles.rating}>{<Stars count={rate} />}</div>
       </div>
       <div className={styles.cardInfo}>
         <div className={styles.cardInfoDiv}>
@@ -51,7 +63,7 @@ function Card({
             <MdOutlineArrowRightAlt className={styles.rightArrow} />
           </>
         )}
-        {type == "place" && <p className="details">Read More</p>}
+        {type == "place" && <p className={styles.details}>Read More</p>}
       </div>
     </div>
   );

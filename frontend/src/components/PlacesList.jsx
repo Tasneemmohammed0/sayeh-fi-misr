@@ -1,17 +1,21 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import styles from "../styles/placeslist.module.css";
-import Card from "./Card";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
-function PlacesList({ search, filter, count = 100 }) {
-  let [places, setPlaces] = React.useState([]);
+import Card from "./Card";
+import Loading from "./Loading";
 
+function PlacesList({ search, filter, count = 100 }) {
+  let [places, setPlaces] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  React.useEffect(() => {
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const endpoint =
           location.pathname === "/"
             ? `http://localhost:1123/api/v1`
@@ -24,6 +28,7 @@ function PlacesList({ search, filter, count = 100 }) {
           return;
         }
 
+        setLoading(false);
         setPlaces(response.data.data);
       } catch (err) {
         console.log(err.message);
@@ -49,6 +54,8 @@ function PlacesList({ search, filter, count = 100 }) {
 
   return (
     <div className={styles.list}>
+      {loading && <Loading top="70%" />}
+
       {places.map((item, index) => (
         <div
           style={{
