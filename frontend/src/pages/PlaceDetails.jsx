@@ -9,6 +9,7 @@ import ReviewCards from "../components/ReviewCards";
 import { IoAddCircleSharp } from "react-icons/io5";
 import ReviewForm from "../components/ReviewForm";
 import axios from "axios";
+
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
@@ -36,14 +37,20 @@ function PlaceDetails() {
     fetchData();
   }, []);
 
-  useState(() => {
-    fetch(` http://localhost:1123/api/v1/reviews/${placeId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data.reviews);
-        setReviews(data.data.reviews);
-      });
-  }, [placeId]);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/places/${placeId}/reviews`
+        );
+        console.log(response.data.data);
+        setReviews(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchReviews();
+  }, []);
 
   return (
     <main className={styles.main}>
@@ -92,6 +99,7 @@ function PlaceDetails() {
           <ReviewForm
             isOpen={isReviewFormOpen}
             setIsOpen={setIsReviewFormOpen}
+            placeId={placeId}
           />
         </div>
       </div>
