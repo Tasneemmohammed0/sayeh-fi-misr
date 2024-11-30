@@ -16,7 +16,7 @@ function PlaceDetails() {
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
-  console.log(placeId);
+  const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,6 +101,19 @@ function PlaceDetails() {
             setIsOpen={setIsReviewFormOpen}
             placeId={placeId}
           />
+        </div>
+        <div className={styles.reviewSection}>
+          <div className={styles.reviewsHeader}>
+            <h3>Captured Moments of {place.name} 🌍</h3>
+            <div style={{ display: "flex", gap: "0.6rem" }}>
+              <h5>Got a Shot to Share? Show Us Your Perspective!</h5>
+
+              <IoAddCircleSharp
+                className={styles.addIcon}
+                onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </main>
