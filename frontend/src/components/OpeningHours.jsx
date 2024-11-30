@@ -26,6 +26,8 @@ function OpeningHours({ openingHoursNormal, openingHoursHoliday }) {
         <p>
           {selectedDay == "Friday" || selectedDay == "Saturday"
             ? openingHoursHoliday
+              ? openingHoursHoliday
+              : openingHoursNormal
             : openingHoursNormal}
         </p>
       </div>
