@@ -36,14 +36,20 @@ function PlaceDetails() {
     fetchData();
   }, []);
 
-  useState(() => {
-    fetch(` http://localhost:1123/api/v1/reviews/${placeId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data.reviews);
-        setReviews(data.data.reviews);
-      });
-  }, [placeId]);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/places/${placeId}/reviews`
+        );
+        console.log(response.data.data);
+        setReviews(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchReviews();
+  }, []);
 
   return (
     <main className={styles.main}>

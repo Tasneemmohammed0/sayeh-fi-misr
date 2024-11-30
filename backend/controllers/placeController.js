@@ -35,9 +35,12 @@ exports.getAllPlaces = async (req, res) => {
 exports.getPlaceReviews = async (req, res) => {
   try {
     console.log(req.params.id);
-    const data = await db.query(`SELECT * FROM review WHERE place_id=$1`, [
-      req.params.id,
-    ]);
+    const data = await db.query(
+      `SELECT U.first_name, U.last_name, U.profile_pic,  R.title, R.rating, R.date, R.main_content 
+    FROM visitor U, review R 
+    WHERE R.user_id = U.user_id AND place_id = $1`,
+      [req.params.id]
+    );
 
     res.status(200).json({
       status: "success",

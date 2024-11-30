@@ -28,10 +28,11 @@ function ReviewCards({ reviews }) {
           <ReviewCard
             key={review.review_id}
             rating={review.rating}
-            time={review.time}
+            date={review.date}
             title={review.title}
             mainContent={review.main_content}
-            userName={review.name}
+            firstName={review.first_name}
+            lastName={review.last_name}
             userProfilePic={review.profile_pic}
           />
         </SwiperSlide>
