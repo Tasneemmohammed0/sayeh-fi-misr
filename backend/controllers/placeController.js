@@ -56,7 +56,7 @@ exports.getPlaceReviews = async (req, res) => {
 // Post Review Route Handler
 exports.postReview = async (req, res) => {
   try {
-    req.user = 1; // to be deleted later
+    req.user = 8; // to be deleted later
     console.log(req.body);
     console.log(req.params.id);
     const data = await db.query(
