@@ -49,7 +49,7 @@ function reducer(state, action) {
     case "updateGender":
       return { ...state, gender: action.payload };
     case "updateCountry":
-      return { ...state, country: action.payload };
+      return { ...state, country: action.payload, cities: [], city: "" };
     case "updateCity":
       return { ...state, city: action.payload };
     case "updateNationality":
@@ -130,6 +130,17 @@ function reducer(state, action) {
     case "updateBackGround":
       return { ...state, background: action.payload };
 
+    case "setCountries":
+      return {
+        ...state,
+        countries: action.payload,
+        nationalities: action.payload.map(
+          (country) => country.name.split(" ")[0]
+        ),
+      };
+    case "setCities":
+      return { ...state, cities: action.payload };
+
     default:
       throw new Error("Unknown action type");
   }
@@ -145,7 +156,7 @@ function SignUp() {
     gender: "",
     country: "",
     city: "",
-    nationality: "",
+    nationality: [],
     username: "",
     error_username: "",
     profilepic: null,
@@ -157,6 +168,9 @@ function SignUp() {
     phone: "",
     error_phone: "",
     background: "",
+    countries: [],
+    cities: [],
+    nationalities: [],
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
