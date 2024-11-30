@@ -8,6 +8,7 @@ import PlaceLocation from "../components/PlaceLocation";
 import ReviewCards from "../components/ReviewCards";
 import { IoAddCircleSharp } from "react-icons/io5";
 import ReviewForm from "../components/ReviewForm";
+import PhotoForm from "../components/PhotoForm";
 import axios from "axios";
 
 function PlaceDetails() {
@@ -24,7 +25,7 @@ function PlaceDetails() {
         const response = await axios.get(
           `http://localhost:1123/api/v1/places/${placeId}`
         );
-        console.log(response.data.data);
+
         if (response.status === "fail") {
           console.log("error");
           return;
@@ -43,7 +44,7 @@ function PlaceDetails() {
         const response = await axios.get(
           `http://localhost:1123/api/v1/places/${placeId}/reviews`
         );
-        console.log(response.data.data);
+
         setReviews(response.data.data);
       } catch (err) {
         console.log(err.message);
@@ -110,10 +111,16 @@ function PlaceDetails() {
 
               <IoAddCircleSharp
                 className={styles.addIcon}
-                onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}
+                onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}
               />
             </div>
           </div>
+          <ReviewCards reviews={reviews} />
+          <PhotoForm
+            isOpen={isPhotosFormOpen}
+            setIsOpen={setIsPhotosFormOpen}
+            placeId={placeId}
+          />
         </div>
       </div>
     </main>

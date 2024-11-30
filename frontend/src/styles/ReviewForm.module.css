@@ -87,3 +87,13 @@
   cursor: pointer;
   margin-top: 15px;
 }
+
+.photo {
+  height: 40px;
+  width: 300px;
+  border-radius: 10px;
+  border: 1px solid var(--our-blue);
+  padding: 10px;
+  font-size: 15px;
+  background-color: rgb(255, 240, 240);
+}

@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.13.1",
+    "@cloudinary/url-gen": "^1.21.0",
     "axios": "^1.7.7",
     "formik": "^2.4.6",
     "lucide-react": "^0.460.0",
