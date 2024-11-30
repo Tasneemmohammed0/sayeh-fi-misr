@@ -34,7 +34,7 @@ function PlaceDetails() {
         className={styles.backgroundImage}
         style={{ backgroundImage: `url(${place.photo})` }}
       >
-        <h1 className={styles.title}>Pyramids of Giza</h1>
+        <h1 className={styles.title}>{place.name}</h1>
       </div>
       <div className={styles.container}>
         <div className={styles.breif}>
