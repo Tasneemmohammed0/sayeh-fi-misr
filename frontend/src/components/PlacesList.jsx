@@ -63,6 +63,7 @@ function PlacesList({ search, filter, count = 100 }) {
             justifyContent: "space-around",
             alignItems: "center",
           }}
+          key={index}
         >
           <Card
             key={index}
