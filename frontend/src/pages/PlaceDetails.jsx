@@ -5,7 +5,7 @@ import SeeMoreText from "../components/SeeMoreText";
 import PlaceTicketPrice from "../components/PlaceTicketPrice";
 import OpeningHours from "../components/OpeningHours";
 import PlaceLocation from "../components/PlaceLocation";
-import ReviewCards from "../components/ReviewCards";
+import DetailsPlaceCards from "../components/DetailsPlaceCards";
 import { IoAddCircleSharp } from "react-icons/io5";
 import ReviewForm from "../components/ReviewForm";
 import PhotoForm from "../components/PhotoForm";
@@ -115,7 +115,7 @@ function PlaceDetails() {
               />
             </div>
           </div>
-          <ReviewCards reviews={reviews} />
+          <DetailsPlaceCards reviews={reviews} />
           <ReviewForm
             isOpen={isReviewFormOpen}
             setIsOpen={setIsReviewFormOpen}
@@ -123,7 +123,7 @@ function PlaceDetails() {
           />
         </div>
         <hr style={{ margin: "20px" }}></hr>
-        <div className={styles.reviewSection}>
+        <div className={styles.photoSection}>
           <div className={styles.reviewsHeader}>
             <h3>Captured Moments of {place.name} 🌍</h3>
             <div style={{ display: "flex", gap: "0.6rem" }}>
@@ -135,7 +135,7 @@ function PlaceDetails() {
               />
             </div>
           </div>
-          <ReviewCards photos={photos} />
+          <DetailsPlaceCards photos={photos} />
           <PhotoForm
             isOpen={isPhotosFormOpen}
             setIsOpen={setIsPhotosFormOpen}

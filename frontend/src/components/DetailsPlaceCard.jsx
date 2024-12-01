@@ -1,15 +1,15 @@
 /* eslint-disable react/prop-types */
-import styles from "../styles/PhotoCard.module.css";
+import styles from "../styles/DetailsPlaceCard.module.css";
 import Stars from "./Stars";
 import { useState } from "react";
 
-function PhotoCard({
+function DetailsPlaceCard({
+  photo,
+  review,
+  date,
   firstName = "",
   lastName = "",
   userProfilePic,
-  uploadedPhoto,
-  caption,
-  date,
 }) {
   // format date
   const formattedDate = new Date(date);
@@ -21,17 +21,29 @@ function PhotoCard({
 
   return (
     <div className={styles.container}>
+      {review && (
+        <div className={styles.stars}>
+          <Stars count={review.rating} color={"orange"} />
+        </div>
+      )}
       <div className={styles.userInfo}>
         <img className={styles.profileImage} src={`${userProfilePic}`} />
         <h3 className={styles.userName}>
           {firstName} {lastName}
         </h3>
       </div>
-      <h4 className={styles.caption}>{caption}</h4>
-      <img src={uploadedPhoto} alt="uploaded photo" className={styles.photo} />
+      <h4 className={styles.title}>{review ? review.title : photo.caption}</h4>
+      {photo && (
+        <img
+          src={photo.uploadedPhoto}
+          alt="uploaded photo"
+          className={styles.photo}
+        />
+      )}
+      {review && <p className={styles.mainContent}>{review.mainContent}</p>}
       <p className={styles.time}>Posted {formattedDateString}</p>
     </div>
   );
 }
 
-export default PhotoCard;
+export default DetailsPlaceCard;

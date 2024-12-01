@@ -1,11 +1,9 @@
-import ReviewCard from "./ReviewCard";
-import PhotoCard from "./PhotoCard";
-import styles from "../styles/ReviewCards.module.css";
+import DetailsPlaceCards from "./DetailsPlaceCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
 
-function ReviewCards({ reviews, photos }) {
+function Cards({ reviews, photos }) {
   return (
     <Swiper
       spaceBetween={10}
@@ -31,12 +29,14 @@ function ReviewCards({ reviews, photos }) {
 
           return (
             <SwiperSlide key={review.review_id}>
-              <ReviewCard
+              <DetailsPlaceCards
                 key={review.review_id}
-                rating={review.rating}
+                review={{
+                  rating: review.rating,
+                  title: review.title,
+                  mainContent: review.main_content,
+                }}
                 date={review.date}
-                title={review.title}
-                mainContent={review.main_content}
                 firstName={review.first_name}
                 lastName={review.last_name}
                 userProfilePic={review.profile_pic}
@@ -44,6 +44,7 @@ function ReviewCards({ reviews, photos }) {
             </SwiperSlide>
           );
         })}
+
       {photos &&
         photos.map((photo) => {
           // check photo title or content
@@ -51,11 +52,13 @@ function ReviewCards({ reviews, photos }) {
 
           return (
             <SwiperSlide key={photo.photo_id}>
-              <PhotoCard
+              <DetailsPlaceCards
                 key={photo.photo_id}
-                uploadedPhoto={photo.photo}
+                photo={{
+                  uploadedPhoto: photo.photo,
+                  caption: photo.caption,
+                }}
                 date={photo.date}
-                caption={photo.caption}
                 firstName={photo.first_name}
                 lastName={photo.last_name}
                 userProfilePic={photo.profile_pic}
@@ -67,4 +70,4 @@ function ReviewCards({ reviews, photos }) {
   );
 }
 
-export default ReviewCards;
+export default Cards;
