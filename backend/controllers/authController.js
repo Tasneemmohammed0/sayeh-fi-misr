@@ -3,6 +3,25 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../db/index");
 
+const formatSQLDate = (timestamp) => {
+  const date = new Date(timestamp);
+
+  // Extract components
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+
+  // Combine components into SQL format
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+// Example usage:
+const sqlDate = formatSQLDate(Date.now());
+console.log(sqlDate); // Output: "YYYY-MM-DD HH:MM:SS"
+
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -85,7 +104,27 @@ exports.signup = async (req, res, next) => {
       newUser.photo,
       newUser.gender,
     ];
-    const result = await db.query(insertUserQuery, userParams); // contains the new user
+    let result;
+    if (newUser.role != "guide")
+      result = await db.query(insertUserQuery, userParams);
+    // contains the new user
+    else if (newUser.role === "guide") {
+      req.body.ssn = 22233; //to be removed
+      req.body.start_date = formatSQLDate(Date.now());
+      userParams.push(
+        req.body.phone,
+        req.body.background,
+        req.body.ssn,
+        req.body.start_date
+      );
+      const q = `
+      INSERT INTO host 
+      (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender, phone_number, background, ssn, start_date)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+      RETURNING *;
+    `;
+      result = await db.query(q, userParams);
+    }
     const user = result.rows[0];
     let insertNationalityQuery;
     newUser.nationalities.forEach(async (nationality) => {
