@@ -32,7 +32,9 @@ function DetailsPlaceCard({
           {firstName} {lastName}
         </h3>
       </div>
-      <h4 className={styles.title}>{review ? review.title : photo.caption}</h4>
+      <h4 className={review ? styles.title : styles.caption}>
+        {review ? review.title : photo.caption}
+      </h4>
       {photo && (
         <img
           src={photo.uploadedPhoto}
