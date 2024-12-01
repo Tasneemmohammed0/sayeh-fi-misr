@@ -41,9 +41,10 @@
 }
 
 .form > h3 {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: var(--our-blue);
-  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
   text-align: center;
 }
 
@@ -52,31 +53,26 @@
   color: var(--our-blue);
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-.title {
-  margin-left: 30px;
+.photo {
   height: 40px;
-  width: 400px;
+  width: 300px;
   border-radius: 10px;
   border: 1px solid var(--our-blue);
   padding: 10px;
   font-size: 15px;
   background-color: rgb(255, 240, 240);
-  margin-bottom: 10px;
+  margin-left: 1rem;
 }
 
-.reviewText {
-  margin-left: 10px;
-  padding: 10px;
-  height: 300px;
-  width: 400px;
-  background-color: rgb(255, 240, 240);
-  border: 1px solid var(--our-blue);
+.imagePreview {
+  height: 250px;
+  width: 250px;
   border-radius: 10px;
-  font-size: 15px;
-  color: var(--our-black);
 }
+
 .formButton {
   height: 40px;
   width: 200px;
@@ -88,12 +84,14 @@
   margin-top: 15px;
 }
 
-.photo {
-  height: 40px;
-  width: 300px;
-  border-radius: 10px;
-  border: 1px solid var(--our-blue);
+.captionText {
+  margin-left: 10px;
   padding: 10px;
-  font-size: 15px;
+  height: 50px;
+  width: 300px;
   background-color: rgb(255, 240, 240);
+  border: 1px solid var(--our-blue);
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--our-black);
 }

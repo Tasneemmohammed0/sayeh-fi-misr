@@ -9,10 +9,17 @@ router.get("/", placeController.getAllPlaces);
 router.get("/:id", placeController.getPlace);
 // Get all reviews for a place
 router.get("/:id/reviews", placeController.getPlaceReviews);
+// Get all photos of a place
+router.get("/:id/photos", placeController.getAllPhotos);
 // Post a review for a place
 router.post(
   "/:id/addReview",
   // authController.protect,
   placeController.postReview
+);
+router.post(
+  "/:id/addPhoto",
+  // authController.protect,
+  placeController.postPhoto
 );
 module.exports = router;

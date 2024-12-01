@@ -64,3 +64,16 @@
   right: 12px;
   position: absolute;
 }
+
+.caption {
+  font-size: 14px;
+  color: var(--our-black);
+  margin: 10px 0;
+}
+
+.photo {
+  height: 260px;
+  width: 340px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
