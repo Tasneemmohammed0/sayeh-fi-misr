@@ -1,15 +1,16 @@
 import { FaLocationDot } from "react-icons/fa6";
-import { MdOutlineReviews, MdOutlineArrowRightAlt } from "react-icons/md";
+import { MdOutlineArrowRightAlt, MdEmojiPeople } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
-import Stars from "./Stars";
-import styles from "../styles/card.module.css";
+import { LuCalendarDays } from "react-icons/lu";
+import styles from "../styles/GatheringCard.module.css";
 
-function Card({
+function GatheringCard({
   photo = "/src/assets/images/temple.png",
   placeName = "Luxor Tempale",
   location = "Luxor ",
-  rate = 5,
-  type = "place",
+  hostname = "Hany",
+  currentcapacity = 0,
+  duration = 1,
   onClick,
 }) {
   return (
@@ -31,42 +32,37 @@ function Card({
         >
           {placeName}
         </h2>
-        <div className={styles.rating}>{<Stars count={rate} />}</div>
       </div>
       <div className={styles.cardInfo}>
         <div className={styles.cardInfoDiv}>
-          <MdOutlineReviews className={styles.cardIcon} />
-          <p style={{ fontSize: "12px" }}>Reviews</p>
-        </div>
-        <div className={styles.cardInfoDiv}>
-          <IoCameraOutline className={styles.cardIcon} />
-          <p style={{ fontSize: "12px" }}>Photos</p>
-        </div>
-        <div className={styles.cardInfoDiv}>
           <IoPeopleOutline className={styles.cardIcon} />
+          <p style={{ fontSize: "12px" }}>Current Capacity:{currentcapacity}</p>
+        </div>
+        <div className={styles.cardInfoDiv}>
+          <LuCalendarDays className={styles.cardIcon} />
+          <p style={{ fontSize: "12px" }}> Duration:{duration} days </p>
+        </div>
+        <div className={styles.cardInfoDiv}>
+          <MdEmojiPeople className={styles.cardIcon} />
           <p style={{ fontSize: "12px" }}>
-            {type == "place" ? "Tours" : "People"}
+            Created by: <span style={{ color: "#FF6B00" }}>{hostname}</span>
           </p>
         </div>
       </div>
       <div className={styles.location}>
         <FaLocationDot
-          className={`${styles.cardIcon} ${styles.LocationCardIcon}  `}
+          className={`${styles.cardIcon}`}
+          style={{ color: "orange" }}
         />
-        <p style={{ fontSize: "12px" }}>{location}</p>
+        <p style={{ fontSize: "16px" }}>{location}</p>
       </div>
       <div className={styles.dottedLine}></div>
       <div className={styles.cardFooter}>
-        {type == "gathering" && (
-          <>
-            <p className="join">JOIN</p>
-            <MdOutlineArrowRightAlt className={styles.rightArrow} />
-          </>
-        )}
-        {type == "place" && <p className={styles.details}>Read More</p>}
+        <p className="join">JOIN</p>
+        <MdOutlineArrowRightAlt className={styles.rightArrow} />
       </div>
     </div>
   );
 }
 
-export default Card;
+export default GatheringCard;

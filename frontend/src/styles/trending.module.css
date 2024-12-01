@@ -1,8 +1,8 @@
 .backGround {
   background: linear-gradient(
     180deg,
-    var(--our-dark-sand) 53.15%,
-    var(--our-light-sand) 50%
+    var(--our-light-sand) 56%,
+    var(--our-dark-sand) 50%
   );
   height: 100vh;
   position: relative;
@@ -15,9 +15,20 @@
 
 .head {
   font-size: 30px;
-  color: white;
+  color: #783004;
   margin: 20px 0;
   text-transform: capitalize;
+}
+
+.special {
+  font-family: "Georgia", serif;
+  font-size: 2rem;
+  color: #d2691e; /* Warm brown color */
+  font-weight: bold;
+  /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); */
+
+  padding-bottom: 0.2em;
+  transition: border-bottom 0.3s ease;
 }
 
 .place {

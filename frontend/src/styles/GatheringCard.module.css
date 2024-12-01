@@ -10,7 +10,7 @@
 
 .card {
   width: 350px;
-  height: 500px;
+  height: 450px;
   background-color: var(--our-white) !important;
   border-radius: 16px;
   overflow: hidden;
@@ -45,13 +45,8 @@
 
 .cardContent {
   padding: 1.2rem;
-  display: flex;
-  /* align-items: center; */
-  /* justify-content: space-between; */
-  flex-direction: column;
-  flex-wrap: wrap;
   gap: 1rem;
-  height: 130px;
+  height: 80px;
 }
 
 .cardInfo {
