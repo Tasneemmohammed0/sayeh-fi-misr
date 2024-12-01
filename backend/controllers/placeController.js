@@ -57,7 +57,7 @@ exports.getPlaceReviews = async (req, res) => {
 exports.getAllPhotos = async (req, res) => {
   try {
     const data = await db.query(
-      `SELECT U.first_name, U.last_name, U.profile_pic, P.photo, P.date, P.caption
+      `SELECT U.first_name, U.last_name, U.profile_pic, P.photo_id, P.photo, P.date, P.caption
     FROM visitor U, photo P
     WHERE P.user_id = U.user_id AND P.place_id = $1`,
       [req.params.id]

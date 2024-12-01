@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: var(--our-gray);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 15px;
+  width: 370px;
+  height: 480px;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+.container:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.001);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.profileImage {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 15px;
+  border: 2px solid #eaeaea;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--our-black);
+}
+
+.caption {
+  font-size: 14px;
+  color: var(--our-black);
+  margin: 10px 0;
+}
+
+.time {
+  font-size: 12px;
+  color: var(--our-black);
+  margin-top: 10px;
+  text-align: right;
+}
+
+.photo {
+  height: 340px;
+  width: 340px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}

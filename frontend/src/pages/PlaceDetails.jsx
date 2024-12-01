@@ -65,6 +65,7 @@ function PlaceDetails() {
         );
 
         setPhotos(response.data.data);
+        console.log(response.data.data);
       } catch (err) {
         console.log(err.message);
       }
@@ -134,7 +135,7 @@ function PlaceDetails() {
               />
             </div>
           </div>
-          <ReviewCards reviews={reviews} />
+          <ReviewCards photos={photos} />
           <PhotoForm
             isOpen={isPhotosFormOpen}
             setIsOpen={setIsPhotosFormOpen}

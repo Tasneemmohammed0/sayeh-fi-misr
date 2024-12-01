@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import styles from "../styles/ReviewCard.module.css";
+import styles from "../styles/PhotoCard.module.css";
 import Stars from "./Stars";
 import { useState } from "react";
 
 function PhotoCard({
   firstName = "",
   lastName = "",
-  profileImage,
+  userProfilePic,
   uploadedPhoto,
   caption,
   date,
@@ -27,9 +27,9 @@ function PhotoCard({
           {firstName} {lastName}
         </h3>
       </div>
-      <h4 className={styles.title}>{caption}</h4>
+      <h4 className={styles.caption}>{caption}</h4>
       <img src={uploadedPhoto} alt="uploaded photo" className={styles.photo} />
-      <p className={styles.time}>Written {formattedDateString}</p>
+      <p className={styles.time}>Posted {formattedDateString}</p>
     </div>
   );
 }

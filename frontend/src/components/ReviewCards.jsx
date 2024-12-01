@@ -1,4 +1,5 @@
 import ReviewCard from "./ReviewCard";
+import PhotoCard from "./PhotoCard";
 import styles from "../styles/ReviewCards.module.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -23,25 +24,45 @@ function ReviewCards({ reviews, photos }) {
         },
       }}
     >
-      {reviews.map((review) => {
-        // check review title or content
-        if (!review.title && !review.main_content) return null;
+      {reviews &&
+        reviews.map((review) => {
+          // check review title or content
+          if (!review.title && !review.main_content) return null;
 
-        return (
-          <SwiperSlide key={review.review_id}>
-            <ReviewCard
-              key={review.review_id}
-              rating={review.rating}
-              date={review.date}
-              title={review.title}
-              mainContent={review.main_content}
-              firstName={review.first_name}
-              lastName={review.last_name}
-              userProfilePic={review.profile_pic}
-            />
-          </SwiperSlide>
-        );
-      })}
+          return (
+            <SwiperSlide key={review.review_id}>
+              <ReviewCard
+                key={review.review_id}
+                rating={review.rating}
+                date={review.date}
+                title={review.title}
+                mainContent={review.main_content}
+                firstName={review.first_name}
+                lastName={review.last_name}
+                userProfilePic={review.profile_pic}
+              />
+            </SwiperSlide>
+          );
+        })}
+      {photos &&
+        photos.map((photo) => {
+          // check photo title or content
+          if (!photo.photo) return null;
+
+          return (
+            <SwiperSlide key={photo.photo_id}>
+              <PhotoCard
+                key={photo.photo_id}
+                uploadedPhoto={photo.photo}
+                date={photo.date}
+                caption={photo.caption}
+                firstName={photo.first_name}
+                lastName={photo.last_name}
+                userProfilePic={photo.profile_pic}
+              />
+            </SwiperSlide>
+          );
+        })}
     </Swiper>
   );
 }
