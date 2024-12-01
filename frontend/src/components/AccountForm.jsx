@@ -67,15 +67,18 @@ function AccountForm({ state, dispatch, handleCount }) {
       }
 
       //// send the data to Loay API
-      const result = await axios.post(
-        "http://localhost:1123/api/v1/users/signup",
-        User,
-        { withCredentials: true }
-      );
-      setLoading(false);
+      await axios.post("http://localhost:1123/api/v1/users/signup", User, {
+        withCredentials: true,
+      });
       navigate("/home");
     } catch (err) {
-      console.log(err);
+      if (err.response.data.message.includes("email")) {
+        setError("Email already in use");
+      } else if (err.response.data.message.includes("username")) {
+        setError("Username already in use");
+      }
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -248,6 +251,7 @@ function AccountForm({ state, dispatch, handleCount }) {
 
       <div>
         {error === 1 && <ErrorMessage error="All fields are required" />}
+        {error && <ErrorMessage error={error} />}
       </div>
     </form>
   );
