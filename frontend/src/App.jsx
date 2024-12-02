@@ -9,6 +9,9 @@ import PlaceDetails from "./pages/PlaceDetails";
 import WishList from "./components/WishList";
 import AllGathering from "./pages/AllGathering";
 import AccountSetting from "./pages/AccountSetting";
+
+import Page404 from "./pages/Page404";
+
 import axios from "axios";
 function App() {
   return (
@@ -30,6 +33,8 @@ function App() {
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/profile/wishlist/:id" element={<WishList />} />
       <Route path="/places/:placeId" element={<PlaceDetails />} />
+
+      <Route path="*" element={<Page404 />} />
     </Routes>
   );
 }
