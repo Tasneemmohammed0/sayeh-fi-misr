@@ -1,13 +1,18 @@
 import React from "react";
 import { AlertCircle } from "lucide-react";
 
-const ErrorMessage = ({ error, fontSize = "14px", variant = "default" }) => {
+const ErrorMessage = ({
+  error,
+  fontSize = "14px",
+  variant = "default",
+  color = "#EF4444",
+}) => {
   if (!error) return null;
 
   // Variant-based styles
   const variants = {
     default: {
-      backgroundColor: "#EF4444", // Red color
+      backgroundColor: color, // Red color
       color: "#FFFFFF", // White text
     },
     subtle: {
@@ -61,7 +66,7 @@ const ErrorMessage = ({ error, fontSize = "14px", variant = "default" }) => {
   return (
     <div style={wrapperStyle}>
       <AlertCircle style={{ width: "16px", height: "16px" }} />
-      <p style={{ fontSize, margin: 0, color:"white" }}>{error}</p>
+      <p style={{ fontSize, margin: 0, color: "white" }}>{error}</p>
     </div>
   );
 };
