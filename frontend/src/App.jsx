@@ -9,7 +9,9 @@ import PlaceDetails from "./pages/PlaceDetails";
 import WishList from "./components/WishList";
 import AllGathering from "./pages/AllGathering";
 import AccountSetting from "./pages/AccountSetting";
+
 import Page404 from "./pages/Page404";
+
 import axios from "axios";
 function App() {
   return (
