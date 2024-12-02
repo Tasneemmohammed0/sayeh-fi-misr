@@ -5,22 +5,28 @@ import axios from "axios";
 
 import WishListForm from "./WishListForm";
 import WishList from "./WishList";
+import Loading from "./Loading";
 import styles from "../styles/WishLists.module.css";
 
 function WishLists({ id }) {
   ////// fetching by user id to get the wishlists
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [wishLists, setWishLists] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+
         const response = await axios.get(
           `http://localhost:1123/api/v1/users/wishlists/${id}`
         );
         setWishLists(response.data.data);
+        setLoading(false);
       } catch (err) {
         console.log(err.message);
+        setLoading(false);
       }
     };
     fetchData();
@@ -29,6 +35,7 @@ function WishLists({ id }) {
 
   return (
     <div style={{ position: "relative" }}>
+      {loading && <Loading />}
       <button className={styles.create} onClick={() => setIsFormOpen(true)}>
         Create Wishlist
       </button>
