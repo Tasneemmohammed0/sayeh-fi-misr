@@ -1,6 +1,7 @@
 import React from "react";
 import { PiMapPinLight } from "react-icons/pi";
 import { HiOutlineMail } from "react-icons/hi";
+import { FiSettings } from "react-icons/fi";
 import styles from "../styles/userinfo.module.css";
 import { Link } from "react-router-dom";
 // <HiOutlineMail />
@@ -28,6 +29,12 @@ function UserInfo({ user, selectedList, setSelectedList }) {
             <p className={styles.p}>
               <HiOutlineMail style={{ fontSize: "20px" }} /> {user.email}
             </p>
+
+            <Link to="accountsetting">
+              <p className={styles.p}>
+                <FiSettings style={{ fontSize: "20px" }} /> Account Setting
+              </p>
+            </Link>
           </div>
         </div>
         <div className={styles.info}>
