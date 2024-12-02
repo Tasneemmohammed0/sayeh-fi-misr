@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Review from "../components/Review";
+import Loading from "../components/Loading";
 import axios from "axios";
 
 function ReviewsList({ id }) {
-  const [reviews, setReviews] = React.useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `http://localhost:1123/api/v1/users/reviews/${id}`
         );
@@ -16,8 +19,10 @@ function ReviewsList({ id }) {
           return;
         }
         setReviews(response.data.data);
+        setLoading(false);
       } catch (err) {
         console.log(err.message);
+        setLoading(false);
       }
     };
     fetchData();
@@ -25,6 +30,7 @@ function ReviewsList({ id }) {
   console.log(reviews);
   return (
     <ul>
+      {loading && <Loading />}
       {reviews &&
         reviews.map((review, index) => {
           return (
