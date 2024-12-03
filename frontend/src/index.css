@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Luxurious+Roman&family=Noto+Sans+Georgian:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 * {
   margin: 0;
@@ -12,7 +13,6 @@ html {
 }
 
 body {
-
   --our-blue: #0c3e69; /* Main blue */
   --our-black: #283037; /* Dark shade */
   --our-brown: #674636; /* Accent brown */
@@ -29,7 +29,6 @@ body {
   --second-font: "Noto Sans Georgian", sans-serif !important;
   --main-transition: all 0.6s;
   font-family: var(--main-font);
-
 }
 /* Default (Mobile-first) */
 .container {
@@ -96,14 +95,6 @@ a {
   color: gray !important; /* Optional: Changes the arrow color on hover */
 }
 
-
-
-
-
-
-
-
-
 ::-webkit-scrollbar {
   width: 12px; /* Width of the vertical scrollbar */
   height: 12px; /* Height of the horizontal scrollbar */
@@ -112,12 +103,13 @@ a {
 /* Scrollbar Track */
 ::-webkit-scrollbar-track {
   background-color: var(--our-green); /* Light background for the track */
-  
 }
 
 /* Scrollbar Thumb */
 ::-webkit-scrollbar-thumb {
-  background-color: var(--our-hover-blue); /* Base color for the scrollbar thumb */
+  background-color: var(
+    --our-hover-blue
+  ); /* Base color for the scrollbar thumb */
   border-radius: 6px; /* Rounded corners for the thumb */
   border: 2px solid transparent; /* Creates a padding effect */
   background-clip: content-box; /* Allows border to create padding */
@@ -133,4 +125,3 @@ a {
 ::-webkit-scrollbar-corner {
   background-color: var(--our-dark-sand); /* Matches track color */
 }
-
