@@ -119,3 +119,23 @@ exports.postPhoto = async (req, res) => {
     });
   }
 };
+
+// Add to wish list
+exports.addToWishList = async (req, res) => {
+  try {
+    const data = await db.query(
+      `INSERT INTO place_wishlist (place_id, wishlist_id) VALUES ($1, $2)`,
+      [req.params.id, req.body.wishlist_id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: data.rows[0],
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};

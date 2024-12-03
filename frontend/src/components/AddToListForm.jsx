@@ -1,10 +1,6 @@
 import styles from "../styles/AddToListForm.module.css";
 import { useState, useEffect } from "react";
-import {
-  IoMdClose,
-  IoIosAddCircleOutline,
-  IoIosAddCircle,
-} from "react-icons/io";
+import { IoMdClose, IoIosAddCircleOutline } from "react-icons/io";
 import Loading from "./Loading";
 
 import axios from "axios";
@@ -16,7 +12,7 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
 
   if (!isOpen) return null;
 
-  // Fetch reviews
+  // Fetch lists
   useEffect(() => {
     const fetchLists = async () => {
       try {
@@ -38,22 +34,59 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
   }, []);
 
   function handleSelectedItem(listId) {
+    // if the list is already selected, deselect it
     listId === selectedList ? setSelectedList(null) : setSelectedList(listId);
     console.log(selectedList);
   }
 
-  function handleSubmit(e) {
+  // send bookmark to API
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    // send review to API
+    // if no list is selected
+    if (!selectedList) {
+      alert("Please, select a list");
+      return;
+    }
+
+    // send bookmark to API
+    const bookmarkData = {
+      place_id: placeId,
+      wishlist_id: selectedList,
+    };
+
+    try {
+      const res = await fetch(
+        `http://localhost:1123/api/v1/places/${placeId}/addToWishlist`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bookmarkData),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("❌ Error adding to list");
+      }
+
+      const result = await res.json();
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
 
     // show success message
+    alert("🎉 place added to the list");
 
     // clear the form
+    handleClose();
   }
 
   function handleClose() {
     // clear the form
+    setSelectedList(null);
     setIsOpen(false);
   }
 
