@@ -1,10 +1,18 @@
 import styles from "../styles/AddToListForm.module.css";
 import { useState, useEffect } from "react";
-import { IoMdClose } from "react-icons/io";
+import {
+  IoMdClose,
+  IoIosAddCircleOutline,
+  IoIosAddCircle,
+} from "react-icons/io";
+import Loading from "./Loading";
+
 import axios from "axios";
 
 function AddToListForm({ isOpen, setIsOpen, placeId }) {
   const [lists, setLists] = useState([]);
+  const [selectedList, setSelectedList] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
@@ -12,11 +20,15 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
   useEffect(() => {
     const fetchLists = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           "http://localhost:1123/api/v1/users/wishlists/1"
         );
 
         console.log(response.data.data);
+        setLists(response.data.data);
+
+        setLoading(false);
       } catch (err) {
         console.log(err.message);
       }
@@ -36,6 +48,7 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
 
   function handleClose() {
     // clear the form
+    setIsOpen(false);
   }
 
   return (
@@ -45,14 +58,31 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
         <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
-        <div className={styles.list}></div>
-
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className={styles.listContainer}>
+            {lists &&
+              lists.map((list, index) => {
+                return (
+                  <div
+                    className={styles.listItem}
+                    // onClick={addtoList}
+                    key={index}
+                  >
+                    <div className={styles.listName}>{list.name}</div>
+                    <IoIosAddCircleOutline className={styles.addIcon} />
+                  </div>
+                );
+              })}
+          </div>
+        )}
         <button
           type="submit"
           className={styles.formButton}
           onClick={handleSubmit}
         >
-          Add Review
+          Add to list
         </button>
       </form>
     </div>

@@ -53,3 +53,54 @@
   display: flex;
   justify-content: center;
 }
+
+.formButton {
+  height: 40px;
+  width: 200px;
+  border-radius: 10px;
+  background-color: var(--our-blue);
+  color: var(--our-white);
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+
+  width: 100%;
+  overflow-y: auto;
+  align-items: stretch;
+}
+
+.listItem {
+  width: 100%;
+  height: 50px;
+  background-color: var(--our-white);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid var(--our-white);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.listItem:hover {
+  background-color: var(--our-blue);
+  color: var(--our-white);
+}
+
+.addIcon {
+  font-size: 1.5rem;
+  color: var(--our-white);
+  z-index: 10;
+}
+
+.addIcon:hover {
+  color: var(--our-green);
+}
