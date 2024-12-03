@@ -10,6 +10,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import ReviewForm from "../components/ReviewForm";
 import PhotoForm from "../components/PhotoForm";
 import Loading from "../components/Loading";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
 
 function PlaceDetails() {
@@ -25,6 +26,7 @@ function PlaceDetails() {
   const [photos, setPhotos] = useState([]);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   // Fetch place details
   useEffect(() => {
@@ -90,6 +92,10 @@ function PlaceDetails() {
     fetchPhotos();
   }, []);
 
+  function handleBookmark() {
+    setIsBookmarked((isBookmarked) => !isBookmarked);
+  }
+
   return (
     <>
       {finalLoading && <Loading />}
@@ -98,6 +104,17 @@ function PlaceDetails() {
           className={styles.backgroundImage}
           style={{ backgroundImage: `url(${place.photo})` }}
         >
+          {isBookmarked ? (
+            <FaBookmark
+              onClick={handleBookmark}
+              className={styles.bookmarkIcon}
+            />
+          ) : (
+            <FaRegBookmark
+              onClick={handleBookmark}
+              className={styles.bookmarkIcon}
+            />
+          )}
           <h1 className={styles.title}>{place.name}</h1>
         </div>
         <div className={styles.container}>

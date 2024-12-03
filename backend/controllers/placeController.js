@@ -103,6 +103,7 @@ exports.postReview = async (req, res) => {
   }
 };
 
+// Post photo route handler
 exports.postPhoto = async (req, res) => {
   req.user = 8; // to be deleted later
   try {
