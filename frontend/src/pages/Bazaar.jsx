@@ -14,7 +14,7 @@ function Bazaar() {
         <p>Spend your points and get prizes for free</p>
       </div>
       <div className={styles.bazaarContent}>
-        <div className={styles.giftContainer}>{gifts.map((gift) => gift)}</div>
+        <div className={styles.giftContainer}>{gifts}</div>
       </div>
     </main>
   );
