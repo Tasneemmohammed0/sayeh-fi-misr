@@ -1,0 +1,55 @@
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.popupClose {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  margin-bottom: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--our-blue);
+  cursor: pointer;
+}
+
+.popupClose:hover {
+  color: rgb(191, 52, 52);
+}
+
+.form {
+  position: relative;
+  height: 520px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--our-green);
+  margin-top: 100px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.form > h3 {
+  font-size: 1.6rem;
+  color: var(--our-blue);
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.formLabel {
+  font-size: 1.1rem;
+  color: var(--our-blue);
+  display: flex;
+  justify-content: center;
+}

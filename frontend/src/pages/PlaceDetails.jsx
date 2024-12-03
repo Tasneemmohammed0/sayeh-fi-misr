@@ -9,6 +9,7 @@ import DetailsPlaceCards from "../components/DetailsPlaceCards";
 import { IoAddCircleSharp } from "react-icons/io5";
 import ReviewForm from "../components/ReviewForm";
 import PhotoForm from "../components/PhotoForm";
+import AddToListForm from "../components/AddToListForm";
 import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
@@ -105,10 +106,17 @@ function PlaceDetails() {
           style={{ backgroundImage: `url(${place.photo})` }}
         >
           {isBookmarked ? (
-            <FaBookmark
-              onClick={handleBookmark}
-              className={styles.bookmarkIcon}
-            />
+            <>
+              <FaBookmark
+                onClick={handleBookmark}
+                className={styles.bookmarkIcon}
+              />
+              <AddToListForm
+                isOpen={isBookmarked}
+                setIsOpen={setIsBookmarked}
+                placeId={placeId}
+              />
+            </>
           ) : (
             <FaRegBookmark
               onClick={handleBookmark}
