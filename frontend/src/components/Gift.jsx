@@ -6,6 +6,7 @@ function Gift({
   price = "198",
   title = "Something Earring",
   place = "Pyramids of Giza",
+  description = "placeholder for the gift description. It'll contain some details about the gift",
 }) {
   return (
     <main className={styles.mainContainer}>

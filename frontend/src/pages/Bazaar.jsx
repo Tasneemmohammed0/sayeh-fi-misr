@@ -5,7 +5,7 @@ import Gift from "../components/Gift";
 function Bazaar({ totalPoints = 198 }) {
   const gifts = [];
   for (let i = 0; i < 7; i += 1) {
-    gifts.push(<Gift />);
+    gifts.push(<Gift key={i} />);
   }
 
   return (
