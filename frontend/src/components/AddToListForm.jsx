@@ -22,14 +22,15 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:1123/api/v1/users/wishlists/1"
+          "http://localhost:1123/api/v1/users/myWishlists",
+          { withCredentials: true }
         );
 
-        console.log(response.data.data);
         setLists(response.data.data);
 
         setLoading(false);
       } catch (err) {
+        console.log(err);
         console.log(err.message);
       }
     };

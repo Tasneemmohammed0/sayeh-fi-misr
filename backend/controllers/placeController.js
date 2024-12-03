@@ -34,8 +34,6 @@ exports.getAllPlaces = async (req, res) => {
 // Get All Place Reviews Route Handler
 exports.getPlaceReviews = async (req, res) => {
   try {
-    console.log(req.params.id);
-
     const data = await db.query(
       `SELECT U.first_name, U.last_name, U.profile_pic,  R.title, R.rating, R.date, R.main_content 
     FROM visitor U, review R 
@@ -77,8 +75,6 @@ exports.getAllPhotos = async (req, res) => {
 exports.postReview = async (req, res) => {
   try {
     req.user = 1; // to be deleted later
-    console.log(req.body);
-    console.log(req.params.id);
     const data = await db.query(
       `INSERT INTO review (rating, date, title, main_content, user_id, place_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [
@@ -107,7 +103,6 @@ exports.postReview = async (req, res) => {
 exports.postPhoto = async (req, res) => {
   req.user = 8; // to be deleted later
   try {
-    console.log(req.body);
     const data = await db.query(
       `INSERT INTO photo (photo, date, caption, user_id, place_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [req.body.photo, req.body.date, req.body.caption, req.user, req.params.id]
