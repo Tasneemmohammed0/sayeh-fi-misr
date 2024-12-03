@@ -41,6 +41,8 @@ function GatheringList({ search, filter, count = 100 }) {
     navigate(`/gatherings/${id}`);
   };
 
+  gatherings = gatherings.slice(0, count);
+
   if (search) {
     gatherings = gatherings.filter((item) =>
       item.name.toLowerCase().includes(search.toLowerCase())

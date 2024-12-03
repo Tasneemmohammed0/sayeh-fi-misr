@@ -36,16 +36,16 @@ function PlacesList({ search, filter, count = 100 }) {
     fetchData();
   }, [location.pathname]);
 
+  places = places.slice(0, count);
+
   const handleSelectedPlace = (id) => {
     navigate(`/places/${id}`);
   };
 
   if (search) {
-    // places = places.filter((item) =>
-    //   item.name.toLowerCase().includes(search.toLowerCase())
-    // );
-
-    set;
+    places = places.filter((item) =>
+      item.name.toLowerCase().includes(search.toLowerCase())
+    );
   }
 
   if (filter && filter !== "all") {

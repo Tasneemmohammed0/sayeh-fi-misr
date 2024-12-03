@@ -4,39 +4,41 @@ import { FaArrowRight } from "react-icons/fa";
 import ErrorMessage from "./ErrorMessage";
 import NationalitySelect from "./NationalitySelect";
 import { GetCountries, GetState } from "react-country-state-city";
-
+import Loading from "./Loading";
 function PersonalForm({ state, dispatch, handleCount }) {
   const age = [];
 
   for (let i = 18; i <= 100; i++) {
-    age.push(i);
+    age.push(i.toString());
   }
 
   const [error, setError] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCountries = async () => {
       try {
+        setLoading(true);
         const result = await GetCountries();
         dispatch({ type: "setCountries", payload: result });
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching countries:", error);
+        setLoading(false);
       }
     };
     fetchCountries();
   }, []);
 
   function handleCountryChange(e) {
-    const selectedCountryname = e.target.value;
-    const selectedCountry = state.countries.find(
-      (item) => item.name == selectedCountryname
-    );
-    console.log(selectedCountry);
-    dispatch({ type: "updateCountry", payload: selectedCountry.name });
+    const Countryname = e.target.value;
+    const Country = state.countries.find((item) => item.name == Countryname);
+    console.log(Country);
+    dispatch({ type: "updateCountry", payload: Country.name });
 
     /// get cities
 
-    GetState(selectedCountry.id)
+    GetState(Country.id)
       .then((result) => {
         dispatch({ type: "setCities", payload: result });
       })
@@ -47,10 +49,10 @@ function PersonalForm({ state, dispatch, handleCount }) {
   }
 
   function handleCityChange(e) {
-    const cityname = e.target.value; // id of the selected state
+    const cityname = e.target.value; // id of the   state
     console.log(cityname);
-    // const selectedCity = state.cities.find((item) => item.id == cityid);
-    // console.log(selectedCity.name);
+    // const  City = state.cities.find((item) => item.id == cityid);
+    // console.log( City.name);
 
     dispatch({ type: "updateCity", payload: cityname });
   }
@@ -87,6 +89,7 @@ function PersonalForm({ state, dispatch, handleCount }) {
   console.log(state);
   return (
     <form className={styles.form}>
+      <Loading />
       <div className={styles.inputWrapper}>
         <label className={styles.label}>First Name</label>
         <input
@@ -125,12 +128,12 @@ function PersonalForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateAge", payload: e.target.value })
           }
         >
-          <option value="" disabled>
+          <option disabled key={0}>
             Select Age
           </option>
           {age.map((item, index) => (
-            <option key={index} value={item}>
-              {item}
+            <option key={index} value={item.toString()}>
+              {item.toString()}
             </option>
           ))}
         </select>
@@ -145,7 +148,7 @@ function PersonalForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateGender", payload: e.target.value })
           }
         >
-          <option value="" disabled selected>
+          <option value="" disabled>
             Select Gender
           </option>
           <option value="male">Male</option>
