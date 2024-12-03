@@ -3,7 +3,7 @@ import styles from "../styles/AccountSetting.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ChangePasswordForm from "../components/ChangePasswordForm";
-
+import Signout from "../components/Signout";
 const usertemp = {
   id: 1,
   firstname: "Amr",
@@ -136,6 +136,8 @@ function reducer(state, action) {
 function AccountSetting() {
   const [edit, setEdit] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showSignOut, setShowSignOut] = useState(false);
+
   const [state, dispatch] = useReducer(reducer, {
     first_name: usertemp.firstname,
     error_firstname: "",
@@ -323,6 +325,18 @@ function AccountSetting() {
           </button>
         </div>
 
+        <div className={styles.formGroup}>
+          <button
+            className={`${styles.button} ${styles.password}`}
+            onClick={(e) => {
+              e.preventDefault();
+              setShowSignOut(true);
+            }}
+          >
+            Sign Out
+          </button>
+        </div>
+
         {/* Submit Button */}
         <button className={styles.button} onClick={(e) => handleSubmit(e)}>
           Save Changes
@@ -333,6 +347,12 @@ function AccountSetting() {
         isOpen={showChangePassword}
         handleForm={setShowChangePassword}
         userPassword={usertemp.password}
+      />
+
+      <Signout
+        isOpen={showSignOut}
+        handleForm={setShowSignOut}
+        user={usertemp}
       />
     </div>
   );
