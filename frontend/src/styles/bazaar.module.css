@@ -1,0 +1,36 @@
+.mainBazaar {
+  background-color: #f0efef;
+}
+.bazaarHeader {
+  height: 30vh;
+  background-color: #292929;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.4);
+}
+.bazaarHeader h1 {
+  color: #ffcd0f;
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 2.6rem;
+  letter-spacing: 0.2rem;
+}
+.bazaarHeader p {
+  color: #f0efef;
+  opacity: 50%;
+  font-size: 90%;
+  font-family: "Inter";
+  letter-spacing: 0.2rem;
+}
+.bazaarContent {
+  height: 70vh;
+  padding: 8rem 7.3rem;
+}
+.cardsContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10 60px;
+}
