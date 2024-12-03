@@ -90,7 +90,7 @@
   transition: background-color 0.3s;
 }
 
-.listItem:hover {
+.listItem.active {
   background-color: var(--our-blue);
   color: var(--our-white);
 }

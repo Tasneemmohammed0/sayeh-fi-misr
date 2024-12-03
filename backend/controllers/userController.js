@@ -51,7 +51,7 @@ exports.getUserReviews = async (req, res, next) => {
 exports.getUserWishlists = async (req, res, next) => {
   try {
     const query = `
-    SELECT name, description, date
+    SELECT wishlist_id, name, description, date
     FROM Wishlist
     WHERE user_id = $1
     `;

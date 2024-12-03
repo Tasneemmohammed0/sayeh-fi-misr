@@ -26,16 +26,21 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
           { withCredentials: true }
         );
 
+        console.log(response.data.data);
         setLists(response.data.data);
 
         setLoading(false);
       } catch (err) {
-        console.log(err);
         console.log(err.message);
       }
     };
     fetchLists();
   }, []);
+
+  function handleSelectedItem(listId) {
+    listId === selectedList ? setSelectedList(null) : setSelectedList(listId);
+    console.log(selectedList);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -67,9 +72,9 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
               lists.map((list, index) => {
                 return (
                   <div
-                    className={styles.listItem}
-                    // onClick={addtoList}
-                    key={index}
+                    className={`${styles.listItem} ${selectedList === list.wishlist_id ? styles.active : ""}`}
+                    key={list.wishlist_id}
+                    onClick={() => handleSelectedItem(list.wishlist_id)}
                   >
                     <div className={styles.listName}>{list.name}</div>
                     <IoIosAddCircleOutline className={styles.addIcon} />
