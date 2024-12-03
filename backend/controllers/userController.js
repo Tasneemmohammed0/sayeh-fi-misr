@@ -92,3 +92,26 @@ exports.getUserVisitLists = async (req, res, next) => {
     });
   }
 };
+
+exports.getCurrentUserWishLists = async (req, res, next) => {
+  try {
+    req.user = 1; // to be deleted
+    const query = `
+     SELECT wishlist_id, name, description, date
+      FROM Wishlist
+      WHERE user_id = $1
+    `;
+    const result = await db.query(query, [req.user]);
+
+    res.status(200).json({
+      status: "success",
+      length: result.rows.length,
+      data: result.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
