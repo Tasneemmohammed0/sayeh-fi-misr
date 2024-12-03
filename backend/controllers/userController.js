@@ -2,25 +2,35 @@ const authController = require("./authController");
 const db = require("../db/index");
 
 exports.getMe = (req, res, next) => {
-  // console.log(req.user);
-  res.status(200).json({
-    user: req.user,
-  });
-  // next();
+  req.params.id = req.user.user_id;
+
+  next();
 };
 
-exports.getUser = (req, res, next) => {
-  const user = authController.allUsers.find((u) => u.id === +req.params.id);
+exports.getUser = async (req, res, next) => {
+  try {
+    const query = `
+  SELECT * 
+  FROM visitor
+  WHERE user_id=$1
+  `;
+    const params = [+req.params.id];
+    const response = await db.query(query, params);
+    const user = response.rows[0];
+    if (!user)
+      return res
+        .status(404)
+        .json({ status: "fail", message: "user not found." });
 
-  if (!user)
-    return res.status(404).json({ status: "fail", message: "user not found." });
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      user,
-    },
-  });
+    res.status(200).json({
+      status: "success",
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // Get all reviews made by user_id
