@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/userprofile.module.css";
 import { useParams } from "react-router-dom";
 
@@ -6,9 +6,10 @@ import UserInfo from "../components/UserInfo";
 import ReviewsList from "../components/ReviewsList";
 import VisitedList from "../components/VisitedList";
 import WishLists from "../components/WishLists";
+import UserGatheingList from "../components/UserGatheingList";
 function UserProfile() {
-  const [selectedList, setSelectedList] = React.useState("Reviews");
-
+  const [selectedList, setSelectedList] = useState("Reviews");
+  console.log("selectedList", selectedList);
   //// fetching user data by id
   const { id: userId } = useParams();
 
@@ -51,6 +52,8 @@ function UserProfile() {
         {selectedList === "Wish List" && <WishLists id={userId} />}
 
         {selectedList === "Visted List" && <VisitedList id={userId} />}
+
+        {selectedList === "Gathering List" && <UserGatheingList id={userId} />}
       </section>
     </>
   );
