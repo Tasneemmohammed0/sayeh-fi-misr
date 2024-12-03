@@ -14,12 +14,12 @@ function UserInfo({ user, selectedList, setSelectedList }) {
       <div className={styles.userWrapper}>
         <div className={styles.info}>
           <img
-            src={user.profilePic}
+            src={user.profile_pic}
             alt="user profile"
             className={styles.avater}
           />
           <h2 style={{ marginTop: "20px", marginBottom: "20px " }}>
-            {user.name}
+            {user.username}
           </h2>
           <div>
             <p className={styles.p}>
@@ -58,7 +58,7 @@ function UserInfo({ user, selectedList, setSelectedList }) {
               <span>Photos</span>
             </li>
           </ul>
-          {user.padges.length > 0 && (
+          {user.padges > 0 && (
             <div>
               <h3 style={{ textAlign: "center", marginTop: "10px" }}>
                 Badges Earned
