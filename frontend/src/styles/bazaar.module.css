@@ -26,11 +26,10 @@
   letter-spacing: 0.2rem;
 }
 .bazaarContent {
-  height: 70vh;
   padding: 8rem 7.3rem;
 }
 .cardsContainer {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  padding: 10 60px;
+  /* display: grid; */
+  /* grid-template-columns: auto auto auto; */
+  /* padding: 10 60px; */
 }
