@@ -28,8 +28,22 @@
 .bazaarContent {
   padding: 8rem 7.3rem;
 }
-.cardsContainer {
-  /* display: grid; */
-  /* grid-template-columns: auto auto auto; */
-  /* padding: 10 60px; */
+.giftContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  column-gap: 5rem;
+  row-gap: 2rem;
+}
+
+@media (max-width: 1120px) {
+  .giftContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .giftContainer {
+    grid-template-columns: 1fr;
+  }
 }
