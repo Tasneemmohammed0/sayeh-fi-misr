@@ -193,3 +193,14 @@ exports.protect = (req, res, next) => {
   req.user = currentUser;
   next();
 };
+
+exports.restrictTo = (...roles) =>
+  function (req, res, next) {
+    if (!roles.includes(req.user.role)) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Insufficient Permissions",
+      });
+    }
+    next();
+  };

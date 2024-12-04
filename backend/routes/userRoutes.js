@@ -13,6 +13,13 @@ router.get(
   userController.getUser
 );
 
+router.get(
+  "/admin",
+  authController.protect,
+  authController.restrictTo("admin"),
+  (req, res, next) => res.status(200).json({ message: "authorized" })
+);
+
 // get current user wish lists
 router.get(
   "/myWishlists",
