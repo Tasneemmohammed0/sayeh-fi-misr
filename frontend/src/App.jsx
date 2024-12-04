@@ -9,6 +9,7 @@ import PlaceDetails from "./pages/PlaceDetails";
 import WishList from "./components/WishList";
 import AllGathering from "./pages/AllGathering";
 import AccountSetting from "./pages/AccountSetting";
+import Bazaar from "./pages/Bazaar";
 
 import Page404 from "./pages/Page404";
 
@@ -33,6 +34,7 @@ function App() {
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/profile/:id/wishlist/:id" element={<WishList />} />
       <Route path="/places/:placeId" element={<PlaceDetails />} />
+      <Route path="/bazaar" element={<Bazaar />} />
 
       <Route path="*" element={<Page404 />} />
     </Routes>

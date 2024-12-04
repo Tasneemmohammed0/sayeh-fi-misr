@@ -188,14 +188,17 @@ function AccountSetting() {
     );
     if (errors.length > 0) {
       if (state.error_firstname === "Firstname must not be empty") {
-        // console.log("empty here ");
+        console.log("empty here ");
         dispatch({ type: "updateFirstname", payload: usertemp.firstname });
-      } else if (state.error_lastname === "Lastname must not be empty") {
-        // console.log("empty here last ");
+      }
+      if (state.error_lastname === "Lastname must not be empty") {
+        console.log("empty here last ");
         dispatch({ type: "updateLastname", payload: usertemp.lastname });
-      } else if (state.error_username === "Usernane must not be empty") {
+      }
+      if (state.error_username === "Usernane must not be empty") {
         dispatch({ type: "updateUsername", payload: usertemp.username });
-      } else if (state.error_email === "Email must not be empty") {
+      }
+      if (state.error_email === "Email must not be empty") {
         dispatch({ type: "updateEmail", payload: usertemp.email });
       }
 
@@ -204,6 +207,8 @@ function AccountSetting() {
     }
     toast.success("Account settings updated successfully!");
   }
+
+  console.log("state", state);
 
   return (
     <div

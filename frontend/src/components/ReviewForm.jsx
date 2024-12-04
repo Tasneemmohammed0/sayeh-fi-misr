@@ -20,6 +20,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId }) {
       title,
       main_content: review,
     };
+
     try {
       console.log(placeId);
       const res = await fetch(
