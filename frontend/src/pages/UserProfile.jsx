@@ -9,15 +9,12 @@ import VisitedList from "../components/VisitedList";
 import WishLists from "../components/WishLists";
 import UserGatheingList from "../components/UserGatheingList";
 
-
 function UserProfile() {
   const [currentUser, setCurrentUser] = React.useState({});
   const { id } = useParams();
   const [selectedList, setSelectedList] = useState("Reviews");
   console.log("selectedList", selectedList);
   //// fetching user data by id
-
-  const [selectedList, setSelectedList] = React.useState("Reviews");
   React.useEffect(() => {
     const handleId = async () => {
       try {
@@ -74,7 +71,9 @@ function UserProfile() {
           <VisitedList id={currentUser.user_id} />
         )}
 
-        {currentUser.user_id && selectedList === "Gathering List" && <UserGatheingList id={currentUser.user_id} />}
+        {currentUser.user_id && selectedList === "Gathering List" && (
+          <UserGatheingList id={currentUser.user_id} />
+        )}
       </section>
     </>
   );
