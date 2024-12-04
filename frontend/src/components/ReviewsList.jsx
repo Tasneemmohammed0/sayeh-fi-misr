@@ -21,13 +21,12 @@ function ReviewsList({ id }) {
         setReviews(response.data.data);
         setLoading(false);
       } catch (err) {
-        console.log(err.message);
+        console.log(err);
         setLoading(false);
       }
     };
     fetchData();
   }, [id]);
-  console.log(reviews);
   return (
     <ul>
       {loading && <Loading />}

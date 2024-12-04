@@ -16,12 +16,20 @@ function UserProfile() {
   React.useEffect(() => {
     const handleId = async () => {
       try {
-        if (id == undefined) {
+        if (!id) {
+          console.log("NO ID");
           const response = await axios.get(
             "http://localhost:1123/api/v1/users/me",
             {
               withCredentials: true,
             }
+          );
+          setCurrentUser(response.data.data.user);
+        } else {
+          console.log("ID");
+
+          const response = await axios.get(
+            `http://localhost:1123/api/v1/users/${id}`
           );
           setCurrentUser(response.data.data.user);
         }
@@ -31,7 +39,7 @@ function UserProfile() {
     };
     handleId();
   }, [id]);
-
+  console.log("USER ID:", currentUser.user_id);
   return (
     <>
       <section
@@ -49,11 +57,15 @@ function UserProfile() {
         />
       </section>
       <section style={{ background: "#D3C4A9", padding: "20px 10px " }}>
-        {selectedList === "Reviews" && <ReviewsList id={currentUser.user_id} />}
+        {currentUser.user_id && selectedList === "Reviews" && (
+          <ReviewsList id={currentUser.user_id} />
+        )}
 
-        {selectedList === "Wish List" && <WishLists id={currentUser.user_id} />}
+        {currentUser.user_id && selectedList === "Wish List" && (
+          <WishLists id={currentUser.user_id} />
+        )}
 
-        {selectedList === "Visted List" && (
+        {currentUser.user_id && selectedList === "Visted List" && (
           <VisitedList id={currentUser.user_id} />
         )}
       </section>

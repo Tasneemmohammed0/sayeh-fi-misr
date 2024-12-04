@@ -28,9 +28,9 @@ function App() {
 
       <Route path="/gatherings" element={<AllGathering />} />
 
-      <Route path="/profile" element={<UserProfile />} />
       <Route path="/profile/:id" element={<UserProfile />} />
       <Route path="/profile/:id/accountsetting" element={<AccountSetting />} />
+      <Route path="/profile" element={<UserProfile />} />
 
       <Route path="/profile/wishlist/:id" element={<WishList />} />
       <Route path="/places/:placeId" element={<PlaceDetails />} />
