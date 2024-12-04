@@ -92,3 +92,25 @@ exports.getUserVisitLists = async (req, res, next) => {
     });
   }
 };
+
+exports.getUserGatheringLists = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const query = `
+    SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
+    FROM gathering g, place p, host h
+    WHERE g.place_id=p.place_id AND host_id=$1
+    `;
+    const response = await db.query(query, [id]);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
