@@ -90,3 +90,11 @@
 .saveButton:hover {
   background: #45a049;
 }
+
+.select {
+  width: 100% !important;
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+  border-radius: 5px !important;
+  height: 45px !important;
+}

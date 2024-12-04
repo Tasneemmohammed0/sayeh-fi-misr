@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import styles from "../styles/placeslist.module.css";
+import styles2 from "../styles/UserGatheringList.module.css";
 import Loading from "./Loading";
 import GatheringCard from "./GatheringCard";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-import { MdMenu } from "react-icons/md";
+import { FiSettings } from "react-icons/fi";
 function UserGatheingList({ id }) {
   /// fetching by user id to get the gathering list
 
@@ -100,37 +101,16 @@ function UserGatheingList({ id }) {
         {showOptions && (
           <>
             <CiEdit
-              style={{
-                fontSize: "50px",
-                marginRight: "10px",
-                color: "blue",
-                cursor: "pointer",
-              }}
+              className={styles2.editIcon}
               onClick={() => {
                 handleEdit();
               }}
             />
-            <MdDelete
-              style={{
-                fontSize: "50px",
-                marginRight: "10px",
-                color: "red",
-                cursor: "pointer",
-              }}
-              onClick={handleDelete}
-            />
+            <MdDelete className={styles2.deleteIcon} onClick={handleDelete} />
           </>
         )}
 
-        <MdMenu
-          onClick={handleOptions}
-          style={{
-            fontSize: "50px",
-            marginRight: "10px",
-            color: "green",
-            cursor: "pointer",
-          }}
-        />
+        <FiSettings onClick={handleOptions} className={styles2.optionIcon} />
       </div>
 
       {gatheringList.map((item, index) => (

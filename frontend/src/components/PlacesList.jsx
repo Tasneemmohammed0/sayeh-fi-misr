@@ -1,42 +1,22 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import styles from "../styles/placeslist.module.css";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Card from "./Card";
 import Loading from "./Loading";
+import { UserContext } from "../App";
 
 function PlacesList({ search, filter, count = 100 }) {
-  let [places, setPlaces] = useState([]);
+  // let [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const endpoint =
-          location.pathname === "/"
-            ? `http://localhost:1123/api/v1`
-            : `http://localhost:1123/api/v1/places`;
+  const { places: Places, setPlaces } = useContext(UserContext);
 
-        const response = await axios.get(endpoint);
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-
-        setLoading(false);
-        setPlaces(response.data.data);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    fetchData();
-  }, [location.pathname]);
-
-  places = places.slice(0, count);
+  //places = places.slice(0, count);
+  let places = Places.slice(0, count);
 
   const handleSelectedPlace = (id) => {
     navigate(`/places/${id}`);

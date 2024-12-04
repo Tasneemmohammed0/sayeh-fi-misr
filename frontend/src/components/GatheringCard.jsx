@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineArrowRightAlt, MdEmojiPeople } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
@@ -7,6 +7,8 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import styles from "../styles/GatheringCard.module.css";
 import EditGatheringForm from "./EditGatheringForm";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function GatheringCard({
   photo = "/src/assets/images/temple.png",
@@ -32,6 +34,7 @@ function GatheringCard({
 
   return (
     <>
+      <ToastContainer />
       <div className={styles.card} onClick={onClick}>
         {selectedOption === "edit" && (
           <div className={styles.tooltip}>
