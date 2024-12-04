@@ -14,6 +14,30 @@ function UserGatheingList({ id }) {
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  let [gatheringList, setGatheringsList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const endpoint = `http://localhost:1123/api/v1/gatherings`;
+
+        const response = await axios.get(endpoint);
+        console.log("response");
+        if (response.status === "fail") {
+          console.log("error");
+          return;
+        }
+
+        setGatheringsList(response.data.data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchData();
+  }, []);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -32,62 +56,61 @@ function UserGatheingList({ id }) {
   //   };
   //   fetchData();
   // }, [id, setGatheringList, gatheringList]);
-  let gatheringList = [];
-  const temp = {
-    id: 1,
-    photo: "/src/assets/images/temple.png",
-    placeName: "Luxor Tempale",
-    location: "Luxor ",
-    hostname: "Hany",
-    currentcapacity: 0,
-    duration: 1,
-  };
-  const temp1 = {
-    id: 2,
-    photo: "/src/assets/images/temple.png",
-    placeName: "Luxor Tempale",
-    location: "Luxor ",
-    hostname: "Hany",
-    currentcapacity: 0,
-    duration: 1,
-  };
+  // let gatheringList = [];
+  // const temp = {
+  //   id: 1,
+  //   photo: "/src/assets/images/temple.png",
+  //   placeName: "Luxor Tempale",
+  //   location: "Luxor ",
+  //   hostname: "Hany",
+  //   currentcapacity: 0,
+  //   duration: 1,
+  // };
+  // const temp1 = {
+  //   id: 2,
+  //   photo: "/src/assets/images/temple.png",
+  //   placeName: "Luxor Tempale",
+  //   location: "Luxor ",
+  //   hostname: "Hany",
+  //   currentcapacity: 0,
+  //   duration: 1,
+  // };
 
-  const temp2 = {
-    id: 3,
-    photo: "/src/assets/images/temple.png",
-    placeName: "Luxor Tempale",
-    location: "Luxor ",
-    hostname: "Hany",
-    currentcapacity: 0,
-    duration: 1,
-  };
+  // const temp2 = {
+  //   id: 3,
+  //   photo: "/src/assets/images/temple.png",
+  //   placeName: "Luxor Tempale",
+  //   location: "Luxor ",
+  //   hostname: "Hany",
+  //   currentcapacity: 0,
+  //   duration: 1,
+  // };
 
-  const temp3 = {
-    id: 4,
-    photo: "/src/assets/images/temple.png",
-    placeName: "Luxor Tempale",
-    location: "Luxor ",
-    hostname: "Hany",
-    currentcapacity: 15,
-    duration: 18,
-  };
+  // const temp3 = {
+  //   id: 4,
+  //   photo: "/src/assets/images/temple.png",
+  //   placeName: "Luxor Tempale",
+  //   location: "Luxor ",
+  //   hostname: "Hany",
+  //   currentcapacity: 15,
+  //   duration: 18,
+  // };
 
-  // console.log("gatheringList", gatheringList);
+  // // console.log("gatheringList", gatheringList);
 
-  gatheringList.push(temp);
-  gatheringList.push(temp1);
-  gatheringList.push(temp2);
-  gatheringList.push(temp3);
+  // gatheringList.push(temp);
+  // gatheringList.push(temp1);
+  // gatheringList.push(temp2);
+  // gatheringList.push(temp3);
 
   function handleOptions() {
     setShowOptions((op) => !op);
     setSelectedOption(null);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     setSelectedOption((op) => (op === "delete" ? null : "delete"));
   }
-
   function handleEdit() {
     setSelectedOption((op) => (op === "edit" ? null : "edit"));
   }
@@ -145,13 +168,14 @@ function UserGatheingList({ id }) {
           <GatheringCard
             key={index}
             photo={item.photo}
-            placeName={item.placeName}
+            placeName={item.title}
             location={item.city}
-            hostname={item.hostName}
-            currentcapacity={item.currentcapacity}
+            hostname={item.first_name}
+            currentcapacity={item.current_capacity}
             duration={item.duration}
-            id={item.id}
+            id={item.gathering_id}
             selectedOption={selectedOption}
+            onDelete={handleDelete}
           />
         </div>
       ))}

@@ -21,7 +21,7 @@ function GatheringCard({
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
 
-  function handleDelete() {
+  function handleDelete(id) {
     console.log("delete", id);
     setShowEditForm(false);
   }
@@ -43,7 +43,7 @@ function GatheringCard({
         {selectedOption === "delete" && (
           <div className={styles.tooltip}>
             <MdDelete
-              onClick={() => handleDelete()}
+              onClick={() => handleDelete(id)}
               className={styles.opIcons}
               style={{ color: "red" }}
             />

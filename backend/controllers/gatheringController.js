@@ -62,3 +62,58 @@ WHERE gathering_id= $1`,
     console.log(err);
   }
 };
+exports.updateGathering = async (req, res) => {
+  try {
+    console.log(req.params);
+    const data = await db.query(
+      `UPDATE gathering
+	SET  title=$1, duration=$2,  description=$3, max_capacity=$4
+	WHERE gathering_id=$5;`,
+      [
+        req.body.title,
+        req.body.duration,
+        req.body.description,
+        req.body.max_capacity,
+        req.params.id,
+      ]
+    );
+    res.status(200).json({
+      status: "success",
+      data: data.rows[0],
+    });
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.createGathering = async (req, res) => {
+  try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
+    const insertQuery = `
+      INSERT INTO gathering (title, duration, gathering_date, description, max_capacity, place_id, host_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `;
+    await db.query(insertQuery, [
+      req.body.title,
+      req.body.duration,
+      req.body.gathering_date,
+
+      req.body.description,
+      req.body.max_capacity,
+      place_id,
+      req.body.host_id,
+    ]);
+
+    res.status(201).json({
+      status: "success",
+      message: "Insert Successfully",
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
