@@ -2,6 +2,9 @@ import styles from "../styles/AddToListForm.module.css";
 import { useState, useEffect } from "react";
 import { IoMdClose, IoIosAddCircleOutline } from "react-icons/io";
 import Loading from "./Loading";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ErrorMessage from "./ErrorMessage";
 
 import axios from "axios";
 
@@ -22,12 +25,12 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
           { withCredentials: true }
         );
 
-        console.log(response.data.data);
         setLists(response.data.data);
 
         setLoading(false);
       } catch (err) {
-        console.log(err.message);
+        console.log(err);
+        notify("Error in getting wishlists");
       }
     };
     fetchLists();
@@ -45,7 +48,7 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
 
     // if no list is selected
     if (!selectedList) {
-      alert("Please, select a list");
+      notify("Please, select a list");
       return;
     }
 
@@ -68,7 +71,9 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
       );
 
       if (!res.ok) {
-        throw new Error("❌ Error adding to list");
+        // throw new Error("❌ Error adding to list");
+        notify("Place is already in the list");
+        return;
       }
 
       const result = await res.json();
@@ -78,7 +83,7 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
     }
 
     // show success message
-    alert("🎉 place added to the list");
+    notify("🎉 place added to the list");
 
     // clear the form
     handleClose();
@@ -90,8 +95,13 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
     setIsOpen(false);
   }
 
+  function notify(msg) {
+    toast(msg);
+  }
+
   return (
     <div className={styles.popupOverlay}>
+      <ToastContainer />
       <form className={styles.form} onSubmit={handleSubmit}>
         <h3>Add this place to a list</h3>
         <button className={styles.popupClose} onClick={handleClose}>
