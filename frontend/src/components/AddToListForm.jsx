@@ -39,7 +39,6 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
   function handleSelectedItem(listId) {
     // if the list is already selected, deselect it
     listId === selectedList ? setSelectedList(null) : setSelectedList(listId);
-    console.log(selectedList);
   }
 
   // send bookmark to API
@@ -71,13 +70,9 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
       );
 
       if (!res.ok) {
-        // throw new Error("❌ Error adding to list");
         notify("Place is already in the list");
         return;
       }
-
-      const result = await res.json();
-      console.log(result);
     } catch (err) {
       console.log(err);
     }
@@ -95,6 +90,7 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
     setIsOpen(false);
   }
 
+  // handling pretty alerts
   function notify(msg) {
     toast(msg);
   }
