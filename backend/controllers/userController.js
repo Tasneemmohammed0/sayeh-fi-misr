@@ -3,10 +3,9 @@ const db = require("../db/index");
 
 exports.getMe = (req, res, next) => {
   // console.log(req.user);
-  res.status(200).json({
-    user: req.user,
-  });
-  // next();
+  req.params.id = req.user.user_id;
+
+  next();
 };
 
 exports.getUser = (req, res, next) => {
@@ -52,7 +51,7 @@ exports.getUserReviews = async (req, res, next) => {
 exports.getUserWishlists = async (req, res, next) => {
   try {
     const query = `
-    SELECT name, description, date
+    SELECT wishlist_id, name, description, date
     FROM Wishlist
     WHERE user_id = $1
     `;
@@ -92,3 +91,26 @@ exports.getUserVisitLists = async (req, res, next) => {
     });
   }
 };
+
+// exports.getCurrentUserWishLists = async (req, res, next) => {
+//   try {
+//     req.user = 1; // to be deleted
+//     const query = `
+//      SELECT wishlist_id, name, description, date
+//       FROM Wishlist
+//       WHERE user_id = $1
+//     `;
+//     const result = await db.query(query, [req.user]);
+
+//     res.status(200).json({
+//       status: "success",
+//       length: result.rows.length,
+//       data: result.rows,
+//     });
+//   } catch (err) {
+//     res.status(400).json({
+//       status: "fail",
+//       message: err.message,
+//     });
+//   }
+// };

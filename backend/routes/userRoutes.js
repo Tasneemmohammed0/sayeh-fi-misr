@@ -12,6 +12,15 @@ router.get(
   userController.getMe,
   userController.getUser
 );
+
+// get current user wish lists
+router.get(
+  "/myWishlists",
+  authController.protect,
+  userController.getMe,
+  userController.getUserWishlists
+);
+
 router.get("/:id", userController.getUser);
 router.get("/reviews/:id", userController.getUserReviews);
 router.get("/wishlists/:id", userController.getUserWishlists);

@@ -11,6 +11,18 @@
   background-repeat: no-repeat;
 }
 
+.bookmarkIcon {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  color: var(--our-white);
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.bookmarkIcon .filled {
+}
+
 .title {
   color: var(--our-white);
 
