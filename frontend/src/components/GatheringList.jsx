@@ -21,7 +21,7 @@ function GatheringList({ search, filter, count = 100 }) {
             : `http://localhost:1123/api/v1/gatherings`;
 
         const response = await axios.get(endpoint);
-        console.log("response");
+        console.log(response);
         if (response.status === "fail") {
           console.log("error");
           return;
@@ -37,7 +37,6 @@ function GatheringList({ search, filter, count = 100 }) {
   }, [location.pathname]);
 
   const handleSelectedGathering = (id) => {
-    console.log("nav");
     navigate(`/gatherings/${id}`);
   };
 
