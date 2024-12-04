@@ -12,8 +12,9 @@ function Signout({ isOpen, handleForm, user }) {
   async function handleSignOut() {
     setLoading(true);
     try {
-      // TODO: get the api signout route
-      await axios.post("/api/auth/signout", { user });
+      await axios.post("http://localhost:1123/api/v1/users/logout", {
+        withCredentials: true,
+      });
       setLoading(false);
       handleForm(false);
       navigate("/");
