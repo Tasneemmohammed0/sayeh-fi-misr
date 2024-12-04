@@ -108,8 +108,8 @@ function UserInfo({ user, selectedList, setSelectedList }) {
         </Link>
         <Link to="#gathering" style={{ color: "black" }}>
           <li
-            className={`${styles.listItem} ${selectedList === "Gathering" ? styles.active : ""}`}
-            onClick={() => setSelectedList("Gathering")}
+            className={`${styles.listItem} ${selectedList === "Gathering List" ? styles.active : ""}`}
+            onClick={() => setSelectedList("Gathering List")}
           >
             Gathering
           </li>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/userprofile.module.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -7,10 +7,15 @@ import UserInfo from "../components/UserInfo";
 import ReviewsList from "../components/ReviewsList";
 import VisitedList from "../components/VisitedList";
 import WishLists from "../components/WishLists";
+import UserGatheingList from "../components/UserGatheingList";
+
 
 function UserProfile() {
   const [currentUser, setCurrentUser] = React.useState({});
   const { id } = useParams();
+  const [selectedList, setSelectedList] = useState("Reviews");
+  console.log("selectedList", selectedList);
+  //// fetching user data by id
 
   const [selectedList, setSelectedList] = React.useState("Reviews");
   React.useEffect(() => {
@@ -68,6 +73,8 @@ function UserProfile() {
         {currentUser.user_id && selectedList === "Visted List" && (
           <VisitedList id={currentUser.user_id} />
         )}
+
+        {currentUser.user_id && selectedList === "Gathering List" && <UserGatheingList id={currentUser.user_id} />}
       </section>
     </>
   );

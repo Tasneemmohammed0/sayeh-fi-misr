@@ -3,7 +3,7 @@ import styles from "../styles/AccountSetting.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ChangePasswordForm from "../components/ChangePasswordForm";
-
+import Signout from "../components/Signout";
 const usertemp = {
   id: 1,
   firstname: "Amr",
@@ -136,6 +136,8 @@ function reducer(state, action) {
 function AccountSetting() {
   const [edit, setEdit] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showSignOut, setShowSignOut] = useState(false);
+
   const [state, dispatch] = useReducer(reducer, {
     first_name: usertemp.firstname,
     error_firstname: "",
@@ -186,14 +188,17 @@ function AccountSetting() {
     );
     if (errors.length > 0) {
       if (state.error_firstname === "Firstname must not be empty") {
-        // console.log("empty here ");
+        console.log("empty here ");
         dispatch({ type: "updateFirstname", payload: usertemp.firstname });
-      } else if (state.error_lastname === "Lastname must not be empty") {
-        // console.log("empty here last ");
+      }
+      if (state.error_lastname === "Lastname must not be empty") {
+        console.log("empty here last ");
         dispatch({ type: "updateLastname", payload: usertemp.lastname });
-      } else if (state.error_username === "Usernane must not be empty") {
+      }
+      if (state.error_username === "Usernane must not be empty") {
         dispatch({ type: "updateUsername", payload: usertemp.username });
-      } else if (state.error_email === "Email must not be empty") {
+      }
+      if (state.error_email === "Email must not be empty") {
         dispatch({ type: "updateEmail", payload: usertemp.email });
       }
 
@@ -202,6 +207,8 @@ function AccountSetting() {
     }
     toast.success("Account settings updated successfully!");
   }
+
+  console.log("state", state);
 
   return (
     <div
@@ -323,6 +330,18 @@ function AccountSetting() {
           </button>
         </div>
 
+        <div className={styles.formGroup}>
+          <button
+            className={`${styles.button} ${styles.password}`}
+            onClick={(e) => {
+              e.preventDefault();
+              setShowSignOut(true);
+            }}
+          >
+            Sign Out
+          </button>
+        </div>
+
         {/* Submit Button */}
         <button className={styles.button} onClick={(e) => handleSubmit(e)}>
           Save Changes
@@ -333,6 +352,12 @@ function AccountSetting() {
         isOpen={showChangePassword}
         handleForm={setShowChangePassword}
         userPassword={usertemp.password}
+      />
+
+      <Signout
+        isOpen={showSignOut}
+        handleForm={setShowSignOut}
+        user={usertemp}
       />
     </div>
   );
