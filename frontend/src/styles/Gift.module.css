@@ -1,0 +1,69 @@
+.giftImage {
+  height: 205px;
+  border-top-left-radius: 17px;
+  border-top-right-radius: 17px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  object-fit: cover;
+}
+
+.mainContainer {
+  width: 21rem;
+  border-radius: 20px;
+  height: 19rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.4);
+  cursor: default;
+  /* transition: var(--main-transition); */
+  transition: 0.5s;
+}
+.mainContainer:hover {
+  transform: scale(1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.giftDetailsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+.priceContainer {
+  background-color: #e2e0e0;
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.2rem;
+  align-items: center;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.priceText {
+  text-align: center;
+  font-size: 0.9rem;
+  font-family: "Inter";
+  margin: 0;
+}
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.2rem;
+  align-items: flex-end;
+  width: 100%;
+}
+.giftTitle {
+  font-family: "Inter";
+  font-weight: 600;
+  word-spacing: 4px;
+  color: var(--our-black);
+}
+.giftPlace {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: var(--main-font);
+  word-spacing: 1px;
+}
