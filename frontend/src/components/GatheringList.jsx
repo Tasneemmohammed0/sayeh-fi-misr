@@ -73,7 +73,7 @@ function GatheringList({ search, filter, count = 100 }) {
             location={item.city}
             hostname="Hany"
             currentcapacity={0}
-            duration={1}
+            duration={item.duration}
             onClick={() => handleSelectedGathering(item.gathering_id)}
           />
         </div>

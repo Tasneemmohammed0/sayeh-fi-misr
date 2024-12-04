@@ -78,7 +78,7 @@ function GatheringCard({
           </div>
           <div className={styles.cardInfoDiv}>
             <LuCalendarDays className={styles.cardIcon} />
-            <p style={{ fontSize: "12px" }}> Duration:{duration} days </p>
+            <p style={{ fontSize: "12px" }}> Duration:{duration} hours </p>
           </div>
           <div className={styles.cardInfoDiv}>
             <MdEmojiPeople className={styles.cardIcon} />
