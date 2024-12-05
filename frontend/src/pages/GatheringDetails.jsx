@@ -9,8 +9,9 @@ import axios from "axios";
 function GatheringDetails() {
   const { gatheringId } = useParams();
   const [gathering, setGathering] = useState({});
-  const [placeId, setPlaceId] = useState(0);
   const [place, setPlace] = useState({});
+  const [host, setHost] = useState({});
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
@@ -30,12 +31,22 @@ function GatheringDetails() {
           return;
         }
         // get gathering
-        console.log(response.data.data);
-        setGathering(response.data.data);
+        const gatheringData = response.data.data.gathering[0];
 
-        // get place details
-        // console.log(response.data.data.place_id);
-        setPlaceId(response.data.data.place_id);
+        // set all states
+        setGathering(gatheringData);
+        setPlace({
+          photo: gatheringData.photo,
+          location: gatheringData.location,
+          name: gatheringData.name,
+        });
+        setHost({
+          profile_pic: gatheringData.profile_pic,
+          first_name: gatheringData.first_name,
+          last_name: gatheringData.last_name,
+          phone_number: gatheringData.phone_number,
+        });
+        setUsers(response.data.data.users);
 
         setLoadingData(false);
       } catch (err) {
@@ -45,36 +56,6 @@ function GatheringDetails() {
     };
     fetchGathering();
   }, []);
-
-  // fetch place details
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoadingData(true);
-        setFinalLoading(true);
-
-        const response = await axios.get(
-          `http://localhost:1123/api/v1/places/${placeId}`
-        );
-
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-
-        console.log(placeId);
-        console.log(response.data.data);
-        setPlace(response.data.data);
-
-        setLoadingData(false);
-        setFinalLoading(false);
-      } catch (err) {
-        console.log(err.message);
-        setLoadingData(false);
-      }
-    };
-    fetchData();
-  }, [placeId]);
 
   return (
     <>
