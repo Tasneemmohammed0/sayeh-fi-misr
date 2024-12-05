@@ -1,0 +1,88 @@
+/* Section wrapper */
+.section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  overflow: auto;
+}
+
+/* Table header */
+.thead {
+  background-color: #007bff;
+  color: white;
+  text-align: left;
+}
+
+.th {
+  padding: 10px;
+  font-size: 1rem;
+  border-bottom: 2px solid #ddd;
+  text-align: center;
+}
+
+/* Table rows */
+.tbody {
+  background-color: white;
+}
+
+.tr {
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Table cells */
+.td {
+  padding: 10px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Centered row for empty results */
+.emptyRow {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+  padding: 15px;
+}
+
+/* Action buttons */
+.button {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 5px;
+}
+
+.editButton {
+  background-color: #28a745;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #218838;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
