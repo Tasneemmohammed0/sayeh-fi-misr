@@ -8,16 +8,19 @@ import ReviewsList from "../components/ReviewsList";
 import VisitedList from "../components/VisitedList";
 import WishLists from "../components/WishLists";
 import UserGatheingList from "../components/UserGatheingList";
+import Loading from "../components/Loading";
 
 function UserProfile() {
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [currentUser, setCurrentUser] = useState({});
   const { id } = useParams();
   const [selectedList, setSelectedList] = useState("Reviews");
+  const [loading, setLoading] = useState(false);
   console.log("selectedList", selectedList);
   //// fetching user data by id
   React.useEffect(() => {
     const handleId = async () => {
       try {
+        setLoading(true);
         if (!id) {
           console.log("NO ID");
           const response = await axios.get(
@@ -37,6 +40,8 @@ function UserProfile() {
         }
       } catch (err) {
         console.log(err);
+      } finally{
+        setLoading(false);
       }
     };
     handleId();
@@ -44,6 +49,7 @@ function UserProfile() {
   console.log("USER ID:", currentUser.user_id);
   return (
     <>
+      {loading && <Loading/>}
       <section
         style={{ backgroundColor: "#ece3d3", borderBottom: "1px solid black" }}
       >
