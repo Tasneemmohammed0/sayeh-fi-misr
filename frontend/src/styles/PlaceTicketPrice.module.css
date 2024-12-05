@@ -64,8 +64,7 @@
   background-color: var(--our-green);
 }
 
-.tabContent {
-  margin: 10px;
-  font-size: 20px;
-  color: var(--our-blue);
+.icon:hover {
+  transform: scale(1.11);
+  cursor: pointer;
 }

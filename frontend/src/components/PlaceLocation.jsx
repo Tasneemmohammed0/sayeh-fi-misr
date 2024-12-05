@@ -1,6 +1,6 @@
 import { FaSearchLocation } from "react-icons/fa";
 import styles from "../styles/PlaceLocation.module.css";
-function PlaceLocation({ location }) {
+function PlaceLocation({ location, name }) {
   return (
     <div className={styles.container}>
       <p className={styles.text}>
@@ -8,9 +8,7 @@ function PlaceLocation({ location }) {
           className={styles.icon}
           onClick={() => window.open(location, "_blank")}
         />
-        <span onClick={() => window.open(location, "_blank")}>
-          View Location on Google Maps
-        </span>
+        <span onClick={() => window.open(location, "_blank")}>{name}</span>
       </p>
     </div>
   );

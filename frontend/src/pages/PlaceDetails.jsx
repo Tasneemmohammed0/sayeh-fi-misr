@@ -141,7 +141,7 @@ function PlaceDetails() {
                 openingHoursNormal={place.opening_hours_working_days}
                 openingHoursHoliday={place.opening_hours_holidays}
               />
-              <PlaceLocation location={place.location} />
+              <PlaceLocation location={place.location} name={place.name} />
             </div>
           </div>
           <hr></hr>

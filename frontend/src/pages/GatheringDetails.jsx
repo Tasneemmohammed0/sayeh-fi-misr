@@ -49,6 +49,7 @@ function GatheringDetails() {
         setUsers(response.data.data.users);
 
         setLoadingData(false);
+        setFinalLoading(false);
       } catch (err) {
         console.log(err.message);
         setLoadingData(false);
@@ -82,7 +83,7 @@ function GatheringDetails() {
                   title: "Destination",
                   name: place.name,
                 }}
-                host={{ title: "Host" }}
+                host={host}
               />
               {/*
             <div>
