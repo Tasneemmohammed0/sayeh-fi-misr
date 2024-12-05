@@ -204,3 +204,8 @@ exports.restrictTo = (...roles) =>
     }
     next();
   };
+exports.logout = (req, res, next) => {
+  res.clearCookie("jwt");
+  req.user = undefined;
+  return res.status(201);
+};

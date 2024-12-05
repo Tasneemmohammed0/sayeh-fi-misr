@@ -1,44 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../styles/EditGatheringForm.module.css";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
+import Loading from "./Loading";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { UserContext } from "../App";
+
 function EditGatheringForm({
   isOpen,
   id,
   duration,
   currentcapacity,
-  location,
-  photo,
   placeName,
   onClose,
 }) {
   if (!isOpen) return null;
 
+  const { places, setPlaces } = useContext(UserContext);
+
+  // console.log("places", places);
+
   const [formData, setFormData] = useState({
     placeName: placeName,
     capacity: currentcapacity,
     duration: duration,
-    location: location,
-    photo: photo,
+
     description: "",
   });
+
+  console.log("formData", formData);
 
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    //// api to update the gathering by id with the new data
-    /// and
+    // Validation
+    const { placeName, capacity, duration, description } = formData;
 
-    onClose();
+    // Check if capacity is a positive integer
+    if (isNaN(capacity) || capacity < 0) {
+      toast.error("Capacity must be a positive number.");
+      formData.capacity = currentcapacity;
+      return;
+    }
+
+    // Check if duration is a positive integer
+    if (isNaN(duration) || duration <= 0) {
+      toast.error("Duration must be a positive number.");
+      formData.duration = duration;
+      return;
+    }
+
+    // If all validations pass
+    // console.log("Form is valid. Submitting data...");
+    toast.success("Gathering updated successfully.");
+
+    setTimeout(() => {
+      onClose();
+    }, 1000);
   }
 
   return (
     <div className={styles.overlay}>
+      <ToastContainer />
+
       <div className={styles.modal}>
         <button className={styles.closeButton} onClick={onClose}>
           <IoMdClose />
@@ -47,17 +78,31 @@ function EditGatheringForm({
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="name">
-              Name:
+              Place:
             </label>
-            <input
-              className={styles.input}
-              type="text"
-              id="name"
-              name="name"
+
+            <select
+              className={`${styles.input} ${styles.select}`}
               value={formData.placeName}
-              onChange={handleChange}
-              required
-            />
+              name="placeName"
+              onChange={(e) => handleChange(e)}
+            >
+              <option value={formData.placeName} disabled>
+                {formData.placeName}
+              </option>
+              {places.map(
+                (place) =>
+                  place.name !== formData.placeName && (
+                    <option
+                      className={styles.input}
+                      key={place.id}
+                      value={place.name}
+                    >
+                      {place.name}
+                    </option>
+                  )
+              )}
+            </select>
           </div>
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="capacity">

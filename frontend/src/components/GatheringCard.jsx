@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineArrowRightAlt, MdEmojiPeople } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
@@ -8,20 +9,23 @@ import { CiEdit } from "react-icons/ci";
 import styles from "../styles/GatheringCard.module.css";
 import EditGatheringForm from "./EditGatheringForm";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function GatheringCard({
-  photo = "/src/assets/images/temple.png",
-  placeName = "Luxor Tempale",
-  location = "Luxor ",
-  hostname = "Hany",
+  photo,
+  placeName,
+  location,
+  hostname,
   currentcapacity = 0,
-  duration = 1,
+  duration,
   onClick,
   id,
   selectedOption = null,
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
 
-  function handleDelete() {
+  function handleDelete(id) {
     console.log("delete", id);
     setShowEditForm(false);
   }
@@ -32,6 +36,8 @@ function GatheringCard({
 
   return (
     <>
+      <ToastContainer />
+
       <div className={styles.card} onClick={onClick}>
         {selectedOption === "edit" && (
           <div className={styles.tooltip}>
@@ -43,7 +49,7 @@ function GatheringCard({
         {selectedOption === "delete" && (
           <div className={styles.tooltip}>
             <MdDelete
-              onClick={() => handleDelete()}
+              onClick={() => handleDelete(id)}
               className={styles.opIcons}
               style={{ color: "red" }}
             />
@@ -78,7 +84,7 @@ function GatheringCard({
           </div>
           <div className={styles.cardInfoDiv}>
             <LuCalendarDays className={styles.cardIcon} />
-            <p style={{ fontSize: "12px" }}> Duration:{duration} days </p>
+            <p style={{ fontSize: "12px" }}> Duration:{duration} hours </p>
           </div>
           <div className={styles.cardInfoDiv}>
             <MdEmojiPeople className={styles.cardIcon} />
