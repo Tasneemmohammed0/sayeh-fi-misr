@@ -25,7 +25,7 @@ function GatheringCard({
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
 
-  function handleDelete() {
+  function handleDelete(id) {
     console.log("delete", id);
     setShowEditForm(false);
   }
@@ -49,7 +49,7 @@ function GatheringCard({
         {selectedOption === "delete" && (
           <div className={styles.tooltip}>
             <MdDelete
-              onClick={() => handleDelete()}
+              onClick={() => handleDelete(id)}
               className={styles.opIcons}
               style={{ color: "red" }}
             />
@@ -84,7 +84,7 @@ function GatheringCard({
           </div>
           <div className={styles.cardInfoDiv}>
             <LuCalendarDays className={styles.cardIcon} />
-            <p style={{ fontSize: "12px" }}> Duration:{duration} days </p>
+            <p style={{ fontSize: "12px" }}> Duration:{duration} hours </p>
           </div>
           <div className={styles.cardInfoDiv}>
             <MdEmojiPeople className={styles.cardIcon} />
