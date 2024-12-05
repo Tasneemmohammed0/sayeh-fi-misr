@@ -47,7 +47,23 @@ exports.getAll = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-  res.send(200);
+  try {
+    const query = `
+    DELETE FROM visitor WHERE user_id=$1 RETURNING *
+    `;
+    const response = await db.query(query, [req.params.id]);
+    response.rows[0].password = undefined;
+    res.status(200).json({
+      status: response.rowCount ? "success" : "fail",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
 };
 exports.createAdmin = async (req, res, next) => {
   res.send(200);
