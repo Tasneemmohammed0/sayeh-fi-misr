@@ -194,6 +194,16 @@ exports.protect = (req, res, next) => {
   next();
 };
 
+exports.restrictTo = (...roles) =>
+  function (req, res, next) {
+    if (!roles.includes(req.user.role)) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Insufficient Permissions",
+      });
+    }
+    next();
+  };
 exports.logout = (req, res, next) => {
   res.clearCookie("jwt");
   req.user = undefined;
