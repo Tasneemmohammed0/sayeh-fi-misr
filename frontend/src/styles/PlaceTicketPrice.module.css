@@ -63,3 +63,9 @@
 .tab.active {
   background-color: var(--our-green);
 }
+
+.tabContent {
+  margin: 10px;
+  font-size: 20px;
+  color: var(--our-blue);
+}

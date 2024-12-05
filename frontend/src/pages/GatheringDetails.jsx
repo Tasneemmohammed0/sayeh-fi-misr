@@ -1,15 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/placeDetails.module.css";
-import SeeMoreText from "../components/SeeMoreText";
-import PlaceTicketPrice from "../components/PlaceTicketPrice";
-import OpeningHours from "../components/OpeningHours";
-import PlaceLocation from "../components/PlaceLocation";
-import DetailsPlaceCards from "../components/DetailsPlaceCards";
-import { IoAddCircleSharp } from "react-icons/io5";
-import AddToListForm from "../components/AddToListForm";
 import Loading from "../components/Loading";
-import { FaRegBookmark, FaBookmark } from "react-icons/fa";
+
 import Tabs from "../components/Tabs";
 import axios from "axios";
 
@@ -99,14 +92,16 @@ function GatheringDetails() {
               <div className={styles.breif}>
                 <h3>Breif</h3>
                 <div>{gathering.description}</div>
-                <hr></hr>
               </div>
             )}
 
             <div className={styles.info}>
               <Tabs
-                firstTab={{ title: "Destination" }}
-                secondTab={{ title: "Host" }}
+                destination={{
+                  title: "Destination",
+                  name: place.name,
+                }}
+                host={{ title: "Host" }}
               />
               {/*
             <div>
@@ -118,7 +113,7 @@ function GatheringDetails() {
               {/* </div> */}
             </div>
 
-            <hr style={{ margin: "20px" }}></hr>
+            {/* <hr style={{ margin: "20px" }}></hr> */}
           </div>
         </main>
       )}
