@@ -70,13 +70,16 @@ exports.createAdmin = async (req, res, next) => {
     const query = `
     INSERT INTO admin (user_id, first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender)
     SELECT user_id, first_name, last_name, username, email, password, age, 'admin', country, city, profile_pic, gender
-    FROM visitor
+    FROM ${req.body.role}
     WHERE user_id=$1
     `;
     const response = await db.query(query, [req.params.id]);
     await db.query(`UPDATE visitor SET role='admin' WHERE user_id=$1`, [
       req.params.id,
     ]);
+    if (req.body.role == "host") {
+      await db.query(`DELETE FROM host WHERE user_id=$1`, [req.params.id]);
+    }
     res.status(200).json({
       status: "success",
       length: response.rowCount,
