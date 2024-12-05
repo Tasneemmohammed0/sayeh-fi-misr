@@ -50,13 +50,21 @@ exports.getGatheringDetails = async (req, res) => {
     FROM visitor_gathering vg, visitor v
     WHERE vg.user_id=v.user_id AND vg.gathering_id=$1
     `;
-
     const allUsers = await db.query(allUsersQuery, [req.params.id]);
+
+    const allLanguagesQuery = `
+    SELECT spoken_language
+    FROM gathering_spoken_language
+    WHERE gathering_id=$1
+    `;
+    const allLanguages = await db.query(allLanguagesQuery, [req.params.id]);
+
     res.status(200).json({
       status: "success",
       data: {
         gathering: gatheringDetails.rows,
         users: allUsers.rows,
+        languages: allLanguages.rows,
       },
     });
   } catch (err) {
