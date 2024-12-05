@@ -7,5 +7,5 @@ const router = express.Router();
 router.get("/", gatheringController.getAllGatherings);
 
 //Get one gathering
-router.get("/:id", gatheringController.getGathering);
+router.get("/:id", gatheringController.getGatheringDetails);
 module.exports = router;
