@@ -1,0 +1,97 @@
+.main {
+  background-color: var(--our-light-white);
+  height: 100vh;
+}
+
+.backgroundImage {
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bookmarkIcon {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  color: var(--our-white);
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.bookmarkIcon .filled {
+}
+
+.title {
+  color: var(--our-white);
+
+  position: absolute;
+  top: 220px;
+  left: 50px;
+}
+
+.container {
+  padding: 0rem 1.5rem;
+}
+
+/* breif section  */
+
+.breif {
+  font-size: 1.6rem;
+  color: var(--our-blue);
+
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* place info */
+.vLine {
+  transform: rotate(90deg);
+  margin: 0;
+  width: 220px;
+  height: 2px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.reviewsHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+  text-align: center;
+}
+
+.reviewsHeader > h3 {
+  font-size: 1.6rem;
+  color: var(--our-blue);
+  margin-bottom: 0.6rem;
+}
+
+.reviewsHeader > div > h5 {
+  font-size: 1rem;
+  color: var(--our-brown);
+  cursor: pointer;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  transition: text-decoration 0.3s ease-in-out;
+}
+
+.addIcon {
+  color: var(--our-brown);
+  font-size: 1.2rem;
+  margin-left: 0.2rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.addIcon:hover {
+  color: #7b8b59;
+}
+
+.gatheringInfo {
+}

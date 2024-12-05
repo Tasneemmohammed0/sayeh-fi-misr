@@ -6,7 +6,7 @@ import { IoNavigateCircleOutline } from "react-icons/io5";
 
 function Tabs({ destination, host }) {
   const [selectedTab, setSelectedTab] = useState(destination.title);
-  console.log(host);
+
   return (
     <div className={styles.container}>
       <h3 className={styles.header}>Ticket Price</h3>

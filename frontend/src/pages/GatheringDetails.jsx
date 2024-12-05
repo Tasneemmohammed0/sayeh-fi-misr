@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import styles from "../styles/placeDetails.module.css";
+import styles from "../styles/GatheringDetails.module.css";
 import Loading from "../components/Loading";
-
 import Tabs from "../components/Tabs";
+import GatheringInfo from "../components/GatheringInfo";
 import axios from "axios";
 
 function GatheringDetails() {
@@ -33,6 +33,7 @@ function GatheringDetails() {
         // get gathering
         const gatheringData = response.data.data.gathering[0];
 
+        console.log(gatheringData);
         // set all states
         setGathering(gatheringData);
         setPlace({
@@ -70,7 +71,7 @@ function GatheringDetails() {
             <h1 className={styles.title}>{gathering.title}</h1>
           </div>
           <div className={styles.container}>
-            {gathering.description && (
+            {gathering.description != " " && (
               <div className={styles.breif}>
                 <h3>Breif</h3>
                 <div>{gathering.description}</div>
@@ -85,17 +86,10 @@ function GatheringDetails() {
                 }}
                 host={host}
               />
-              {/*
-            <div>
-              <OpeningHours
-                openingHoursNormal={place.opening_hours_working_days}
-                openingHoursHoliday={place.opening_hours_holidays}
-              />
-              <PlaceLocation location={place.location} /> */}
-              {/* </div> */}
+              <div className={styles.gatheringInfo}>
+                <GatheringInfo gathering={gathering} />
+              </div>
             </div>
-
-            {/* <hr style={{ margin: "20px" }}></hr> */}
           </div>
         </main>
       )}
