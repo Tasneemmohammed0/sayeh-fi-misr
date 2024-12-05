@@ -135,12 +135,7 @@ function PlaceDetails() {
           </div>
           <hr></hr>
           <div className={styles.info}>
-            <PlaceTicketPrice
-              egyptianChildPrice={place.egyptian_student_ticket_price}
-              egyptianAdultPrice={place.egyptian_adult_ticket_price}
-              otherChildPrice={place.foreign_student_ticket_price}
-              otherAdultPrice={place.foreign_adult_ticket_price}
-            />
+            <PlaceTicketPrice />
             <div>
               <OpeningHours
                 openingHoursNormal={place.opening_hours_working_days}

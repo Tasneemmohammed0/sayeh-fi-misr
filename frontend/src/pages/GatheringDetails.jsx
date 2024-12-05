@@ -10,13 +10,14 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import AddToListForm from "../components/AddToListForm";
 import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
+import Tabs from "../components/Tabs";
 import axios from "axios";
 
 function GatheringDetails() {
   const { gatheringId } = useParams();
   const [gathering, setGathering] = useState({});
   const [placeId, setPlaceId] = useState(0);
-  const [place, setPlace] = useState([]);
+  const [place, setPlace] = useState({});
   const [error, setError] = useState(null);
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
@@ -25,8 +26,6 @@ function GatheringDetails() {
   useEffect(() => {
     const fetchGathering = async () => {
       try {
-        console.log("fetching...");
-        console.log(gatheringId);
         setLoadingData(true);
         setFinalLoading(true);
         const response = await axios.get(
@@ -37,11 +36,12 @@ function GatheringDetails() {
           console.log("error");
           return;
         }
-
         // get gathering
+        console.log(response.data.data);
         setGathering(response.data.data);
 
         // get place details
+        // console.log(response.data.data.place_id);
         setPlaceId(response.data.data.place_id);
 
         setLoadingData(false);
@@ -59,6 +59,7 @@ function GatheringDetails() {
       try {
         setLoadingData(true);
         setFinalLoading(true);
+
         const response = await axios.get(
           `http://localhost:1123/api/v1/places/${placeId}`
         );
@@ -68,18 +69,61 @@ function GatheringDetails() {
           return;
         }
 
+        console.log(placeId);
+        console.log(response.data.data);
         setPlace(response.data.data);
 
         setLoadingData(false);
+        setFinalLoading(false);
       } catch (err) {
         console.log(err.message);
         setLoadingData(false);
       }
     };
     fetchData();
-  }, []);
+  }, [placeId]);
 
-  return <></>;
+  return (
+    <>
+      {finalLoading && <Loading />}
+      {place && (
+        <main className={styles.main}>
+          <div
+            className={styles.backgroundImage}
+            style={{ backgroundImage: `url(${place.photo})` }}
+          >
+            <h1 className={styles.title}>{gathering.title}</h1>
+          </div>
+          <div className={styles.container}>
+            {gathering.description && (
+              <div className={styles.breif}>
+                <h3>Breif</h3>
+                <div>{gathering.description}</div>
+                <hr></hr>
+              </div>
+            )}
+
+            <div className={styles.info}>
+              <Tabs
+                firstTab={{ title: "Destination" }}
+                secondTab={{ title: "Host" }}
+              />
+              {/*
+            <div>
+              <OpeningHours
+                openingHoursNormal={place.opening_hours_working_days}
+                openingHoursHoliday={place.opening_hours_holidays}
+              />
+              <PlaceLocation location={place.location} /> */}
+              {/* </div> */}
+            </div>
+
+            <hr style={{ margin: "20px" }}></hr>
+          </div>
+        </main>
+      )}
+    </>
+  );
 }
 
 export default GatheringDetails;
