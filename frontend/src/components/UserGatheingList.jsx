@@ -17,7 +17,6 @@ function UserGatheingList({ id }) {
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  let [gatheringList, setGatheringsList] = useState([]);
   
   useEffect(() => {
     const fetchData = async () => {
