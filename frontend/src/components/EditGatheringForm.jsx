@@ -1,4 +1,3 @@
-
 import React, { useState, useContext } from "react";
 import styles from "../styles/EditGatheringForm.module.css";
 import axios from "axios";
@@ -19,11 +18,9 @@ function EditGatheringForm({
 }) {
   if (!isOpen) return null;
 
-
   const { places, setPlaces } = useContext(UserContext);
 
   // console.log("places", places);
-
 
   const [formData, setFormData] = useState({
     placeName: placeName,
@@ -35,14 +32,10 @@ function EditGatheringForm({
 
   console.log("formData", formData);
 
-  });
-
-
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   }
-
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -71,11 +64,10 @@ function EditGatheringForm({
     setTimeout(() => {
       onClose();
     }, 1000);
-
+  }
 
   return (
     <div className={styles.overlay}>
-
       <ToastContainer />
 
       <div className={styles.modal}>
@@ -88,6 +80,7 @@ function EditGatheringForm({
             <label className={styles.label} htmlFor="name">
               Place:
             </label>
+
             <select
               className={`${styles.input} ${styles.select}`}
               value={formData.placeName}
@@ -110,19 +103,6 @@ function EditGatheringForm({
                   )
               )}
             </select>
-
-              Name:
-            </label>
-            <input
-              className={styles.input}
-              type="text"
-              id="name"
-              name="name"
-              value={formData.placeName}
-              onChange={handleChange}
-              required
-            />
-
           </div>
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="capacity">
@@ -162,9 +142,7 @@ function EditGatheringForm({
               name="description"
               value={formData.description}
               onChange={handleChange}
-
               required
-
             />
           </div>
           <button type="submit" className={styles.saveButton}>

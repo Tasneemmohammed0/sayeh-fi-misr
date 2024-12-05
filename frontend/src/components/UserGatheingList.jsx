@@ -5,7 +5,6 @@ import styles from "../styles/placeslist.module.css";
 
 import styles2 from "../styles/UserGatheringList.module.css";
 
-
 import Loading from "./Loading";
 import GatheringCard from "./GatheringCard";
 import { MdDelete } from "react-icons/md";
@@ -14,76 +13,28 @@ import { CiEdit } from "react-icons/ci";
 import { FiSettings } from "react-icons/fi";
 
 function UserGatheingList({ id }) {
-  /// fetching by user id to get the gathering list
-
-  // const [gatheringList, setGatheringList] = useState([]);
+  const [gatheringList, setGatheringList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
-  //       const response = await axios.get(
-  //         `http://localhost:1123/api/v1/users/gatheringlist/${id}`
-  //       );
-  //       setGatheringList(response.data.data);
-  //       setLoading(false);
-  //     } catch (err) {
-  //       console.log(err.message);
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [id, setGatheringList, gatheringList]);
-  let gatheringList = [];
-  const temp = {
-    id: 1,
-    photo: "/src/assets/images/temple.png",
-    placeName: "Luxor Tempale",
-    location: "Luxor ",
-    hostname: "Hany",
-    currentcapacity: 0,
-    duration: 1,
-  };
-  const temp1 = {
-    id: 2,
-    photo: "/src/assets/images/temple.png",
-    placeName: "Luxor Tempale",
-    location: "Luxor ",
-    hostname: "Hany",
-    currentcapacity: 0,
-    duration: 1,
-  };
-
-  const temp2 = {
-    id: 3,
-    photo: "/src/assets/images/temple.png",
-    placeName: "Luxor Tempale",
-    location: "Luxor ",
-    hostname: "Hany",
-    currentcapacity: 0,
-    duration: 1,
-  };
-
-  const temp3 = {
-    id: 4,
-    photo: "/src/assets/images/temple.png",
-    placeName: "Luxor Tempale",
-    location: "Luxor ",
-    hostname: "Hany",
-    currentcapacity: 15,
-    duration: 18,
-  };
-
-  // console.log("gatheringList", gatheringList);
-
-  gatheringList.push(temp);
-  gatheringList.push(temp1);
-  gatheringList.push(temp2);
-  gatheringList.push(temp3);
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/users/gatherings/${id}`
+        );
+        setGatheringList(response.data.data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err.message);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   function handleOptions() {
     setShowOptions((op) => !op);
@@ -97,7 +48,7 @@ function UserGatheingList({ id }) {
   function handleEdit() {
     setSelectedOption((op) => (op === "edit" ? null : "edit"));
   }
-
+  console.log("gatheringList", gatheringList);
   return (
     <div className={styles.list} style={{ position: "relative" }}>
       {loading && <Loading />}
@@ -106,26 +57,17 @@ function UserGatheingList({ id }) {
         {showOptions && (
           <>
             <CiEdit
-
               className={styles2.editIcon}
-
               style={{
                 fontSize: "50px",
                 marginRight: "10px",
                 color: "blue",
                 cursor: "pointer",
               }}
-
               onClick={() => {
                 handleEdit();
               }}
             />
-           
-          </>
-        )}
-
-        <FiSettings onClick={handleOptions} className={styles2.optionIcon} />
-
             <MdDelete
               style={{
                 fontSize: "50px",
@@ -138,16 +80,7 @@ function UserGatheingList({ id }) {
           </>
         )}
 
-        <MdMenu
-          onClick={handleOptions}
-          style={{
-            fontSize: "50px",
-            marginRight: "10px",
-            color: "green",
-            cursor: "pointer",
-          }}
-        />
-
+        <FiSettings onClick={handleOptions} className={styles2.optionIcon} />
       </div>
 
       {gatheringList.map((item, index) => (
@@ -162,12 +95,12 @@ function UserGatheingList({ id }) {
           <GatheringCard
             key={index}
             photo={item.photo}
-            placeName={item.placeName}
+            placeName={item.name}
             location={item.city}
-            hostname={item.hostName}
+            hostname={item.first_name}
             currentcapacity={item.currentcapacity}
             duration={item.duration}
-            id={item.id}
+            id={item.gathering_id}
             selectedOption={selectedOption}
           />
         </div>

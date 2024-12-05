@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 
 import { FaLocationDot } from "react-icons/fa6";
@@ -13,14 +12,13 @@ import EditGatheringForm from "./EditGatheringForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 function GatheringCard({
-  photo = "/src/assets/images/temple.png",
-  placeName = "Luxor Tempale",
-  location = "Luxor ",
-  hostname = "Hany",
+  photo,
+  placeName,
+  location,
+  hostname,
   currentcapacity = 0,
-  duration = 1,
+  duration,
   onClick,
   id,
   selectedOption = null,
@@ -38,7 +36,6 @@ function GatheringCard({
 
   return (
     <>
-
       <ToastContainer />
 
       <div className={styles.card} onClick={onClick}>
