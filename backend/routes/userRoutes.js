@@ -26,5 +26,6 @@ router.get("/:id", userController.getUser);
 router.get("/reviews/:id", userController.getUserReviews);
 router.get("/wishlists/:id", userController.getUserWishlists);
 router.get("/visitlist/:id", userController.getUserVisitLists);
+router.get("/gatherings/:id", userController.getUserGatheringLists);
 
 module.exports = router;
