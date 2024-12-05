@@ -193,3 +193,9 @@ exports.protect = (req, res, next) => {
   req.user = currentUser;
   next();
 };
+
+exports.logout = (req, res, next) => {
+  res.clearCookie("jwt");
+  req.user = undefined;
+  return res.status(201);
+};

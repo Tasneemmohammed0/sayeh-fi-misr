@@ -2,24 +2,34 @@ const authController = require("./authController");
 const db = require("../db/index");
 
 exports.getMe = (req, res, next) => {
-  // console.log(req.user);
   req.params.id = req.user.user_id;
-
   next();
 };
 
-exports.getUser = (req, res, next) => {
-  const user = authController.allUsers.find((u) => u.id === +req.params.id);
+exports.getUser = async (req, res, next) => {
+  try {
+    const query = `
+  SELECT * 
+  FROM visitor
+  WHERE user_id=$1
+  `;
+    const params = [+req.params.id];
+    const response = await db.query(query, params);
+    const user = response.rows[0];
+    if (!user)
+      return res
+        .status(404)
+        .json({ status: "fail", message: "user not found." });
 
-  if (!user)
-    return res.status(404).json({ status: "fail", message: "user not found." });
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      user,
-    },
-  });
+    res.status(200).json({
+      status: "success",
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // Get all reviews made by user_id
@@ -92,25 +102,25 @@ exports.getUserVisitLists = async (req, res, next) => {
   }
 };
 
-// exports.getCurrentUserWishLists = async (req, res, next) => {
-//   try {
-//     req.user = 1; // to be deleted
-//     const query = `
-//      SELECT wishlist_id, name, description, date
-//       FROM Wishlist
-//       WHERE user_id = $1
-//     `;
-//     const result = await db.query(query, [req.user]);
+exports.getUserGatheringLists = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const query = `
+    SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
+    FROM gathering g, place p, host h
+    WHERE g.place_id=p.place_id AND host_id=$1
+    `;
+    const response = await db.query(query, [id]);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
 
-//     res.status(200).json({
-//       status: "success",
-//       length: result.rows.length,
-//       data: result.rows,
-//     });
-//   } catch (err) {
-//     res.status(400).json({
-//       status: "fail",
-//       message: err.message,
-//     });
-//   }
-// };

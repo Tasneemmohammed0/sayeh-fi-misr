@@ -5,6 +5,7 @@ const userController = require("../controllers/userController");
 const router = express.Router();
 
 router.post("/signup", authController.signup); //http://localhost:1123/api/v1/users/signup
+router.post("/logout", authController.logout);
 router.post("/login", authController.login);
 router.get(
   "/me",
@@ -25,5 +26,6 @@ router.get("/:id", userController.getUser);
 router.get("/reviews/:id", userController.getUserReviews);
 router.get("/wishlists/:id", userController.getUserWishlists);
 router.get("/visitlist/:id", userController.getUserVisitLists);
+router.get("/gatherings/:id", userController.getUserGatheringLists);
 
 module.exports = router;
