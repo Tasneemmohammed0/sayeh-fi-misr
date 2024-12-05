@@ -66,5 +66,23 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 exports.createAdmin = async (req, res, next) => {
-  res.send(200);
+  try {
+    const query = `
+    INSERT INTO admin (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender)
+    SELECT first_name, last_name, username, email, password, age, 'admin', country, city, profile_pic, gender
+    FROM visitor
+    WHERE user_id=$1
+    `;
+    const response = await db.query(query, [req.params.id]);
+    await db.query("DELETE FROM visitor WHERE user_id=$1", [req.params.id]);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
 };

@@ -34,6 +34,6 @@ router.use(authController.protect, authController.restrictTo("admin"));
 
 router.get("/allusers", adminController.getAll);
 router.delete("/:id", adminController.deleteUser);
-router.post("/admin", adminController.createAdmin);
+router.post("/createadmin/:id", adminController.createAdmin);
 
 module.exports = router;
