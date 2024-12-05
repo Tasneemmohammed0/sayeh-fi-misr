@@ -17,7 +17,7 @@ function UserGatheingList({ id }) {
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,10 +41,9 @@ function UserGatheingList({ id }) {
     setSelectedOption(null);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     setSelectedOption((op) => (op === "delete" ? null : "delete"));
   }
-
   function handleEdit() {
     setSelectedOption((op) => (op === "edit" ? null : "edit"));
   }
@@ -95,13 +94,14 @@ function UserGatheingList({ id }) {
           <GatheringCard
             key={index}
             photo={item.photo}
-            placeName={item.name}
+            placeName={item.title}
             location={item.city}
             hostname={item.first_name}
-            currentcapacity={item.currentcapacity}
+            currentcapacity={item.current_capacity}
             duration={item.duration}
             id={item.gathering_id}
             selectedOption={selectedOption}
+            onDelete={handleDelete}
           />
         </div>
       ))}

@@ -71,9 +71,9 @@ function GatheringList({ search, filter, count = 100 }) {
             photo={item.photo}
             placeName={item.title}
             location={item.city}
-            hostname="Hany"
-            currentcapacity={0}
-            duration={1}
+            hostname={item.first_name}
+            currentcapacity={item.current_capacity}
+            duration={item.duration}
             onClick={() => handleSelectedGathering(item.gathering_id)}
           />
         </div>
