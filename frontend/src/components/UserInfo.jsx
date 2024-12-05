@@ -14,7 +14,7 @@ function UserInfo({ user, selectedList, setSelectedList }) {
       <div className={styles.userWrapper}>
         <div className={styles.info}>
           <img
-            src={user.profile_pic}
+            src={user.profile_pic ? user.profile_pic : "../src/assets/images/userAvatar.png"}
             alt="user profile"
             className={styles.avater}
           />
