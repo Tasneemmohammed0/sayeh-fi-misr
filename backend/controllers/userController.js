@@ -3,10 +3,9 @@ const db = require("../db/index");
 
 exports.getMe = (req, res, next) => {
   // console.log(req.user);
-  res.status(200).json({
-    user: req.user,
-  });
-  // next();
+  req.params.id = req.user.user_id;
+
+  next();
 };
 
 exports.getUser = (req, res, next) => {
@@ -52,7 +51,7 @@ exports.getUserReviews = async (req, res, next) => {
 exports.getUserWishlists = async (req, res, next) => {
   try {
     const query = `
-    SELECT name, description, date
+    SELECT wishlist_id, name, description, date
     FROM Wishlist
     WHERE user_id = $1
     `;
@@ -114,3 +113,4 @@ exports.getUserGatheringLists = async (req, res, next) => {
     });
   }
 };
+
