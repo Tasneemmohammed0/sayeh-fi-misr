@@ -2,9 +2,9 @@ import styles from "../styles/reviewForm.module.css";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Rate from "./Rate";
-import ErrorMessage from "./ErrorMessage";
+import { ToastContainer, toast } from "react-toastify";
 
-function ReviewForm({ isOpen, setIsOpen, placeId }) {
+function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
@@ -21,21 +21,39 @@ function ReviewForm({ isOpen, setIsOpen, placeId }) {
       main_content: review,
     };
 
+    const reportData = {
+      date: new Date().toISOString(),
+      severity: rate,
+      reason: title,
+      description: review,
+    };
+
     try {
-      console.log(placeId);
-      const res = await fetch(
-        `http://localhost:1123/api/v1/places/${placeId}/addReview`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(reviewData),
-        }
-      );
+      const res = isReport
+        ? await fetch(
+            `http://localhost:1123/api/v1/places/${placeId ? placeId : gatheringId}/addReport`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(reportData),
+            }
+          )
+        : await fetch(
+            `http://localhost:1123/api/v1/places/${placeId}/addReview`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(reviewData),
+            }
+          );
 
       if (!res.ok) {
-        throw new Error("❌ Error submitting review");
+        toast("❌ Error submitting");
+        throw new Error("❌ Error submitting");
       }
 
       const result = await res.json();
@@ -48,9 +66,19 @@ function ReviewForm({ isOpen, setIsOpen, placeId }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!rate) {
+    // Review without rating
+    if (!rate && !isReport) {
       setError(true);
-      alert("⭐ Please rate the place");
+      toast("⭐ Please rate the place");
+      return;
+    }
+    console.log(rate);
+
+    // Report without title and review
+    if (isReport && !title && !review && !rate) {
+      toast(
+        "Please enter the reason, content of your report and it's severity to consider it"
+      );
       return;
     }
 
@@ -58,7 +86,9 @@ function ReviewForm({ isOpen, setIsOpen, placeId }) {
     postReview();
 
     // show success message
-    alert("🎉 Review Submitted Successfully!");
+    isReport
+      ? toast("Report Submitted Successfully!")
+      : toast("🎉 Review Submitted Successfully!");
 
     // clear the form
     setTitle("");
@@ -77,41 +107,70 @@ function ReviewForm({ isOpen, setIsOpen, placeId }) {
 
   return (
     <div className={styles.popupOverlay}>
+      <ToastContainer />
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h3>Share your experience with us</h3>
+        {isReport ? (
+          <h3 style={{ fontSize: "20px" }}>
+            Open for Feedback: Send your report
+          </h3>
+        ) : (
+          <h3>Share your experience with us</h3>
+        )}
         <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
-        <Rate rate={rate} setRate={setRate} />
+        {!isReport && <Rate rate={rate} setRate={setRate} />}
         <label className={styles.formLabel}>
-          Title
+          {isReport ? "Reason" : "Title"}
           <input
             className={styles.title}
             type="text"
-            placeholder="Enter review title"
+            placeholder={
+              isReport ? "Enter your report reason" : "Enter review title"
+            }
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </label>
 
         <label className={styles.formLabel}>
-          Review
+          {isReport ? "Content" : "Review"}
           <textarea
             className={styles.reviewText}
-            placeholder="Write your review.."
+            placeholder={
+              isReport ? "Write your report..." : "Write your review.."
+            }
             value={review}
             onChange={(e) => setReview(e.target.value)}
             maxLength={400}
           ></textarea>
         </label>
-        {/* {error && <ErrorMessage error={error} />} */}
+        {isReport && (
+          <div className={styles.severity}>
+            <p className={styles.formLabel}>Severity</p>
+            {Array.from({ length: 5 }, (_, index) => {
+              const value = index + 1;
+              return (
+                <label key={value}>
+                  <input
+                    type="radio"
+                    name="rating"
+                    value={value}
+                    onChange={() => setRate(value)}
+                  />
+                  {value}
+                </label>
+              );
+            })}
+          </div>
+        )}
 
         <button
           type="submit"
           className={styles.formButton}
           onClick={handleSubmit}
         >
-          Add Review
+          Add
         </button>
       </form>
     </div>

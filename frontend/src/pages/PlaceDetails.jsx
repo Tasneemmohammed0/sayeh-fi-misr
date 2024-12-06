@@ -162,6 +162,7 @@ function PlaceDetails() {
               isOpen={isReviewFormOpen}
               setIsOpen={setIsReviewFormOpen}
               placeId={placeId}
+              isReport={false}
             />
           </div>
           <hr style={{ margin: "20px" }}></hr>

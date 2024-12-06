@@ -4,6 +4,7 @@ import styles from "../styles/GatheringDetails.module.css";
 import Loading from "../components/Loading";
 import Tabs from "../components/GatheringTabs";
 import GatheringInfo from "../components/GatheringInfo";
+import ReviewForm from "../components/ReviewForm";
 import { IoMdClose, IoIosAddCircleOutline } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -13,6 +14,7 @@ function GatheringDetails() {
   //  const [gathering, setGathering] = useState({});
   // const [place, setPlace] = useState({});
   // const [host, setHost] = useState({});
+  const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [finalLoading, setFinalLoading] = useState(false);
@@ -85,6 +87,19 @@ function GatheringDetails() {
   //   fetchGathering();
   // }, []);
 
+  function handleJoin() {
+    // send join request to API
+  }
+
+  function handleReport() {
+    // send report request to API
+
+    setLoadingData(true);
+    setIsReportFormOpen(true);
+
+    setLoadingData(false);
+  }
+
   return (
     <>
       {finalLoading && <Loading />}
@@ -107,12 +122,18 @@ function GatheringDetails() {
             )}
             <div className={styles.gatheringBtns}>
               <div className={styles.btnContainer}>
-                <IoIosAddCircleOutline className={styles.addIcon} />
+                <IoIosAddCircleOutline
+                  onClick={handleJoin}
+                  className={styles.addIcon}
+                />
                 <p>JOIN</p>
               </div>
 
               <div className={styles.btnContainer}>
-                <IoIosAddCircleOutline className={styles.addIcon} />
+                <IoIosAddCircleOutline
+                  onClick={handleReport}
+                  className={styles.addIcon}
+                />
                 <p>Add Report</p>
               </div>
             </div>
@@ -130,6 +151,12 @@ function GatheringDetails() {
                 <GatheringInfo gathering={gathering} />
               </div>
             </div>
+            <ReviewForm
+              isOpen={isReportFormOpen}
+              setIsOpen={setIsReportFormOpen}
+              isReport={true}
+              gatheringId={gatheringId}
+            />
             <hr style={{ marginTop: "10px" }}></hr>
           </div>
         </main>

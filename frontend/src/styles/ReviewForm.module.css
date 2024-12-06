@@ -48,14 +48,15 @@
 }
 
 .formLabel {
-  font-size: 1.1rem;
+  font-size: 1rem;
+
   color: var(--our-blue);
   display: flex;
   justify-content: center;
 }
 
 .title {
-  margin-left: 30px;
+  margin-left: 10px;
   height: 40px;
   width: 400px;
   border-radius: 10px;
@@ -79,7 +80,7 @@
 }
 .formButton {
   height: 40px;
-  width: 200px;
+  width: 120px;
   border-radius: 10px;
   background-color: var(--our-blue);
   color: var(--our-white);
@@ -96,4 +97,11 @@
   padding: 10px;
   font-size: 15px;
   background-color: rgb(255, 240, 240);
+}
+
+.severity {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--our-blue);
 }
