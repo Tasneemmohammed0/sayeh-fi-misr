@@ -5,11 +5,11 @@ import Gift from "../components/Gift";
 function Bazaar({ totalPoints = 198 }) {
   const gifts = [];
   for (let i = 0; i < 7; i += 1) {
-    gifts.push(<Gift key={i} />);
+    gifts.push(<Gift key={i} totalPoints={totalPoints} />);
   }
 
   return (
-    <main className={styles.mainBazaar}>
+    <div className={styles.mainBazaar}>
       <div className={styles.bazaarHeader}>
         <h1>The Bazaar</h1>
         <p>Spend your points and get prizes for free</p>
@@ -26,7 +26,7 @@ function Bazaar({ totalPoints = 198 }) {
         </div>
         <div className={styles.giftContainer}>{gifts}</div>
       </div>
-    </main>
+    </div>
   );
 }
 export default Bazaar;
