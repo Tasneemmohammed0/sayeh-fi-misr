@@ -36,7 +36,7 @@ function AccountForm({ state, dispatch, handleCount }) {
       }
 
       if (
-        state.role == "guide" &&
+        state.role == "host" &&
         (state.phone === "" || state.background === "")
       ) {
         setError(1);
@@ -61,11 +61,11 @@ function AccountForm({ state, dispatch, handleCount }) {
         password: state.password,
       };
 
-      if (state.role === "guide") {
+      if (state.role === "host") {
         User.phone = state.phone;
         User.background = state.background;
       }
-
+      console.log(User);
       //// send the data to Loay API
       await axios.post("http://localhost:1123/api/v1/users/signup", User, {
         withCredentials: true,
