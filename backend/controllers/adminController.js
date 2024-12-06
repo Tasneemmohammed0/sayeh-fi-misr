@@ -4,7 +4,7 @@ exports.getAll = async (req, res, next) => {
   try {
     console.log("PARAMS:", req.params);
     const { username, email, age, role, gender } = req.query;
-    let query = `SELECT * FROM visitor`;
+    let query = `SELECT DISTINCT * FROM visitor`;
     const params = [];
     const conditions = [];
 
@@ -67,22 +67,29 @@ exports.deleteUser = async (req, res, next) => {
 };
 exports.createAdmin = async (req, res, next) => {
   try {
-    const query = `
-    INSERT INTO admin (user_id, first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender)
-    SELECT user_id, first_name, last_name, username, email, password, age, 'admin', country, city, profile_pic, gender
-    FROM ${req.body.role}
-    WHERE user_id=$1
-    `;
-    const response = await db.query(query, [req.params.id]);
-    await db.query(`UPDATE visitor SET role='admin' WHERE user_id=$1`, [
+    const insertAdminQuery = `
+      INSERT INTO admin 
+      SELECT DISTINCT *
+      FROM visitor
+      WHERE user_id = $1;
+      `;
+    await db.query(insertAdminQuery, [req.params.id]);
+
+    if (req.body.role === "host") {
+      const deleteFromHostQuery = `
+          DELETE FROM host
+          WHERE user_id = $1
+        `;
+      await db.query(deleteFromHostQuery, [req.params.id]);
+    }
+
+    await db.query("UPDATE visitor SET role='admin' WHERE user_id=$1", [
       req.params.id,
     ]);
-    if (req.body.role == "host") {
-      await db.query(`DELETE FROM host WHERE user_id=$1`, [req.params.id]);
-    }
+
     res.status(200).json({
       status: "success",
-      length: response.rowCount,
+      message: "User promoted to admin successfully",
     });
   } catch (err) {
     res.status(400).json({

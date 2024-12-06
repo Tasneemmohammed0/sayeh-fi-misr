@@ -29,6 +29,7 @@ body {
   --second-font: "Noto Sans Georgian", sans-serif !important;
   --main-transition: all 0.6s;
   font-family: var(--main-font);
+  height: 100%;
 }
 /* Default (Mobile-first) */
 .container {
