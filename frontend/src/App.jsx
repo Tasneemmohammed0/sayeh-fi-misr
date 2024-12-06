@@ -6,6 +6,7 @@ import SignUp from "./pages/SignUp";
 import AllPlaces from "./pages/AllPlaces";
 import UserProfile from "./pages/UserProfile";
 import PlaceDetails from "./pages/PlaceDetails";
+import GatheringDetails from "./pages/GatheringDetails";
 import WishList from "./components/WishList";
 import AllGathering from "./pages/AllGathering";
 import AccountSetting from "./pages/AccountSetting";
@@ -62,6 +63,13 @@ function App() {
         <Route path="/places" element={<AllPlaces />} />
 
         <Route path="/gatherings" element={<AllGathering />} />
+
+
+      <Route path="/gatherings" element={<AllGathering />} />
+      <Route
+        path="/gatherings/:gatheringId"
+        element={<GatheringDetails />}
+      ></Route>
 
         <Route path="/profile/:id" element={<UserProfile />} />
         <Route

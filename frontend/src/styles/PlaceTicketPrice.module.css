@@ -63,3 +63,8 @@
 .tab.active {
   background-color: var(--our-green);
 }
+
+.icon:hover {
+  transform: scale(1.11);
+  cursor: pointer;
+}

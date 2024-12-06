@@ -135,18 +135,13 @@ function PlaceDetails() {
           </div>
           <hr></hr>
           <div className={styles.info}>
-            <PlaceTicketPrice
-              egyptianChildPrice={place.egyptian_student_ticket_price}
-              egyptianAdultPrice={place.egyptian_adult_ticket_price}
-              otherChildPrice={place.foreign_student_ticket_price}
-              otherAdultPrice={place.foreign_adult_ticket_price}
-            />
+            <PlaceTicketPrice />
             <div>
               <OpeningHours
                 openingHoursNormal={place.opening_hours_working_days}
                 openingHoursHoliday={place.opening_hours_holidays}
               />
-              <PlaceLocation location={place.location} />
+              <PlaceLocation location={place.location} name={place.name} />
             </div>
           </div>
           <hr></hr>
@@ -167,6 +162,7 @@ function PlaceDetails() {
               isOpen={isReviewFormOpen}
               setIsOpen={setIsReviewFormOpen}
               placeId={placeId}
+              isReport={false}
             />
           </div>
           <hr style={{ margin: "20px" }}></hr>
