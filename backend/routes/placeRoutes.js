@@ -14,19 +14,15 @@ router.get("/:id/photos", placeController.getAllPhotos);
 // Post a review for a place
 router.post(
   "/:id/addReview",
-  // authController.protect,
+  authController.protect,
   placeController.postReview
 );
-router.post(
-  "/:id/addPhoto",
-  // authController.protect,
-  placeController.postPhoto
-);
+router.post("/:id/addPhoto", authController.protect, placeController.postPhoto);
 
 // Add to wishlist route
 router.post(
   "/:id/addToWishlist",
-  // authController.protect,
+  authController.protect,
   placeController.addToWishList
 );
 module.exports = router;

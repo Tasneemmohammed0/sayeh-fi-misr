@@ -46,7 +46,7 @@ function PhotoForm({ isOpen, setIsOpen, placeId }) {
     }
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!photo) {
@@ -62,9 +62,10 @@ function PhotoForm({ isOpen, setIsOpen, placeId }) {
         caption,
       };
 
-      axios.post(
+      await axios.post(
         `http://localhost:1123/api/v1/places/${placeId}/addPhoto`,
-        data
+        data,
+        { withCredentials: true }
       );
 
       handleClose();

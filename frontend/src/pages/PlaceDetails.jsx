@@ -185,13 +185,13 @@ function PlaceDetails() {
               isOpen={isReportFormOpen}
               setIsOpen={setIsReportFormOpen}
               placeId={placeId}
-              isReport={isReportFormOpen}
+              isReport={true}
             />
             <ReviewForm
               isOpen={isReviewFormOpen}
               setIsOpen={setIsReviewFormOpen}
               placeId={placeId}
-              isReport={isReportFormOpen}
+              isReport={false}
             />
           </div>
           <hr style={{ margin: "20px" }}></hr>

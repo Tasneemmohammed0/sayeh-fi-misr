@@ -35,7 +35,7 @@ exports.getAllPlaces = async (req, res) => {
 exports.getPlaceReviews = async (req, res) => {
   try {
     const data = await db.query(
-      `SELECT U.first_name, U.last_name, U.profile_pic,  R.title, R.rating, R.date, R.main_content 
+      `SELECT Distinct U.first_name, U.last_name, U.profile_pic,  R.title, R.rating, R.date, R.main_content 
     FROM visitor U, review R 
     WHERE R.user_id = U.user_id AND place_id = $1`,
       [req.params.id]
@@ -55,7 +55,7 @@ exports.getPlaceReviews = async (req, res) => {
 exports.getAllPhotos = async (req, res) => {
   try {
     const data = await db.query(
-      `SELECT U.first_name, U.last_name, U.profile_pic, P.photo_id, P.photo, P.date, P.caption
+      `SELECT Distinct U.first_name, U.last_name, U.profile_pic, P.photo_id, P.photo, P.date, P.caption
     FROM visitor U, photo P
     WHERE P.user_id = U.user_id AND P.place_id = $1`,
       [req.params.id]
@@ -73,8 +73,8 @@ exports.getAllPhotos = async (req, res) => {
 
 // Post Review Route Handler
 exports.postReview = async (req, res) => {
+  console.log(req.user);
   try {
-    req.user = 52; // to be deleted later
     const data = await db.query(
       `INSERT INTO review (rating, date, title, main_content, user_id, place_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [
@@ -82,7 +82,7 @@ exports.postReview = async (req, res) => {
         req.body.date,
         req.body.title,
         req.body.main_content,
-        req.user,
+        req.user.user_id,
         req.params.id,
       ]
     );
@@ -101,11 +101,16 @@ exports.postReview = async (req, res) => {
 
 // Post photo route handler
 exports.postPhoto = async (req, res) => {
-  req.user = 52; // to be deleted later
   try {
     const data = await db.query(
       `INSERT INTO photo (photo, date, caption, user_id, place_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [req.body.photo, req.body.date, req.body.caption, req.user, req.params.id]
+      [
+        req.body.photo,
+        req.body.date,
+        req.body.caption,
+        req.user.user_id,
+        req.params.id,
+      ]
     );
 
     res.status(200).json({
