@@ -36,6 +36,7 @@ exports.getGathering = async (req, res) => {
 
 exports.getGatheringDetails = async (req, res) => {
   try {
+    console.log(req.params.id);
     const gatheringDetailsQuery = `
     SELECT g.*, p.name, p.photo, p.location, h.profile_pic, h.first_name, h.last_name, h.phone_number
     FROM gathering g, place p, host h
@@ -50,6 +51,7 @@ exports.getGatheringDetails = async (req, res) => {
     FROM visitor_gathering vg, visitor v
     WHERE vg.user_id=v.user_id AND vg.gathering_id=$1
     `;
+    console.log(gatheringDetails.rows);
 
     const allUsers = await db.query(allUsersQuery, [req.params.id]);
     res.status(200).json({

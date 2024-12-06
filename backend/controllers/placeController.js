@@ -74,7 +74,7 @@ exports.getAllPhotos = async (req, res) => {
 // Post Review Route Handler
 exports.postReview = async (req, res) => {
   try {
-    req.user = 1; // to be deleted later
+    req.user = 52; // to be deleted later
     const data = await db.query(
       `INSERT INTO review (rating, date, title, main_content, user_id, place_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [
@@ -101,7 +101,7 @@ exports.postReview = async (req, res) => {
 
 // Post photo route handler
 exports.postPhoto = async (req, res) => {
-  req.user = 8; // to be deleted later
+  req.user = 52; // to be deleted later
   try {
     const data = await db.query(
       `INSERT INTO photo (photo, date, caption, user_id, place_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,

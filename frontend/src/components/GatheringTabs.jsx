@@ -45,7 +45,7 @@ function Tabs({ destination, host }) {
             style={{
               display: "flex",
               alignItems: "center",
-              margin: "20px",
+              marginTop: "20px",
             }}
           >
             {host.profile_pic && (

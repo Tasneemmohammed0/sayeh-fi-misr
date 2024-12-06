@@ -2,62 +2,88 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/GatheringDetails.module.css";
 import Loading from "../components/Loading";
-import Tabs from "../components/Tabs";
+import Tabs from "../components/GatheringTabs";
 import GatheringInfo from "../components/GatheringInfo";
+import { IoMdClose, IoIosAddCircleOutline } from "react-icons/io";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 
 function GatheringDetails() {
   const { gatheringId } = useParams();
-  const [gathering, setGathering] = useState({});
-  const [place, setPlace] = useState({});
-  const [host, setHost] = useState({});
+  //  const [gathering, setGathering] = useState({});
+  // const [place, setPlace] = useState({});
+  // const [host, setHost] = useState({});
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
 
+  const gathering = {
+    title: "Gathering Title",
+    description: "Gathering Description",
+    gathering_date: "2024-12-05 11:35:00",
+    duration: 6,
+    ticket_price: 100,
+    max_capacity: 10,
+    current_capacity: 5,
+  };
+
+  const place = {
+    photo: "../images/photo-1502250493741-939d1c76eaad.png",
+    location: "Cairo",
+    name: "Cairo Tower",
+  };
+
+  const host = {
+    profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
+    first_name: "Ahmed",
+    last_name: "Mohamed",
+    phone_number: "01000000000",
+  };
+
   // Fetch gathering details
-  useEffect(() => {
-    const fetchGathering = async () => {
-      try {
-        setLoadingData(true);
-        setFinalLoading(true);
-        const response = await axios.get(
-          `http://localhost:1123/api/v1/gatherings/${gatheringId}`
-        );
+  // useEffect(() => {
+  //   const fetchGathering = async () => {
+  //     try {
+  //       setLoadingData(true);
+  //       setFinalLoading(true);
+  //       const response = await axios.get(
+  //         `http://localhost:1123/api/v1/gatherings/${gatheringId}`
+  //       );
 
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-        // get gathering
-        const gatheringData = response.data.data.gathering[0];
+  //       if (response.status === "fail") {
+  //         console.log("error");
+  //         return;
+  //       }
+  //       // get gathering
+  //       console.log(response.data.data);
+  //       const gatheringData = response.data.data.gathering[0];
 
-        console.log(gatheringData);
-        // set all states
-        setGathering(gatheringData);
-        setPlace({
-          photo: gatheringData.photo,
-          location: gatheringData.location,
-          name: gatheringData.name,
-        });
-        setHost({
-          profile_pic: gatheringData.profile_pic,
-          first_name: gatheringData.first_name,
-          last_name: gatheringData.last_name,
-          phone_number: gatheringData.phone_number,
-        });
-        setUsers(response.data.data.users);
+  //       console.log(gatheringData);
+  //       // set all states
+  //       setGathering(gatheringData);
+  //       setPlace({
+  //         photo: gatheringData.photo,
+  //         location: gatheringData.location,
+  //         name: gatheringData.name,
+  //       });
+  //       setHost({
+  //         profile_pic: gatheringData.profile_pic,
+  //         first_name: gatheringData.first_name,
+  //         last_name: gatheringData.last_name,
+  //         phone_number: gatheringData.phone_number,
+  //       });
+  //       setUsers(response.data.data.users);
 
-        setLoadingData(false);
-        setFinalLoading(false);
-      } catch (err) {
-        console.log(err.message);
-        setLoadingData(false);
-      }
-    };
-    fetchGathering();
-  }, []);
+  //       setLoadingData(false);
+  //       setFinalLoading(false);
+  //     } catch (err) {
+  //       console.log(err.message);
+  //       setLoadingData(false);
+  //     }
+  //   };
+  //   fetchGathering();
+  // }, []);
 
   return (
     <>
@@ -74,9 +100,23 @@ function GatheringDetails() {
             {gathering.description != " " && (
               <div className={styles.breif}>
                 <h3>Breif</h3>
-                <div>{gathering.description}</div>
+                <div className={styles.description}>
+                  {gathering.description}
+                </div>
               </div>
             )}
+            <div className={styles.gatheringBtns}>
+              <div className={styles.btnContainer}>
+                <IoIosAddCircleOutline className={styles.addIcon} />
+                <p>JOIN</p>
+              </div>
+
+              <div className={styles.btnContainer}>
+                <IoIosAddCircleOutline className={styles.addIcon} />
+                <p>Add Report</p>
+              </div>
+            </div>
+            <hr style={{ marginTop: "10px" }}></hr>
 
             <div className={styles.info}>
               <Tabs
@@ -90,6 +130,7 @@ function GatheringDetails() {
                 <GatheringInfo gathering={gathering} />
               </div>
             </div>
+            <hr style={{ marginTop: "10px" }}></hr>
           </div>
         </main>
       )}

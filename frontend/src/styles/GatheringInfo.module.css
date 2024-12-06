@@ -23,3 +23,7 @@
   color: var(--our-blue);
   margin-right: 10px;
 }
+
+.maxCapacity {
+  margin-left: 10px;
+}
