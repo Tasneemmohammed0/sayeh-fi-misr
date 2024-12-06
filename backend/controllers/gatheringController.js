@@ -46,7 +46,6 @@ exports.getGathering = async (req, res) => {
   }
 };
 
-
 exports.getGatheringDetails = async (req, res) => {
   try {
     console.log(req.params.id);
@@ -86,6 +85,8 @@ exports.getGatheringDetails = async (req, res) => {
       status: "fail",
       message: err.message,
     });
+  }
+};
 
 exports.deleteGathering = async (req, res) => {
   try {
