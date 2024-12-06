@@ -7,7 +7,6 @@ import OpeningHours from "../components/OpeningHours";
 import PlaceLocation from "../components/PlaceLocation";
 import DetailsPlaceCards from "../components/DetailsPlaceCards";
 import { IoAddCircleSharp } from "react-icons/io5";
-import { IoIosAddCircleOutline } from "react-icons/io";
 import ReviewForm from "../components/ReviewForm";
 import PhotoForm from "../components/PhotoForm";
 import AddToListForm from "../components/AddToListForm";
@@ -18,7 +17,7 @@ import axios from "axios";
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
-  const [error, setError] = useState(null);
+  const [isVisited, setIsVisited] = useState(false);
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
   const [loadingReview, setloadingReview] = useState(false);
@@ -95,7 +94,9 @@ function PlaceDetails() {
     fetchPhotos();
   }, []);
 
-  function handleVisited() {}
+  function handleVisited() {
+    setIsVisited((isVisited) => !isVisited);
+  }
 
   function handleBookmark() {
     setIsBookmarked((isBookmarked) => !isBookmarked);
@@ -128,6 +129,7 @@ function PlaceDetails() {
             />
           )}
           <h1 className={styles.title}>{place.name}</h1>
+          {isVisited && <button className={styles.visitLabel}>VISITED</button>}
         </div>
         <div className={styles.container}>
           <div className={styles.breif}>
@@ -139,7 +141,7 @@ function PlaceDetails() {
           </div>
           <div className={styles.placeBtns}>
             <div className={styles.btnContainer}>
-              <IoIosAddCircleOutline
+              <IoAddCircleSharp
                 onClick={handleVisited}
                 className={styles.addIcon}
               />
@@ -147,7 +149,7 @@ function PlaceDetails() {
             </div>
 
             <div className={styles.btnContainer}>
-              <IoIosAddCircleOutline
+              <IoAddCircleSharp
                 onClick={() => setIsReportFormOpen(true)}
                 className={styles.addIcon}
               />

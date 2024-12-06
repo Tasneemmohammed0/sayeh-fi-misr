@@ -115,3 +115,16 @@
   text-decoration: underline;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
+
+.visitLabel {
+  background-color: transparent;
+  position: absolute;
+  font-size: 18px;
+  font-weight: 800;
+  left: 15px;
+  top: 15px;
+  color: green;
+  padding: 0.6rem 0.6rem;
+  border: 2px solid green;
+  border-radius: 50%;
+}
