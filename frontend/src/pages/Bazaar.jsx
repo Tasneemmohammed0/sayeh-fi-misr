@@ -6,7 +6,6 @@ import React, { useState, useEffect } from "react";
 import Loading from "../components/Loading";
 
 function Bazaar({ totalPoints = 198 }) {
-
   const [gifts, setGifts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -24,6 +23,7 @@ function Bazaar({ totalPoints = 198 }) {
 
         setLoading(false);
         setGifts(response.data.data);
+        console.log(response.data.data);
         console.log(response.data);
       } catch (err) {
         console.log(err.message);
@@ -31,7 +31,6 @@ function Bazaar({ totalPoints = 198 }) {
     };
     fetchData();
   }, []);
-
 
   return (
     <div className={styles.mainBazaar}>
@@ -51,13 +50,7 @@ function Bazaar({ totalPoints = 198 }) {
         </div>
         <div className={styles.giftContainer}>
           {gifts.map((item, index) => (
-            <Gift
-              key={index}
-              photo={item.photo}
-              price={item.points}
-              title={item.name}
-              place={item.place_name}
-            />
+            <Gift key={index} card={item} totalPoints={totalPoints} />
           ))}
         </div>
       </div>
