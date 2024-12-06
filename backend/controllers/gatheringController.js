@@ -2,9 +2,21 @@ const db = require("../db/index.js");
 
 exports.getAllGatherings = async (req, res) => {
   try {
-    const data = await db.query(`SELECT g.*, p.photo,p.city
-FROM gathering g
-JOIN place p ON g.place_id = p.place_id;
+    const data = await db.query(`SELECT 
+    g.*,
+    p.photo,
+    p.city,
+    h.first_name,
+    (SELECT COUNT(*) 
+     FROM visitor_gathering vg 
+     WHERE vg.gathering_id = g.gathering_id) AS current_capacity
+FROM 
+    gathering g
+JOIN 
+    place p ON g.place_id = p.place_id
+JOIN 
+    host h ON g.host_id = h.user_id;
+
 `);
 
     res.status(200).json({
@@ -33,6 +45,7 @@ exports.getGathering = async (req, res) => {
     console.log(err);
   }
 };
+
 
 exports.getGatheringDetails = async (req, res) => {
   try {
@@ -73,5 +86,76 @@ exports.getGatheringDetails = async (req, res) => {
       status: "fail",
       message: err.message,
     });
+
+exports.deleteGathering = async (req, res) => {
+  try {
+    console.log(req.params);
+    const data = await db.query(
+      `DELETE FROM gathering
+WHERE gathering_id= $1`,
+      [req.params.id]
+    );
+    res.status(200).json({
+      status: "success",
+      data: data.rows[0],
+    });
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+exports.updateGathering = async (req, res) => {
+  try {
+    console.log(req.params);
+    const data = await db.query(
+      `UPDATE gathering
+	SET  title=$1, duration=$2,  description=$3, max_capacity=$4
+	WHERE gathering_id=$5;`,
+      [
+        req.body.title,
+        req.body.duration,
+        req.body.description,
+        req.body.max_capacity,
+        req.params.id,
+      ]
+    );
+    res.status(200).json({
+      status: "success",
+      data: data.rows[0],
+    });
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.createGathering = async (req, res) => {
+  try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
+    const insertQuery = `
+      INSERT INTO gathering (title, duration, gathering_date, description, max_capacity, place_id, host_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `;
+    await db.query(insertQuery, [
+      req.body.title,
+      req.body.duration,
+      req.body.gathering_date,
+
+      req.body.description,
+      req.body.max_capacity,
+      place_id,
+      req.body.host_id,
+    ]);
+
+    res.status(201).json({
+      status: "success",
+      message: "Insert Successfully",
+    });
+  } catch (error) {
+    console.error(error);
   }
 };

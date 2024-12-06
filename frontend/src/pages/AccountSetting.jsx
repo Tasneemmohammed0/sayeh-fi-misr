@@ -206,6 +206,7 @@ function AccountSetting() {
       return;
     }
     toast.success("Account settings updated successfully!");
+    setEdit("");
   }
 
   console.log("state", state);
