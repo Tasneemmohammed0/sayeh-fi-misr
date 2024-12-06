@@ -52,6 +52,16 @@ function NavBar() {
             Sign In
           </NavLink>
         </li>
+
+        <li>
+          <NavLink
+            to="/dashboard"
+            activeclassname="active-link"
+            className={styles.link}
+          >
+            dashboard
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/profile"

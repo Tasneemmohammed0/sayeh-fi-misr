@@ -5,44 +5,57 @@ import UserList from "./UserList";
 import Loading from "../../components/Loading";
 import axios from "axios";
 function AdminUsers() {
-  // const [search, setSearch] = useState("");
-  // const [role, setRole] = useState("");
-  // const [users, setUsers] = useState([]);
-  // const [loading,setLoading]=useState(false)
+  const [search, setSearch] = useState("");
+  const [role, setRole] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       setLoading(true);
-  //       const res = await axios.get("/api/users/");
-  //       setUsers(res.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     finally{
-  //       setLoading(false);
-  //     }
-  //   }
-  //   fetchData();
-  // },[])
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          "http://localhost:1123/api/v1/users/allusers",
+          { withCredentials: true }
+        );
 
-  // useEffect(() => {
-  //    async function Search() {
-  //     try{
-  //       const res = await axios.get("/api/users/");
-  //       setUsers(res.data);
-  //     }
-  //     catch(err){
-  //       console.log(err)
-  //     }
-  //   }
-  //   Search();
+        setUsers(res.data.data);
+        console.log(res.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
-  // },[search])
+  useEffect(() => {
+    async function Search() {
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          `http://localhost:1123/api/v1/users/allusers?username=${search}&role=${role == "all" ? "" : role}`,
+          {
+            withCredentials: true,
+          }
+        );
+        setUsers(res.data.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    Search();
+  }, [search, role]);
+
+  console.log(search);
 
   return (
     <section className={styles.section}>
+      {loading && <Loading />}
       <h1 style={{ textAlign: "center" }}>Users</h1>
       <div className={styles.bar}>
         <div className={styles.searchWrapper}>
@@ -66,18 +79,19 @@ function AdminUsers() {
           <option value="all" className={styles.option}>
             All
           </option>
-          <option value="toursit" className={styles.option}>
-            Tourist
+          <option value="visitor" className={styles.option}>
+            Visitor
           </option>
-          <option value="guide" className={styles.option}>
-            Guide
+          <option value="host" className={styles.option}>
+            Host
           </option>
           <option value="admin" className={styles.option}>
             Admin
           </option>
         </select>
       </div>
-      <UserList search={search} role={role} users={users} />
+
+      <UserList users={users} setUsers={setUsers} setLoading={setLoading} />
     </section>
   );
 }

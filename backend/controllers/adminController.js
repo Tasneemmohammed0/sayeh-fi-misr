@@ -69,7 +69,7 @@ exports.createAdmin = async (req, res, next) => {
   try {
     const insertAdminQuery = `
       INSERT INTO admin 
-      SELECT *
+      SELECT DISTINCT *
       FROM visitor
       WHERE user_id = $1;
       `;

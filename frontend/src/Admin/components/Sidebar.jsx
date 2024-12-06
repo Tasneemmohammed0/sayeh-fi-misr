@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { HiHomeModern } from "react-icons/hi2";
+import { PiParkFill } from "react-icons/pi";
+import { HiDocumentReport } from "react-icons/hi";
+import { IoStatsChartSharp } from "react-icons/io5";
+import { IoIosHome } from "react-icons/io";
 import { Link } from "react-router-dom";
 import style from "../styles/Sidebar.module.css";
 function Sidebar({ active, setActive }) {
@@ -34,7 +39,7 @@ function Sidebar({ active, setActive }) {
           className={`${style.btn}  ${active == "Places" ? style.active : ""} `}
           onClick={() => handleActive("Places")}
         >
-          <IoPersonCircleOutline />
+          <HiHomeModern />
           Places
         </li>
 
@@ -42,7 +47,7 @@ function Sidebar({ active, setActive }) {
           className={`${style.btn}  ${active == "Gatherings" ? style.active : ""} `}
           onClick={() => handleActive("Gatherings")}
         >
-          <IoPersonCircleOutline />
+          <PiParkFill />
           Gatherings
         </li>
 
@@ -50,28 +55,20 @@ function Sidebar({ active, setActive }) {
           className={`${style.btn}  ${active == "Reports" ? style.active : ""} `}
           onClick={() => handleActive("Reports")}
         >
-          <IoPersonCircleOutline />
+          <HiDocumentReport />
           Reports
         </li>
         <li
           className={`${style.btn}  ${active == "Statistics" ? style.active : ""} `}
           onClick={() => handleActive("Statistics")}
         >
-          <IoPersonCircleOutline />
+          <IoStatsChartSharp />
           Statistics
-        </li>
-
-        <li
-          className={`${style.btn}  ${active == "Settings" ? style.active : ""} `}
-          onClick={() => handleActive("Settings")}
-        >
-          <IoPersonCircleOutline />
-          Settings
         </li>
 
         <Link to="/">
           <li className={style.btn}>
-            <IoPersonCircleOutline />
+            <IoIosHome />
             Go To Home
           </li>
         </Link>
