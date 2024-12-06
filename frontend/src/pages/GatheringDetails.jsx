@@ -14,8 +14,9 @@ function GatheringDetails() {
   //  const [gathering, setGathering] = useState({});
   // const [place, setPlace] = useState({});
   // const [host, setHost] = useState({});
+  // const [users, setUsers] = useState([]);
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
-  const [users, setUsers] = useState([]);
+
   const [error, setError] = useState(null);
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
@@ -43,6 +44,33 @@ function GatheringDetails() {
     last_name: "Mohamed",
     phone_number: "01000000000",
   };
+
+  const users = [
+    {
+      user_id: 52,
+      first_name: "Ahmed",
+      last_name: "Mohamed",
+      profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
+    },
+    {
+      user_id: 55,
+      first_name: "Ahmed",
+      last_name: "Mohamed",
+      profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
+    },
+    {
+      user_id: 57,
+      first_name: "Ahmed",
+      last_name: "Mohamed",
+      profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
+    },
+    {
+      user_id: 58,
+      first_name: "Ahmed",
+      last_name: "Mohamed",
+      profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
+    },
+  ];
 
   // Fetch gathering details
   // useEffect(() => {
@@ -153,6 +181,23 @@ function GatheringDetails() {
               gatheringId={gatheringId}
             />
             <hr style={{ marginTop: "10px" }}></hr>
+          </div>
+          {/* Gatherings Participants */}
+          <div className={styles.usersSection}>
+            <div className={styles.usersHeader}>
+              <h2>Gather Together, Explore Together!</h2>
+              <h3 style={{ margin: "10px" }}>Get to Know the Group!</h3>
+            </div>
+            <div className={styles.usersContainer}>
+              {users.map((user) => (
+                <div key={user.user_id} className={styles.user}>
+                  <img src={user.profile_pic} alt="user-pic" />
+                  <p>
+                    {user.first_name} {user.last_name}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </main>
       )}
