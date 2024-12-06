@@ -7,6 +7,7 @@ import OpeningHours from "../components/OpeningHours";
 import PlaceLocation from "../components/PlaceLocation";
 import DetailsPlaceCards from "../components/DetailsPlaceCards";
 import { IoAddCircleSharp } from "react-icons/io5";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import ReviewForm from "../components/ReviewForm";
 import PhotoForm from "../components/PhotoForm";
 import AddToListForm from "../components/AddToListForm";
@@ -26,6 +27,7 @@ function PlaceDetails() {
   const [reviews, setReviews] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+  const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -82,7 +84,7 @@ function PlaceDetails() {
         );
 
         setPhotos(response.data.data);
-        console.log(response.data.data);
+
         setLoadingPhotos(false);
         setFinalLoading(false);
       } catch (err) {
@@ -92,6 +94,8 @@ function PlaceDetails() {
     };
     fetchPhotos();
   }, []);
+
+  function handleVisited() {}
 
   function handleBookmark() {
     setIsBookmarked((isBookmarked) => !isBookmarked);
@@ -133,6 +137,23 @@ function PlaceDetails() {
               text={place.description}
             />
           </div>
+          <div className={styles.placeBtns}>
+            <div className={styles.btnContainer}>
+              <IoIosAddCircleOutline
+                onClick={handleVisited}
+                className={styles.addIcon}
+              />
+              <p>Visited</p>
+            </div>
+
+            <div className={styles.btnContainer}>
+              <IoIosAddCircleOutline
+                onClick={() => setIsReportFormOpen(true)}
+                className={styles.addIcon}
+              />
+              <p>Add Report</p>
+            </div>
+          </div>
           <hr></hr>
           <div className={styles.info}>
             <PlaceTicketPrice />
@@ -159,10 +180,16 @@ function PlaceDetails() {
             </div>
             <DetailsPlaceCards reviews={reviews} />
             <ReviewForm
+              isOpen={isReportFormOpen}
+              setIsOpen={setIsReportFormOpen}
+              placeId={placeId}
+              isReport={isReportFormOpen}
+            />
+            <ReviewForm
               isOpen={isReviewFormOpen}
               setIsOpen={setIsReviewFormOpen}
               placeId={placeId}
-              isReport={false}
+              isReport={isReportFormOpen}
             />
           </div>
           <hr style={{ margin: "20px" }}></hr>
