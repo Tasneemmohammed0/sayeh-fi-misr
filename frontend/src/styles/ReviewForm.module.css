@@ -43,7 +43,7 @@
 .form > h3 {
   font-size: 1.6rem;
   color: var(--our-blue);
-  margin-top: 1rem;
+  padding: 1rem 1rem;
   text-align: center;
 }
 

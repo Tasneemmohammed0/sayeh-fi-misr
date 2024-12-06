@@ -29,36 +29,31 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     };
 
     try {
-      const res = isReport
-        ? await fetch(
-            `http://localhost:1123/api/v1/places/${placeId ? placeId : gatheringId}/addReport`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(reportData),
-            }
-          )
-        : await fetch(
-            `http://localhost:1123/api/v1/places/${placeId}/addReview`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(reviewData),
-            }
-          );
+      // Determine the end point
+      const url = isReport
+        ? `http://localhost:1123/api/v1/places/${placeId ? placeId : gatheringId}/addReport`
+        : `http://localhost:1123/api/v1/places/${placeId}/addReview`;
+
+      // Send the request
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(isReport ? reportData : reviewData),
+      });
 
       if (!res.ok) {
-        toast("❌ Error submitting");
-        throw new Error("❌ Error submitting");
+        const errMessage = `❌ Error: ${res.status} ${res.statusText}`;
+        toast.error(errMessage);
+        throw new Error(errMessage);
       }
 
       const result = await res.json();
       console.log(result);
     } catch (err) {
+      toast("❌ Error submitting");
+      console.error(err); // Log the error for debugging purposes
       setError(err);
     }
   }
@@ -75,7 +70,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     console.log(rate);
 
     // Report without title and review
-    if (isReport && !title && !review && !rate) {
+    if ((isReport && !title) || !review || !rate) {
       toast(
         "Please enter the reason, content of your report and it's severity to consider it"
       );
