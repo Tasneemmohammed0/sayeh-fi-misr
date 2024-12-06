@@ -28,6 +28,7 @@ function GatheringDetails() {
     ticket_price: 100,
     max_capacity: 10,
     current_capacity: 5,
+    host_id: 52,
   };
 
   const place = {
@@ -89,20 +90,13 @@ function GatheringDetails() {
 
   function handleJoin() {
     // send join request to API
-  }
-
-  function handleReport() {
-    // send report request to API
-
-    setLoadingData(true);
-    setIsReportFormOpen(true);
-
-    setLoadingData(false);
+    toast("You joined the gathering successfully!");
   }
 
   return (
     <>
       {finalLoading && <Loading />}
+      <ToastContainer />
       {place && (
         <main className={styles.main}>
           <div
@@ -131,7 +125,7 @@ function GatheringDetails() {
 
               <div className={styles.btnContainer}>
                 <IoIosAddCircleOutline
-                  onClick={handleReport}
+                  onClick={() => setIsReportFormOpen(true)}
                   className={styles.addIcon}
                 />
                 <p>Add Report</p>
@@ -144,6 +138,7 @@ function GatheringDetails() {
                 destination={{
                   title: "Destination",
                   name: place.name,
+                  hostId: gathering.host_id,
                 }}
                 host={host}
               />

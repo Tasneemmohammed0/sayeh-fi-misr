@@ -3,8 +3,10 @@ import { useState } from "react";
 import styles from "../styles/PlaceTicketPrice.module.css";
 import PlaceLocation from "./PlaceLocation";
 import { IoNavigateCircleOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
-function Tabs({ destination, host }) {
+function Tabs({ destination, host, hostId }) {
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(destination.title);
 
   return (
@@ -67,6 +69,7 @@ function Tabs({ destination, host }) {
               {host.first_name} {host.last_name}
             </div>
             <IoNavigateCircleOutline
+              onClick={() => navigate(`/profile/${hostId}`)}
               className={styles.icon}
               color="var(--our-blue)"
               fontSize="25px"
