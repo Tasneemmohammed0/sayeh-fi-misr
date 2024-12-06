@@ -68,7 +68,6 @@ exports.login = async (req, res, next) => {
 
 exports.signup = async (req, res, next) => {
   try {
-    await db.query("BEGIN");
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = {
       firstName: req.body.firstName,
@@ -106,23 +105,25 @@ exports.signup = async (req, res, next) => {
       newUser.gender,
     ];
     let result;
-    if (newUser.role != "host")
-      result = await db.query(insertUserQuery, userParams);
+    result = await db.query(insertUserQuery, userParams);
     // contains the new user
-    else if (newUser.role === "host") {
-      userParams.push(req.body.phone, req.body.background);
+    console.log(result.rows);
+    if (newUser.role === "host") {
+      userParams.push(
+        req.body.phone,
+        req.body.background,
+        result.rows[0].user_id
+      );
       const q = `
       INSERT INTO host 
-      (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender, phone_number, background)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+      (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender, phone_number, background, user_id)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
       RETURNING *
     `;
       result = await db.query(q, userParams);
     }
     const user = result.rows[0];
-    console.log("USER INSERTED");
-    await db.query("COMMIT");
-    await db.query("BEGIN");
+
     let insertNationalityQuery;
     console.log(user.user_id);
     newUser.nationalities.forEach(async (nationality) => {
