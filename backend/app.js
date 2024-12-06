@@ -10,6 +10,7 @@ const userRouter = require("./routes/userRoutes");
 const placeRouter = require("./routes/placeRoutes");
 const homeRouter = require("./routes/homeRoutes");
 const gatheringRouter = require("./routes/gatheringRoutes");
+const bazaarRouter = require("./routes/bazaarRoutes");
 
 const app = express();
 
@@ -60,7 +61,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/places", placeRouter);
 app.use("/api/v1/gatherings", gatheringRouter);
 app.use("/api/v1", homeRouter);
-
+app.use("/api/v1/bazaar", bazaarRouter);
 app.all("*", (req, res, next) => {
   const msg = `Can't find ${req.originalUrl}`;
   res.json({
