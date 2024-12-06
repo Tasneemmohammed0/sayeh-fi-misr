@@ -23,6 +23,7 @@ function Bazaar({ totalPoints = 198 }) {
 
         setLoading(false);
         setGifts(response.data.data);
+        console.log(response.data.data);
         console.log(response.data);
       } catch (err) {
         console.log(err.message);
@@ -30,14 +31,9 @@ function Bazaar({ totalPoints = 198 }) {
     };
     fetchData();
   }, []);
-  // const gifts = [];
-  // for (let i = 0; i <= 7; i += 1) {
-  //   gifts.push(<Gift key={i}
-  //   />);
-  // }
 
   return (
-    <main className={styles.mainBazaar}>
+    <div className={styles.mainBazaar}>
       <div className={styles.bazaarHeader}>
         <h1>The Bazaar</h1>
         <p>Spend your points and get prizes for free</p>
@@ -54,17 +50,11 @@ function Bazaar({ totalPoints = 198 }) {
         </div>
         <div className={styles.giftContainer}>
           {gifts.map((item, index) => (
-            <Gift
-              key={index}
-              photo={item.photo}
-              price={item.points}
-              title={item.name}
-              place={item.place_name}
-            />
+            <Gift key={index} card={item} totalPoints={totalPoints} />
           ))}
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 export default Bazaar;
