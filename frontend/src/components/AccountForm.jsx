@@ -157,12 +157,12 @@ function AccountForm({ state, dispatch, handleCount }) {
           <option value="" disabled>
             Select Role
           </option>
-          <option value="tourist">Tourist</option>
-          <option value="guide">Guide</option>
+          <option value="visitor">Visitor</option>
+          <option value="host">Host</option>
         </select>
       </div>
 
-      {state.role == "guide" && (
+      {state.role == "host" && (
         <>
           <div className={styles.inputWrapper}>
             <label className={styles.label}>Phone</label>
