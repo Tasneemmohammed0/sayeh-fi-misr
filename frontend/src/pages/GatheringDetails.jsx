@@ -6,11 +6,13 @@ import Tabs from "../components/GatheringTabs";
 import GatheringInfo from "../components/GatheringInfo";
 import ReviewForm from "../components/ReviewForm";
 import { IoMdClose, IoIosAddCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 
 function GatheringDetails() {
   const { gatheringId } = useParams();
+  const navigate = useNavigate();
   //  const [gathering, setGathering] = useState({});
   // const [place, setPlace] = useState({});
   // const [host, setHost] = useState({});
@@ -20,6 +22,7 @@ function GatheringDetails() {
   const [error, setError] = useState(null);
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
+  const [isJoined, setIsJoined] = useState(false);
 
   const gathering = {
     title: "Gathering Title",
@@ -118,7 +121,7 @@ function GatheringDetails() {
 
   function handleJoin() {
     // send join request to API
-    toast("You joined the gathering successfully!");
+    setIsJoined(() => setIsJoined(!isJoined));
   }
 
   return (
@@ -131,6 +134,7 @@ function GatheringDetails() {
             className={styles.backgroundImage}
             style={{ backgroundImage: `url(${place.photo})` }}
           >
+            {isJoined && <button className={styles.joinLabel}>JOINED</button>}
             <h1 className={styles.title}>{gathering.title}</h1>
           </div>
           <div className={styles.container}>
@@ -191,8 +195,12 @@ function GatheringDetails() {
             <div className={styles.usersContainer}>
               {users.map((user) => (
                 <div key={user.user_id} className={styles.user}>
-                  <img src={user.profile_pic} alt="user-pic" />
-                  <p>
+                  <img
+                    src={user.profile_pic}
+                    alt="user-pic"
+                    onClick={() => navigate(`/profile/${user.user_id}`)}
+                  />
+                  <p onClick={() => navigate(`/profile/${user.user_id}`)}>
                     {user.first_name} {user.last_name}
                   </p>
                 </div>

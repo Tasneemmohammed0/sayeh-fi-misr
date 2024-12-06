@@ -23,6 +23,19 @@
   padding: 1.5rem 5rem;
 }
 
+.joinLabel {
+  background-color: transparent;
+  position: absolute;
+  font-size: 18px;
+  font-weight: 800;
+  right: 15px;
+  top: 15px;
+  color: green;
+  padding: 0.6rem 0.6rem;
+  border: 2px solid green;
+  border-radius: 50%;
+}
+
 /* breif section  */
 
 .breif {
