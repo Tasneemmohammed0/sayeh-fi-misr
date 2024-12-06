@@ -51,11 +51,6 @@ exports.getGatheringDetails = async (req, res) => {
     FROM visitor_gathering vg, visitor v
     WHERE vg.user_id=v.user_id AND vg.gathering_id=$1
     `;
-<<<<<<< HEAD
-    console.log(gatheringDetails.rows);
-
-=======
->>>>>>> 9f9f15c37b4f600bf9bb489edfa3510512685b09
     const allUsers = await db.query(allUsersQuery, [req.params.id]);
 
     const allLanguagesQuery = `
