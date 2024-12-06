@@ -25,12 +25,12 @@ app.use(
 
 // Limit 1000 requests from same IP within 30 minutes
 // To be reduced in production
-const limiter = rateLimit({
-  max: 1000,
-  windowM: 30 * 60 * 1000,
-  message: "too many requests, try again later",
-});
-app.use("/api", limiter);
+// const limiter = rateLimit({
+//   max: 1000,
+//   windowM: 30 * 60 * 1000,
+//   message: "too many requests, try again later",
+// });
+// app.use("/api", limiter);
 
 // Body parser, read data from body into req.body
 app.use(express.json());
