@@ -89,7 +89,7 @@ function PersonalForm({ state, dispatch, handleCount }) {
   console.log(state);
   return (
     <form className={styles.form}>
-      <Loading />
+      {loading && <Loading />}
       <div className={styles.inputWrapper}>
         <label className={styles.label}>First Name</label>
         <input
