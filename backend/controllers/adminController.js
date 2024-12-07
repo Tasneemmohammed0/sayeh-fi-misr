@@ -98,3 +98,173 @@ exports.createAdmin = async (req, res, next) => {
     });
   }
 };
+
+exports.deletePlace = async (req, res, next) => {
+  try {
+    await db.query("COMMIT");
+    const query = `
+    DELETE FROM place WHERE place_id=$1;
+    `;
+    const response = await db.query(query, [req.params.id]);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+    });
+  } catch (err) {
+    await db.query("ROLLBACK");
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
+exports.createPlace = async (req, res, next) => {
+  try {
+    const place = {
+      name: req.body.name,
+      location: req.body.location,
+      city: req.body.city,
+      photo: req.body.photo,
+      type: req.body.type,
+      description: req.body.description,
+      foreign_adult_ticket_price: req.body.foreign_adult_ticket_price,
+      foreign_student_ticket_price: req.body.foreign_student_ticket_price,
+      egyptian_adult_ticket_price: req.body.egyptian_adult_ticket_price,
+      egyptian_student_ticket_price: req.body.egyptian_student_ticket_price,
+      opening_hours_holidays: req.body.opening_hours_holidays,
+      opening_hours_working_days: req.body.opening_hours_working_days,
+    };
+    const query = `
+    INSERT INTO place 
+    (name, location, city, photo,type, description, foreign_adult_ticket_price, foreign_student_ticket_price, egyptian_adult_ticket_price, egyptian_student_ticket_price, opening_hours_holidays, opening_hours_working_days)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    `;
+    const params = Object.values(place);
+    const response = await db.query(query, params);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
+exports.updatePlace = async (req, res, next) => {
+  try {
+    let query = `
+    UPDATE place
+    `;
+    const { place_id } = req.body;
+    if (!place_id) {
+      return res.status(400).json({
+        status: "fail",
+        message: "there exist no place id",
+      });
+    }
+    const params = [];
+    const conditions = [];
+    if (req.body.name) {
+      params.push(req.body.name);
+      conditions.push(` name=$${params.length}`);
+    }
+    if (req.body.location) {
+      params.push(req.body.location);
+      conditions.push(`location=$${params.length}`);
+    }
+    if (req.body.city) {
+      params.push(req.body.city);
+      conditions.push(`city=$${params.length}`);
+    }
+    if (req.body.photo) {
+      params.push(req.body.photo);
+      conditions.push(`photo=$${params.length}`);
+    }
+    if (req.body.description) {
+      params.push(req.body.description);
+      conditions.push(`description=$${params.length}`);
+    }
+    if (req.body.foreign_adult_ticket_price != undefined) {
+      params.push(req.body.foreign_adult_ticket_price);
+      conditions.push(`foreign_adult_ticket_price=$${params.length}`);
+    }
+    if (req.body.foreign_student_ticket_price != undefined) {
+      params.push(req.body.foreign_student_ticket_price);
+      conditions.push(`foreign_student_ticket_price=$${params.length}`);
+    }
+    if (req.body.egyptian_student_ticket_price != undefined) {
+      params.push(req.body.egyptian_student_ticket_price);
+      conditions.push(`egyptian_student_ticket_price=$${params.length}`);
+    }
+    if (req.body.egyptian_adult_ticket_price != undefined) {
+      params.push(req.body.egyptian_adult_ticket_price);
+      conditions.push(`egyptian_adult_ticket_price=$${params.length}`);
+    }
+    if (req.body.opening_hours_holidays) {
+      params.push(req.body.opening_hours_holidays);
+      conditions.push(`opening_hours_holidays=$${params.length}`);
+    }
+    if (req.body.opening_hours_working_days) {
+      params.push(req.body.opening_hours_working_days);
+      conditions.push(`opening_hours_working_days=$${params.length}`);
+    }
+    params.push(place_id);
+    if (conditions.length > 0) {
+      query += ` SET ${conditions.join(", ")} WHERE place_id=$${
+        params.length
+      } RETURNING *`;
+    }
+
+    const response = await db.query(query, params);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.getReports = async (req, res, next) => {
+  try {
+    const query = `
+    SELECT 
+    rp.report_id, 
+    rp.place_id AS entity_id, 
+    r.*,
+    'place' AS entity_type
+    FROM report_place rp
+    JOIN report r ON rp.report_id = r.report_id
+
+    UNION
+
+    SELECT 
+    rg.report_id, 
+    rg.gathering_id AS entity_id, 
+    r.*, 
+    'gathering' AS entity_type
+    FROM report_gathering rg
+    JOIN report r ON rg.report_id = r.report_id;
+    `;
+    const response = await db.query(query);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
