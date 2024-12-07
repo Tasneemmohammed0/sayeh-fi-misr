@@ -118,3 +118,39 @@ exports.deletePlace = async (req, res, next) => {
     });
   }
 };
+
+exports.createPlace = async (req, res, next) => {
+  try {
+    const place = {
+      name: req.body.name,
+      location: req.body.location,
+      city: req.body.city,
+      photo: req.body.photo,
+      type: req.body.type,
+      description: req.body.description,
+      foreign_adult_ticket_price: req.body.foreign_adult_ticket_price,
+      foreign_student_ticket_price: req.body.foreign_student_ticket_price,
+      egyptian_adult_ticket_price: req.body.egyptian_adult_ticket_price,
+      egyptian_student_ticket_price: req.body.egyptian_student_ticket_price,
+      opening_hours_holidays: req.body.opening_hours_holidays,
+      opening_hours_working_days: req.body.opening_hours_working_days,
+    };
+    const query = `
+    INSERT INTO place 
+    (name, location, city, photo,type, description, foreign_adult_ticket_price, foreign_student_ticket_price, egyptian_adult_ticket_price, egyptian_student_ticket_price, opening_hours_holidays, opening_hours_working_days)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    `;
+    const params = Object.values(place);
+    const response = await db.query(query, params);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};

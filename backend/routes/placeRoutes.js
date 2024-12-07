@@ -1,6 +1,7 @@
 const express = require("express");
 const placeController = require("../controllers/placeController");
 const authController = require("../controllers/authController");
+const adminController = require("../controllers/adminController");
 const router = express.Router();
 
 //Get all places request
@@ -33,4 +34,5 @@ router.post(
 // Starting from here, all coming endpoints are restricted admins only, be careful
 router.use(authController.protect, authController.restrictTo("admin"));
 router.delete("/:id", adminController.deletePlace);
+router.post("/", adminController.createPlace);
 module.exports = router;
