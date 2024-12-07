@@ -219,9 +219,43 @@ exports.updatePlace = async (req, res, next) => {
         params.length
       } RETURNING *`;
     }
-    console.log(query);
-    console.log(params);
+
     const response = await db.query(query, params);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.getReports = async (req, res, next) => {
+  try {
+    const query = `
+    SELECT 
+    rp.report_id, 
+    rp.place_id AS entity_id, 
+    r.*,
+    'place' AS entity_type
+    FROM report_place rp
+    JOIN report r ON rp.report_id = r.report_id
+
+    UNION
+
+    SELECT 
+    rg.report_id, 
+    rg.gathering_id AS entity_id, 
+    r.*, 
+    'gathering' AS entity_type
+    FROM report_gathering rg
+    JOIN report r ON rg.report_id = r.report_id;
+    `;
+    const response = await db.query(query);
     res.status(200).json({
       status: "success",
       length: response.rowCount,
