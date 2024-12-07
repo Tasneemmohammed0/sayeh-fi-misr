@@ -32,4 +32,5 @@ router.post(
 
 // Starting from here, all coming endpoints are restricted admins only, be careful
 router.use(authController.protect, authController.restrictTo("admin"));
+router.delete("/:id", adminController.deletePlace);
 module.exports = router;

@@ -98,3 +98,23 @@ exports.createAdmin = async (req, res, next) => {
     });
   }
 };
+
+exports.deletePlace = async (req, res, next) => {
+  try {
+    await db.query("COMMIT");
+    const query = `
+    DELETE FROM place WHERE place_id=$1;
+    `;
+    const response = await db.query(query, [req.params.id]);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+    });
+  } catch (err) {
+    await db.query("ROLLBACK");
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
