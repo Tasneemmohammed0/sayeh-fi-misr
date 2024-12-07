@@ -35,4 +35,5 @@ router.post(
 router.use(authController.protect, authController.restrictTo("admin"));
 router.delete("/:id", adminController.deletePlace);
 router.post("/", adminController.createPlace);
+router.patch("/", adminController.updatePlace);
 module.exports = router;

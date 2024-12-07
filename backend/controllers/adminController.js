@@ -154,3 +154,83 @@ exports.createPlace = async (req, res, next) => {
     });
   }
 };
+
+exports.updatePlace = async (req, res, next) => {
+  try {
+    let query = `
+    UPDATE place
+    `;
+    const { place_id } = req.body;
+    if (!place_id) {
+      return res.status(400).json({
+        status: "fail",
+        message: "there exist no place id",
+      });
+    }
+    const params = [];
+    const conditions = [];
+    if (req.body.name) {
+      params.push(req.body.name);
+      conditions.push(` name=$${params.length}`);
+    }
+    if (req.body.location) {
+      params.push(req.body.location);
+      conditions.push(`location=$${params.length}`);
+    }
+    if (req.body.city) {
+      params.push(req.body.city);
+      conditions.push(`city=$${params.length}`);
+    }
+    if (req.body.photo) {
+      params.push(req.body.photo);
+      conditions.push(`photo=$${params.length}`);
+    }
+    if (req.body.description) {
+      params.push(req.body.description);
+      conditions.push(`description=$${params.length}`);
+    }
+    if (req.body.foreign_adult_ticket_price != undefined) {
+      params.push(req.body.foreign_adult_ticket_price);
+      conditions.push(`foreign_adult_ticket_price=$${params.length}`);
+    }
+    if (req.body.foreign_student_ticket_price != undefined) {
+      params.push(req.body.foreign_student_ticket_price);
+      conditions.push(`foreign_student_ticket_price=$${params.length}`);
+    }
+    if (req.body.egyptian_student_ticket_price != undefined) {
+      params.push(req.body.egyptian_student_ticket_price);
+      conditions.push(`egyptian_student_ticket_price=$${params.length}`);
+    }
+    if (req.body.egyptian_adult_ticket_price != undefined) {
+      params.push(req.body.egyptian_adult_ticket_price);
+      conditions.push(`egyptian_adult_ticket_price=$${params.length}`);
+    }
+    if (req.body.opening_hours_holidays) {
+      params.push(req.body.opening_hours_holidays);
+      conditions.push(`opening_hours_holidays=$${params.length}`);
+    }
+    if (req.body.opening_hours_working_days) {
+      params.push(req.body.opening_hours_working_days);
+      conditions.push(`opening_hours_working_days=$${params.length}`);
+    }
+    params.push(place_id);
+    if (conditions.length > 0) {
+      query += ` SET ${conditions.join(", ")} WHERE place_id=$${
+        params.length
+      } RETURNING *`;
+    }
+    console.log(query);
+    console.log(params);
+    const response = await db.query(query, params);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
