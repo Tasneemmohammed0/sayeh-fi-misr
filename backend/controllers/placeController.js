@@ -144,3 +144,23 @@ exports.addToWishList = async (req, res) => {
     });
   }
 };
+
+// Add to visited list
+exports.addToVisitedList = async (req, res) => {
+  try {
+    const data = await db.query(
+      `INSERT INTO visitor_place (user_id, place_id) VALUES ($1, $2)`,
+      [req.user.user_id, req.body.wishlist_id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: data.rows[0],
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};
