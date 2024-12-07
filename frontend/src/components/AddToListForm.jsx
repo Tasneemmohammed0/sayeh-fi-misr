@@ -58,30 +58,27 @@ function AddToListForm({ isOpen, setIsOpen, placeId }) {
     };
 
     try {
-      const res = await fetch(
+      const res = await axios.post(
         `http://localhost:1123/api/v1/places/${placeId}/addToWishlist`,
+        bookmarkData,
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(bookmarkData),
+          withCredentials: true,
         }
       );
 
-      if (!res.ok) {
+      // show success message
+      alert("🎉 place added to the list");
+
+      // clear the form
+      handleClose();
+    } catch (err) {
+      console.log(err);
+
+      if (err.response.status === 404) {
         notify("Place is already in the list");
         return;
       }
-    } catch (err) {
-      console.log(err);
     }
-
-    // show success message
-    notify("🎉 place added to the list");
-
-    // clear the form
-    handleClose();
   }
 
   function handleClose() {
