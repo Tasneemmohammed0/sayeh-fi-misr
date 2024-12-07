@@ -49,7 +49,6 @@
   /* align-items: center; */
   /* justify-content: space-between; */
   flex-direction: column;
-  flex-wrap: wrap;
   gap: 1rem;
   height: 130px;
 }
@@ -112,4 +111,57 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltipText {
+  visibility: hidden;
+  width: 60px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 101;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
+
+.opIcons {
+  position: absolute;
+  top: 10px;
+  right: 3px;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 100;
+  color: #007bff;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.opIcons:hover {
+  background-color: #ff6b00;
+  color: white;
+  transform: scale(1.2);
 }

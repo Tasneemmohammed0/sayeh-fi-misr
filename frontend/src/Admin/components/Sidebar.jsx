@@ -31,47 +31,58 @@ function Sidebar({ active, setActive }) {
           className={`${style.btn}  ${active == "Users" ? style.active : ""} `}
           onClick={() => handleActive("Users")}
         >
-          <IoPersonCircleOutline />
-          Users
+          <Link to="#Users" className={style.link}>
+            <IoPersonCircleOutline />
+            Users
+          </Link>
         </li>
 
         <li
           className={`${style.btn}  ${active == "Places" ? style.active : ""} `}
           onClick={() => handleActive("Places")}
         >
-          <HiHomeModern />
-          Places
+          <Link to="#Places" className={style.link}>
+            <HiHomeModern />
+            Places
+          </Link>
         </li>
 
         <li
           className={`${style.btn}  ${active == "Gatherings" ? style.active : ""} `}
           onClick={() => handleActive("Gatherings")}
         >
-          <PiParkFill />
-          Gatherings
+          <Link to="/gatherings" className={style.link}>
+            <PiParkFill />
+            Gatherings
+          </Link>
         </li>
 
         <li
           className={`${style.btn}  ${active == "Reports" ? style.active : ""} `}
           onClick={() => handleActive("Reports")}
         >
-          <HiDocumentReport />
-          Reports
+          <Link to="#reports" className={style.link}>
+            <HiDocumentReport />
+            Reports
+          </Link>
         </li>
+
         <li
           className={`${style.btn}  ${active == "Statistics" ? style.active : ""} `}
           onClick={() => handleActive("Statistics")}
         >
-          <IoStatsChartSharp />
-          Statistics
+          <Link to="#statistics" className={style.link}>
+            <IoStatsChartSharp />
+            Statistics
+          </Link>
         </li>
 
-        <Link to="/">
-          <li className={style.btn}>
+        <li className={style.btn}>
+          <Link to="/" className={style.link}>
             <IoIosHome />
             Go To Home
-          </li>
-        </Link>
+          </Link>
+        </li>
       </ul>
     </nav>
   );
