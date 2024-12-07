@@ -112,11 +112,15 @@
 }
 
 .btn:nth-child(6):hover {
-  background-color: var(--hover-gray);
+  background-color: var(--hover-green);
 }
 
-.btn:nth-child(7):hover {
-  background-color: var(--hover-green);
+.link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  color: black;
 }
 
 .active {

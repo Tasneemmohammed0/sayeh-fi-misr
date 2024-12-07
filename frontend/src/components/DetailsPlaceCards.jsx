@@ -23,12 +23,12 @@ function Cards({ reviews, photos }) {
       }}
     >
       {reviews &&
-        reviews.map((review) => {
+        reviews.map((review, index) => {
           // check review title or content
           if (!review.title && !review.main_content) return null;
 
           return (
-            <SwiperSlide key={review.review_id}>
+            <SwiperSlide key={index}>
               <DetailsPlaceCards
                 key={review.review_id}
                 review={{
@@ -46,12 +46,12 @@ function Cards({ reviews, photos }) {
         })}
 
       {photos &&
-        photos.map((photo) => {
+        photos.map((photo, index) => {
           // check photo title or content
           if (!photo.photo) return null;
 
           return (
-            <SwiperSlide key={photo.photo_id}>
+            <SwiperSlide key={index}>
               <DetailsPlaceCards
                 key={photo.photo_id}
                 photo={{

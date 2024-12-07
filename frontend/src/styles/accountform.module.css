@@ -1,4 +1,4 @@
-.form{
+.form {
   width: 100%;
   max-width: 800px;
   display: grid;
@@ -16,31 +16,30 @@
 .inputWrapper {
   margin: 1.5rem 0;
   position: relative;
-  display: flex ;
+  display: flex;
   flex-direction: column;
   gap: 5px;
   align-items: center;
 }
 
-
-.label{
+.label {
   font-size: 20px;
   font-weight: bold;
   color: var(--our-white);
   display: block;
-  margin-bottom: 5px ;
+  margin-bottom: 5px;
   margin-left: 5px;
   position: absolute;
   top: -30px;
-  left:70px
+  left: 70px;
 }
-.input{
+.input {
   padding: 5px;
   border: 0;
   width: 60%;
   border: 1px solid var(--our-light-gray);
   background-color: var(--our-light-gray);
-  transition:    var(--main-transition);
+  transition: var(--main-transition);
   color: black;
   position: relative;
   align-self: center;
@@ -48,46 +47,44 @@
   height: 30px;
 }
 
-.input::placeholder{
+.input::placeholder {
   color: var(--our-black);
   opacity: 0.6;
 }
 
-.input:focus{
+.input:focus {
   border: 1px solid var(--our-blue);
   outline: none;
 }
 
-
 /* Style for the select dropdown */
-select {
+.select {
   width: 60%;
   padding: 3px 5px;
-  font-size: 16px; 
+  font-size: 16px;
   border: 1px solid var(--our-blue);
   border-radius: 5px;
   background-color: var(--our-light-gray);
-  color: #333; 
-  cursor: pointer; 
-  transition:   0.3s; 
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s;
   height: 30px;
 }
 
 /* Style for the dropdown options */
-select option {
+.option {
   font-size: 16px; /* Match the select font size */
   padding: 5px; /* Add padding inside options */
 }
 
-
-select:hover {
-  border-color: var(--our-yellow); 
+.select:hover {
+  border-color: var(--our-yellow);
 }
 
-select:focus {
-  outline: none; 
-  border-color: #007bff; 
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+.select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 .btn {
   background-color: rgb(132, 69, 69);
@@ -98,7 +95,7 @@ select:focus {
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
-  transition:    var(--main-transition);
+  transition: var(--main-transition);
   margin-top: 20px;
   text-align: center;
   bottom: 40px;
@@ -118,12 +115,11 @@ select:focus {
 .btn > .arrow {
   opacity: 0;
   margin-left: 5px; /* Add space between text and arrow */
-  transition: opacity  var(--main-transition);
+  transition: opacity var(--main-transition);
   position: relative;
   top: 2px;
   right: 0px;
   width: 0;
-
 }
 
 .btn:hover > .arrow {
@@ -132,50 +128,46 @@ select:focus {
 
 .btn .arrow {
   opacity: 0;
-  transition:    var(--main-transition);
+  transition: var(--main-transition);
 }
 
 .btn:hover .arrow {
   opacity: 1;
- right: 35px ;
+  right: 35px;
 }
 
-.specialBtn{
+.specialBtn {
   background-color: var(--our-green);
 }
-.specialBtn:hover{
+.specialBtn:hover {
   background-color: green;
 }
-
-
 
 /*
 helper classes
 */
-.start{
-align-self: flex-start;
+.start {
+  align-self: flex-start;
 }
-.end{
-align-self: flex-end;
+.end {
+  align-self: flex-end;
 }
-.center{
-align-self: center;
-}
-
-
-.marginY{
-margin: 10px 0;
+.center {
+  align-self: center;
 }
 
-.marginL{
-margin-left: 5px;
+.marginY {
+  margin: 10px 0;
 }
 
-.marginR{
-margin-right: 5px;
+.marginL {
+  margin-left: 5px;
 }
 
-.marginX{
-margin: 0 10px;
+.marginR {
+  margin-right: 5px;
 }
 
+.marginX {
+  margin: 0 10px;
+}

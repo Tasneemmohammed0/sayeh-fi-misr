@@ -123,7 +123,17 @@ function PlaceDetails() {
               className={styles.bookmarkIcon}
             />
           )}
-          <h1 className={styles.title}>{place.name}</h1>
+          <h1
+            className={styles.title}
+            style={{
+              color: "black",
+              backgroundColor: "#FFF8E8",
+              padding: "2px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            {place.name}
+          </h1>
         </div>
         <div className={styles.container}>
           <div className={styles.breif}>
