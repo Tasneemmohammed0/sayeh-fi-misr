@@ -138,7 +138,7 @@ exports.createPlace = async (req, res, next) => {
     const query = `
     INSERT INTO place 
     (name, location, city, photo,type, description, foreign_adult_ticket_price, foreign_student_ticket_price, egyptian_adult_ticket_price, egyptian_student_ticket_price, opening_hours_holidays, opening_hours_working_days)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning *;
     `;
     const params = Object.values(place);
     const response = await db.query(query, params);
