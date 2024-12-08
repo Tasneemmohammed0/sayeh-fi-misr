@@ -1,11 +1,16 @@
+/* Consolidated Font Imports */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Luxurious+Roman&family=Noto+Sans+Georgian:wght@100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  --main-font: "Quicksand", sans-serif;
+  --second-font: "Noto Sans Georgian", sans-serif;
+  font-family: var(--main-font);
 }
 html {
   scroll-behavior: smooth;
@@ -25,10 +30,10 @@ body {
   --our-hover-blue: #145a99; /* Hover effect for buttons */
   --our-light-gray: #e4d7c5; /* Light border color */
 
-  --main-font: "Luxurious Roman", serif !important;
-  --second-font: "Noto Sans Georgian", sans-serif !important;
   --main-transition: all 0.6s;
-  font-family: var(--main-font);
+
+  font-family: "Quicksand", sans-serif;
+  height: 100%;
 }
 /* Default (Mobile-first) */
 .container {

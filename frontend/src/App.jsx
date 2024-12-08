@@ -10,12 +10,9 @@ import GatheringDetails from "./pages/GatheringDetails";
 import WishList from "./components/WishList";
 import AllGathering from "./pages/AllGathering";
 import AccountSetting from "./pages/AccountSetting";
-
 import Loading from "./components/Loading";
-
 import Bazaar from "./pages/Bazaar";
-
-
+import DashBoard from "./pages/DashBoard";
 import Page404 from "./pages/Page404";
 import axios from "axios";
 
@@ -77,16 +74,20 @@ function App() {
           element={<AccountSetting />}
         />
 
-      <Route path="/profile/:id" element={<UserProfile />} />
-      <Route path="/profile/:id/accountsetting" element={<AccountSetting />} />
-      <Route path="/profile" element={<UserProfile />} />
+        <Route path="/profile/:id" element={<UserProfile />} />
+        <Route
+          path="/profile/:id/accountsetting"
+          element={<AccountSetting />}
+        />
+        <Route path="/profile" element={<UserProfile />} />
 
-      <Route path="/profile/wishlist/:id" element={<WishList />} />
-      <Route path="/profile/:id/wishlist/:id" element={<WishList />} />
-        
-      <Route path="/places/:placeId" element={<PlaceDetails />} />
-      <Route path="/bazaar" element={<Bazaar />} />
+        <Route path="/profile/wishlist/:id" element={<WishList />} />
+        <Route path="/profile/:id/wishlist/:id" element={<WishList />} />
 
+        <Route path="/places/:placeId" element={<PlaceDetails />} />
+        <Route path="/bazaar" element={<Bazaar />} />
+
+        <Route path="/dashboard" element={<DashBoard />} />
 
         <Route path="*" element={<Page404 />} />
       </Routes>
