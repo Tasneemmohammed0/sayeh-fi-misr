@@ -13,7 +13,6 @@ import AddToListForm from "../components/AddToListForm";
 import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
-
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
@@ -29,6 +28,23 @@ function PlaceDetails() {
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  // check if the place is visited
+  useEffect(() => {
+    const checkVisited = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/places/${placeId}/checkVisited`,
+          { withCredentials: true }
+        );
+
+        setIsVisited(response.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    checkVisited();
+  }, []);
 
   // Fetch place details
   useEffect(() => {
@@ -97,6 +113,8 @@ function PlaceDetails() {
   // Handle visited
   async function handleVisited() {
     try {
+      if (isVisited) return;
+
       const date = new Date().toISOString();
 
       const res = await axios.post(

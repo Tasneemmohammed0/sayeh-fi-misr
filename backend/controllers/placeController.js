@@ -164,3 +164,25 @@ exports.addToVisitedList = async (req, res) => {
     });
   }
 };
+
+// check if place is visited
+exports.checkVisited = async (req, res) => {
+  try {
+    console.log(req.user.user_id);
+    console.log("in check visited");
+    const data = await db.query(
+      `SELECT EXISTS (SELECT 1 FROM visitor_place WHERE user_id = $1 AND place_id = $2) AS is_visited`,
+      [req.user.user_id, req.params.id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: data.rows[0].is_visited,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};

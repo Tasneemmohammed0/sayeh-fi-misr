@@ -27,4 +27,11 @@ router.post(
   authController.protect,
   placeController.addToVisitedList
 );
+// check visited
+router.get(
+  "/:id/checkVisited",
+  authController.protect,
+  placeController.checkVisited
+);
+
 module.exports = router;
