@@ -13,19 +13,16 @@ import AddToListForm from "../components/AddToListForm";
 import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
-
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
-  const [error, setError] = useState(null);
+  const [isVisited, setIsVisited] = useState(false);
   const [finalLoading, setFinalLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
-  const [loadingReview, setloadingReview] = useState(false);
-  const [loadingPhotos, setLoadingPhotos] = useState(false);
 
   const [reviews, setReviews] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+  const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -33,7 +30,6 @@ function PlaceDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoadingData(true);
         setFinalLoading(true);
         const response = await axios.get(
           `http://localhost:1123/api/v1/places/${placeId}`
@@ -43,55 +39,59 @@ function PlaceDetails() {
           console.log("error");
           return;
         }
-        setPlace(response.data.data);
-        setLoadingData(false);
+
+        const data = response.data.data;
+        setPlace(data.place);
+        setReviews(data.reviews);
+        setPhotos(data.photos);
+        console.log(data);
+
+        setFinalLoading(false);
       } catch (err) {
         console.log(err.message);
-        setLoadingData(false);
+        setFinalLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  // Fetch reviews
+  // check if the place is visited
   useEffect(() => {
-    const fetchReviews = async () => {
+    const checkVisited = async () => {
       try {
-        setloadingReview(true);
         const response = await axios.get(
-          `http://localhost:1123/api/v1/places/${placeId}/reviews`
+          `http://localhost:1123/api/v1/places/${placeId}/checkVisited`,
+          { withCredentials: true }
         );
 
-        setReviews(response.data.data);
-        setloadingReview(false);
+        setIsVisited(response.data.data);
       } catch (err) {
-        console.log(err.message);
-        setloadingReview(false);
+        console.log(err);
       }
     };
-    fetchReviews();
+    checkVisited();
   }, []);
 
-  // Fetch photos
-  useEffect(() => {
-    const fetchPhotos = async () => {
-      try {
-        setLoadingPhotos(true);
-        const response = await axios.get(
-          `http://localhost:1123/api/v1/places/${placeId}/photos`
-        );
+  // Handle visited
+  async function handleVisited() {
+    try {
+      if (isVisited) return;
 
-        setPhotos(response.data.data);
-        console.log(response.data.data);
-        setLoadingPhotos(false);
-        setFinalLoading(false);
-      } catch (err) {
-        console.log(err.message);
-        setLoadingPhotos(false);
-      }
-    };
-    fetchPhotos();
-  }, []);
+      const date = new Date().toISOString();
+
+      const res = await axios.post(
+        `http://localhost:1123/api/v1/places/${placeId}/addToVisitedList`,
+        { date },
+        {
+          withCredentials: true,
+        }
+      );
+
+      setIsVisited((isVisited) => !isVisited);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   function handleBookmark() {
     setIsBookmarked((isBookmarked) => !isBookmarked);
@@ -123,17 +123,8 @@ function PlaceDetails() {
               className={styles.bookmarkIcon}
             />
           )}
-          <h1
-            className={styles.title}
-            style={{
-              color: "black",
-              backgroundColor: "#FFF8E8",
-              padding: "2px 10px",
-              borderRadius: "10px",
-            }}
-          >
-            {place.name}
-          </h1>
+          <h1 className={styles.title}>{place.name}</h1>
+          {isVisited && <button className={styles.visitLabel}>VISITED</button>}
         </div>
         <div className={styles.container}>
           <div className={styles.breif}>
@@ -143,20 +134,32 @@ function PlaceDetails() {
               text={place.description}
             />
           </div>
+          <div className={styles.placeBtns}>
+            <div className={styles.btnContainer}>
+              <IoAddCircleSharp
+                onClick={handleVisited}
+                className={styles.addIcon}
+              />
+              <p>Visited</p>
+            </div>
+
+            <div className={styles.btnContainer}>
+              <IoAddCircleSharp
+                onClick={() => setIsReportFormOpen(true)}
+                className={styles.addIcon}
+              />
+              <p>Add Report</p>
+            </div>
+          </div>
           <hr></hr>
           <div className={styles.info}>
-            <PlaceTicketPrice
-              egyptianChildPrice={place.egyptian_student_ticket_price}
-              egyptianAdultPrice={place.egyptian_adult_ticket_price}
-              otherChildPrice={place.foreign_student_ticket_price}
-              otherAdultPrice={place.foreign_adult_ticket_price}
-            />
+            <PlaceTicketPrice />
             <div>
               <OpeningHours
                 openingHoursNormal={place.opening_hours_working_days}
                 openingHoursHoliday={place.opening_hours_holidays}
               />
-              <PlaceLocation location={place.location} />
+              <PlaceLocation location={place.location} name={place.name} />
             </div>
           </div>
           <hr></hr>
@@ -174,9 +177,16 @@ function PlaceDetails() {
             </div>
             <DetailsPlaceCards reviews={reviews} />
             <ReviewForm
+              isOpen={isReportFormOpen}
+              setIsOpen={setIsReportFormOpen}
+              placeId={placeId}
+              isReport={true}
+            />
+            <ReviewForm
               isOpen={isReviewFormOpen}
               setIsOpen={setIsReviewFormOpen}
               placeId={placeId}
+              isReport={false}
             />
           </div>
           <hr style={{ margin: "20px" }}></hr>
