@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import Tabs from "../components/GatheringTabs";
 import GatheringInfo from "../components/GatheringInfo";
 import ReviewForm from "../components/ReviewForm";
-import { IoMdClose, IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -13,111 +13,58 @@ import axios from "axios";
 function GatheringDetails() {
   const { gatheringId } = useParams();
   const navigate = useNavigate();
-  //  const [gathering, setGathering] = useState({});
-  // const [place, setPlace] = useState({});
-  // const [host, setHost] = useState({});
-  // const [users, setUsers] = useState([]);
+  const [gathering, setGathering] = useState({});
+  const [place, setPlace] = useState({});
+  const [host, setHost] = useState({});
+  const [users, setUsers] = useState([]);
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
-
-  const [error, setError] = useState(null);
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
 
-  const gathering = {
-    title: "Gathering Title",
-    description: "Gathering Description",
-    gathering_date: "2024-12-05 11:35:00",
-    duration: 6,
-    ticket_price: 100,
-    max_capacity: 10,
-    current_capacity: 5,
-    host_id: 52,
-  };
-
-  const place = {
-    photo: "../images/photo-1502250493741-939d1c76eaad.png",
-    location: "Cairo",
-    name: "Cairo Tower",
-  };
-
-  const host = {
-    profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
-    first_name: "Ahmed",
-    last_name: "Mohamed",
-    phone_number: "01000000000",
-  };
-
-  const users = [
-    {
-      user_id: 52,
-      first_name: "Ahmed",
-      last_name: "Mohamed",
-      profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
-    },
-    {
-      user_id: 55,
-      first_name: "Ahmed",
-      last_name: "Mohamed",
-      profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
-    },
-    {
-      user_id: 57,
-      first_name: "Ahmed",
-      last_name: "Mohamed",
-      profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
-    },
-    {
-      user_id: 58,
-      first_name: "Ahmed",
-      last_name: "Mohamed",
-      profile_pic: "../images/photo-1502250493741-939d1c76eaad.png",
-    },
-  ];
-
   // Fetch gathering details
-  // useEffect(() => {
-  //   const fetchGathering = async () => {
-  //     try {
-  //       setLoadingData(true);
-  //       setFinalLoading(true);
-  //       const response = await axios.get(
-  //         `http://localhost:1123/api/v1/gatherings/${gatheringId}`
-  //       );
+  useEffect(() => {
+    const fetchGathering = async () => {
+      try {
+        setLoadingData(true);
+        setFinalLoading(true);
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/gatherings/${gatheringId}`
+        );
 
-  //       if (response.status === "fail") {
-  //         console.log("error");
-  //         return;
-  //       }
-  //       // get gathering
-  //       console.log(response.data.data);
-  //       const gatheringData = response.data.data.gathering[0];
+        if (response.status === "fail") {
+          console.log("error");
+          return;
+        }
+        // get gathering
+        const gatheringData = response.data.data.gathering[0];
 
-  //       console.log(gatheringData);
-  //       // set all states
-  //       setGathering(gatheringData);
-  //       setPlace({
-  //         photo: gatheringData.photo,
-  //         location: gatheringData.location,
-  //         name: gatheringData.name,
-  //       });
-  //       setHost({
-  //         profile_pic: gatheringData.profile_pic,
-  //         first_name: gatheringData.first_name,
-  //         last_name: gatheringData.last_name,
-  //         phone_number: gatheringData.phone_number,
-  //       });
-  //       setUsers(response.data.data.users);
+        console.log(gatheringData);
+        // set all states
+        setGathering(gatheringData);
+        setPlace({
+          photo: gatheringData.photo,
+          location: gatheringData.location,
+          name: gatheringData.name,
+        });
 
-  //       setLoadingData(false);
-  //       setFinalLoading(false);
-  //     } catch (err) {
-  //       console.log(err.message);
-  //       setLoadingData(false);
-  //     }
-  //   };
-  //   fetchGathering();
-  // }, []);
+        setHost({
+          profile_pic: gatheringData.profile_pic,
+          first_name: gatheringData.first_name,
+          last_name: gatheringData.last_name,
+          phone_number: gatheringData.phone_number,
+        });
+        setUsers(response.data.data.users);
+
+        setLoadingData(false);
+        setFinalLoading(false);
+      } catch (err) {
+        console.log(err.message);
+        setLoadingData(false);
+      }
+    };
+    fetchGathering();
+  }, []);
 
   function handleJoin() {
     // send join request to API

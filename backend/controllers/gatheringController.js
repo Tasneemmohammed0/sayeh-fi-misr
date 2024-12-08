@@ -57,6 +57,7 @@ exports.getGatheringDetails = async (req, res) => {
     const gatheringDetails = await db.query(gatheringDetailsQuery, [
       req.params.id,
     ]);
+    console.log(gatheringDetails);
 
     const allUsersQuery = `
     SELECT v.user_id, v.first_name, v.last_name, v.profile_pic

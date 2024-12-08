@@ -3,6 +3,7 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Rate from "./Rate";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 
 function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
   const [title, setTitle] = useState("");
@@ -35,22 +36,19 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
         : `http://localhost:1123/api/v1/places/${placeId}/addReview`;
 
       // Send the request
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(isReport ? reportData : reviewData),
-      });
+      const response = await axios.post(
+        url,
+        isReport ? reportData : reviewData,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (!res.ok) {
         const errMessage = `❌ Error: ${res.status} ${res.statusText}`;
         toast.error(errMessage);
         throw new Error(errMessage);
       }
-
-      const result = await res.json();
-      console.log(result);
     } catch (err) {
       toast("❌ Error submitting");
       console.error(err); // Log the error for debugging purposes
@@ -70,7 +68,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     console.log(rate);
 
     // Report without title and review
-    if ((isReport && !title) || !review || !rate) {
+    if (isReport && (!title || !review || !rate)) {
       toast(
         "Please enter the reason, content of your report and it's severity to consider it"
       );

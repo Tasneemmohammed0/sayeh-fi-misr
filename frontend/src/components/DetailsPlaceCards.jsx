@@ -6,6 +6,7 @@ import { Navigation } from "swiper/modules";
 function Cards({ reviews, photos }) {
   return (
     <Swiper
+      key={reviews ? "reviews" : "photos"}
       spaceBetween={10}
       slidesPerView={3}
       navigation={true}
