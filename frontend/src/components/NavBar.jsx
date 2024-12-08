@@ -3,9 +3,24 @@ import { NavLink } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import styles from "../styles/NavBar.module.css";
 import { UserContext } from "../App";
+import axios from "axios";
 
 function NavBar() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const handleLogout = async () => {
+    console.log("Logging out..");
+    try {
+      const response = await axios.post(
+        "http://localhost:1123/api/v1/users/logout",
+        {},
+        { withCredentials: true }
+      );
+      console.log(response);
+      setUser(null);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 500) {
@@ -56,10 +71,10 @@ function NavBar() {
             </NavLink>
           </li>
         ) : null}
-        <li>
+        <li onClick={handleLogout}>
           {user ? (
             <NavLink
-              to="/signout"
+              // to="/signout"
               activeclassname="active-link"
               className={styles.link}
             >
