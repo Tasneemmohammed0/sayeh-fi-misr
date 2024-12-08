@@ -1,6 +1,7 @@
 const express = require("express");
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
+const adminController = require("../controllers/adminController");
 
 const router = express.Router();
 
@@ -12,13 +13,6 @@ router.get(
   authController.protect,
   userController.getMe,
   userController.getUser
-);
-
-router.get(
-  "/admin",
-  authController.protect,
-  authController.restrictTo("admin"),
-  (req, res, next) => res.status(200).json({ message: "authorized" })
 );
 
 // get current user wish lists
@@ -34,5 +28,12 @@ router.get("/reviews/:id", userController.getUserReviews);
 router.get("/wishlists/:id", userController.getUserWishlists);
 router.get("/visitlist/:id", userController.getUserVisitLists);
 router.get("/gatherings/:id", userController.getUserGatheringLists);
+
+// Starting from here, all coming endpoints are for admins only, be careful
+router.use(authController.protect, authController.restrictTo("admin"));
+
+router.get("/allusers", adminController.getAll);
+router.delete("/:id", adminController.deleteUser);
+router.post("/createadmin/:id", adminController.createAdmin);
 
 module.exports = router;

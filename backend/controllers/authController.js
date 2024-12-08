@@ -105,28 +105,27 @@ exports.signup = async (req, res, next) => {
       newUser.gender,
     ];
     let result;
-    if (newUser.role != "guide")
-      result = await db.query(insertUserQuery, userParams);
+    result = await db.query(insertUserQuery, userParams);
     // contains the new user
-    else if (newUser.role === "guide") {
-      req.body.ssn = 22233; //to be removed
-      req.body.start_date = formatSQLDate(Date.now());
+    console.log(result.rows);
+    if (newUser.role === "host") {
       userParams.push(
         req.body.phone,
         req.body.background,
-        req.body.ssn,
-        req.body.start_date
+        result.rows[0].user_id
       );
       const q = `
       INSERT INTO host 
-      (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender, phone_number, background, ssn, start_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
-      RETURNING *;
+      (first_name, last_name, username, email, password, age, role, country, city, profile_pic, gender, phone_number, background, user_id)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      RETURNING *
     `;
       result = await db.query(q, userParams);
     }
     const user = result.rows[0];
+
     let insertNationalityQuery;
+    console.log(user.user_id);
     newUser.nationalities.forEach(async (nationality) => {
       insertNationalityQuery = `
         INSERT INTO visitor_nationality
@@ -134,7 +133,7 @@ exports.signup = async (req, res, next) => {
       `;
       await db.query(insertNationalityQuery, [user.user_id, nationality]);
     });
-
+    await db.query("COMMIT");
     user.password = undefined; // prevent hashed password from showing in the result
     const token = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
