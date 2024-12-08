@@ -149,8 +149,8 @@ exports.addToWishList = async (req, res) => {
 exports.addToVisitedList = async (req, res) => {
   try {
     const data = await db.query(
-      `INSERT INTO visitor_place (user_id, place_id) VALUES ($1, $2)`,
-      [req.user.user_id, req.body.wishlist_id]
+      `INSERT INTO visitor_place (user_id, place_id, date) VALUES ($1, $2, $3)`,
+      [req.user.user_id, req.params.id, req.body.date]
     );
 
     res.status(200).json({

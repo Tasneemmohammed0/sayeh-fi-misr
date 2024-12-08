@@ -94,8 +94,23 @@ function PlaceDetails() {
     fetchPhotos();
   }, []);
 
-  function handleVisited() {
-    setIsVisited((isVisited) => !isVisited);
+  // Handle visited
+  async function handleVisited() {
+    try {
+      const date = new Date().toISOString();
+
+      const res = await axios.post(
+        `http://localhost:1123/api/v1/places/${placeId}/addToVisitedList`,
+        { date },
+        {
+          withCredentials: true,
+        }
+      );
+
+      setIsVisited((isVisited) => !isVisited);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function handleBookmark() {

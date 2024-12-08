@@ -8,7 +8,7 @@ import ErrorMessage from "./ErrorMessage";
 
 import axios from "axios";
 
-function AddToListForm({ isOpen, setIsOpen, placeId }) {
+function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
   const [lists, setLists] = useState([]);
   const [selectedList, setSelectedList] = useState(null);
   const [loading, setLoading] = useState(false);

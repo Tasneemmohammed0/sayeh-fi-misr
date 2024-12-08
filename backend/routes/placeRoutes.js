@@ -21,4 +21,10 @@ router.post("/:id/addPhoto", authController.protect, placeController.postPhoto);
 
 // Add to wishlist route
 router.post("/:id/addToWishlist", placeController.addToWishList);
+// Add to visit list route
+router.post(
+  "/:id/addToVisitedList",
+  authController.protect,
+  placeController.addToVisitedList
+);
 module.exports = router;
