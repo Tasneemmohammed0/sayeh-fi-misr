@@ -7,6 +7,9 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.getUser = async (req, res, next) => {
+  if (req.params.id == "allusers") {
+    return next();
+  }
   try {
     const query = `
   SELECT * 

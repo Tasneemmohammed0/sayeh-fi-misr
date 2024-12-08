@@ -27,11 +27,16 @@ router.post(
   authController.protect,
   placeController.addToVisitedList
 );
+
 // check visited
 router.get(
   "/:id/checkVisited",
   authController.protect,
   placeController.checkVisited
 );
+
+
+// Starting from here, all coming endpoints are restricted admins only, be careful
+router.use(authController.protect, authController.restrictTo("admin"));
 
 module.exports = router;
