@@ -20,15 +20,12 @@ function UserProfile() {
   console.log("selectedList", selectedList);
   //// fetching user data by id
   React.useEffect(() => {
-    setCurrentUser(user);
     const handleId = async () => {
       setLoading(true);
       try {
-        if (user) {
+        if (user && !id) {
           setCurrentUser(user);
         } else if (id) {
-          console.log("ID");
-
           const response = await axios.get(
             `http://localhost:1123/api/v1/users/${id}`
           );
@@ -43,8 +40,9 @@ function UserProfile() {
     };
     handleId();
   }, [id, user]);
-  // console.log("USER ID:", currentUser.user_id);
-  if (!currentUser) return <h1>login</h1>;
+  if (loading) return <Loading />;
+  if (!currentUser && !id) return <h1>login</h1>;
+  if (!currentUser && id) return <h1>User not found</h1>;
 
   return (
     <>
