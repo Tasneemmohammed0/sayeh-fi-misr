@@ -67,8 +67,22 @@ function GatheringDetails() {
   }, []);
 
   function handleJoin() {
-    // send join request to API
-    setIsJoined(() => setIsJoined(!isJoined));
+    try {
+      // gathering is already joined
+      if (isJoined) return;
+
+      const res = axios.post(
+        `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      // send join request to API
+      setIsJoined(() => setIsJoined(true));
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -85,7 +99,7 @@ function GatheringDetails() {
             <h1 className={styles.title}>{gathering.title}</h1>
           </div>
           <div className={styles.container}>
-            {gathering.description != " " && (
+            {gathering.description && (
               <div className={styles.breif}>
                 <h3>Breif</h3>
                 <div className={styles.description}>
