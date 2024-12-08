@@ -19,6 +19,7 @@ function Card({ card, selectedOption, onClick }) {
   const [deleted, setDeleted] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const { places: Places, setPlaces } = useContext(UserContext);
+
   async function handleDelete(id) {
     try {
       await axios.delete(`http://localhost:1123/api/v1/places/${id}`, {
