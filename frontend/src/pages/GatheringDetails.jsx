@@ -66,9 +66,50 @@ function GatheringDetails() {
     fetchGathering();
   }, []);
 
-  function handleJoin() {
-    // send join request to API
-    setIsJoined(() => setIsJoined(!isJoined));
+  // check joining status
+  useEffect(() => {
+    async function checkJoiningStatus() {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/gatherings/${gatheringId}/checkJoined`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        // set joining status
+        setIsJoined(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    checkJoiningStatus();
+  }, []);
+
+  async function handleJoin() {
+    try {
+      // gathering is already joined
+      if (isJoined) {
+        toast("You are already joined in this gathering");
+        return;
+      }
+
+      // send join request to API
+      const res = await axios.post(
+        `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`,
+        null,
+        {
+          withCredentials: true,
+        }
+      );
+
+      toast("🎉 Joined successfully");
+
+      // send join request to API
+      setIsJoined(true);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -85,7 +126,7 @@ function GatheringDetails() {
             <h1 className={styles.title}>{gathering.title}</h1>
           </div>
           <div className={styles.container}>
-            {gathering.description != " " && (
+            {gathering.description && (
               <div className={styles.breif}>
                 <h3>Breif</h3>
                 <div className={styles.description}>

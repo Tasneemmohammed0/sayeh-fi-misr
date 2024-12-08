@@ -86,7 +86,7 @@ exports.getUserWishlists = async (req, res, next) => {
 exports.getUserVisitLists = async (req, res, next) => {
   try {
     const query = `
-    SELECT P.name, P.photo, P.city
+    SELECT P.name, P.photo, P.city, P.place_id
     FROM Place P, Visitor_place VP
     WHERE VP.place_id = P.place_id AND VP.user_id = $1
     `;

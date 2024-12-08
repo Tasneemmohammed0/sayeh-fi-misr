@@ -19,6 +19,7 @@ function VisitedList({ id }) {
           `http://localhost:1123/api/v1/users/visitlist/${id}`
         );
         setVisitList(response.data.data);
+        console.log(response.data.data);
         setLoading(false);
       } catch (err) {
         console.log(err.message);
@@ -33,6 +34,7 @@ function VisitedList({ id }) {
       {loading && <Loading />}
       {visitList.map((item, index) => (
         <div
+          key={index}
           style={{
             display: "flex",
             justifyContent: "space-around",
@@ -41,9 +43,10 @@ function VisitedList({ id }) {
         >
           <Card
             key={index}
-            photo={item.photo}
-            placeName={item.name}
-            location={item.city}
+            card={`photo:${item.photo}
+            placeName:${item.name}
+            location:${item.city}
+            place_id:${item.place_id}`}
             rate={item.rate}
           />
         </div>

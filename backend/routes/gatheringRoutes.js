@@ -1,16 +1,33 @@
 const gatheringController = require("../controllers/gatheringController.js");
+const authController = require("../controllers/authController.js");
 const express = require("express");
 
 const router = express.Router();
-//Get all gatherings
 
+//Get all gatherings
 router.get("/", gatheringController.getAllGatherings);
 
 //Get one gathering
 router.get("/:id", gatheringController.getGatheringDetails);
 //router.get("/:id", gatheringController.getGathering);
+router.get(
+  "/:id/checkJoined",
+  authController.protect,
+  gatheringController.checkJoined
+);
+
 router.delete("/:id", gatheringController.deleteGathering);
 router.put("/:id", gatheringController.updateGathering);
 router.post("/", gatheringController.createGathering);
 
+router.post(
+  "/:id/join",
+  authController.protect,
+  gatheringController.joinGathering
+);
+router.get(
+  "/:id/checkJoined",
+  authController.protect,
+  gatheringController.checkJoined
+);
 module.exports = router;
