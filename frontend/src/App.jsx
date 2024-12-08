@@ -21,6 +21,7 @@ export const UserContext = createContext();
 function App() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +48,7 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <UserContext.Provider value={{ places, setPlaces }}>
+    <UserContext.Provider value={{ user, setUser, places, setPlaces }}>
       {loading && <Loading />}
       <Routes>
         <Route path="/" element={<Home />} index />
@@ -61,12 +62,11 @@ function App() {
 
         <Route path="/gatherings" element={<AllGathering />} />
 
-
-      <Route path="/gatherings" element={<AllGathering />} />
-      <Route
-        path="/gatherings/:gatheringId"
-        element={<GatheringDetails />}
-      ></Route>
+        <Route path="/gatherings" element={<AllGathering />} />
+        <Route
+          path="/gatherings/:gatheringId"
+          element={<GatheringDetails />}
+        ></Route>
 
         <Route path="/profile/:id" element={<UserProfile />} />
         <Route
