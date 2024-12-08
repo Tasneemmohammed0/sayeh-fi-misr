@@ -24,6 +24,7 @@ function PlacesList({
 
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const { places: Places, setPlaces } = useContext(UserContext);
   let places = Places;

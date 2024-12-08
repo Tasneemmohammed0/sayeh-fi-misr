@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../styles/EditPlaceForm.module.css";
 import { IoMdClose } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
+import { UserContext } from "../../App";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 function EditPlaceForm({ isOpen, card, onClose }) {
   if (!isOpen) return null;
-
+  const { places: Places, setPlaces } = useContext(UserContext);
   const [formData, setFormData] = useState({
+    place_id: card.place_id,
     name: card.name,
     location: card.location,
     city: card.city,
@@ -56,10 +59,31 @@ function EditPlaceForm({ isOpen, card, onClose }) {
     setFormData({ ...formData, [name]: value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     console.log("Submitted Data:", formData);
-    toast.success("Place updated successfully.");
+    try {
+      const res = await axios.patch(
+        `http://localhost:1123/api/v1/places`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(res.data);
+
+      toast.success("Place updated successfully.");
+      setPlaces(
+        Places.map((place) =>
+          place.place_id === card.place_id ? { ...place, ...formData } : place
+        )
+      );
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to update place.");
+    }
+
     setTimeout(() => {
       onClose();
     }, 1000);

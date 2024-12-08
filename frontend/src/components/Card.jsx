@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineReviews, MdOutlineArrowRightAlt } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
@@ -7,20 +7,44 @@ import styles from "../styles/card.module.css";
 import { LuCalendarDays } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { UserContext } from "../App";
 import EditPlaceForm from "../Admin/components/EditPlaceForm";
 function Card({ card, selectedOption, onClick }) {
   {
     /*  admin */
   }
+
+  const [deleted, setDeleted] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  function handleDelete(id) {
-    console.log("delete", card.place_id);
+  const { places: Places, setPlaces } = useContext(UserContext);
+  async function handleDelete(id) {
+    try {
+      await axios.delete(`http://localhost:1123/api/v1/places/${id}`, {
+        withCredentials: true,
+      });
+      toast.success("Place Deleted successfully.");
+      setDeleted(true);
+      setPlaces(Places.filter((place) => place.place_id !== id));
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("delete", id);
     setShowEditForm(false);
   }
   function handleEdit() {
     console.log("edit", card.place_id);
+
     setShowEditForm(true);
   }
+
+  // if (deleted) {
+  //   return <ToastContainer />;
+  // }
+
+  if (!card.place_id) return null;
+
   return (
     <>
       <div className={styles.card} onClick={onClick}>
@@ -34,7 +58,7 @@ function Card({ card, selectedOption, onClick }) {
         {selectedOption === "delete" && (
           <div className={styles.tooltip}>
             <MdDelete
-              onClick={() => handleDelete(id)}
+              onClick={() => handleDelete(card.place_id)}
               className={styles.opIcons}
               style={{ color: "red" }}
             />

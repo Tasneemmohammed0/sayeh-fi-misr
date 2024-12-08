@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../styles/EditPlaceForm.module.css";
 import { IoMdClose } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import { UserContext } from "../../App";
 import "react-toastify/dist/ReactToastify.css";
 
 function CreatePlaceForm({ isOpen, onClose }) {
-  if (!isOpen) return null;
-
+  const { places: Places, setPlaces } = useContext(UserContext);
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -53,10 +54,24 @@ function CreatePlaceForm({ isOpen, onClose }) {
     setFormData({ ...formData, [name]: value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Submitted Data:", formData);
-    toast.success("Place Created successfully.");
+    // console.log("Submitted Data:", formData);
+    try {
+      const res = await axios.post(
+        `http://localhost:1123/api/v1/places`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success("Place Updated successfully.");
+      setPlaces([...Places, res.data.data]);
+    } catch (err) {
+      toast.error("Failed to create place.");
+      console.log(err);
+    }
+
     setTimeout(() => {
       onClose();
     }, 1000);

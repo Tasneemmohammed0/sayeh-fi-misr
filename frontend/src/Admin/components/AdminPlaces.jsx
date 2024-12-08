@@ -3,6 +3,7 @@ import { IoIosSearch } from "react-icons/io";
 import styles from "../../styles/AllPlaces.module.css";
 import PlacesList from "../../components/PlacesList";
 import CreatePlaceForm from "./CreatePlaceForm";
+
 function AdminPlaces() {
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
