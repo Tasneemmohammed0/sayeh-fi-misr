@@ -61,12 +61,11 @@ function App() {
 
         <Route path="/gatherings" element={<AllGathering />} />
 
-
-      <Route path="/gatherings" element={<AllGathering />} />
-      <Route
-        path="/gatherings/:gatheringId"
-        element={<GatheringDetails />}
-      ></Route>
+        <Route path="/gatherings" element={<AllGathering />} />
+        <Route
+          path="/gatherings/:gatheringId"
+          element={<GatheringDetails />}
+        ></Route>
 
         <Route path="/profile/:id" element={<UserProfile />} />
         <Route
@@ -82,7 +81,7 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
 
         <Route path="/profile/wishlist/:id" element={<WishList />} />
-        <Route path="/profile/:id/wishlist/:id" element={<WishList />} />
+        <Route path="/profile/:user_id/wishlist/:id" element={<WishList />} />
 
         <Route path="/places/:placeId" element={<PlaceDetails />} />
         <Route path="/bazaar" element={<Bazaar />} />

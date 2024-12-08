@@ -11,7 +11,17 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../App";
 import EditPlaceForm from "../Admin/components/EditPlaceForm";
-function Card({ card, selectedOption, onClick }) {
+function Card({
+  city,
+  name,
+  photo,
+  card,
+  place_id,
+  location,
+  rate,
+  selectedOption,
+  onClick,
+}) {
   {
     /*  admin */
   }
@@ -34,7 +44,7 @@ function Card({ card, selectedOption, onClick }) {
     setShowEditForm(false);
   }
   function handleEdit() {
-    console.log("edit", card.place_id);
+    console.log("edit", place_id);
 
     setShowEditForm(true);
   }
@@ -43,7 +53,7 @@ function Card({ card, selectedOption, onClick }) {
   //   return <ToastContainer />;
   // }
 
-  if (!card.place_id) return null;
+  if (!place_id) return null;
 
   return (
     <>
@@ -74,18 +84,18 @@ function Card({ card, selectedOption, onClick }) {
             paddingTop: "10px",
           }}
         >
-          <img src={card.photo} alt="card image" className={styles.cardImage} />
+          <img src={photo} alt="card image" className={styles.cardImage} />
         </div>
         <div className={styles.cardContent}>
           <h2
             className={styles.cardTitle}
             style={{
-              fontSize: `${card.name.length >= 20 ? "18px" : "24px"}`,
+              fontSize: `${name.length >= 20 ? "18px" : "24px"}`,
             }}
           >
-            {card.name}
+            {name}
           </h2>
-          <div className={styles.rating}>{<Stars count={card.rate} />}</div>
+          <div className={styles.rating}>{<Stars count={rate} />}</div>
         </div>
         <div className={styles.cardInfo}>
           <div className={styles.cardInfoDiv}>
@@ -105,7 +115,7 @@ function Card({ card, selectedOption, onClick }) {
           <FaLocationDot
             className={`${styles.cardIcon} ${styles.LocationCardIcon}  `}
           />
-          <p style={{ fontSize: "12px" }}>{card.city}</p>
+          <p style={{ fontSize: "12px" }}>{city}</p>
         </div>
         <div className={styles.dottedLine}></div>
         <div className={styles.cardFooter}>

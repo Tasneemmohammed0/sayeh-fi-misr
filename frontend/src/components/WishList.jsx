@@ -3,12 +3,30 @@ import { useParams } from "react-router-dom";
 import styles from "../styles/placeslist.module.css";
 import styles2 from "../styles/allplaces.module.css";
 import Card from "./Card";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosSearch } from "react-icons/io";
 function WishList() {
-  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user_id, id } = useParams();
+  const [places, setPlaces] = useState([]);
   /// get places from the wishlist id
+  useEffect(() => {
+    const fetchData = async (req, res, next) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/wishlist/${user_id}/${id}`
+        );
+        console.log("RES:", response.data.data);
+        setPlaces(response.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
   /// from the id we can get the wish list name
 
   const [search, setSearch] = useState("");
@@ -71,7 +89,7 @@ function WishList() {
         }}
       >
         {" "}
-        Hany Wish List{" "}
+        {places.length > 0 && places[0].wishlist_name}
       </h2>
       {/* Search  and filter */}
       <div className={styles2.bar}>
@@ -105,7 +123,7 @@ function WishList() {
       </div>
 
       <div className={styles.list}>
-        {wishListPlaces.map((item, index) => (
+        {places.map((item, index) => (
           <div
             style={{
               display: "flex",
@@ -116,10 +134,15 @@ function WishList() {
           >
             <Card
               key={index}
-              photo={item.image}
-              placeName={item.name}
+              photo={item.photo}
+              name={item.name}
+              city={item.city}
               location={item.city}
               rate={item.rate}
+              place_id={item.place_id}
+              onClick={() => {
+                navigate(`/places/${item.place_id}`);
+              }}
             />
           </div>
         ))}
