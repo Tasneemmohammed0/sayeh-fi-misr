@@ -21,12 +21,14 @@ export const UserContext = createContext();
 function App() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
+
+        // Fetch places
         const endpoint =
           location.pathname === "/"
             ? `http://localhost:1123/api/v1`
@@ -40,6 +42,13 @@ function App() {
 
         setLoading(false);
         setPlaces(response.data.data);
+
+        // Fetch user
+        const userResposne = await axios.get(
+          "http://localhost:1123/api/v1/users/me",
+          { withCredentials: true }
+        );
+        setUser(userResposne.data?.data.user);
       } catch (err) {
         console.log(err.message);
       }
