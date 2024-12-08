@@ -40,7 +40,6 @@ function App() {
           return;
         }
 
-        setLoading(false);
         setPlaces(response.data.data);
 
         // Fetch user
@@ -51,6 +50,8 @@ function App() {
         setUser(userResposne.data?.data.user);
       } catch (err) {
         console.log(err.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();

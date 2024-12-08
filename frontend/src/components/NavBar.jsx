@@ -15,7 +15,6 @@ function NavBar() {
         {},
         { withCredentials: true }
       );
-      console.log(response);
       setUser(null);
     } catch (err) {
       console.log(err);
