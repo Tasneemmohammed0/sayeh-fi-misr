@@ -18,9 +18,6 @@ function PlaceDetails() {
   const [place, setPlace] = useState({});
   const [isVisited, setIsVisited] = useState(false);
   const [finalLoading, setFinalLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
-  const [loadingReview, setloadingReview] = useState(false);
-  const [loadingPhotos, setLoadingPhotos] = useState(false);
 
   const [reviews, setReviews] = useState([]);
   const [photos, setPhotos] = useState([]);
@@ -28,6 +25,35 @@ function PlaceDetails() {
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  // Fetch place details
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setFinalLoading(true);
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/places/${placeId}`
+        );
+
+        if (response.status === "fail") {
+          console.log("error");
+          return;
+        }
+
+        const data = response.data.data;
+        setPlace(data.place);
+        setReviews(data.reviews);
+        setPhotos(data.photos);
+        console.log(data);
+
+        setFinalLoading(false);
+      } catch (err) {
+        console.log(err.message);
+        setFinalLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   // check if the place is visited
   useEffect(() => {
@@ -44,70 +70,6 @@ function PlaceDetails() {
       }
     };
     checkVisited();
-  }, []);
-
-  // Fetch place details
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoadingData(true);
-        setFinalLoading(true);
-        const response = await axios.get(
-          `http://localhost:1123/api/v1/places/${placeId}`
-        );
-
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-        setPlace(response.data.data);
-        setLoadingData(false);
-      } catch (err) {
-        console.log(err.message);
-        setLoadingData(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  // Fetch reviews
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        setloadingReview(true);
-        const response = await axios.get(
-          `http://localhost:1123/api/v1/places/${placeId}/reviews`
-        );
-
-        setReviews(response.data.data);
-        setloadingReview(false);
-      } catch (err) {
-        console.log(err.message);
-        setloadingReview(false);
-      }
-    };
-    fetchReviews();
-  }, []);
-
-  // Fetch photos
-  useEffect(() => {
-    const fetchPhotos = async () => {
-      try {
-        setLoadingPhotos(true);
-        const response = await axios.get(
-          `http://localhost:1123/api/v1/places/${placeId}/photos`
-        );
-
-        setPhotos(response.data.data);
-
-        setLoadingPhotos(false);
-        setFinalLoading(false);
-      } catch (err) {
-        console.log(err.message);
-        setLoadingPhotos(false);
-      }
-    };
-    fetchPhotos();
   }, []);
 
   // Handle visited

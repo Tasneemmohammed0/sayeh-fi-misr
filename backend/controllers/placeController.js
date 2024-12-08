@@ -16,6 +16,48 @@ exports.getPlace = async (req, res) => {
   }
 };
 
+// Get Place Details RouteHandler
+exports.getPlaceDetails = async (req, res) => {
+  try {
+    const placeId = req.params.id;
+
+    const [placeData, reviewsData, photosData] = await Promise.all([
+      db.query(`SELECT * FROM place WHERE place_id =$1`, [placeId]),
+      db.query(
+        `SELECT Distinct U.first_name, U.last_name, U.profile_pic, R.review_id, R.title, R.rating, R.date, R.main_content 
+    FROM visitor U, review R 
+    WHERE R.user_id = U.user_id AND place_id = $1`,
+        [placeId]
+      ),
+      db.query(
+        `SELECT Distinct U.first_name, U.last_name, U.profile_pic, P.photo_id, P.photo, P.date, P.caption
+    FROM visitor U, photo P
+    WHERE P.user_id = U.user_id AND P.place_id = $1`,
+        [placeId]
+      ),
+    ]);
+
+    console.log({
+      place: placeData.rows[0],
+      reviews: reviewsData.rows,
+      photos: photosData.rows,
+    });
+    res.status(200).json({
+      status: "success",
+      data: {
+        place: placeData.rows[0],
+        reviews: reviewsData.rows,
+        photos: photosData.rows,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};
+
 //Get All Places RouteHandler
 exports.getAllPlaces = async (req, res) => {
   try {
