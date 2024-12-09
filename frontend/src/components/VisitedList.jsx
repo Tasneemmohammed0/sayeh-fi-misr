@@ -41,14 +41,7 @@ function VisitedList({ id }) {
             alignItems: "center",
           }}
         >
-          <Card
-            key={index}
-            card={`photo:${item.photo}
-            placeName:${item.name}
-            location:${item.city}
-            place_id:${item.place_id}`}
-            rate={item.rate}
-          />
+          <Card key={index} card={item} />
         </div>
       ))}
     </div>
