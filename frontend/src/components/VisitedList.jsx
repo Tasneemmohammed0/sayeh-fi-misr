@@ -27,7 +27,7 @@ function VisitedList({ id }) {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, location.pathname]);
 
   return (
     <div className={styles.list}>
