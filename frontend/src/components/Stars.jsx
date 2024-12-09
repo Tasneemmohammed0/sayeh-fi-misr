@@ -1,21 +1,27 @@
 import React from "react";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
 function Stars({ count = 5, fontSize = "18px", color = "gold" }) {
-  count = parseInt(count);
+  if (!count) count = 0;
+  //count = parseInt(count);
+  console.log(count);
 
   const rate = [];
-  for (let i = 1; i <= count; i++) {
+  for (let i = 1; i <= 5; i++) {
     if (i <= count) {
-      rate.push(i);
+      rate.push(<FaStar />);
+    } else if (!Number.isInteger(count) && i === Math.ceil(count)) {
+      rate.push(<FaStarHalfAlt />);
+    } else {
+      rate.push(<FaRegStar />);
     }
   }
 
   return (
     <div style={{ display: "flex", flexDirection: "rows", gap: "3px" }}>
-      {rate.map((item) => (
-        <div key={item} style={{ color: `${color}`, fontSize: `${fontSize}` }}>
-          <FaStar />
+      {rate.map((item, index) => (
+        <div key={index} style={{ color: `${color}`, fontSize: `${fontSize}` }}>
+          {item}
         </div>
       ))}
     </div>
