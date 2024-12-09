@@ -24,7 +24,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     };
 
     // Determine the severity of the report
-    const severity = rate == 3 ? "medium" : rate < 3 ? "low" : "high";
+    const severity = rate == 3 ? "Medium" : rate < 3 ? "Low" : "High";
 
     const reportData = {
       date: new Date().toISOString(),
@@ -72,7 +72,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     console.log(rate);
 
     // Report without title and review
-    if (isReport && (!title || !review || !rate)) {
+    if (isReport && (!reason || !review || !rate)) {
       toast(
         "Please enter the reason, content of your report and it's severity to consider it"
       );

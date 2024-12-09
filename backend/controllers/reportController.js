@@ -14,7 +14,7 @@ exports.addReport = async (req, res) => {
       ]
     );
 
-    console.log(data.rows[0]);
+    console.log(reportData.rows[0]);
 
     let data = null;
     if (req.body.entityType === "place") {
