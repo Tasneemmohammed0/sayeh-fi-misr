@@ -13,6 +13,7 @@ import AddToListForm from "../components/AddToListForm";
 import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
@@ -75,7 +76,10 @@ function PlaceDetails() {
   // Handle visited
   async function handleVisited() {
     try {
-      if (isVisited) return;
+      if (isVisited) {
+        toast("This place is already in your visited list");
+        return;
+      }
 
       const date = new Date().toISOString();
 
@@ -100,6 +104,7 @@ function PlaceDetails() {
   return (
     <>
       {finalLoading && <Loading />}
+      <ToastContainer />
       <main className={styles.main}>
         <div
           className={styles.backgroundImage}

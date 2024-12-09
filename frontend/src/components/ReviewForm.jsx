@@ -10,6 +10,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
   const [error, setError] = useState(false);
+  const [reason, setReason] = useState("Offensive");
 
   if (!isOpen) return null;
 
@@ -22,37 +23,38 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
       main_content: review,
     };
 
+    // Determine the severity of the report
+    const severity = rate == 3 ? "Medium" : rate < 3 ? "Low" : "High";
+
     const reportData = {
       date: new Date().toISOString(),
-      severity: rate,
-      reason: title,
+      severity,
+      reason,
       description: review,
+      entityType: placeId ? "place" : "gathering",
+      placeId,
+      gatheringId,
     };
 
     try {
       // Determine the end point
       const url = isReport
-        ? `http://localhost:1123/api/v1/places/${placeId ? placeId : gatheringId}/addReport`
+        ? `http://localhost:1123/api/v1/reports/add`
         : `http://localhost:1123/api/v1/places/${placeId}/addReview`;
 
       // Send the request
-      const response = await axios.post(
-        url,
-        isReport ? reportData : reviewData,
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (!res.ok) {
-        const errMessage = `❌ Error: ${res.status} ${res.statusText}`;
-        toast.error(errMessage);
-        throw new Error(errMessage);
-      }
+      const res = await axios.post(url, isReport ? reportData : reviewData, {
+        withCredentials: true,
+      });
     } catch (err) {
       toast("❌ Error submitting");
       console.error(err); // Log the error for debugging purposes
       setError(err);
+    } finally {
+      // show success message
+      isReport
+        ? alert("Report Submitted Successfully!")
+        : alert("🎉 Review Submitted Successfully!");
     }
   }
 
@@ -65,10 +67,11 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
       toast("⭐ Please rate the place");
       return;
     }
-    console.log(rate);
 
+    console.log(reason);
+    console.log(reason, review, rate);
     // Report without title and review
-    if (isReport && (!title || !review || !rate)) {
+    if (isReport && (!reason || !review || !rate)) {
       toast(
         "Please enter the reason, content of your report and it's severity to consider it"
       );
@@ -78,16 +81,12 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     // send review to API
     postReview();
 
-    // show success message
-    isReport
-      ? toast("Report Submitted Successfully!")
-      : toast("🎉 Review Submitted Successfully!");
-
     // clear the form
     setTitle("");
     setReview("");
     setIsOpen(false);
     setRate(0);
+    setReason("Offensive");
   }
 
   function handleClose() {
@@ -113,19 +112,33 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
           <IoMdClose />
         </button>
         {!isReport && <Rate rate={rate} setRate={setRate} />}
-        <label className={styles.formLabel}>
-          {isReport ? "Reason" : "Title"}
-          <input
-            className={styles.title}
-            type="text"
-            placeholder={
-              isReport ? "Enter your report reason" : "Enter review title"
-            }
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-
+        {!isReport && (
+          <label className={styles.formLabel}>
+            Title
+            <input
+              className={styles.title}
+              type="text"
+              placeholder={"Enter review title"}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+        )}
+        {isReport && (
+          <label className={styles.formLabel}>
+            Reason
+            <select
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className={styles.dropList}
+            >
+              <option>Offensive</option>
+              <option>Spam</option>
+              <option>Inappropriate</option>
+              <option>Other</option>
+            </select>
+          </label>
+        )}
         <label className={styles.formLabel}>
           {isReport ? "Content" : "Review"}
           <textarea

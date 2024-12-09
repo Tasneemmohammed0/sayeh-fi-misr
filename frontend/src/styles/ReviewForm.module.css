@@ -105,3 +105,14 @@
   gap: 1rem;
   color: var(--our-blue);
 }
+
+.dropList {
+  height: 30px;
+  width: 200px;
+  border-radius: 10px;
+  border: 1px solid var(--our-blue);
+  padding: 0.2rem;
+  font-size: 15px;
+  background-color: rgb(255, 240, 240);
+  margin-left: 10px;
+}
