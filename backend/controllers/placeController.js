@@ -226,3 +226,30 @@ exports.checkVisited = async (req, res) => {
     });
   }
 };
+
+// Add Report on a place
+exports.addReport = async (req, res) => {
+  try {
+    const data = await db.query(
+      `INSERT INTO report (date, severity, reason, description, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [
+        req.body.date,
+        req.body.severity,
+        req.body.reason,
+        req.body.description,
+        req.user.user_id,
+      ]
+    );
+
+    console.log(data.rows[0]);
+    res.status(200).json({
+      status: "success",
+      data: data.rows[0],
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};

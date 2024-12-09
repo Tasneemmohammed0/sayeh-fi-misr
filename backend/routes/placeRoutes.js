@@ -12,14 +12,20 @@ router.get("/:id", placeController.getPlaceDetails);
 router.get("/:id/reviews", placeController.getPlaceReviews);
 // Get all photos of a place
 router.get("/:id/photos", placeController.getAllPhotos);
-// Post a review for a place
+// Post a review for the place
 router.post(
   "/:id/addReview",
   authController.protect,
   placeController.postReview
 );
+// Post a photo for the place
 router.post("/:id/addPhoto", authController.protect, placeController.postPhoto);
-
+// Add a report for a place
+router.post(
+  "/:id/addReport",
+  authController.protect,
+  placeController.addReport
+);
 // Add to wishlist route
 router.post("/:id/addToWishlist", placeController.addToWishList);
 // Add to visit list route
