@@ -1,9 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import styles from "../styles/NavBar.module.css";
+import { UserContext } from "../App";
+import axios from "axios";
 
 function NavBar() {
+  const { user, setUser } = useContext(UserContext);
+  const handleLogout = async () => {
+    console.log("Logging out..");
+    try {
+      const response = await axios.post(
+        "http://localhost:1123/api/v1/users/logout",
+        {},
+        { withCredentials: true }
+      );
+      setUser(null);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 500) {
@@ -14,7 +30,7 @@ function NavBar() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
+    console.log("USER:", user);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -43,32 +59,48 @@ function NavBar() {
             Trending Places
           </a>
         </li>
-        <li>
-          <NavLink
-            to="/signin"
-            activeclassname="active-link"
-            className={styles.link}
-          >
-            Sign In
-          </NavLink>
+        {user?.role === "admin" ? (
+          <li>
+            <NavLink
+              to="/dashboard"
+              activeclassname="active-link"
+              className={styles.link}
+            >
+              Dashboard
+            </NavLink>
+          </li>
+        ) : null}
+        <li onClick={handleLogout}>
+          {user ? (
+            <NavLink
+              // to="/signout"
+              activeclassname="active-link"
+              className={styles.link}
+            >
+              Sign Out
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/signin"
+              activeclassname="active-link"
+              className={styles.link}
+            >
+              Sign In
+            </NavLink>
+          )}
         </li>
 
-        <li>
-          <NavLink
-            to="/dashboard"
-            activeclassname="active-link"
-            className={styles.link}
-          >
-            dashboard
-          </NavLink>
-        </li>
         <li>
           <NavLink
             to="/profile"
             activeclassname="active-link"
             className={styles.link}
           >
-            <FaUserCircle className={styles.profileIcon} />
+            {user ? (
+              <img src={`${user.profile_pic}`} className={styles.profileIcon} />
+            ) : (
+              <FaUserCircle className={styles.profileIcon} />
+            )}
           </NavLink>
         </li>
       </ul>

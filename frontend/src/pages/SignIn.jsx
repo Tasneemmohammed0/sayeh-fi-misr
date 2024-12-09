@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../App";
 import axios from "axios";
 
 //// form validation
@@ -20,7 +21,7 @@ function SignIn() {
   const [submit, setSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const validationSchema = yup.object({
     email: yup
@@ -46,6 +47,7 @@ function SignIn() {
           { withCredentials: true }
         );
         navigate("/home");
+        setUser(res.data.data);
       } catch (err) {
         setError(err.response.data.message);
       } finally {

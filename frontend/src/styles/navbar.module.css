@@ -35,6 +35,9 @@
   font-size: 1.7rem;
   transition: color 0.1s ease;
   margin-top: 0.3rem;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 
 .link {

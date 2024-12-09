@@ -206,5 +206,5 @@ exports.restrictTo = (...roles) =>
 exports.logout = (req, res, next) => {
   res.clearCookie("jwt");
   req.user = undefined;
-  return res.status(201);
+  return res.status(201).json({ message: "Success" });
 };

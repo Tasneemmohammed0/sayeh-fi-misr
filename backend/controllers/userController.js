@@ -24,6 +24,7 @@ exports.getUser = async (req, res, next) => {
         .status(404)
         .json({ status: "fail", message: "user not found." });
 
+    user.password = undefined;
     res.status(200).json({
       status: "success",
       data: {
