@@ -2,8 +2,11 @@ const db = require("../db/index.js");
 
 exports.getExplorePlaces = async (req, res) => {
   try {
-    const data =
-      await db.query(`SELECT * FROM place ORDER BY place_id ASC LIMIT 4
+    const data = await db.query(`SELECT p.*, AVG(r.rating) AS rate
+FROM place p
+LEFT JOIN review r ON p.place_id = r.place_id
+GROUP BY p.place_id
+ORDER BY place_id ASC LIMIT 4
 `);
 
     res.status(200).json({

@@ -61,7 +61,13 @@ exports.getPlaceDetails = async (req, res) => {
 //Get All Places RouteHandler
 exports.getAllPlaces = async (req, res) => {
   try {
-    const data = await db.query(`SELECT * FROM place`);
+    const data = await db.query(`SELECT p.*, AVG(r.rating) AS rate
+FROM place p
+LEFT JOIN review r ON p.place_id = r.place_id
+GROUP BY p.place_id
+ORDER BY p.place_id ASC
+
+`);
 
     res.status(200).json({
       status: "success",
@@ -223,6 +229,25 @@ exports.checkVisited = async (req, res) => {
     console.log(err);
     res.status(404).json({
       message: err,
+    });
+  }
+};
+
+exports.calculateRating = async (req, res) => {
+  try {
+    const data = await db.query(
+      `
+    SELECT AVG(rating) from review 
+where place_id=$1`,
+      [req.params.id]
+    );
+
+    res.status(200).json({
+      status: "success",
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
     });
   }
 };
