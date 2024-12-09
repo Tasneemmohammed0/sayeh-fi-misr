@@ -10,6 +10,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
   const [error, setError] = useState(false);
+  const [reason, setReason] = useState("");
 
   if (!isOpen) return null;
 
@@ -22,27 +23,30 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
       main_content: review,
     };
 
+    // Determine the severity of the report
+    const severity = rate == 3 ? "medium" : rate < 3 ? "low" : "high";
+
     const reportData = {
       date: new Date().toISOString(),
-      severity: rate,
-      reason: title,
+      severity,
+      reason,
       description: review,
+      entityType: placeId ? "place" : "gathering",
+      placeId,
+      gatheringId,
     };
 
     try {
       // Determine the end point
       const url = isReport
-        ? `http://localhost:1123/api/v1/places/${placeId ? placeId : gatheringId}/addReport`
+        ? `http://localhost:1123/api/v1/reports/add`
         : `http://localhost:1123/api/v1/places/${placeId}/addReview`;
 
       // Send the request
-      const response = await axios.post(
-        url,
-        isReport ? reportData : reviewData,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post(url, isReport ? reportData : reviewData, {
+        withCredentials: true,
+      });
+      console.log(res);
 
       if (!res.ok) {
         const errMessage = `❌ Error: ${res.status} ${res.statusText}`;
@@ -113,19 +117,33 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
           <IoMdClose />
         </button>
         {!isReport && <Rate rate={rate} setRate={setRate} />}
-        <label className={styles.formLabel}>
-          {isReport ? "Reason" : "Title"}
-          <input
-            className={styles.title}
-            type="text"
-            placeholder={
-              isReport ? "Enter your report reason" : "Enter review title"
-            }
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-
+        {!isReport && (
+          <label className={styles.formLabel}>
+            Title
+            <input
+              className={styles.title}
+              type="text"
+              placeholder={"Enter review title"}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+        )}
+        {isReport && (
+          <label className={styles.formLabel}>
+            Reason
+            <select
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className={styles.dropList}
+            >
+              <option>Offensive</option>
+              <option>Spam</option>
+              <option>Inappropriate</option>
+              <option>Other</option>
+            </select>
+          </label>
+        )}
         <label className={styles.formLabel}>
           {isReport ? "Content" : "Review"}
           <textarea
