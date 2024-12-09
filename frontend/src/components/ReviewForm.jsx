@@ -10,7 +10,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
   const [error, setError] = useState(false);
-  const [reason, setReason] = useState("");
+  const [reason, setReason] = useState("Offensive");
 
   if (!isOpen) return null;
 
@@ -46,17 +46,15 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
       const res = await axios.post(url, isReport ? reportData : reviewData, {
         withCredentials: true,
       });
-      console.log(res);
-
-      if (!res.ok) {
-        const errMessage = `❌ Error: ${res.status} ${res.statusText}`;
-        toast.error(errMessage);
-        throw new Error(errMessage);
-      }
     } catch (err) {
       toast("❌ Error submitting");
       console.error(err); // Log the error for debugging purposes
       setError(err);
+    } finally {
+      // show success message
+      isReport
+        ? alert("Report Submitted Successfully!")
+        : alert("🎉 Review Submitted Successfully!");
     }
   }
 
@@ -69,8 +67,9 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
       toast("⭐ Please rate the place");
       return;
     }
-    console.log(rate);
 
+    console.log(reason);
+    console.log(reason, review, rate);
     // Report without title and review
     if (isReport && (!reason || !review || !rate)) {
       toast(
@@ -82,16 +81,12 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     // send review to API
     postReview();
 
-    // show success message
-    isReport
-      ? toast("Report Submitted Successfully!")
-      : toast("🎉 Review Submitted Successfully!");
-
     // clear the form
     setTitle("");
     setReview("");
     setIsOpen(false);
     setRate(0);
+    setReason("Offensive");
   }
 
   function handleClose() {
