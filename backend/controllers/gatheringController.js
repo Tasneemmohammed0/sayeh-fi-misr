@@ -60,7 +60,7 @@ exports.getGatheringDetails = async (req, res) => {
     console.log(gatheringDetails);
 
     const allUsersQuery = `
-    SELECT v.user_id, v.first_name, v.last_name, v.profile_pic
+    SELECT DISTINCT v.user_id, v.first_name, v.last_name, v.profile_pic
     FROM visitor_gathering vg, visitor v
     WHERE vg.user_id=v.user_id AND vg.gathering_id=$1
     `;
@@ -159,5 +159,26 @@ exports.createGathering = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+  }
+};
+
+// Join gathering route handler
+exports.joinGathering = async (req, res) => {
+  try {
+    const data = await db.query(
+      `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
+      [req.user.user_id, req.params.id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "Joined Successfully",
+      data: data.rows[0],
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      message: err,
+    });
   }
 };

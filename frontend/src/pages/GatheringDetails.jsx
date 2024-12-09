@@ -66,20 +66,27 @@ function GatheringDetails() {
     fetchGathering();
   }, []);
 
-  function handleJoin() {
+  async function handleJoin() {
     try {
       // gathering is already joined
-      if (isJoined) return;
+      if (isJoined) {
+        toast("🤔 You are already joined in this gathering");
+        return;
+      }
 
-      const res = axios.post(
+      // send join request to API
+      const res = await axios.post(
         `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`,
+        null,
         {
           withCredentials: true,
         }
       );
 
+      toast("🎉 Joined successfully");
+
       // send join request to API
-      setIsJoined(() => setIsJoined(true));
+      setIsJoined(true);
     } catch (err) {
       console.log(err);
     }
