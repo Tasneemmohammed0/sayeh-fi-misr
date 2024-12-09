@@ -182,3 +182,23 @@ exports.joinGathering = async (req, res) => {
     });
   }
 };
+
+// check if gathering is joined
+exports.checkJoined = async (req, res) => {
+  try {
+    const data = await db.query(
+      `SELECT EXISTS (SELECT 1 FROM visitor_gathering WHERE user_id = $1 AND gathering_id = $2) AS is_joined`,
+      [req.user.user_id, req.params.id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: data.rows[0].is_joined,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};

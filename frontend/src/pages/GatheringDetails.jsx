@@ -66,6 +66,8 @@ function GatheringDetails() {
     fetchGathering();
   }, []);
 
+  // check joining status
+
   async function handleJoin() {
     try {
       // gathering is already joined

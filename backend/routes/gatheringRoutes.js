@@ -19,4 +19,9 @@ router.post(
   authController.protect,
   gatheringController.joinGathering
 );
+router.post(
+  "/:id/checkJoined",
+  authController.protect,
+  gatheringController.checkJoined
+);
 module.exports = router;
