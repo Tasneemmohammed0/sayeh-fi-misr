@@ -67,12 +67,30 @@ function GatheringDetails() {
   }, []);
 
   // check joining status
+  useEffect(() => {
+    async function checkJoiningStatus() {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/gatherings/${gatheringId}/checkJoined`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        // set joining status
+        setIsJoined(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    checkJoiningStatus();
+  }, []);
 
   async function handleJoin() {
     try {
       // gathering is already joined
       if (isJoined) {
-        toast("🤔 You are already joined in this gathering");
+        toast("You are already joined in this gathering");
         return;
       }
 
