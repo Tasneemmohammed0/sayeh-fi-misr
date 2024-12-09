@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.reportList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(450px, 1fr));
+  gap: 20px;
+
+  width: 100%;
+  margin: 10px auto;
+}
