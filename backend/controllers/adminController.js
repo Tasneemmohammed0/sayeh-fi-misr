@@ -236,30 +236,29 @@ exports.updatePlace = async (req, res, next) => {
 
 exports.getReports = async (req, res, next) => {
   try {
-    const query = `
-    SELECT 
-    rp.report_id, 
-    rp.place_id AS entity_id, 
-    r.*,
-    'place' AS entity_type
-    FROM report_place rp
-    JOIN report r ON rp.report_id = r.report_id
-
-    UNION
-
-    SELECT 
-    rg.report_id, 
-    rg.gathering_id AS entity_id, 
-    r.*, 
-    'gathering' AS entity_type
-    FROM report_gathering rg
-    JOIN report r ON rg.report_id = r.report_id;
+    const gatheringQuery = `
+    SELECT r.*, rg.*, g.gathering_id, g.title, p.name AS place_name
+    FROM report r, report_gathering rg, gathering g, place p
+    WHERE r.report_id=rg.gathering_id AND g.gathering_id = rg.gathering_id AND p.place_id=g.place_id;
     `;
-    const response = await db.query(query);
+    const gatheringResponse = await db.query(gatheringQuery);
+    const gatherings = gatheringResponse.rows;
+
+    const placesQuery = `
+    SELECT r.*, rp.*, p.name, p.photo
+    FROM report r, report_place rp, place p
+    WHERE r.report_id=rp.report_id AND p.place_id=rp.place_id
+    `;
+    const placesResponse = await db.query(placesQuery);
+    const places = placesResponse.rows;
+
     res.status(200).json({
       status: "success",
-      length: response.rowCount,
-      data: response.rows,
+      length: placesResponse.rowCount + gatheringResponse.rowCount,
+      data: {
+        gatherings_reports: gatherings,
+        places_reports: places,
+      },
     });
   } catch (err) {
     res.status(400).json({
