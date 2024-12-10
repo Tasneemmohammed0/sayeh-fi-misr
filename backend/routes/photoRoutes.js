@@ -6,5 +6,7 @@ const router = express.Router();
 
 // delete a photo
 router.delete("/:id", authController.protect, photoController.deletePhoto);
+// update a photo
+router.patch("/:id", authController.protect, photoController.updatePhoto);
 
 module.exports = router;
