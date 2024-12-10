@@ -1,15 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/UserPhotosList.module.css";
 import Loading from "./Loading";
 import { FiSettings } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import UserPhotoPost from "./UserPhotoPost";
+import axios from "axios";
 function UserPhotosList({ id }) {
   const [postList, setPostList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/users/photos/${id}`
+        );
+        console.log("response", response.data.data);
+        setPostList(response.data.data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err.message);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   const tempList = [
     {
@@ -82,10 +102,11 @@ function UserPhotosList({ id }) {
         <FiSettings onClick={handleOptions} className={styles.optionIcon} />
       </div>
 
-      {tempList.map((item, index) => (
+      {postList.map((item, index) => (
         <UserPhotoPost
           post={item}
           key={index}
+          setPostList={setPostList}
           selectedOption={selectedOption}
         />
       ))}
