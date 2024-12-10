@@ -1,4 +1,5 @@
 const db = require("../db/index.js");
+const { assignBadge } = require("../controllers/badgeSystemController.js");
 
 exports.getAllGatherings = async (req, res) => {
   try {
@@ -175,6 +176,15 @@ exports.joinGathering = async (req, res) => {
       message: "Joined Successfully",
       data: data.rows[0],
     });
+    try {
+      await assignBadge(
+        req.user.user_id,
+        "Top Participant",
+        "visitor_gathering",
+        2,
+        req.body.date
+      );
+    } catch (err) {}
   } catch (err) {
     console.error(err);
     res.status(404).json({
