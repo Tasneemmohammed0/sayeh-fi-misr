@@ -1,6 +1,7 @@
 .container {
   display: flex;
   align-items: center;
+  flex-direction: column;
 }
 
 .reportList {
@@ -10,4 +11,21 @@
 
   width: 100%;
   margin: 10px auto;
+}
+
+.filter {
+  align-self: flex-end;
+  margin: 20px;
+}
+
+.select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: none;
 }

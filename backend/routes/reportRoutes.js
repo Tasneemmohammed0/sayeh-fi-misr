@@ -12,6 +12,15 @@ router.get(
   authController.restrictTo("admin"),
   adminController.getReports
 );
+
+// resolve report
+router.delete(
+  "/:id",
+  authController.protect,
+  authController.restrictTo("admin"),
+  adminController.resolveReport
+);
+
 // Add Report Route
 router.post("/add", authController.protect, reportController.addReport);
 
