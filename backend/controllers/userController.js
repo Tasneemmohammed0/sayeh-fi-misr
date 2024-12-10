@@ -61,6 +61,29 @@ exports.getUserReviews = async (req, res, next) => {
   }
 };
 
+// Get all photos posted by user_id
+exports.getUserPhotos = async (req, res, next) => {
+  try {
+    const query = `SELECT DISTINCT Ph.photo_id, Ph.photo, Ph.date, Ph.caption, Ph.place_id, Pl.name AS place_name FROM photo Ph, place Pl
+    WHERE Ph.user_id = $1 AND Ph.place_id = Pl.place_id`;
+
+    const params = [+req.params.id];
+    const result = await db.query(query, params);
+
+    res.status(200).json({
+      status: "success",
+      length: result.rows.length,
+      data: result.rows,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
 // Get all wishlists made by user_id
 exports.getUserWishlists = async (req, res, next) => {
   try {
