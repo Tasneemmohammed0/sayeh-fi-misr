@@ -232,22 +232,3 @@ exports.checkVisited = async (req, res) => {
     });
   }
 };
-
-exports.calculateRating = async (req, res) => {
-  try {
-    const data = await db.query(
-      `
-    SELECT AVG(rating) from review 
-where place_id=$1`,
-      [req.params.id]
-    );
-
-    res.status(200).json({
-      status: "success",
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-    });
-  }
-};
