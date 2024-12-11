@@ -39,7 +39,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     try {
       // Determine the end point
       const url = isReport
-        ? `http://localhost:1123/api/v1/reports/add`
+        ? `http://localhost:1123/api/v1/reports`
         : `http://localhost:1123/api/v1/places/${placeId}/addReview`;
 
       // Send the request
