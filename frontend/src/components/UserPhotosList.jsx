@@ -31,45 +31,6 @@ function UserPhotosList({ id }) {
     fetchData();
   }, [id]);
 
-  const tempList = [
-    {
-      title: "Post 1",
-      description: "Description 1",
-      place: "Place 1",
-      date: "Date 1",
-    },
-    {
-      title: "Post 2",
-      description: "Description 2",
-      place: "Place 2",
-      date: "Date 2",
-    },
-    {
-      title: "Post 3",
-      description: "Description 3",
-      place: "Place 3",
-      date: "Date 3",
-    },
-    {
-      title: "Post 3",
-      description: "Description 3",
-      place: "Place 3",
-      date: "Date 3",
-    },
-    {
-      title: "Post 3",
-      description: "Description 3",
-      place: "Place 3",
-      date: "Date 3",
-    },
-    {
-      title: "Post 3",
-      description: "Description 3",
-      place: "Place 3",
-      date: "Date 3",
-    },
-  ];
-
   function handleOptions() {
     setShowOptions((op) => !op);
     setSelectedOption(null);
