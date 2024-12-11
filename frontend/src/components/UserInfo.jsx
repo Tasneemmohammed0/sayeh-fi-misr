@@ -14,7 +14,11 @@ function UserInfo({ user, selectedList, setSelectedList }) {
       <div className={styles.userWrapper}>
         <div className={styles.info}>
           <img
-            src={user.profile_pic ? user.profile_pic : "../src/assets/images/userAvatar.png"}
+            src={
+              user.profile_pic
+                ? user.profile_pic
+                : "../src/assets/images/userAvatar.png"
+            }
             alt="user profile"
             className={styles.avater}
           />
@@ -112,6 +116,15 @@ function UserInfo({ user, selectedList, setSelectedList }) {
             onClick={() => setSelectedList("Gathering List")}
           >
             Gathering
+          </li>
+        </Link>
+
+        <Link to="#photos" style={{ color: "black" }}>
+          <li
+            className={`${styles.listItem} ${selectedList === "Photos" ? styles.active : ""}`}
+            onClick={() => setSelectedList("Photos")}
+          >
+            Photos
           </li>
         </Link>
       </ul>
