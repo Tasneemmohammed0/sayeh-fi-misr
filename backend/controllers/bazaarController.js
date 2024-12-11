@@ -8,7 +8,6 @@ ON p.place_id=gift.place_id`);
     res.status(200).json({
       status: "success",
       length: data.rows.length,
-      totalPoints: 0,
       data: data.rows,
     });
   } catch (err) {
