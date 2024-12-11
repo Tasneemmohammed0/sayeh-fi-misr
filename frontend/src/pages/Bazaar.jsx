@@ -16,7 +16,7 @@ function Bazaar() {
         setLoading(true);
         const endpoint = `http://localhost:1123/api/v1/bazaar`;
 
-        const response = await axios.get(endpoint, { withCredentials: true });
+        const response = await axios.get(endpoint);
         if (response.status === "fail") {
           console.log("error");
           return;
@@ -24,7 +24,7 @@ function Bazaar() {
 
         setLoading(false);
         setGifts(response.data.data);
-        setTotalPoints(response.data.totalPoints);
+
         console.log("==========Gift", response.data.data);
         console.log(response.data);
       } catch (err) {
@@ -32,6 +32,24 @@ function Bazaar() {
       }
     };
     fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchUserPoints = async () => {
+      try {
+        const pointsEndpoint = `http://localhost:1123/api/v1/bazaar/points`;
+        const response = await axios.get(pointsEndpoint, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setTotalPoints(response.data.totalPoints);
+        }
+      } catch (err) {
+        console.error("Error fetching points:", err.message);
+      }
+    };
+
+    fetchUserPoints();
   }, []);
 
   return (

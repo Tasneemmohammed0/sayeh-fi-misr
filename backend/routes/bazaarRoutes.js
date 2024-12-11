@@ -4,7 +4,9 @@ const authController = require("../controllers/authController");
 
 const router = express.Router();
 
-router.get("/", authController.protect, bazaarController.getAllGifts);
+router.get("/", bazaarController.getAllGifts);
+router.get("/points", authController.protect, bazaarController.getPoints);
+
 router.post("/", authController.protect, bazaarController.buyGift);
 
 module.exports = router;
