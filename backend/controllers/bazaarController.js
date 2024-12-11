@@ -74,6 +74,11 @@ exports.getPoints = async (req, res) => {
       FROM visitor_place
       GROUP BY user_id
   ),
+  gathering_points AS (
+      SELECT user_id, COUNT(DISTINCT gathering_id) * 20 AS points
+      FROM visitor_gathering
+      GROUP BY user_id
+  ),
   gift_points AS (
       SELECT visitor_gift.user_id, COALESCE(SUM(gift.points), 0) AS points
       FROM visitor_gift
@@ -84,14 +89,24 @@ exports.getPoints = async (req, res) => {
 
       COALESCE(review_points.points, 0) +
       COALESCE(photo_points.points, 0) +
-      COALESCE(place_points.points, 0) -
+      COALESCE(place_points.points, 0)+
+	    COALESCE(gathering_points.points, 0)-
       COALESCE(gift_points.points, 0) AS total_points
+
+      
   FROM visitor
+
+
+
   LEFT JOIN review_points ON review_points.user_id = visitor.user_id
   LEFT JOIN photo_points ON photo_points.user_id = visitor.user_id
   LEFT JOIN place_points ON place_points.user_id = visitor.user_id
+  LEFT JOIN gathering_points ON gathering_points.user_id = visitor.user_id
   LEFT JOIN gift_points ON gift_points.user_id = visitor.user_id
+
+
   WHERE visitor.user_id = $1;
+
 
   `;
     const pointsData = await db.query(pointsQuery, [req.user.user_id]);
