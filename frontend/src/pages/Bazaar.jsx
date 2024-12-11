@@ -5,9 +5,10 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Loading from "../components/Loading";
 
-function Bazaar({ totalPoints = 198 }) {
+function Bazaar() {
   const [gifts, setGifts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [totalPoints, setTotalPoints] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +16,7 @@ function Bazaar({ totalPoints = 198 }) {
         setLoading(true);
         const endpoint = `http://localhost:1123/api/v1/bazaar`;
 
-        const response = await axios.get(endpoint);
+        const response = await axios.get(endpoint, { withCredentials: true });
         if (response.status === "fail") {
           console.log("error");
           return;
@@ -23,7 +24,8 @@ function Bazaar({ totalPoints = 198 }) {
 
         setLoading(false);
         setGifts(response.data.data);
-        console.log(response.data.data);
+        setTotalPoints(response.data.totalPoints);
+        console.log("==========Gift", response.data.data);
         console.log(response.data);
       } catch (err) {
         console.log(err.message);
