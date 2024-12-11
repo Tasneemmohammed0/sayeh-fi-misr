@@ -4,24 +4,16 @@ const authController = require("../controllers/authController");
 const adminController = require("../controllers/adminController");
 const reportController = require("../controllers/reportController");
 
-// router.use(authController.protect, authController.restrictTo("admin"));
+// All routes are restricted to only logged in users
+router.use(authController.protect);
 
-router.get(
-  "/",
-  authController.protect,
-  authController.restrictTo("admin"),
-  adminController.getReports
-);
+router.post("/add", reportController.addReport);
+
+// Starting from here, routes are restricted to only admins
+router.use(authController.restrictTo("admin"));
+router.get("/", adminController.getReports);
 
 // resolve report
-router.delete(
-  "/:id",
-  authController.protect,
-  authController.restrictTo("admin"),
-  adminController.resolveReport
-);
-
-// Add Report Route
-router.post("/add", authController.protect, reportController.addReport);
+router.delete("/:id", adminController.resolveReport);
 
 module.exports = router;
