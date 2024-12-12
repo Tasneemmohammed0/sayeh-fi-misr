@@ -183,9 +183,22 @@ exports.addToGathering = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
+
+    let message;
+    if (
+      err.message == "Cannot read properties of undefined (reading 'user_id')"
+    ) {
+      message = "Username not found";
+    } else if (
+      err.message ==
+      `duplicate key value violates unique constraint "visitor_gathering_pkey"`
+    ) {
+      message = "User already in the gathering";
+    }
+
     res.status(404).json({
-      message: err,
+      message,
     });
   }
 };

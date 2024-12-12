@@ -133,11 +133,8 @@ function GatheringDetails() {
       toast("🎉 Joined successfully");
     } catch (err) {
       console.log(err);
-
-      if (err.status == 404) {
-        console.log(404);
-        toast("⚠️ username not found");
-      }
+      // show descriptive message
+      toast(`⚠️ ${err.response.data.message}`);
     }
   }
 
