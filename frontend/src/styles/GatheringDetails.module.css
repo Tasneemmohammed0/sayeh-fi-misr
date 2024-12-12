@@ -112,6 +112,9 @@
   font-size: 1.2rem;
   color: var(--our-brown);
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   transition: text-decoration 0.3s ease-in-out;
 }
@@ -119,14 +122,15 @@
 .usersContainer {
   display: flex;
   flex-wrap: wrap;
-  /* width: 100%; */
+  align-items: center;
   gap: 30px;
   padding: 2rem 5rem;
+  /* margin-left: 40px; */
 }
 
 /* Align first row to the right */
 .usersContainer > :nth-child(even) {
-  justify-content: flex-end; /* Align users to the right */
+  justify-content: flex-start; /* Align users to the right */
 }
 
 /* Align second row to the left */
@@ -163,4 +167,64 @@
 
 .user > img:hover {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.inviteUserContainer {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+  color: var(--our-brown);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  padding: 2rem 2rem;
+}
+
+/* SEARCH FOR USER */
+
+.searchWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 90%;
+}
+.searchInput {
+  width: 80%;
+  height: 50px;
+  border-radius: 150px;
+  border: none;
+  padding: 0 20px;
+  font-size: 16px;
+  outline: none;
+  background-color: #f1f1f1;
+  text-indent: 25px;
+  margin: 0 20px;
+}
+.searchInput::placeholder {
+  color: #8f8a8a;
+  text-transform: uppercase;
+  font-family: var(--second-font);
+}
+.searchInput:focus {
+  border: 1px solid var(--our-blue);
+}
+.searchIcon {
+  position: absolute;
+  left: 30px;
+  font-size: 30px;
+  color: #8f8a8a;
+}
+
+.btn {
+  width: 150px;
+  height: 40px;
+  border-radius: 4px;
+  border: 0;
+  background-color: var(--our-green);
+  color: var(--our-black);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.btn:hover {
+  transform: scale(1.03);
 }

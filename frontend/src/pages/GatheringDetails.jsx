@@ -5,9 +5,10 @@ import Loading from "../components/Loading";
 import Tabs from "../components/GatheringTabs";
 import GatheringInfo from "../components/GatheringInfo";
 import ReviewForm from "../components/ReviewForm";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline, IoIosSearch } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+
 import axios from "axios";
 
 function GatheringDetails() {
@@ -17,10 +18,12 @@ function GatheringDetails() {
   const [place, setPlace] = useState({});
   const [host, setHost] = useState({});
   const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
+  const [addUser, setAddUser] = useState(false);
 
   // Fetch gathering details
   useEffect(() => {
@@ -64,7 +67,7 @@ function GatheringDetails() {
       }
     };
     fetchGathering();
-  }, []);
+  }, [isJoined, addUser]);
 
   // check joining status
   useEffect(() => {
@@ -114,6 +117,29 @@ function GatheringDetails() {
     }
   }
 
+  async function handleAddUser() {
+    if (!search) return;
+    try {
+      // send join request to API
+      const res = await axios.post(
+        `http://localhost:1123/api/v1/gatherings/${gatheringId}/addToGathering`,
+        { username: search },
+        {
+          withCredentials: true,
+        }
+      );
+
+      setAddUser(search);
+      setSearch("");
+
+      toast("🎉 Joined successfully");
+    } catch (err) {
+      console.log(err);
+      // show descriptive message
+      toast(`⚠️ ${err.response.data.message}`);
+    }
+  }
+
   return (
     <>
       {finalLoading && <Loading />}
@@ -139,7 +165,7 @@ function GatheringDetails() {
             <div className={styles.gatheringBtns}>
               <div className={styles.btnContainer}>
                 <IoIosAddCircleOutline
-                  onClick={handleJoin}
+                  onClick={() => handleJoin()}
                   className={styles.addIcon}
                 />
                 <p>JOIN</p>
@@ -181,6 +207,22 @@ function GatheringDetails() {
             <div className={styles.usersHeader}>
               <h2>Gather Together, Explore Together!</h2>
               <h3 style={{ margin: "10px" }}>Get to Know the Group!</h3>
+            </div>
+            <div className={styles.inviteUserContainer}>
+              <div className={styles.searchWrapper}>
+                <IoIosSearch className={styles.searchIcon} />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="search for a user by username "
+                  className={styles.searchInput}
+                />
+              </div>
+
+              <button className={styles.btn} onClick={handleAddUser}>
+                Add User
+              </button>
             </div>
             <div className={styles.usersContainer}>
               {users.map((user) => (

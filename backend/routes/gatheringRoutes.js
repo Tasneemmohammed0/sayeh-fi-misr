@@ -25,6 +25,14 @@ router.post(
   authController.protect,
   gatheringController.joinGathering
 );
+
+router.post(
+  "/:id/addToGathering",
+  authController.protect,
+  authController.restrictTo("host"),
+  gatheringController.addToGathering
+);
+
 router.get(
   "/:id/checkJoined",
   authController.protect,

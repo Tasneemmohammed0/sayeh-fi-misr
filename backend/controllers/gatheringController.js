@@ -32,7 +32,6 @@ JOIN
 
 exports.getGathering = async (req, res) => {
   try {
-    console.log(req.params);
     const data = await db.query(
       `SELECT * FROM gathering WHERE gathering_id = $1`,
       [req.params.id]
@@ -163,6 +162,48 @@ exports.createGathering = async (req, res) => {
   }
 };
 
+exports.addToGathering = async (req, res) => {
+  try {
+    console.log(req.body);
+    const userIdData = await db.query(
+      `select distinct user_id from visitor where username=$1`,
+      [req.body.username]
+    );
+
+    const userId = userIdData.rows[0].user_id;
+    console.log(userId);
+
+    const data = await db.query(
+      `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
+      [userId, req.params.id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "Joined Successfully",
+      data: data.rows[0],
+    });
+  } catch (err) {
+    console.error(err.message);
+
+    let message;
+    if (
+      err.message == "Cannot read properties of undefined (reading 'user_id')"
+    ) {
+      message = "Username not found";
+    } else if (
+      err.message ==
+      `duplicate key value violates unique constraint "visitor_gathering_pkey"`
+    ) {
+      message = "User already in the gathering";
+    }
+
+    res.status(404).json({
+      message,
+    });
+  }
+};
+
 // Join gathering route handler
 exports.joinGathering = async (req, res) => {
   try {
@@ -214,3 +255,5 @@ exports.checkJoined = async (req, res) => {
     });
   }
 };
+
+// Add user to gathering
