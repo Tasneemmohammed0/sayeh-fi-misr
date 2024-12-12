@@ -29,12 +29,18 @@ exports.assignBadge = async (
 
       // Check if the he passed the threshold
 
-      if (criteriaQuery.rows[0].currentcount >= threshold) {
+      if (Number(criteriaQuery.rows[0].currentcount) >= threshold) {
         // Assign the badge
-        const insertBadgeQuery = await db.query(
-          `INSERT INTO visitor_badge (user_id, badge_name, date) VALUES ($1, $2, $3) RETURNING *`,
-          [userId, badgeName, insertDate]
-        );
+
+        try {
+          const insertBadgeQuery = await db.query(
+            `INSERT INTO visitor_badge (user_id, badge_name, date) VALUES ($1, $2, $3) RETURNING *`,
+            [userId, badgeName, insertDate]
+          );
+          console.log("Badge assigned:");
+        } catch (err) {
+          console.error("Error inserting badge:", err.message);
+        }
       }
     }
   } catch (err) {}

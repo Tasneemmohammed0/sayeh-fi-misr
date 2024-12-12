@@ -93,11 +93,13 @@ function GatheringDetails() {
         toast("You are already joined in this gathering");
         return;
       }
-
+      const joinData = {
+        date: new Date().toISOString(),
+      };
       // send join request to API
       const res = await axios.post(
         `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`,
-        null,
+        joinData,
         {
           withCredentials: true,
         }

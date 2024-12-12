@@ -170,12 +170,6 @@ exports.joinGathering = async (req, res) => {
       `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
       [req.user.user_id, req.params.id]
     );
-
-    res.status(200).json({
-      status: "success",
-      message: "Joined Successfully",
-      data: data.rows[0],
-    });
     try {
       await assignBadge(
         req.user.user_id,
@@ -184,7 +178,15 @@ exports.joinGathering = async (req, res) => {
         2,
         req.body.date
       );
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Joined Successfully",
+      data: data.rows[0],
+    });
   } catch (err) {
     console.error(err);
     res.status(404).json({
