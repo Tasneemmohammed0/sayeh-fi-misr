@@ -9,6 +9,13 @@ exports.deletePhoto = async (req, res) => {
       [req.params.id, req.user.user_id]
     );
 
+    if (!data.rowCount) {
+      res.status(400).json({
+        message: "Failed to delete",
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
       length: data.rowCount,
@@ -52,6 +59,13 @@ exports.updatePhoto = async (req, res) => {
 
     params.push(req.user.user_id);
     const data = await db.query(query, params);
+
+    if (!data.rowCount) {
+      res.status(400).json({
+        message: "Failed to edit",
+      });
+      return;
+    }
 
     res.status(200).json({
       status: "success",

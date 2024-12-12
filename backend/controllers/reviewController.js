@@ -3,8 +3,6 @@ const db = require("../db/index");
 // Delete a review
 exports.deleteReview = async (req, res) => {
   try {
-    console.log("In delete review");
-    console.log(req.user.user_id);
     await db.query("COMMIT");
     const data = await db.query(
       `DELETE FROM review WHERE review_id=$1 AND user_id=$2 RETURNING *`,
@@ -38,7 +36,7 @@ exports.updateReview = async (req, res) => {
     let query = `Update review `;
     const params = [];
     const conditions = [];
-    const { rating, title, mainContent } = req.body;
+    const { rating, title, main_content } = req.body;
 
     if (rating) {
       params.push(rating);
@@ -50,8 +48,8 @@ exports.updateReview = async (req, res) => {
       conditions.push(`title=$${params.length}`);
     }
 
-    if (mainContent) {
-      params.push(mainContent);
+    if (main_content) {
+      params.push(main_content);
       conditions.push(`main_content=$${params.length}`);
     }
 
@@ -66,6 +64,13 @@ exports.updateReview = async (req, res) => {
     params.push(req.user.user_id);
 
     const data = await db.query(query, params);
+
+    if (!data.rowCount) {
+      res.status(400).json({
+        message: "Failed to edit",
+      });
+      return;
+    }
 
     res.status(200).json({
       status: "success",
