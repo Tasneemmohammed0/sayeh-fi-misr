@@ -64,7 +64,7 @@ function GatheringDetails() {
       }
     };
     fetchGathering();
-  }, []);
+  }, [isJoined]);
 
   // check joining status
   useEffect(() => {
@@ -111,6 +111,8 @@ function GatheringDetails() {
       console.log(err);
     }
   }
+
+  async function handleAddUser() {}
 
   return (
     <>
@@ -179,6 +181,13 @@ function GatheringDetails() {
             <div className={styles.usersHeader}>
               <h2>Gather Together, Explore Together!</h2>
               <h3 style={{ margin: "10px" }}>Get to Know the Group!</h3>
+              <div className={styles.btnContainer}>
+                <IoIosAddCircleOutline
+                  onClick={handleAddUser}
+                  className={styles.addIcon}
+                />
+                <p>Invite User</p>
+              </div>
             </div>
             <div className={styles.usersContainer}>
               {users.map((user) => (
