@@ -175,7 +175,7 @@ exports.joinGathering = async (req, res) => {
         req.user.user_id,
         "Top Participant",
         "visitor_gathering",
-        2,
+        5,
         req.body.date
       );
     } catch (err) {
