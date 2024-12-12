@@ -51,6 +51,8 @@ function Bazaar() {
 
     fetchUserPoints();
   }, []);
+
+  //Update points after purchase operation
   const updatePoints = (newPoints) => {
     setTotalPoints(newPoints);
   };

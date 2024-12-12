@@ -16,11 +16,13 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
         withCredentials: true,
       });
       if (response.status == 200) {
+        //close the popup
         handleForm(false);
+
+        //Update points
         const newTotalPoints = totalPoints - card.points;
         updatePoints(newTotalPoints);
       }
-      // Update points
     } catch (err) {
       console.log(err);
     }
