@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import { PiMapPinLight } from "react-icons/pi";
 import { HiOutlineMail } from "react-icons/hi";
 import { FiSettings } from "react-icons/fi";
@@ -7,14 +9,36 @@ import { Link } from "react-router-dom";
 // <HiOutlineMail />
 
 function UserInfo({ user, selectedList, setSelectedList }) {
-  selectedList = selectedList || "Reviews";
+  // Badges Logic
 
+  const [badges, setBadges] = useState([]);
+  useEffect(() => {
+    const fetchBadges = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/users/badges/${user.user_id}`
+        );
+        setBadges(response.data.data);
+        console.log(badges);
+      } catch (error) {
+        console.error("Error fetching badges:", error);
+      }
+    };
+
+    if (user?.user_id) fetchBadges();
+  }, [user]);
+
+  selectedList = selectedList || "Reviews";
   return (
     <section className="container ">
       <div className={styles.userWrapper}>
         <div className={styles.info}>
           <img
-            src={user.profile_pic ? user.profile_pic : "../src/assets/images/userAvatar.png"}
+            src={
+              user.profile_pic
+                ? user.profile_pic
+                : "../src/assets/images/userAvatar.png"
+            }
             alt="user profile"
             className={styles.avater}
           />
@@ -58,16 +82,16 @@ function UserInfo({ user, selectedList, setSelectedList }) {
               <span>Photos</span>
             </li>
           </ul>
-          {user.padges > 0 && (
+          {badges.length > 0 && (
             <div>
               <h3 style={{ textAlign: "center", marginTop: "10px" }}>
                 Badges Earned
               </h3>
               <div className={styles.badgeContainer}>
-                {user.padges.map((badge, index) => {
+                {badges.map((badge, index) => {
                   return (
                     <img
-                      src={badge}
+                      src={badge.icon}
                       alt="badge"
                       key={index}
                       className={styles.badge}

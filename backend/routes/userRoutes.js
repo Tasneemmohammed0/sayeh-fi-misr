@@ -28,6 +28,7 @@ router.get("/reviews/:id", userController.getUserReviews);
 router.get("/wishlists/:id", userController.getUserWishlists);
 router.get("/visitlist/:id", userController.getUserVisitLists);
 router.get("/gatherings/:id", userController.getUserGatheringLists);
+router.get("/badges/:id", userController.getUserBadges);
 
 // Starting from here, all coming endpoints are for admins only, be careful
 router.use(authController.protect, authController.restrictTo("admin"));
