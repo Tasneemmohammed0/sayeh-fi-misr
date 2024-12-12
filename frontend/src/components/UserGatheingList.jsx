@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import styles from "../styles/placeslist.module.css";
-
 import styles2 from "../styles/UserGatheringList.module.css";
-
 import Loading from "./Loading";
 import GatheringCard from "./GatheringCard";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-
 import { FiSettings } from "react-icons/fi";
 
 function UserGatheingList({ id }) {
@@ -17,7 +13,7 @@ function UserGatheingList({ id }) {
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,6 +40,7 @@ function UserGatheingList({ id }) {
   async function handleDelete() {
     setSelectedOption((op) => (op === "delete" ? null : "delete"));
   }
+
   function handleEdit() {
     setSelectedOption((op) => (op === "edit" ? null : "edit"));
   }
