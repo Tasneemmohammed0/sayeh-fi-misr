@@ -51,6 +51,9 @@ function Bazaar() {
 
     fetchUserPoints();
   }, []);
+  const updatePoints = (newPoints) => {
+    setTotalPoints(newPoints);
+  };
 
   return (
     <div className={styles.mainBazaar}>
@@ -70,7 +73,12 @@ function Bazaar() {
         </div>
         <div className={styles.giftContainer}>
           {gifts.map((item, index) => (
-            <Gift key={index} card={item} totalPoints={totalPoints} />
+            <Gift
+              key={index}
+              card={item}
+              totalPoints={totalPoints}
+              updatePoints={updatePoints}
+            />
           ))}
         </div>
       </div>

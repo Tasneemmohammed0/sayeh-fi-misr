@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/GiftPopup.module.css";
 import { IoMdClose } from "react-icons/io";
 import axios from "axios";
-function GiftPopup({ card, handleForm, totalPoints }) {
+function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
   const handlePurchase = async (product_code) => {
     const purchaseData = {
       date: new Date().toISOString(),
@@ -15,7 +15,11 @@ function GiftPopup({ card, handleForm, totalPoints }) {
       const response = await axios.post(endPoint, purchaseData, {
         withCredentials: true,
       });
+      //if (response.status == 200) {
       handleForm(false);
+      const newTotalPoints = totalPoints - card.points;
+      updatePoints(newTotalPoints);
+      // Update points
     } catch (err) {
       console.log(err);
     }
