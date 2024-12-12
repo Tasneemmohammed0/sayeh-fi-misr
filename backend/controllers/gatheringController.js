@@ -31,7 +31,6 @@ JOIN
 
 exports.getGathering = async (req, res) => {
   try {
-    console.log(req.params);
     const data = await db.query(
       `SELECT * FROM gathering WHERE gathering_id = $1`,
       [req.params.id]
@@ -165,9 +164,20 @@ exports.createGathering = async (req, res) => {
 // Join gathering route handler
 exports.joinGathering = async (req, res) => {
   try {
+    console.log(req.body.data);
+    let userId;
+    if (req.body.data) {
+      userId = await db.query(
+        `select distinct user_id from visitor where username=$1`,
+        [req.body.data.username]
+      );
+    } else {
+      userId = req.user.user_id;
+    }
+
     const data = await db.query(
       `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
-      [req.user.user_id, req.params.id]
+      [userId, req.params.id]
     );
 
     res.status(200).json({

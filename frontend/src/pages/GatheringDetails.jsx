@@ -88,7 +88,7 @@ function GatheringDetails() {
     checkJoiningStatus();
   }, []);
 
-  async function handleJoin() {
+  async function handleJoin(username = null) {
     try {
       // gathering is already joined
       if (isJoined) {
@@ -96,10 +96,16 @@ function GatheringDetails() {
         return;
       }
 
+      // include username only if provided
+      const data = {};
+      if (username) {
+        data.username = username;
+      }
+
       // send join request to API
       const res = await axios.post(
         `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`,
-        null,
+        data,
         {
           withCredentials: true,
         }
@@ -143,7 +149,7 @@ function GatheringDetails() {
             <div className={styles.gatheringBtns}>
               <div className={styles.btnContainer}>
                 <IoIosAddCircleOutline
-                  onClick={handleJoin}
+                  onClick={() => handleJoin()}
                   className={styles.addIcon}
                 />
                 <p>JOIN</p>
@@ -198,7 +204,9 @@ function GatheringDetails() {
                 />
               </div>
 
-              <button className={styles.btn}>Add User</button>
+              <button className={styles.btn} onClick={handleAddUser}>
+                Add User
+              </button>
             </div>
             <div className={styles.usersContainer}>
               {users.map((user) => (
