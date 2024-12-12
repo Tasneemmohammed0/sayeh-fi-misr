@@ -1,6 +1,7 @@
 import React from "react";
 import Stars from "./Stars";
 import styles from "../styles/review.module.css";
+
 function Review({ review }) {
   return (
     <div className={styles.review}>

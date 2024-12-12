@@ -1,11 +1,11 @@
-const db = require("../db/index.js");
+const db = require("../db/index");
 
-// Delete a photo
-exports.deletePhoto = async (req, res) => {
+// Delete a review
+exports.deleteReview = async (req, res) => {
   try {
     await db.query("COMMIT");
     const data = await db.query(
-      `DELETE FROM photo WHERE photo_id=$1 AND user_id=$2 RETURNING *`,
+      `DELETE FROM review WHERE review_id=$1 AND user_id=$2 RETURNING *`,
       [req.params.id, req.user.user_id]
     );
 
@@ -30,34 +30,39 @@ exports.deletePhoto = async (req, res) => {
   }
 };
 
-// Update a photo
-exports.updatePhoto = async (req, res) => {
+// Update a review
+exports.updateReview = async (req, res) => {
   try {
-    let query = `UPDATE photo `;
+    let query = `Update review `;
     const params = [];
     const conditions = [];
-    const { caption, photo } = req.body;
-    console.log(caption, photo);
+    const { rating, title, main_content } = req.body;
 
-    if (caption) {
-      params.push(caption);
-      conditions.push(`caption = $${params.length}`);
+    if (rating) {
+      params.push(rating);
+      conditions.push(`rating=$${params.length}`);
     }
 
-    if (photo) {
-      params.push(photo);
-      conditions.push(`photo = $${params.length}`);
+    if (title) {
+      params.push(title);
+      conditions.push(`title=$${params.length}`);
     }
+
+    if (main_content) {
+      params.push(main_content);
+      conditions.push(`main_content=$${params.length}`);
+    }
+
     params.push(req.params.id);
 
     if (conditions.length > 0) {
-      console.log(params.length);
-      query += `SET ${conditions.join(", ")} WHERE photo_id = $${
+      query += `SET ${conditions.join(", ")} WHERE review_id = $${
         params.length
       } AND user_id = $${params.length + 1} RETURNING *`;
     }
 
     params.push(req.user.user_id);
+
     const data = await db.query(query, params);
 
     if (!data.rowCount) {
