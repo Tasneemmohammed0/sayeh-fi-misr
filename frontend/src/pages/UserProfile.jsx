@@ -9,6 +9,7 @@ import ReviewsList from "../components/ReviewsList";
 import VisitedList from "../components/VisitedList";
 import WishLists from "../components/WishLists";
 import UserGatheingList from "../components/UserGatheingList";
+import UserPhotosList from "../components/UserPhotosList";
 import Loading from "../components/Loading";
 
 function UserProfile() {
@@ -80,6 +81,10 @@ function UserProfile() {
 
           {currentUser.user_id && selectedList === "Gathering List" && (
             <UserGatheingList id={currentUser.user_id} />
+          )}
+
+          {currentUser.user_id && selectedList === "Photos" && (
+            <UserPhotosList id={currentUser.user_id} />
           )}
         </section>
       </div>

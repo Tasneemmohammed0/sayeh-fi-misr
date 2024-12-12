@@ -236,30 +236,47 @@ exports.updatePlace = async (req, res, next) => {
 
 exports.getReports = async (req, res, next) => {
   try {
-    const query = `
-    SELECT 
-    rp.report_id, 
-    rp.place_id AS entity_id, 
-    r.*,
-    'place' AS entity_type
-    FROM report_place rp
-    JOIN report r ON rp.report_id = r.report_id
-
-    UNION
-
-    SELECT 
-    rg.report_id, 
-    rg.gathering_id AS entity_id, 
-    r.*, 
-    'gathering' AS entity_type
-    FROM report_gathering rg
-    JOIN report r ON rg.report_id = r.report_id;
+    const gatheringQuery = `
+    SELECT distinct  r.*, rg.*, g.gathering_id, g.title as name, p.name AS place_name ,u.username
+    FROM report r, report_gathering rg, gathering g, place p, visitor u
+    WHERE r.report_id=rg.gathering_id AND g.gathering_id = rg.gathering_id AND p.place_id=g.place_id  and u.user_id=r.user_id;
     `;
-    const response = await db.query(query);
+    const gatheringResponse = await db.query(gatheringQuery);
+    const gatherings = gatheringResponse.rows;
+
+    const placesQuery = `
+    SELECT distinct r.*, rp.*, p.name, p.photo,u.username
+    FROM report r, report_place rp, place p, visitor u
+    WHERE r.report_id=rp.report_id AND p.place_id=rp.place_id AND u.user_id=r.user_id;
+    `;
+    const placesResponse = await db.query(placesQuery);
+    const places = placesResponse.rows;
+
+    res.status(200).json({
+      status: "success",
+      length: placesResponse.rowCount + gatheringResponse.rowCount,
+      data: {
+        gatherings_reports: gatherings,
+        places_reports: places,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.resolveReport = async (req, res, next) => {
+  try {
+    const query = `
+    DELETE FROM report WHERE report_id=$1
+    `;
+    const response = await db.query(query, [req.params.id]);
     res.status(200).json({
       status: "success",
       length: response.rowCount,
-      data: response.rows,
     });
   } catch (err) {
     res.status(400).json({

@@ -138,6 +138,15 @@ function UserInfo({ user, selectedList, setSelectedList }) {
             Gathering
           </li>
         </Link>
+
+        <Link to="#photos" style={{ color: "black" }}>
+          <li
+            className={`${styles.listItem} ${selectedList === "Photos" ? styles.active : ""}`}
+            onClick={() => setSelectedList("Photos")}
+          >
+            Photos
+          </li>
+        </Link>
       </ul>
     </section>
   );

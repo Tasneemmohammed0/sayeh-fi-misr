@@ -24,6 +24,8 @@
   flex-direction: row;
   align-items: stretch; /* Ensures all children span the same height */
   gap: 10px;
+  width: 100%;
+  padding: 10px;
 }
 
 .detailItem {
