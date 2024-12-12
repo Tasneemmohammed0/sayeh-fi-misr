@@ -15,10 +15,11 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
       const response = await axios.post(endPoint, purchaseData, {
         withCredentials: true,
       });
-      //if (response.status == 200) {
-      handleForm(false);
-      const newTotalPoints = totalPoints - card.points;
-      updatePoints(newTotalPoints);
+      if (response.status == 200) {
+        handleForm(false);
+        const newTotalPoints = totalPoints - card.points;
+        updatePoints(newTotalPoints);
+      }
       // Update points
     } catch (err) {
       console.log(err);
