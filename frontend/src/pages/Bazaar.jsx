@@ -5,9 +5,10 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Loading from "../components/Loading";
 
-function Bazaar({ totalPoints = 198 }) {
+function Bazaar() {
   const [gifts, setGifts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [totalPoints, setTotalPoints] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +24,8 @@ function Bazaar({ totalPoints = 198 }) {
 
         setLoading(false);
         setGifts(response.data.data);
-        console.log(response.data.data);
+
+        console.log("==========Gift", response.data.data);
         console.log(response.data);
       } catch (err) {
         console.log(err.message);
@@ -31,6 +33,29 @@ function Bazaar({ totalPoints = 198 }) {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    const fetchUserPoints = async () => {
+      try {
+        const pointsEndpoint = `http://localhost:1123/api/v1/bazaar/points`;
+        const response = await axios.get(pointsEndpoint, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setTotalPoints(response.data.totalPoints);
+        }
+      } catch (err) {
+        console.error("Error fetching points:", err.message);
+      }
+    };
+
+    fetchUserPoints();
+  }, []);
+
+  //Update points after purchase operation
+  const updatePoints = (newPoints) => {
+    setTotalPoints(newPoints);
+  };
 
   return (
     <div className={styles.mainBazaar}>
@@ -50,7 +75,12 @@ function Bazaar({ totalPoints = 198 }) {
         </div>
         <div className={styles.giftContainer}>
           {gifts.map((item, index) => (
-            <Gift key={index} card={item} totalPoints={totalPoints} />
+            <Gift
+              key={index}
+              card={item}
+              totalPoints={totalPoints}
+              updatePoints={updatePoints}
+            />
           ))}
         </div>
       </div>

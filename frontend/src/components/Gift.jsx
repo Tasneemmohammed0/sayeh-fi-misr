@@ -2,7 +2,7 @@ import styles from "../styles/Gift.module.css";
 import { BiCoinStack } from "react-icons/bi";
 import { React, useState } from "react";
 import GiftPopup from "./GiftPopup";
-function Gift({ card, totalPoints }) {
+function Gift({ card, totalPoints, updatePoints }) {
   const [showPopup, setShowPopup] = useState(false);
 
   return (
@@ -32,6 +32,7 @@ function Gift({ card, totalPoints }) {
           card={card}
           handleForm={setShowPopup}
           totalPoints={totalPoints}
+          updatePoints={updatePoints}
         />
       )}
     </>

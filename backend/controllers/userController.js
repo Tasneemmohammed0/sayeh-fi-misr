@@ -150,3 +150,25 @@ exports.getUserGatheringLists = async (req, res, next) => {
     });
   }
 };
+
+exports.getUserBadges = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query = `
+       SELECT b.*,vb.* FROM
+      visitor_badge vb,badge b
+      WHERE vb.badge_name=b.name AND user_id=$1
+    `;
+    const response = await db.query(query, [id]);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};

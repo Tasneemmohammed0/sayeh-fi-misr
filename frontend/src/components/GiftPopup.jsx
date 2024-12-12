@@ -1,8 +1,33 @@
 import React from "react";
 import styles from "../styles/GiftPopup.module.css";
 import { IoMdClose } from "react-icons/io";
+import axios from "axios";
+function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
+  const handlePurchase = async (product_code) => {
+    const purchaseData = {
+      date: new Date().toISOString(),
+      product_code: product_code,
+    };
 
-function GiftPopup({ card, handleForm, totalPoints }) {
+    try {
+      const endPoint = `http://localhost:1123/api/v1/bazaar`;
+
+      const response = await axios.post(endPoint, purchaseData, {
+        withCredentials: true,
+      });
+      if (response.status == 200) {
+        //close the popup
+        handleForm(false);
+
+        //Update points
+        const newTotalPoints = totalPoints - card.points;
+        updatePoints(newTotalPoints);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className={styles.popupOverlay}>
       <div className={styles.popup}>
@@ -29,6 +54,7 @@ function GiftPopup({ card, handleForm, totalPoints }) {
         <button
           disabled={totalPoints < card.points}
           className={`${styles.btn} ${totalPoints < card.points ? styles.disabled : ""}`}
+          onClick={() => handlePurchase(card.product_code)}
         >
           Buy Now
         </button>

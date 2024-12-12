@@ -1,5 +1,5 @@
 const db = require("../db/index.js");
-
+const { assignBadge } = require("../controllers/badgeSystemController.js");
 // Get one Place RouteHandler
 exports.getPlace = async (req, res) => {
   try {
@@ -134,6 +134,17 @@ exports.postReview = async (req, res) => {
         req.params.id,
       ]
     );
+
+    try {
+      await assignBadge(
+        req.user.user_id,
+        "Top Reviewer",
+        "review",
+        5,
+        req.body.date
+      );
+    } catch (err) {}
+
     console.log(data.rows[0]);
     res.status(200).json({
       status: "success",
@@ -200,7 +211,15 @@ exports.addToVisitedList = async (req, res) => {
       `INSERT INTO visitor_place (user_id, place_id, date) VALUES ($1, $2, $3)`,
       [req.user.user_id, req.params.id, req.body.date]
     );
-
+    try {
+      await assignBadge(
+        req.user.user_id,
+        "Top Visitor",
+        "visitor_place",
+        5,
+        req.body.date
+      );
+    } catch (err) {}
     res.status(200).json({
       status: "success",
       data: data.rows[0],
@@ -229,25 +248,6 @@ exports.checkVisited = async (req, res) => {
     console.log(err);
     res.status(404).json({
       message: err,
-    });
-  }
-};
-
-exports.calculateRating = async (req, res) => {
-  try {
-    const data = await db.query(
-      `
-    SELECT AVG(rating) from review 
-where place_id=$1`,
-      [req.params.id]
-    );
-
-    res.status(200).json({
-      status: "success",
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
     });
   }
 };
