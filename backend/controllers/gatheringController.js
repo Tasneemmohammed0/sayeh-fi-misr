@@ -202,3 +202,5 @@ exports.checkJoined = async (req, res) => {
     });
   }
 };
+
+// Add user to gathering
