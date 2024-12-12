@@ -1,5 +1,3 @@
-const { param } = require("../app");
-
 // Delete a review
 exports.deleteReview = async (req, res) => {
   try {
