@@ -23,6 +23,7 @@ function GatheringDetails() {
   const [finalLoading, setFinalLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
+  const [addUser, setAddUser] = useState(false);
 
   // Fetch gathering details
   useEffect(() => {
@@ -66,7 +67,7 @@ function GatheringDetails() {
       }
     };
     fetchGathering();
-  }, [isJoined]);
+  }, [isJoined, addUser]);
 
   // check joining status
   useEffect(() => {
@@ -88,7 +89,7 @@ function GatheringDetails() {
     checkJoiningStatus();
   }, []);
 
-  async function handleJoin(username = null) {
+  async function handleJoin() {
     try {
       // gathering is already joined
       if (isJoined) {
@@ -96,16 +97,10 @@ function GatheringDetails() {
         return;
       }
 
-      // include username only if provided
-      const data = {};
-      if (username) {
-        data.username = username;
-      }
-
       // send join request to API
       const res = await axios.post(
         `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`,
-        data,
+        null,
         {
           withCredentials: true,
         }
@@ -120,9 +115,31 @@ function GatheringDetails() {
     }
   }
 
-  async function handleAddUser() {}
+  async function handleAddUser() {
+    if (!search) return;
+    try {
+      // send join request to API
+      const res = await axios.post(
+        `http://localhost:1123/api/v1/gatherings/${gatheringId}/addToGathering`,
+        { username: search },
+        {
+          withCredentials: true,
+        }
+      );
 
-  async function searchUser() {}
+      setAddUser(search);
+      setSearch("");
+
+      toast("🎉 Joined successfully");
+    } catch (err) {
+      console.log(err);
+
+      if (err.status == 404) {
+        console.log(404);
+        toast("⚠️ username not found");
+      }
+    }
+  }
 
   return (
     <>

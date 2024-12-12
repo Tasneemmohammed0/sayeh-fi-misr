@@ -123,14 +123,14 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  /* width: 100%; */
   gap: 30px;
   padding: 2rem 5rem;
+  /* margin-left: 40px; */
 }
 
 /* Align first row to the right */
 .usersContainer > :nth-child(even) {
-  justify-content: flex-end; /* Align users to the right */
+  justify-content: flex-start; /* Align users to the right */
 }
 
 /* Align second row to the left */

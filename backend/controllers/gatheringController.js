@@ -161,23 +161,41 @@ exports.createGathering = async (req, res) => {
   }
 };
 
-// Join gathering route handler
-exports.joinGathering = async (req, res) => {
+exports.addToGathering = async (req, res) => {
   try {
-    console.log(req.body.data);
-    let userId;
-    if (req.body.data) {
-      userId = await db.query(
-        `select distinct user_id from visitor where username=$1`,
-        [req.body.data.username]
-      );
-    } else {
-      userId = req.user.user_id;
-    }
+    console.log(req.body);
+    const userIdData = await db.query(
+      `select distinct user_id from visitor where username=$1`,
+      [req.body.username]
+    );
+
+    const userId = userIdData.rows[0].user_id;
+    console.log(userId);
 
     const data = await db.query(
       `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
       [userId, req.params.id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "Joined Successfully",
+      data: data.rows[0],
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};
+
+// Join gathering route handler
+exports.joinGathering = async (req, res) => {
+  try {
+    const data = await db.query(
+      `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
+      [req.user.user_id, req.params.id]
     );
 
     res.status(200).json({
