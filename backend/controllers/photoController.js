@@ -35,19 +35,13 @@ exports.updatePhoto = async (req, res) => {
     if (caption) {
       params.push(caption);
       conditions.push(`caption = $${params.length}`);
-      console.log(params.length);
-      console.log(params);
     }
 
     if (photo) {
       params.push(photo);
       conditions.push(`photo = $${params.length}`);
-      console.log(params.length);
-      console.log(params);
     }
     params.push(req.params.id);
-    console.log(params.length);
-    console.log(params);
 
     if (conditions.length > 0) {
       console.log(params.length);
