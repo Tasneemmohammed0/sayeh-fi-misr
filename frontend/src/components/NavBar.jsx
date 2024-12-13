@@ -59,6 +59,16 @@ function NavBar() {
             Trending Places
           </a>
         </li>
+        <li>
+          <NavLink
+            to="/bazaar"
+            activeclassname="active-link"
+            className={styles.link}
+          >
+            Bazaar
+          </NavLink>
+        </li>
+
         {user?.role === "admin" ? (
           <li>
             <NavLink
@@ -74,25 +84,6 @@ function NavBar() {
           {user ? (
             <NavLink activeclassname="active-link" className={styles.link}>
               Sign Out
-            </NavLink>
-          ) : (
-            <NavLink
-              to="/signin"
-              activeclassname="active-link"
-              className={styles.link}
-            >
-              Sign In
-            </NavLink>
-          )}
-        </li>
-        <li>
-          {user ? (
-            <NavLink
-              to="/bazaar"
-              activeclassname="active-link"
-              className={styles.link}
-            >
-              Bazaar
             </NavLink>
           ) : (
             <NavLink
