@@ -69,6 +69,7 @@ function Review({ review, setReviews, setLoading, loading }) {
             </button>
           </div>
         </div>
+        </div>
         {edit && (
           <EditReviewForm
             review={review}
@@ -78,7 +79,6 @@ function Review({ review, setReviews, setLoading, loading }) {
             loading={loading}
           />
         )}
-      </div>
     </>
   );
 }
