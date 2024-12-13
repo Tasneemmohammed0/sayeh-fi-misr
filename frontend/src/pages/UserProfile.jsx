@@ -68,7 +68,10 @@ function UserProfile() {
           )}
 
           {currentUser.user_id && selectedList === "Photos" && (
-            <UserPhotosList id={currentUser.user_id} />
+            <UserPhotosList
+              id={currentUser.user_id}
+              canEdit={currentUser?.user_id === user?.user_id}
+            />
           )}
         </section>
       </div>
