@@ -1,18 +1,12 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import styles from "../styles/AccountSetting.module.css";
 import { ToastContainer, toast } from "react-toastify";
+import { UserContext } from "../App";
+
 import "react-toastify/dist/ReactToastify.css";
 import ChangePasswordForm from "../components/ChangePasswordForm";
 import Signout from "../components/Signout";
-const usertemp = {
-  id: 1,
-  firstname: "Amr",
-  lastname: "Hany",
-  username: "fire gamer",
-  profilePic: "/src/assets/images/user avatar.png",
-  email: "amrhanyseed@gmail.com",
-  password: "Amrhany123",
-};
+import axios from "axios";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -137,15 +131,15 @@ function AccountSetting() {
   const [edit, setEdit] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showSignOut, setShowSignOut] = useState(false);
-
+  const { user } = useContext(UserContext);
   const [state, dispatch] = useReducer(reducer, {
-    first_name: usertemp.firstname,
+    first_name: user?.first_name,
     error_firstname: "",
-    last_name: usertemp.lastname,
+    last_name: user?.last_name,
     error_lastname: "",
-    username: usertemp.username,
+    username: user?.username,
     error_username: "",
-    email: usertemp.email,
+    email: user?.email,
     error_email: "",
     password: "",
     error_password: "",
@@ -181,7 +175,7 @@ function AccountSetting() {
     errorMessages.forEach((message) => toast.error(message)); // Display each error message using toast
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const errors = Object.keys(state).filter(
       (key) => key.startsWith("error_") && state[key]
@@ -189,28 +183,36 @@ function AccountSetting() {
     if (errors.length > 0) {
       if (state.error_firstname === "Firstname must not be empty") {
         console.log("empty here ");
-        dispatch({ type: "updateFirstname", payload: usertemp.firstname });
+        dispatch({ type: "updateFirstname", payload: user.firstname });
       }
       if (state.error_lastname === "Lastname must not be empty") {
         console.log("empty here last ");
-        dispatch({ type: "updateLastname", payload: usertemp.lastname });
+        dispatch({ type: "updateLastname", payload: user.lastname });
       }
       if (state.error_username === "Usernane must not be empty") {
-        dispatch({ type: "updateUsername", payload: usertemp.username });
+        dispatch({ type: "updateUsername", payload: user.username });
       }
       if (state.error_email === "Email must not be empty") {
-        dispatch({ type: "updateEmail", payload: usertemp.email });
+        dispatch({ type: "updateEmail", payload: user.email });
       }
 
       handleErrors();
       return;
     }
+    const response = await axios.patch(
+      "http://localhost:1123/api/v1/users",
+      {
+        state,
+      },
+      { withCredentials: true }
+    );
+    console.log(state);
+    console.log(response);
     toast.success("Account settings updated successfully!");
     setEdit("");
   }
 
-  console.log("state", state);
-
+  if (!user) return <h1>Please login</h1>;
   return (
     <div
       className="container"
@@ -352,14 +354,10 @@ function AccountSetting() {
       <ChangePasswordForm
         isOpen={showChangePassword}
         handleForm={setShowChangePassword}
-        userPassword={usertemp.password}
+        userPassword={user?.password}
       />
 
-      <Signout
-        isOpen={showSignOut}
-        handleForm={setShowSignOut}
-        user={usertemp}
-      />
+      <Signout isOpen={showSignOut} handleForm={setShowSignOut} user={user} />
     </div>
   );
 }

@@ -2,35 +2,28 @@ import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import styles from "../styles/WishListForm.module.css";
 import ErrorMessage from "./ErrorMessage";
+import axios from "axios";
+import Loading from "../components/Loading";
+
 function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
   function handleCurrentPassword(e) {
     setCurrentPassword(e.target.value);
-    if (e.target.value === userPassword) {
-      setError("Current password is correct you can change it .");
-      setDisable(false);
-    } else {
-      setError("Current password is incorrect.");
-      setDisable(true);
-    }
+    setDisable(false);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     // Error Handling
-
-    if (currentPassword !== userPassword) {
-      setError("Current password is incorrect.");
-      return;
-    }
 
     if (!currentPassword || !newPassword || !confirmPassword) {
       setError("All fields are required.");
@@ -59,17 +52,35 @@ function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
     }
 
     console.log({ currentPassword, newPassword });
-    handleForm(false);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setError("");
-
     // TODO: Post to the API to change the password
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "http://localhost:1123/api/v1/users/changepassword",
+        {
+          currentPassword,
+          newPassword,
+          confirmNewPassword: newPassword,
+        },
+        { withCredentials: true }
+      );
+      console.log("RESPONSE:", response);
+      handleForm(false);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setError("");
+    } catch (err) {
+      console.log(err.response.data.message);
+      return setError(err.response.data.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <div className={styles.popupOverlay}>
+      {loading && <Loading />}
       <div className={styles.popup}>
         <button className={styles.popupClose} onClick={() => handleForm(false)}>
           <IoMdClose />

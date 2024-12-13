@@ -9,7 +9,7 @@ import styles from "../styles/userinfo.module.css";
 import { Link } from "react-router-dom";
 // <HiOutlineMail />
 
-function UserInfo({ user, selectedList, setSelectedList }) {
+function UserInfo({ user, selectedList, setSelectedList, canEdit }) {
   // Badges Logic
   const [badges, setBadges] = useState([]);
   useEffect(() => {
@@ -69,12 +69,13 @@ function UserInfo({ user, selectedList, setSelectedList }) {
             <p className={styles.p}>
               <HiOutlineMail style={{ fontSize: "20px" }} /> {user.email}
             </p>
-
-            <Link to="accountsetting">
-              <p className={styles.p}>
-                <FiSettings style={{ fontSize: "20px" }} /> Account Setting
-              </p>
-            </Link>
+            {canEdit && (
+              <Link to="accountsetting">
+                <p className={styles.p}>
+                  <FiSettings style={{ fontSize: "20px" }} /> Account Setting
+                </p>
+              </Link>
+            )}
           </div>
         </div>
         <div className={styles.info}>

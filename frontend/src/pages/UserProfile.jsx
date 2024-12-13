@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../styles/userprofile.module.css";
 import { useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
@@ -9,11 +9,12 @@ import VisitedList from "../components/VisitedList";
 import WishLists from "../components/WishLists";
 import UserGatheingList from "../components/UserGatheingList";
 import UserPhotosList from "../components/UserPhotosList";
+import { UserContext } from "../App";
 import Loading from "../components/Loading";
-import { User } from "lucide-react";
 
-function UserProfile({ user }) {
+function UserProfile() {
   const currentUser = useLoaderData();
+  const { user } = useContext(UserContext);
   const { id } = useParams();
   const [selectedList, setSelectedList] = useState("Reviews");
   if (!currentUser && !id) return <h1>login</h1>;
@@ -35,6 +36,7 @@ function UserProfile({ user }) {
           />
           <UserInfo
             user={currentUser}
+            canEdit={currentUser.user_id === user?.user_id}
             selectedList={selectedList}
             setSelectedList={setSelectedList}
           />

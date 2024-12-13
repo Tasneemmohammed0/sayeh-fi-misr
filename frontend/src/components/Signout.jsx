@@ -12,9 +12,13 @@ function Signout({ isOpen, handleForm, user }) {
   async function handleSignOut() {
     setLoading(true);
     try {
-      await axios.post("http://localhost:1123/api/v1/users/logout", {
-        withCredentials: true,
-      });
+      await axios.post(
+        "http://localhost:1123/api/v1/users/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       setLoading(false);
       handleForm(false);
       navigate("/");
