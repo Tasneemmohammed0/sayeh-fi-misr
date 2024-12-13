@@ -172,3 +172,29 @@ exports.getUserBadges = async (req, res) => {
     });
   }
 };
+
+// get user stats
+exports.getUserStats = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const query = `
+   SELECT 
+    (SELECT COUNT(*) FROM visitor_place VP WHERE VP.user_id=$1) AS places_count,
+    (SELECT COUNT(*) FROM review R WHERE R.user_id=$1) AS reviews_count, 
+    (SELECT COUNT(*) FROM photo P WHERE P.user_id=$1) AS photos_count;`;
+
+    const response = await db.query(query, [id]);
+    console.log(response);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};

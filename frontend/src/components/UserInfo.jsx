@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -10,7 +11,6 @@ import { Link } from "react-router-dom";
 
 function UserInfo({ user, selectedList, setSelectedList }) {
   // Badges Logic
-
   const [badges, setBadges] = useState([]);
   useEffect(() => {
     const fetchBadges = async () => {
@@ -19,7 +19,6 @@ function UserInfo({ user, selectedList, setSelectedList }) {
           `http://localhost:1123/api/v1/users/badges/${user.user_id}`
         );
         setBadges(response.data.data);
-        console.log(badges);
       } catch (error) {
         console.error("Error fetching badges:", error);
       }
@@ -27,6 +26,23 @@ function UserInfo({ user, selectedList, setSelectedList }) {
 
     if (user?.user_id) fetchBadges();
   }, [user]);
+
+  // User Stats
+  const [stats, setStats] = useState({});
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/users/stats/${user.user_id}`
+        );
+
+        setStats(response.data.data[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStats();
+  }, []);
 
   selectedList = selectedList || "Reviews";
   return (
@@ -47,8 +63,8 @@ function UserInfo({ user, selectedList, setSelectedList }) {
           </h2>
           <div>
             <p className={styles.p}>
-              <PiMapPinLight style={{ fontSize: "20px" }} /> Lives in{" "}
-              {user.city}, {user.country}{" "}
+              <PiMapPinLight style={{ fontSize: "20px" }} /> Lives in
+              {user.city}, {user.country}
             </p>
             <p className={styles.p}>
               <HiOutlineMail style={{ fontSize: "20px" }} /> {user.email}
@@ -65,19 +81,19 @@ function UserInfo({ user, selectedList, setSelectedList }) {
           <ul className={styles.statistics}>
             <li className={styles.statisticsItem}>
               <span style={{ fontSize: "30px", marginBottom: "5px" }}>
-                {user.placesVisited}
+                {stats.places_count}
               </span>
               <span>Places Visited</span>
             </li>
             <li className={styles.statisticsItem}>
               <span style={{ fontSize: "30px", marginBottom: "5px" }}>
-                {user.reviews}
+                {stats.reviews_count}
               </span>
               <span>Reviews</span>
             </li>
             <li className={styles.statisticsItem}>
               <span style={{ fontSize: "30px", marginBottom: "5px" }}>
-                {user.photosCount}
+                {stats.photos_count}
               </span>
               <span>Photos</span>
             </li>

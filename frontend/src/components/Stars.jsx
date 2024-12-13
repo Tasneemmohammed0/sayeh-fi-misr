@@ -3,8 +3,6 @@ import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
 function Stars({ count = 5, fontSize = "18px", color = "gold" }) {
   if (!count) count = 0;
-  //count = parseInt(count);
-  console.log(count);
 
   const rate = [];
   for (let i = 1; i <= 5; i++) {

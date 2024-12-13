@@ -16,9 +16,6 @@ function UserProfile({ user }) {
   const currentUser = useLoaderData();
   const { id } = useParams();
   const [selectedList, setSelectedList] = useState("Reviews");
-  // const [loading, setLoading] = useState(false);
-  // if (loading) return <h1> LOADING </h1>;
-
   if (!currentUser && !id) return <h1>login</h1>;
   if (!currentUser && id) return <h1>User not found</h1>;
 
