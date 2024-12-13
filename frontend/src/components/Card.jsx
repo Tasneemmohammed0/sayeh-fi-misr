@@ -11,7 +11,15 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../App";
 import EditPlaceForm from "../Admin/components/EditPlaceForm";
-function Card({ card, selectedOption, onClick }) {
+function Card({
+  card,
+  selectedOption,
+  onClick,
+  visitList,
+  inVisitList = false,
+  setVisitList,
+  setLoading,
+}) {
   {
     /*  admin */
   }
@@ -22,12 +30,32 @@ function Card({ card, selectedOption, onClick }) {
 
   async function handleDelete(id) {
     try {
-      await axios.delete(`http://localhost:1123/api/v1/places/${id}`, {
-        withCredentials: true,
-      });
-      toast.success("Place Deleted successfully.");
-      setDeleted(true);
-      setPlaces(Places.filter((place) => place.place_id !== id));
+      setLoading(true);
+      if (inVisitList) {
+        const response = await axios.delete(
+          `http://localhost:1123/api/v1/places/${id}/deleteFromVisitedList`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response.status === 200) {
+          setVisitList(visitList.filter((place) => place.place_id !== id));
+          toast.success("Place Deleted successfully.");
+        } else {
+          toast.error(
+            "An error occured while deleting the place please try again later."
+          );
+        }
+        setLoading(false);
+        return;
+      } else {
+        await axios.delete(`http://localhost:1123/api/v1/places/${id}`, {
+          withCredentials: true,
+        });
+        toast.success("Place Deleted successfully.");
+        setDeleted(true);
+        setPlaces(Places.filter((place) => place.place_id !== id));
+      }
     } catch (err) {
       console.log(err);
     }
