@@ -198,3 +198,47 @@ exports.getUserStats = async (req, res) => {
     });
   }
 };
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { user_id } = req.user;
+    const { first_name, last_name, username, email } = req.body;
+    // firstname, lastname, username, email
+    const params = [];
+    const conditions = [];
+    let query = "";
+    if (first_name) {
+      params.push(first_name);
+      conditions.push(`first_name=$${params.length}`);
+    }
+    if (last_name) {
+      params.push(last_name);
+      conditions.push(`last_name=$${params.length}`);
+    }
+    if (username) {
+      params.push(username);
+      conditions.push(`username=$${params.length}`);
+    }
+    if (email) {
+      params.push(email);
+      conditions.push(`email=$${params.length}`);
+    }
+    params.push(user_id);
+    if (conditions.length > 0)
+      query = `UPDATE visitor SET ${conditions.join(", ")} WHERE user_id=$${
+        params.length
+      } RETURNING *`;
+
+    const response = await db.query(query, params);
+    response.rows[0].password = undefined;
+    res.status(201).json({
+      status: "success",
+      data: response.rows[0],
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};

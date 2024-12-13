@@ -32,6 +32,7 @@ router.get("/badges/:id", userController.getUserBadges);
 router.get("/photos/:id", userController.getUserPhotos);
 router.get("/stats/:id", userController.getUserStats);
 
+router.patch("/", authController.protect, userController.updateUser);
 // Starting from here, all coming endpoints are for admins only, be careful
 router.use(authController.protect, authController.restrictTo("admin"));
 
