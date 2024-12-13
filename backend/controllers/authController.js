@@ -242,13 +242,13 @@ exports.changePassword = async (req, res) => {
       newHashedPassword,
       req.user.user_id,
     ]);
-    if (response.rows[0].passsword) response.rows[0].password = undefined; // to not send it
+    if (response.rows[0].password) response.rows[0].password = undefined; // to not send it
     res.status(201).json({
       status: "success",
       data: response.rows[0],
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(400).json({
       status: "fail",
       message: "failed to update password",
     });
