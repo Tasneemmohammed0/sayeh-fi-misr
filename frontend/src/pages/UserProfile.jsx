@@ -1,7 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styles from "../styles/userprofile.module.css";
-import { useParams } from "react-router-dom";
-import { UserContext } from "../App";
+import { useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
 
 import UserInfo from "../components/UserInfo";
@@ -11,43 +10,17 @@ import WishLists from "../components/WishLists";
 import UserGatheingList from "../components/UserGatheingList";
 import UserPhotosList from "../components/UserPhotosList";
 import Loading from "../components/Loading";
+import { User } from "lucide-react";
 
-function UserProfile() {
-  const { user } = useContext(UserContext);
-  const [currentUser, setCurrentUser] = useState(null);
+function UserProfile({ user }) {
+  const currentUser = useLoaderData();
   const { id } = useParams();
   const [selectedList, setSelectedList] = useState("Reviews");
-  const [loading, setLoading] = useState(true);
-
-  //// fetching user data by id
-  React.useEffect(() => {
-    const handleId = async () => {
-      setLoading(true);
-      try {
-        if (user && !id) {
-          setCurrentUser(user);
-        } else if (id) {
-          const response = await axios.get(
-            `http://localhost:1123/api/v1/users/${id}`
-          );
-          setCurrentUser(response.data.data.user);
-        }
-        console.log("CURRENT:", currentUser, user);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    handleId();
-  }, [id, user]);
-  if (loading) return <Loading />;
   if (!currentUser && !id) return <h1>login</h1>;
   if (!currentUser && id) return <h1>User not found</h1>;
 
   return (
     <>
-      {loading && <Loading />}
       <div>
         <section
           style={{
@@ -92,3 +65,32 @@ function UserProfile() {
   );
 }
 export default UserProfile;
+
+export async function UserLoader({ params }) {
+  const id = params.id;
+
+  let cu = null;
+  try {
+    if (!id) {
+      const response = await axios.get(
+        `http://localhost:1123/api/v1/users/me`,
+        {
+          withCredentials: true,
+        }
+      );
+      cu = response.data.data.user;
+    } else if (id) {
+      const response = await axios.get(
+        `http://localhost:1123/api/v1/users/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      cu = response.data.data.user;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  return cu;
+}
