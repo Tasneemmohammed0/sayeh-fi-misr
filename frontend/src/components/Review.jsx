@@ -6,7 +6,7 @@ import { CiEdit } from "react-icons/ci";
 import styles from "../styles/review.module.css";
 import axios from "axios";
 
-function Review({ review, setReviews, setLoading, loading }) {
+function Review({ review, setReviews, setLoading, loading, canEdit }) {
   const formattedDate = new Date(review.date);
 
   const [edit, setEdit] = useState(false);
@@ -47,7 +47,6 @@ function Review({ review, setReviews, setLoading, loading }) {
           </p>
           <p> Written in {formattedDateString}</p>
         </div>
-
         <div className={styles.text}>
           <h2>
             {review.title}{" "}
@@ -57,7 +56,7 @@ function Review({ review, setReviews, setLoading, loading }) {
             </span>
           </h2>
           <p className={styles.p}> {review.main_content} </p>
-
+        {canEdit && (
           <div className={styles.buttonsContainer}>
             <button className={styles.editbutton} onClick={() => setEdit(true)}>
               <CiEdit style={{ fontSize: "20px" }} />

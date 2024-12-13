@@ -77,7 +77,7 @@ function WishLists({ id }) {
   return (
     <div style={{ position: "relative" }}>
       {loading && <Loading />}
-      {user.user_id === id && (
+      {user?.user_id === id && (
         <button className={styles.create} onClick={() => setIsFormOpen(true)}>
           Create Wishlist
         </button>
@@ -85,8 +85,8 @@ function WishLists({ id }) {
       <WishListForm
         isOpen={isFormOpen}
         handleForm={setIsFormOpen}
-        user_id={user.user_id}
-        can={user.user_id === id}
+        user_id={user?.user_id}
+        can={user?.user_id === id}
       />
 
       <ul className={styles.allWishLists}>

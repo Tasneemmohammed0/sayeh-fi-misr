@@ -3,7 +3,7 @@ import Review from "../components/Review";
 import Loading from "../components/Loading";
 import axios from "axios";
 
-function ReviewsList({ id }) {
+function ReviewsList({ id, canEdit }) {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -36,14 +36,13 @@ function ReviewsList({ id }) {
           return (
             <li key={index}>
               {" "}
-
               <Review
                 review={review}
                 setReviews={setReviews}
                 setLoading={setLoading}
                 loading={loading}
+                canEdit={canEdit}
               />{" "}
-
             </li>
           );
         })}

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/placeslist.module.css";
 import GatheringCard from "./GatheringCard";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Loading from "./Loading";
 import axios from "axios";
 function GatheringList({ search, filter, count = 100 }) {
   let [gatherings, setGatherings] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
     const fetchData = async () => {
@@ -36,10 +35,6 @@ function GatheringList({ search, filter, count = 100 }) {
     };
     fetchData();
   }, [location.pathname]);
-
-  const handleSelectedGathering = (id) => {
-    navigate(`/gatherings/${id}`);
-  };
 
   gatherings = gatherings.slice(0, count);
 
@@ -74,7 +69,7 @@ function GatheringList({ search, filter, count = 100 }) {
             hostname={item.first_name}
             currentcapacity={item.current_capacity}
             duration={item.duration}
-            onClick={() => handleSelectedGathering(item.gathering_id)}
+            id={item.gathering_id}
           />
         </div>
       ))}
