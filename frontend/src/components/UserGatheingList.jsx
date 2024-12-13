@@ -8,7 +8,7 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { FiSettings } from "react-icons/fi";
 
-function UserGatheingList({ id }) {
+function UserGatheingList({ id, canEdit }) {
   const [gatheringList, setGatheringList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -48,22 +48,23 @@ function UserGatheingList({ id }) {
   return (
     <div className={styles.list} style={{ position: "relative" }}>
       {loading && <Loading />}
+      {canEdit && (
+        <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
+          {showOptions && (
+            <>
+              <CiEdit
+                className={styles2.editIcon}
+                onClick={() => {
+                  handleEdit();
+                }}
+              />
+              <MdDelete onClick={handleDelete} className={styles2.deleteIcon} />
+            </>
+          )}
 
-      <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
-        {showOptions && (
-          <>
-            <CiEdit
-              className={styles2.editIcon}
-              onClick={() => {
-                handleEdit();
-              }}
-            />
-            <MdDelete onClick={handleDelete} className={styles2.deleteIcon} />
-          </>
-        )}
-
-        <FiSettings onClick={handleOptions} className={styles2.optionIcon} />
-      </div>
+          <FiSettings onClick={handleOptions} className={styles2.optionIcon} />
+        </div>
+      )}
 
       {gatheringList.map((item, index) => (
         <div

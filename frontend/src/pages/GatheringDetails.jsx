@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/GatheringDetails.module.css";
 import Loading from "../components/Loading";
@@ -8,7 +8,7 @@ import ReviewForm from "../components/ReviewForm";
 import { IoIosAddCircleOutline, IoIosSearch, IoIosClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-
+import { UserContext } from "../App";
 import axios from "axios";
 
 function GatheringDetails() {
@@ -26,7 +26,7 @@ function GatheringDetails() {
   const [addUser, setAddUser] = useState(false);
   const [deleteUser, setDeleteUser] = useState(false);
   const [deletedUser, setDeletedUser] = useState(0);
-
+  const { user } = useContext(UserContext);
   // Fetch gathering details
   useEffect(() => {
     const fetchGathering = async () => {
@@ -236,29 +236,31 @@ function GatheringDetails() {
               <h2>Gather Together, Explore Together!</h2>
               <h3 style={{ margin: "10px" }}>Get to Know the Group!</h3>
             </div>
-            <div className={styles.inviteUserContainer}>
-              <div className={styles.searchWrapper}>
-                <IoIosSearch className={styles.searchIcon} />
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="search for a user by username "
-                  className={styles.searchInput}
-                />
+            {user?.user_id === gathering.host_id && (
+              <div className={styles.inviteUserContainer}>
+                <div className={styles.searchWrapper}>
+                  <IoIosSearch className={styles.searchIcon} />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="search for a user by username "
+                    className={styles.searchInput}
+                  />
+                </div>
+
+                <button className={styles.btn} onClick={handleAddUser}>
+                  Add User
+                </button>
+
+                <button
+                  className={styles.DeleteBtn}
+                  onClick={() => setDeleteUser(!deleteUser)}
+                >
+                  Delete User
+                </button>
               </div>
-
-              <button className={styles.btn} onClick={handleAddUser}>
-                Add User
-              </button>
-
-              <button
-                className={styles.DeleteBtn}
-                onClick={() => setDeleteUser(!deleteUser)}
-              >
-                Delete User
-              </button>
-            </div>
+            )}
 
             <div className={styles.usersContainer}>
               {users.map((user) => (

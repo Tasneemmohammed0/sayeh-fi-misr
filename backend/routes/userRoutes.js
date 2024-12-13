@@ -32,7 +32,7 @@ router.get("/:id", userController.getUser);
 router.get("/reviews/:id", userController.getUserReviews);
 router.get("/wishlists/:id", userController.getUserWishlists);
 router.get("/visitlist/:id", userController.getUserVisitLists);
-router.get("/gatherings/:id", userController.getUserGatheringLists);
+router.get("/gatherings/:id", userController.getUserGatherings);
 router.get("/badges/:id", userController.getUserBadges);
 router.get("/photos/:id", userController.getUserPhotos);
 router.get("/stats/:id", userController.getUserStats);

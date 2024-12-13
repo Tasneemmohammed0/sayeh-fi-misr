@@ -8,6 +8,7 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import styles from "../styles/GatheringCard.module.css";
 import EditGatheringForm from "./EditGatheringForm";
+import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +25,7 @@ function GatheringCard({
   selectedOption = null,
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
+  const navigate = useNavigate();
 
   function handleDelete(id) {
     console.log("delete", id);
@@ -103,7 +105,10 @@ function GatheringCard({
         <div className={styles.dottedLine}></div>
         <div className={styles.cardFooter}>
           <p className="join">JOIN</p>
-          <MdOutlineArrowRightAlt className={styles.rightArrow} />
+          <MdOutlineArrowRightAlt
+            className={styles.rightArrow}
+            onClick={() => navigate(`/gatherings/${id}`)}
+          />
         </div>
       </div>
 

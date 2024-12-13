@@ -5,7 +5,7 @@ import { CiEdit } from "react-icons/ci";
 import styles from "../styles/review.module.css";
 import axios from "axios";
 
-function Review({ review, setReviews }) {
+function Review({ review, setReviews, canEdit }) {
   const formattedDate = new Date(review.date);
   const formattedDateString = formattedDate.toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -46,17 +46,18 @@ function Review({ review, setReviews }) {
           </span>
         </h2>
         <p className={styles.p}> {review.main_content} </p>
-
-        <div className={styles.buttonsContainer}>
-          <button className={styles.editbutton}>
-            <CiEdit style={{ fontSize: "20px" }} />
-            Edit
-          </button>
-          <button className={styles.deletebutton} onClick={deleteReview}>
-            <MdDelete style={{ fontSize: "20px" }} />
-            Delete
-          </button>
-        </div>
+        {canEdit && (
+          <div className={styles.buttonsContainer}>
+            <button className={styles.editbutton}>
+              <CiEdit style={{ fontSize: "20px" }} />
+              Edit
+            </button>
+            <button className={styles.deletebutton} onClick={deleteReview}>
+              <MdDelete style={{ fontSize: "20px" }} />
+              Delete
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
