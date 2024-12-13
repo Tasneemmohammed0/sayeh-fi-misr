@@ -93,27 +93,32 @@ function GatheringDetails() {
 
   async function handleJoin() {
     try {
+      const url = isJoined
+        ? `http://localhost:1123/api/v1/gatherings/${gatheringId}/leave`
+        : `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`;
+
       // gathering is already joined
       if (isJoined) {
-        toast("You are already joined in this gathering");
-        return;
-      }
-      const joinData = {
-        date: new Date().toISOString(),
-      };
-      // send join request to API
-      const res = await axios.post(
-        `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`,
-        joinData,
-        {
+        // handle leave gathering
+        const res = await axios.delete(url, {
           withCredentials: true,
-        }
-      );
+        });
 
-      toast("🎉 Joined successfully");
+        toast("You left the gathering");
+      } else {
+        const joinData = {
+          date: new Date().toISOString(),
+        };
+        // send join request to API
+        const res = await axios.post(url, joinData, {
+          withCredentials: true,
+        });
+
+        toast("🎉 Joined successfully");
+      }
 
       // send join request to API
-      setIsJoined(true);
+      setIsJoined((isJoined) => !isJoined);
     } catch (err) {
       console.log(err);
     }
@@ -191,7 +196,7 @@ function GatheringDetails() {
                   onClick={() => handleJoin()}
                   className={styles.addIcon}
                 />
-                <p>JOIN</p>
+                <p>{isJoined ? `Leave` : `JOIN`}</p>
               </div>
 
               <div className={styles.btnContainer}>

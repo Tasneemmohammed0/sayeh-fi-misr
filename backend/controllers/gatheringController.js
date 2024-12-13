@@ -223,6 +223,30 @@ exports.deleteFromGathering = async (req, res) => {
   }
 };
 
+// Unjoin gathering route handler
+exports.leaveGathering = async (req, res) => {
+  try {
+    console.log("In leave gathering");
+    console.log(req.params.id);
+    const data = await db.query(
+      `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
+      [req.user.user_id, req.params.id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      length: data.rowCount,
+      data: data.rows[0],
+      message: "deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      message: err.message,
+    });
+  }
+};
+
 // Join gathering route handler
 exports.joinGathering = async (req, res) => {
   try {
