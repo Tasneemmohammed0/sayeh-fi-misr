@@ -1,4 +1,5 @@
 const authController = require("./authController");
+const jwt = require("jsonwebtoken");
 const db = require("../db/index");
 
 exports.getMe = (req, res, next) => {
@@ -231,10 +232,22 @@ exports.updateUser = async (req, res) => {
     }
 
     const response = await db.query(query, params);
-    if (response.rows[0]?.password) response.rows[0].password = undefined;
+    const user = response.rows[0];
+    if (user?.password) user.password = undefined;
+
+    const token = jwt.sign(user, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    });
+
     res.status(201).json({
       status: "success",
-      data: response.rows[0],
+      data: user,
     });
   } catch (err) {
     res.status(400).json({
