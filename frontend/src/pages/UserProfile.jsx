@@ -43,7 +43,10 @@ function UserProfile() {
         </section>
         <section style={{ background: "#D3C4A9", padding: "20px 10px " }}>
           {currentUser.user_id && selectedList === "Reviews" && (
-            <ReviewsList id={currentUser.user_id} />
+            <ReviewsList
+              id={currentUser.user_id}
+              canEdit={currentUser?.user_id === user?.user_id}
+            />
           )}
 
           {currentUser.user_id && selectedList === "Wish List" && (
