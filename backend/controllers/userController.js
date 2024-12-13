@@ -130,24 +130,32 @@ exports.getUserVisitLists = async (req, res, next) => {
   }
 };
 
-exports.getUserGatheringLists = async (req, res, next) => {
+exports.getUserGatherings = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const query = `
+    const hostQuery = `
     SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
     FROM gathering g, place p, host h
-    WHERE g.place_id=p.place_id AND h.user_id=$1
+    WHERE g.place_id=p.place_id AND h.user_id=g.host_id AND h.user_id=$1
+
+    UNION
+
+    SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
+    FROM gathering g, visitor_gathering vg, host h, place p
+    WHERE g.place_id=p.place_id AND h.user_id=g.host_id AND vg.user_id=$1 AND vg.gathering_id=g.gathering_id
     `;
-    const response = await db.query(query, [id]);
+    const response = await db.query(hostQuery, [id]);
+    const hostGatherings = response.rows;
+
     res.status(200).json({
       status: "success",
-      length: response.rowCount,
-      data: response.rows,
+      length: hostGatherings.rowCount,
+      data: hostGatherings,
     });
   } catch (err) {
     res.status(400).json({
       status: "fail",
-      message: err,
+      message: err.message,
     });
   }
 };
