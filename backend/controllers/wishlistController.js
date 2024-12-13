@@ -82,11 +82,74 @@ exports.updateWishlist = async (req, res) => {
       status: "success",
       length: response.rowCount,
       data: response.rows[0],
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: "fail",
+        message: err.message,
+      });
+    }
+  };
+
+exports.deleteWishlist = async (req, res) => {
+  try {
+    const currentUserId = req.user.user_id;
+    const checkQuery = `
+    SELECT user_id FROM wishlist WHERE wishlist_id=$1
+    `;
+    const response = await db.query(checkQuery, [req.params.id]);
+    if (!response.rowCount || response.rows[0].user_id !== currentUserId) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Can't delete a list that doesn't belong to you!",
+      });
+    }
+
+    await db.query("COMMIT");
+    const deleteQuery = `
+    DELETE FROM wishlist WHERE wishlist_id=$1
+    `;
+    const deleteResponse = await db.query(deleteQuery, [req.params.id]);
+    res.status(202).json({
+      status: "success",
+      length: deleteResponse.rowCount,
+      message: "Deleted Successfully",
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: "fail",
+        message: err.message,
+      });
+    }
+  };
+    
+
+// delete a place from wishlist
+exports.deleteFromWishList = async (req, res) => {
+  try {
+    await db.query("COMMIT");
+    const data = await db.query(
+      `DELETE FROM place_wishlist WHERE place_id=$1 AND wishlist_id=$2 RETURNING *`,
+      [req.params.place_id, req.params.id]
+    );
+
+    if (!data.rowCount) {
+      res.status(400).json({
+        message: "Failed to delete",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      status: "success",
+      length: data.rowCount,
+      data: data.rows[0],
     });
   } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err.message,
+    await db.query("ROLLBACK");
+    console.log(err);
+    res.status(404).json({
+      message: err,
     });
   }
 };

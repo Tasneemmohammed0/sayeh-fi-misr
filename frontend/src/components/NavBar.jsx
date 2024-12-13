@@ -85,6 +85,25 @@ function NavBar() {
             </NavLink>
           )}
         </li>
+        <li>
+          {user ? (
+            <NavLink
+              to="/bazaar"
+              activeclassname="active-link"
+              className={styles.link}
+            >
+              Bazaar
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/signin"
+              activeclassname="active-link"
+              className={styles.link}
+            >
+              Sign In
+            </NavLink>
+          )}
+        </li>
 
         <li>
           <NavLink
