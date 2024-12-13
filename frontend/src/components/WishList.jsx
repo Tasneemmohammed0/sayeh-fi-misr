@@ -1,18 +1,50 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "../styles/placeslist.module.css";
 import styles2 from "../styles/allplaces.module.css";
+import Loading from "../components/Loading";
 import Card from "./Card";
+import axios from "axios";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosSearch } from "react-icons/io";
 function WishList() {
-  const { id } = useParams();
-  /// get places from the wishlist id
-  /// from the id we can get the wish list name
-
+  const [loading, setLoading] = useState(true);
+  const [wishlist, setWishlist] = useState([]);
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  /// get places by the wishlist id
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/wishlist/${id}`
+        );
+        setWishlist(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  const handleSelectedPlace = (e, id) => {
+    // admin
+    console.log(e.target.tagName.toLowerCase());
+    if (
+      e.target.tagName.toLowerCase() !== "svg" &&
+      e.target.tagName.toLowerCase() !== "path"
+    ) {
+      navigate(`/places/${id}`);
+    }
+  };
+
   const cities = [
     "Cairo",
     "Giza",
@@ -37,29 +69,6 @@ function WishList() {
     "South Sinai",
   ];
 
-  let wishListPlaces = [];
-
-  const temp = {
-    id: 2,
-    name: "Karnak Temple",
-    city: "Cairo",
-    image: "/src/assets/images/temple.png",
-    rate: 4,
-  };
-  for (let i = 0; i < 5; i++) {
-    wishListPlaces.push(temp);
-  }
-
-  if (search) {
-    wishListPlaces = wishListPlaces.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }
-
-  if (city && city !== "all") {
-    wishListPlaces = wishListPlaces.filter((item) => item.city === city);
-  }
-
   return (
     <div style={{ backgroundColor: "#f5e8d4", paddingTop: "20px" }}>
       <h2
@@ -70,8 +79,7 @@ function WishList() {
           marginBottom: "25px",
         }}
       >
-        {" "}
-        Hany Wish List{" "}
+        {wishlist[0]?.wishlist_name}
       </h2>
       {/* Search  and filter */}
       <div className={styles2.bar}>
@@ -105,24 +113,26 @@ function WishList() {
       </div>
 
       <div className={styles.list}>
-        {wishListPlaces.map((item, index) => (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-            key={index}
-          >
-            <Card
+        {wishlist.map((item, index) => {
+          if (city && city !== "all" && item.city != city) return null;
+          if (search && !item.name.toLowerCase().includes(search)) return null;
+          return (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
               key={index}
-              photo={item.image}
-              placeName={item.name}
-              location={item.city}
-              rate={item.rate}
-            />
-          </div>
-        ))}
+            >
+              <Card
+                key={index}
+                card={item}
+                onClick={(e) => handleSelectedPlace(e, item.place_id)}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

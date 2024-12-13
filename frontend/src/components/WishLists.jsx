@@ -44,7 +44,7 @@ function WishLists({ id }) {
       <ul className={styles.allWishLists}>
         {wishLists.map((wishList, index) => {
           return (
-            <NavLink key={index} to={`wishlist/${wishList.id}`}>
+            <NavLink key={index} to={`wishlist/${wishList.wishlist_id}`}>
               <li key={index} className={styles.wishListInfo}>
                 <h2 className={styles.titleStyle}>{wishList.name}</h2>
                 <p className={styles.description}>{wishList.description}</p>
