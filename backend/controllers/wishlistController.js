@@ -44,3 +44,49 @@ exports.createWishlist = async (req, res, next) => {
     });
   }
 };
+
+exports.updateWishlist = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    const wishlist = await db.query(
+      `SELECT user_id FROM wishlist WHERE wishlist_id=$1`,
+      [id]
+    );
+    const wishlistUser = wishlist.rows[0].user_id;
+    if (wishlistUser !== req.user.user_id) {
+      return res.status(401).json({
+        status: "fail",
+        message: "You can't edit a wishlist that's not yours",
+      });
+    }
+    const params = [];
+    const conditions = [];
+    if (name) {
+      params.push(name);
+      conditions.push(`name=$${params.length}`);
+    }
+    if (description) {
+      params.push(description);
+      conditions.push(`description=$${params.length}`);
+    }
+    let query = `UPDATE wishlist SET `;
+    if (conditions.length > 0) {
+      query += `${conditions.join(", ")}`;
+    }
+    params.push(id);
+    query += ` WHERE wishlist_id=$${params.length} RETURNING *`;
+    console.log(query);
+    const response = await db.query(query, params);
+    res.status(200).json({
+      status: "success",
+      length: response.rowCount,
+      data: response.rows[0],
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
