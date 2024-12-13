@@ -98,8 +98,10 @@ exports.deleteWishlist = async (req, res) => {
     SELECT user_id FROM wishlist WHERE wishlist_id=$1
     `;
     const response = await db.query(checkQuery, [req.params.id]);
-    if (!response.rowCount || response.rows[0].user_id !== currentUserId) {
-      return res.status(401).json({
+    if (!response.rowCount || response.rows[0].user_id != currentUserId) {
+      console.log(response.rowCount);
+      console.log(response.rows[0].user_id, currentUserId);
+      return res.status(405).json({
         status: "fail",
         message: "Can't delete a list that doesn't belong to you!",
       });
@@ -116,6 +118,7 @@ exports.deleteWishlist = async (req, res) => {
       message: "Deleted Successfully",
     });
   } catch (err) {
+    await db.query("ROLLBACK");
     res.status(400).json({
       status: "fail",
       message: err.message,
