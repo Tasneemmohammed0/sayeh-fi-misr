@@ -36,12 +36,14 @@ function ReviewsList({ id }) {
           return (
             <li key={index}>
               {" "}
+
               <Review
                 review={review}
                 setReviews={setReviews}
                 setLoading={setLoading}
                 loading={loading}
               />{" "}
+
             </li>
           );
         })}

@@ -40,9 +40,8 @@
   padding: 20px 5px;
 }
 .image {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
+  width: 400px;
+  height: 500px;
   border-radius: 12px;
   object-fit: cover;
   margin-bottom: 12px;
