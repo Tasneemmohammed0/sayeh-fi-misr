@@ -37,7 +37,6 @@ exports.updateReview = async (req, res) => {
     const params = [];
     const conditions = [];
     const { rating, title, main_content } = req.body;
-
     if (rating) {
       params.push(rating);
       conditions.push(`rating=$${params.length}`);
