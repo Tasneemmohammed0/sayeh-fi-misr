@@ -29,8 +29,21 @@ router.post(
 router.post(
   "/:id/addToGathering",
   authController.protect,
-  authController.restrictTo("host"),
+  authController.restrictTo("host", "admin"),
   gatheringController.addToGathering
+);
+// leave gathering
+router.delete(
+  "/:id/leave",
+  authController.protect,
+  gatheringController.leaveGathering
+);
+
+router.delete(
+  "/:id/:user_id",
+  authController.protect,
+  authController.restrictTo("host", "admin"),
+  gatheringController.deleteFromGathering
 );
 
 router.get(
