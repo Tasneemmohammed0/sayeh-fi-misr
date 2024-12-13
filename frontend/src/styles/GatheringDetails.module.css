@@ -141,7 +141,8 @@
 .user {
   display: flex;
   align-items: center;
-  width: 45%;
+  /* width: 48%; */
+  width: 400px;
 }
 
 .user > p {
@@ -233,7 +234,17 @@
 }
 
 .DeleteBtn {
-  align-self: flex-start;
-  margin-left: 80px;
+  margin-left: 10px;
   background-color: var(--our-yellow);
+}
+
+.xBtn {
+  font-size: 30px;
+  margin-left: 30px;
+  cursor: pointer;
+}
+
+.xBtn:hover {
+  transform: scale(1.2);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }

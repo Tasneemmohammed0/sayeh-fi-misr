@@ -218,7 +218,7 @@ exports.deleteFromGathering = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(404).json({
-      message: err,
+      message: err.message,
     });
   }
 };
