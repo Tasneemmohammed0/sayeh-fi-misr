@@ -202,7 +202,7 @@ exports.getUserStats = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { user_id } = req.user;
-    const { first_name, last_name, username, email } = req.body;
+    const { first_name, last_name, username, email } = req.body.state;
     // firstname, lastname, username, email
     const params = [];
     const conditions = [];
@@ -224,13 +224,14 @@ exports.updateUser = async (req, res) => {
       conditions.push(`email=$${params.length}`);
     }
     params.push(user_id);
-    if (conditions.length > 0)
+    if (conditions.length > 0) {
       query = `UPDATE visitor SET ${conditions.join(", ")} WHERE user_id=$${
         params.length
       } RETURNING *`;
+    }
 
     const response = await db.query(query, params);
-    response.rows[0].password = undefined;
+    if (response.rows[0]?.password) response.rows[0].password = undefined;
     res.status(201).json({
       status: "success",
       data: response.rows[0],

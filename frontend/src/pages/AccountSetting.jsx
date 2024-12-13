@@ -6,6 +6,7 @@ import { UserContext } from "../App";
 import "react-toastify/dist/ReactToastify.css";
 import ChangePasswordForm from "../components/ChangePasswordForm";
 import Signout from "../components/Signout";
+import axios from "axios";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -174,7 +175,7 @@ function AccountSetting() {
     errorMessages.forEach((message) => toast.error(message)); // Display each error message using toast
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const errors = Object.keys(state).filter(
       (key) => key.startsWith("error_") && state[key]
@@ -198,11 +199,19 @@ function AccountSetting() {
       handleErrors();
       return;
     }
+    const response = await axios.patch(
+      "http://localhost:1123/api/v1/users",
+      {
+        state,
+      },
+      { withCredentials: true }
+    );
+    console.log(state);
+    console.log(response);
     toast.success("Account settings updated successfully!");
     setEdit("");
   }
 
-  console.log("state", state);
   if (!user) return <h1>Please login</h1>;
   return (
     <div
