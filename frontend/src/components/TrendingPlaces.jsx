@@ -38,8 +38,12 @@ function TrandingPlaces({ places }) {
         {places.map((place, index) => (
           <SwiperSlide key={index} style={{ backgroundColor: "transparent" }}>
             <div className={styles.place}>
-              <img src={place.src} alt={place.title} className={styles.image} />
-              <h3>{place.title}</h3>
+              <img
+                src={place.photo}
+                alt={place.name}
+                className={styles.image}
+              />
+              <h3>{place.name}</h3>
             </div>
           </SwiperSlide>
         ))}

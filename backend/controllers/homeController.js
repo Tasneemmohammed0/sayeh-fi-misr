@@ -47,3 +47,28 @@ ORDER BY gathering_id ASC LIMIT 4
     console.log(err);
   }
 };
+exports.getTrendingPlaces = async (req, res) => {
+  try {
+    const trendingQuery = `SELECT COUNT(*) AS visitsCount,p.name,p.place_id,p.photo
+     FROM visitor_place vp,place p
+     WHERE vp.place_id=p.place_id
+     GROUP BY vp.place_id,p.name,p.place_id
+     ORDER BY visitsCount DESC
+     LIMIT 3
+    `;
+    const trendingData = await db.query(trendingQuery);
+    // You need to check data is received
+    const data = trendingData.rows;
+
+    console.log(data);
+    //Insert in trending table
+
+    res.status(200).json({
+      status: "success",
+      length: trendingData.rows.length,
+      data: trendingData.rows,
+    });
+  } catch (err) {
+    console.log("Error Fetching Trending", err.message);
+  }
+};
