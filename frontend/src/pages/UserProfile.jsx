@@ -18,7 +18,7 @@ function UserProfile() {
   const { id } = useParams();
   const [selectedList, setSelectedList] = useState("Reviews");
   const [loading, setLoading] = useState(true);
-  console.log("selectedList", selectedList);
+
   //// fetching user data by id
   React.useEffect(() => {
     const handleId = async () => {
