@@ -61,7 +61,10 @@ function UserProfile() {
           )}
 
           {currentUser.user_id && selectedList === "Gathering List" && (
-            <UserGatheingList id={currentUser.user_id} />
+            <UserGatheingList
+              id={currentUser.user_id}
+              canEdit={currentUser?.user_id === user?.user_id}
+            />
           )}
 
           {currentUser.user_id && selectedList === "Photos" && (
