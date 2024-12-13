@@ -6,7 +6,6 @@ import { CiEdit } from "react-icons/ci";
 import styles from "../styles/review.module.css";
 import axios from "axios";
 
-
 function Review({ review, setReviews, setLoading, loading }) {
   const formattedDate = new Date(review.date);
 
@@ -17,8 +16,6 @@ function Review({ review, setReviews, setLoading, loading }) {
     month: "long",
     year: "numeric",
   });
-
-
 
   async function deleteReview() {
     try {
@@ -46,7 +43,6 @@ function Review({ review, setReviews, setLoading, loading }) {
           <img src={review.photo} alt={review.name} className={styles.img} />
           <p style={{ display: "flex", gap: "10px ", fontSize: "20px" }}>
             {" "}
-
             <Stars count={review.rating} fontSize="20px" />
           </p>
           <p> Written in {formattedDateString}</p>
@@ -72,17 +68,17 @@ function Review({ review, setReviews, setLoading, loading }) {
               Delete
             </button>
           </div>
-
+        </div>
+        {edit && (
+          <EditReviewForm
+            review={review}
+            setReviews={setReviews}
+            setLoading={setLoading}
+            handleClose={() => setEdit(false)}
+            loading={loading}
+          />
+        )}
       </div>
-      {edit && (
-        <EditReviewForm
-          review={review}
-          setReviews={setReviews}
-          setLoading={setLoading}
-          handleClose={() => setEdit(false)}
-          loading={loading}
-        />
-      )}
     </>
   );
 }
