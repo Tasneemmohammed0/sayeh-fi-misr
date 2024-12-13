@@ -72,6 +72,18 @@
   background-color: #218838;
 }
 
+.deleteBtn {
+  background-color: #e1483f;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 7px;
+}
+.deleteBtn:hover {
+  background-color: #ee7771;
+}
 /* pop up form style    */
 
 .popupContainer {

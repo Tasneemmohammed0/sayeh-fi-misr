@@ -53,6 +53,27 @@ function WishLists({ id }) {
     );
   };
 
+  const handleDeleteWishlist = async (deletedWishList) => {
+    try {
+      setLoading(true);
+      const response = await axios.delete(
+        `http://localhost:1123/api/v1/wishlist/${deletedWishList.wishlist_id}`,
+        { withCredentials: true }
+      );
+      setWishLists((prevWishLists) =>
+        prevWishLists.map((wishList) =>
+          wishList.wishlist_id === deletedWishList.wishlist_id ? null : wishList
+        )
+      );
+      alert(`🗑️ ${response.data.message}`);
+      // toast(response.data.message);
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ position: "relative" }}>
       {loading && <Loading />}
@@ -69,22 +90,31 @@ function WishLists({ id }) {
       />
 
       <ul className={styles.allWishLists}>
-        {wishLists.map((wishList) => (
-          <li
-            key={wishList.wishlist_id}
-            className={styles.wishListInfo}
-            onClick={(e) => handleClick(e, wishList.wishlist_id)}
-          >
-            <h2 className={styles.titleStyle}>{wishList.name}</h2>
-            <p className={styles.description}>{wishList.description}</p>
-            <button
-              className={styles.editBtn}
-              onClick={() => setEditWishList(wishList)}
-            >
-              Edit
-            </button>
-          </li>
-        ))}
+        {wishLists.map(
+          (wishList) =>
+            wishList && (
+              <li
+                key={wishList.wishlist_id}
+                className={styles.wishListInfo}
+                onClick={(e) => handleClick(e, wishList.wishlist_id)}
+              >
+                <h2 className={styles.titleStyle}>{wishList.name}</h2>
+                <p className={styles.description}>{wishList.description}</p>
+                <button
+                  className={styles.editBtn}
+                  onClick={() => setEditWishList(wishList)}
+                >
+                  Edit
+                </button>
+                <button
+                  className={styles.deleteBtn}
+                  onClick={() => handleDeleteWishlist(wishList)}
+                >
+                  Delete
+                </button>
+              </li>
+            )
+        )}
       </ul>
       {editWishList && (
         <EditWishListPopup

@@ -141,7 +141,8 @@
 .user {
   display: flex;
   align-items: center;
-  width: 45%;
+  /* width: 48%; */
+  width: 400px;
 }
 
 .user > p {
@@ -215,16 +216,35 @@
   color: #8f8a8a;
 }
 
-.btn {
+.btn,
+.DeleteBtn {
   width: 150px;
   height: 40px;
   border-radius: 4px;
   border: 0;
   background-color: var(--our-green);
   color: var(--our-black);
+  font-weight: 600;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-.btn:hover {
+.btn:hover,
+.DeleteBtn:hover {
   transform: scale(1.03);
+}
+
+.DeleteBtn {
+  margin-left: 10px;
+  background-color: var(--our-yellow);
+}
+
+.xBtn {
+  font-size: 30px;
+  margin-left: 30px;
+  cursor: pointer;
+}
+
+.xBtn:hover {
+  transform: scale(1.2);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
