@@ -22,28 +22,13 @@ function Home() {
     };
     fetchData();
   }, []);
-  // const trendingPlaces = [
-  //   {
-  //     src: "/src/assets/images/SignIn_image.jpg",
-  //     title: "Luxor Temple",
-  //   },
-  //   {
-  //     src: "/src/assets/images/SignIn_image.jpg",
-  //     title: "Luxor Temple",
-  //   },
-  //   {
-  //     src: "/src/assets/images/SignIn_image.jpg",
-  //     title: "Luxor Temple",
-  //   },
-  // ];
+
   return (
     <main>
       <NavBar />
       <Hero />
       <TrendingPlaces places={trendingPlaces} />
-      {/*for testing only any one can change color for more matching colors */}
 
-      {/* <Loading /> */}
       <ExploreSection />
     </main>
   );
