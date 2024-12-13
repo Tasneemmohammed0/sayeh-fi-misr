@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import styles from "../styles/accountForm.module.css";
 import ErrorMessage from "./ErrorMessage";
@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import axios from "axios";
+import { UserContext } from "../App";
 function AccountForm({ state, dispatch, handleCount }) {
   const backGrounds = [
     "Tourism and Hospitality Management",
@@ -13,6 +14,7 @@ function AccountForm({ state, dispatch, handleCount }) {
     "Geography Studies",
   ];
 
+  const { setUser } = useContext(UserContext);
   const [error, setError] = useState(0);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -65,11 +67,16 @@ function AccountForm({ state, dispatch, handleCount }) {
         User.phone = state.phone;
         User.background = state.background;
       }
-      console.log(User);
-      //// send the data to Loay API
-      await axios.post("http://localhost:1123/api/v1/users/signup", User, {
-        withCredentials: true,
-      });
+      // console.log(User);
+
+      const res = await axios.post(
+        "http://localhost:1123/api/v1/users/signup",
+        User,
+        {
+          withCredentials: true,
+        }
+      );
+      setUser(res.data.data);
       navigate("/home");
     } catch (err) {
       if (err.response.data.message.includes("email")) {

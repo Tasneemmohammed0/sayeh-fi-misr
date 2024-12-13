@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -15,13 +15,13 @@ import Bazaar from "./pages/Bazaar";
 import DashBoard from "./pages/DashBoard";
 import Page404 from "./pages/Page404";
 import axios from "axios";
-
+import router from "./Routes/Routers";
 export const UserContext = createContext();
 
 function App() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,13 +41,6 @@ function App() {
         }
 
         setPlaces(response.data.data);
-
-        // Fetch user
-        const userResposne = await axios.get(
-          "http://localhost:1123/api/v1/users/me",
-          { withCredentials: true }
-        );
-        setUser(userResposne.data?.data.user);
       } catch (err) {
         console.log(err.message);
       } finally {
@@ -57,44 +50,35 @@ function App() {
     fetchData();
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (user) return;
+
+    async function fetchUser() {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          "http://localhost:1123/api/v1/users/me",
+          {
+            withCredentials: true,
+          }
+        );
+        if (response.data.status === "success") {
+          setUser(response.data.data.user);
+        }
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUser();
+  }, []);
+
   return (
     <UserContext.Provider value={{ user, setUser, places, setPlaces }}>
       {loading && <Loading />}
-      <Routes>
-        <Route path="/" element={<Home />} index />
-        <Route path="/home" element={<Home />} />
-
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-
-        <Route path="/places/:placeId" element={<PlaceDetails />} />
-        <Route path="/places" element={<AllPlaces />} />
-
-        <Route path="/gatherings" element={<AllGathering />} />
-
-        <Route path="/gatherings" element={<AllGathering />} />
-        <Route
-          path="/gatherings/:gatheringId"
-          element={<GatheringDetails />}
-        ></Route>
-
-        <Route path="/profile/:id" element={<UserProfile />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route
-          path="/profile/:id/accountsetting"
-          element={<AccountSetting />}
-        />
-
-        <Route path="/profile/wishlist/:id" element={<WishList />} />
-        <Route path="/profile/:id/wishlist/:id" element={<WishList />} />
-
-        <Route path="/places/:placeId" element={<PlaceDetails />} />
-        <Route path="/bazaar" element={<Bazaar />} />
-
-        <Route path="/dashboard" element={<DashBoard />} />
-
-        <Route path="*" element={<Page404 />} />
-      </Routes>
+      <RouterProvider router={router} />
     </UserContext.Provider>
   );
 }
