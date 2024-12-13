@@ -81,7 +81,7 @@ exports.deleteFromWishList = async (req, res) => {
     await db.query("COMMIT");
     const data = await db.query(
       `DELETE FROM place_wishlist WHERE place_id=$1 AND wishlist_id=$2 RETURNING *`,
-      [req.body.place_id, req.params.id]
+      [req.params.place_id, req.params.id]
     );
 
     if (!data.rowCount) {
