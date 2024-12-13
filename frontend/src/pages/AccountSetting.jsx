@@ -182,17 +182,17 @@ function AccountSetting() {
     if (errors.length > 0) {
       if (state.error_firstname === "Firstname must not be empty") {
         console.log("empty here ");
-        dispatch({ type: "updateFirstname", payload: usertemp.firstname });
+        dispatch({ type: "updateFirstname", payload: user.firstname });
       }
       if (state.error_lastname === "Lastname must not be empty") {
         console.log("empty here last ");
-        dispatch({ type: "updateLastname", payload: usertemp.lastname });
+        dispatch({ type: "updateLastname", payload: user.lastname });
       }
       if (state.error_username === "Usernane must not be empty") {
-        dispatch({ type: "updateUsername", payload: usertemp.username });
+        dispatch({ type: "updateUsername", payload: user.username });
       }
       if (state.error_email === "Email must not be empty") {
-        dispatch({ type: "updateEmail", payload: usertemp.email });
+        dispatch({ type: "updateEmail", payload: user.email });
       }
 
       handleErrors();
@@ -203,7 +203,7 @@ function AccountSetting() {
   }
 
   console.log("state", state);
-
+  if (!user) return <h1>Please login</h1>;
   return (
     <div
       className="container"
@@ -345,14 +345,10 @@ function AccountSetting() {
       <ChangePasswordForm
         isOpen={showChangePassword}
         handleForm={setShowChangePassword}
-        userPassword={usertemp.password}
+        userPassword={user?.password}
       />
 
-      <Signout
-        isOpen={showSignOut}
-        handleForm={setShowSignOut}
-        user={usertemp}
-      />
+      <Signout isOpen={showSignOut} handleForm={setShowSignOut} user={user} />
     </div>
   );
 }
