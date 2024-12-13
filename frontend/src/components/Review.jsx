@@ -3,6 +3,7 @@ import Stars from "./Stars";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import styles from "../styles/review.module.css";
+import axios from "axios";
 
 function Review({ review, setReviews }) {
   const formattedDate = new Date(review.date);
