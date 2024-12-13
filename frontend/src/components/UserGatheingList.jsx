@@ -54,25 +54,11 @@ function UserGatheingList({ id }) {
           <>
             <CiEdit
               className={styles2.editIcon}
-              style={{
-                fontSize: "50px",
-                marginRight: "10px",
-                color: "blue",
-                cursor: "pointer",
-              }}
               onClick={() => {
                 handleEdit();
               }}
             />
-            <MdDelete
-              style={{
-                fontSize: "50px",
-                marginRight: "10px",
-                color: "red",
-                cursor: "pointer",
-              }}
-              onClick={handleDelete}
-            />
+            <MdDelete onClick={handleDelete} className={styles2.deleteIcon} />
           </>
         )}
 

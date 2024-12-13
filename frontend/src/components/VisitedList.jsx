@@ -3,6 +3,9 @@ import axios from "axios";
 
 import styles from "../styles/placeslist.module.css";
 import Loading from "./Loading";
+import { MdDelete } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
+import { FiSettings } from "react-icons/fi";
 import Card from "./Card";
 
 function VisitedList({ id }) {
@@ -10,6 +13,19 @@ function VisitedList({ id }) {
 
   const [visitList, setVisitList] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  function handleOptions() {
+    setShowOptions((op) => !op);
+    setSelectedOption(null);
+  }
+
+  async function handleDelete() {
+    setSelectedOption((op) => (op === "delete" ? null : "delete"));
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,6 +48,17 @@ function VisitedList({ id }) {
   return (
     <div className={styles.list}>
       {loading && <Loading />}
+
+      <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
+        {showOptions && (
+          <>
+            <MdDelete onClick={handleDelete} className={styles.deleteIcon} />
+          </>
+        )}
+
+        <FiSettings onClick={handleOptions} className={styles.optionIcon} />
+      </div>
+
       {visitList.map((item, index) => (
         <div
           key={index}
@@ -41,7 +68,7 @@ function VisitedList({ id }) {
             alignItems: "center",
           }}
         >
-          <Card key={index} card={item} />
+          <Card key={index} card={item} selectedOption={selectedOption} />
         </div>
       ))}
     </div>
