@@ -44,7 +44,37 @@ exports.createWishlist = async (req, res, next) => {
     });
   }
 };
+exports.deleteWishlist = async (req, res) => {
+  try {
+    const currentUserId = req.user.user_id;
+    const checkQuery = `
+    SELECT user_id FROM wishlist WHERE wishlist_id=$1
+    `;
+    const response = await db.query(checkQuery, [req.params.id]);
+    if (!response.rowCount || response.rows[0].user_id !== currentUserId) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Can't delete a list that doesn't belong to you!",
+      });
+    }
 
+    await db.query("COMMIT");
+    const deleteQuery = `
+    DELETE FROM wishlist WHERE wishlist_id=$1
+    `;
+    const deleteResponse = await db.query(deleteQuery, [req.params.id]);
+    res.status(202).json({
+      status: "success",
+      length: deleteResponse.rowCount,
+      message: "Deleted Successfully",
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
 // delete a place from wishlist
 exports.deleteFromWishList = async (req, res) => {
   try {
