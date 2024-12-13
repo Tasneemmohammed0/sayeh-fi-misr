@@ -208,3 +208,49 @@ exports.logout = (req, res, next) => {
   req.user = undefined;
   return res.status(201).json({ message: "Success" });
 };
+
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Passwords don't match",
+      });
+    }
+    let curUser = await db.query(
+      "SELECT DISTINCT * from visitor WHERE user_id=$1",
+      [req.user.user_id]
+    );
+    curUser = curUser.rows[0];
+    if (
+      !curUser ||
+      !(await bcrypt.compare(currentPassword, curUser.password))
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "wrong password",
+      });
+    }
+    const newHashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+    const updatePassword = `
+    UPDATE visitor SET password=$1 WHERE user_id=$2
+    RETURNING *
+    `;
+    const response = await db.query(updatePassword, [
+      newHashedPassword,
+      req.user.user_id,
+    ]);
+    if (response.rows[0].password) response.rows[0].password = undefined; // to not send it
+    res.status(201).json({
+      status: "success",
+      data: response.rows[0],
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: "failed to update password",
+    });
+  }
+};

@@ -5,6 +5,7 @@ import { PiParkFill } from "react-icons/pi";
 import { HiDocumentReport } from "react-icons/hi";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { IoIosHome } from "react-icons/io";
+import { BsShop } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import style from "../styles/Sidebar.module.css";
 function Sidebar({ active, setActive }) {
@@ -64,6 +65,16 @@ function Sidebar({ active, setActive }) {
           <Link to="#reports" className={style.link}>
             <HiDocumentReport />
             Reports
+          </Link>
+        </li>
+
+        <li
+          className={`${style.btn}  ${active == "Bazaar" ? style.active : ""} `}
+          onClick={() => handleActive("Bazaar")}
+        >
+          <Link to="#bazaar" className={style.link}>
+            <BsShop />
+            Bazaar
           </Link>
         </li>
 

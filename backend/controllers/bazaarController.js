@@ -96,3 +96,24 @@ exports.buyGift = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.setActivity = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { is_available } = req.body;
+    const query = `UPDATE Gift SET is_available=$2 WHERE product_code=$1 RETURNING *`;
+    const response = await db.query(query, [id, is_available]);
+    res.status(201).json({
+      status: "success",
+      length: response.rowCount,
+      data: {
+        gift: response.rows,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};

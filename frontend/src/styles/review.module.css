@@ -1,55 +1,87 @@
-.review{
+.review {
   display: grid;
   grid-template-columns: 23% 75%;
   gap: 20px;
-  padding: 20px 10px ;
+  padding: 20px 10px;
   border-radius: 20px;
   background-color: var(--our-white);
   margin: 20px 0;
   transition: transform 0.6s;
 }
 
-.review:hover{
+.review:hover {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   transform: translateY(-5px);
   border: 2px solid var(--our-yellow);
 }
 
-.info ,.text{
+.info,
+.text {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-
+  position: relative;
 }
 
-.text{
+.text {
   align-items: start;
-  padding: 0 10px ;
+  padding: 0 10px;
 }
 
-.img{
+.img {
   width: 285px;
   height: 100%;
   border-radius: 20px;
   transition: all 0.6s;
 }
 
-.img:hover{
+.img:hover {
   transform: scale(1.07);
- 
 }
 
-.p{
+.p {
   font-size: 16px;
   color: #674636;
   line-height: 1.5;
 }
 
-/* {
+.buttonsContainer {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 40px;
+  flex-direction: row;
   align-items: center;
-} */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
 
+.editbutton,
+.deletebutton {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.6s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.editbutton {
+  background-color: var(--our-yellow);
+  color: var(--our-white);
+}
+
+.deletebutton {
+  background-color: rgb(214, 56, 56);
+  color: var(--our-white);
+}
+
+.editbutton:hover,
+.deletebutton:hover {
+  background-color: var(--our-hover-blue);
+  color: white;
+  transform: translateY(-5px);
+}

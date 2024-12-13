@@ -75,16 +75,21 @@ function Bazaar() {
               </p>
             </div>
           </div>
-          <div className={styles.giftContainer}>
-            {gifts.map((item, index) => (
-              <Gift
-                key={index}
-                card={item}
-                totalPoints={totalPoints}
-                updatePoints={updatePoints}
-              />
-            ))}
-          </div>
+
+
+        </div>
+        <div className={styles.giftContainer}>
+          {gifts.map(
+            (item, index) =>
+              item.is_available && (
+                <Gift
+                  key={index}
+                  card={item}
+                  totalPoints={totalPoints}
+                  updatePoints={updatePoints}
+                />
+              )
+          )}
         </div>
       </div>
     </>

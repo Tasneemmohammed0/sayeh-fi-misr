@@ -35,7 +35,7 @@ function ReviewsList({ id }) {
           return (
             <li key={index}>
               {" "}
-              <Review review={review} />{" "}
+              <Review review={review} setReviews={setReviews} />{" "}
             </li>
           );
         })}
