@@ -18,4 +18,6 @@ router.delete(
 
 router.post("/", authController.protect, wishlistController.createWishlist);
 
+router.patch("/:id", authController.protect, wishlistController.updateWishlist);
+
 module.exports = router;

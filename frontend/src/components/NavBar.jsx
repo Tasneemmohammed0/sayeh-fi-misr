@@ -72,11 +72,7 @@ function NavBar() {
         ) : null}
         <li onClick={handleLogout}>
           {user ? (
-            <NavLink
-              // to="/signout"
-              activeclassname="active-link"
-              className={styles.link}
-            >
+            <NavLink activeclassname="active-link" className={styles.link}>
               Sign Out
             </NavLink>
           ) : (
