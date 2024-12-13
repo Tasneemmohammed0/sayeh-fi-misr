@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import Tabs from "../components/GatheringTabs";
 import GatheringInfo from "../components/GatheringInfo";
 import ReviewForm from "../components/ReviewForm";
-import { IoIosAddCircleOutline, IoIosSearch, IoIoClose } from "react-icons/io";
+import { IoIosAddCircleOutline, IoIosSearch } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 

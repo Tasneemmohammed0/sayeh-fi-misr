@@ -57,7 +57,6 @@ exports.getGatheringDetails = async (req, res) => {
     const gatheringDetails = await db.query(gatheringDetailsQuery, [
       req.params.id,
     ]);
-    console.log(gatheringDetails);
 
     const allUsersQuery = `
     SELECT DISTINCT v.user_id, v.first_name, v.last_name, v.profile_pic
@@ -91,7 +90,6 @@ exports.getGatheringDetails = async (req, res) => {
 
 exports.deleteGathering = async (req, res) => {
   try {
-    console.log(req.params);
     const data = await db.query(
       `DELETE FROM gathering
 WHERE gathering_id= $1`,
@@ -162,16 +160,15 @@ exports.createGathering = async (req, res) => {
   }
 };
 
+// Add user to gathering
 exports.addToGathering = async (req, res) => {
   try {
-    console.log(req.body);
     const userIdData = await db.query(
       `select distinct user_id from visitor where username=$1`,
       [req.body.username]
     );
 
     const userId = userIdData.rows[0].user_id;
-    console.log(userId);
 
     const data = await db.query(
       `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
@@ -204,6 +201,28 @@ exports.addToGathering = async (req, res) => {
   }
 };
 
+// Delete user from gathering
+exports.deleteFromGathering = async (req, res) => {
+  try {
+    const data = await db.query(
+      `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
+      [req.params.user_id, req.params.id]
+    );
+
+    res.status(200).json({
+      status: "success",
+      length: data.rowCount,
+      data: data.rows[0],
+      message: "deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};
+
 // Join gathering route handler
 exports.joinGathering = async (req, res) => {
   try {
@@ -211,6 +230,7 @@ exports.joinGathering = async (req, res) => {
       `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
       [req.user.user_id, req.params.id]
     );
+
     try {
       await assignBadge(
         req.user.user_id,
@@ -255,5 +275,3 @@ exports.checkJoined = async (req, res) => {
     });
   }
 };
-
-// Add user to gathering
