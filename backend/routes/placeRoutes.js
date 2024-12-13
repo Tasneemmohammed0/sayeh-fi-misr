@@ -28,7 +28,12 @@ router.post(
   authController.protect,
   placeController.addToVisitedList
 );
-
+// Delete from visited list
+router.delete(
+  "/:id/deleteFromVisitedList",
+  authController.protect,
+  placeController.deleteFromVisitedList
+);
 // check visited
 router.get(
   "/:id/checkVisited",

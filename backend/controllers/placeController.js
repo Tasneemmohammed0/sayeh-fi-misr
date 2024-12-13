@@ -251,3 +251,33 @@ exports.checkVisited = async (req, res) => {
     });
   }
 };
+
+// delete a place from visited list
+exports.deleteFromVisitedList = async (req, res) => {
+  try {
+    await db.query("COMMIT");
+    const data = await db.query(
+      `DELETE FROM visitor_place WHERE user_id=$1 AND place_id=$2 RETURNING *`,
+      [req.user.user_id, req.params.id]
+    );
+
+    if (!data.rowCount) {
+      res.status(400).json({
+        message: "Failed to delete",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      status: "success",
+      length: data.rowCount,
+      data: data.rows[0],
+    });
+  } catch (err) {
+    await db.query("ROLLBACK");
+    console.log(err);
+    res.status(404).json({
+      message: err,
+    });
+  }
+};
