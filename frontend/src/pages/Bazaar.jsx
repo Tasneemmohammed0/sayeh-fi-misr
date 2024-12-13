@@ -58,20 +58,25 @@ function Bazaar() {
   };
 
   return (
-    <div className={styles.mainBazaar}>
-      <div className={styles.bazaarHeader}>
-        <h1>The Bazaar</h1>
-        <p>Spend your points and get prizes for free</p>
-      </div>
-      <div className={styles.bazaarContent}>
-        <div className={styles.pointsContainer}>
-          <div className={styles.pointsBox}>
-            <p className={styles.yourPoints}>Your Points:</p>
+    <>
+      {loading && <Loading />}
+      <div className={styles.mainBazaar}>
+        <div className={styles.bazaarHeader}>
+          <h1>The Bazaar</h1>
+          <p>Spend your points and get prizes for free</p>
+        </div>
+        <div className={styles.bazaarContent}>
+          <div className={styles.pointsContainer}>
+            <div className={styles.pointsBox}>
+              <p className={styles.yourPoints}>Your Points:</p>
 
-            <p className={styles.points}>
-              <BiCoinStack size="1.3rem" color="orange" /> {totalPoints}
-            </p>
+              <p className={styles.points}>
+                <BiCoinStack size="1.3rem" color="orange" /> {totalPoints}
+              </p>
+            </div>
           </div>
+
+
         </div>
         <div className={styles.giftContainer}>
           {gifts.map(
@@ -87,7 +92,7 @@ function Bazaar() {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 export default Bazaar;
