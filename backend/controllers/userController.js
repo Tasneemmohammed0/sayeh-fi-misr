@@ -42,7 +42,7 @@ exports.getUserReviews = async (req, res, next) => {
   try {
     // query returns place photo, place name, review title, review rating, review date, review content
     const query = `
-    SELECT P.photo, P.name, R.title, R.rating, R.date, R.main_content 
+    SELECT P.photo, P.name,R.review_id ,R.title, R.rating, R.date, R.main_content 
     FROM PLACE P, REVIEW R 
     WHERE R.place_id = P.place_id AND R.user_id = $1`;
 

@@ -69,6 +69,7 @@ function VisitedList({ id, canEdit }) {
             alignItems: "center",
           }}
         >
+
           <Card
             key={index}
             card={item}
@@ -78,6 +79,7 @@ function VisitedList({ id, canEdit }) {
             setVisitList={setVisitList}
             setLoading={setLoading}
           />
+
         </div>
       ))}
     </div>

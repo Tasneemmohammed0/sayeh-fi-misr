@@ -19,6 +19,7 @@ function ReviewsList({ id, canEdit }) {
           return;
         }
         setReviews(response.data.data);
+        console.log(response.data.data);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -36,9 +37,11 @@ function ReviewsList({ id, canEdit }) {
             <li key={index}>
               {" "}
               <Review
-                canEdit={canEdit}
                 review={review}
                 setReviews={setReviews}
+                setLoading={setLoading}
+                loading={loading}
+                canEdit={canEdit}
               />{" "}
             </li>
           );
