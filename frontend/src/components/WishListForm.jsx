@@ -1,32 +1,52 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import ErrorMessage from "./ErrorMessage";
+import axios from "axios";
+import Loading from "./Loading";
 import styles from "../styles/WishListForm.module.css";
 
-function WishListForm({ isOpen, handleForm }) {
+function WishListForm({ isOpen, handleForm, user_id, can }) {
   const [wishlistName, setWishlistName] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log(error);
-    if (!wishlistName) {
-      setError(true);
-      return;
+    setLoading(true);
+    try {
+      if (!wishlistName || !can) {
+        setError(true);
+        return;
+      }
+      setError(false);
+      const response = await axios.post(
+        `http://localhost:1123/api/v1/wishlist`,
+        {
+          user_id,
+          name: wishlistName,
+          description,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      handleForm(false);
+      setWishlistName("");
+      setDescription("");
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
     }
-    setError(false);
-    console.log(wishlistName, description);
-    handleForm(false);
-    setWishlistName("");
-    setDescription("");
-    //// post to the api to create the wishlist
   }
 
   return (
     <div className={styles.popupOverlay}>
+      {loading && <Loading />}
       <div className={styles.popup}>
         <button className={styles.popupClose} onClick={() => handleForm(false)}>
           <IoMdClose />

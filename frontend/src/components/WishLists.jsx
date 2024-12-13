@@ -1,6 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "../App";
 import axios from "axios";
 
 import WishListForm from "./WishListForm";
@@ -13,6 +14,7 @@ function WishLists({ id }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [wishLists, setWishLists] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,10 +38,17 @@ function WishLists({ id }) {
   return (
     <div style={{ position: "relative" }}>
       {loading && <Loading />}
-      <button className={styles.create} onClick={() => setIsFormOpen(true)}>
-        Create Wishlist
-      </button>
-      <WishListForm isOpen={isFormOpen} handleForm={setIsFormOpen} />
+      {user.user_id === id && (
+        <button className={styles.create} onClick={() => setIsFormOpen(true)}>
+          Create Wishlist
+        </button>
+      )}
+      <WishListForm
+        isOpen={isFormOpen}
+        handleForm={setIsFormOpen}
+        user_id={user.user_id}
+        can={user.user_id === id}
+      />
 
       <ul className={styles.allWishLists}>
         {wishLists.map((wishList, index) => {
