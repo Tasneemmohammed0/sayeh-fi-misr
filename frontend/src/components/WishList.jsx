@@ -114,8 +114,8 @@ function WishList() {
 
       <div className={styles.list}>
         {wishlist.map((item, index) => {
-          if (city && city !== "all" && item.city != city) return null;
-          if (search && !item.name.toLowerCase().includes(search)) return null;
+          if (city && city !== "all" && item?.city != city) return null;
+          if (search && !item?.name.toLowerCase().includes(search)) return null;
           return (
             <div
               style={{
