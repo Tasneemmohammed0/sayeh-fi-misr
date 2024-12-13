@@ -8,7 +8,7 @@ import { CiEdit } from "react-icons/ci";
 import { FiSettings } from "react-icons/fi";
 import Card from "./Card";
 
-function VisitedList({ id }) {
+function VisitedList({ id, canEdit }) {
   /// fetching by user id to get the visited places
 
   const [visitList, setVisitList] = useState([]);
@@ -48,16 +48,17 @@ function VisitedList({ id }) {
   return (
     <div className={styles.list}>
       {loading && <Loading />}
+      {canEdit && (
+        <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
+          {showOptions && (
+            <>
+              <MdDelete onClick={handleDelete} className={styles.deleteIcon} />
+            </>
+          )}
 
-      <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
-        {showOptions && (
-          <>
-            <MdDelete onClick={handleDelete} className={styles.deleteIcon} />
-          </>
-        )}
-
-        <FiSettings onClick={handleOptions} className={styles.optionIcon} />
-      </div>
+          <FiSettings onClick={handleOptions} className={styles.optionIcon} />
+        </div>
+      )}
 
       {visitList.map((item, index) => (
         <div
