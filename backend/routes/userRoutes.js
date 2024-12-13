@@ -8,6 +8,11 @@ const router = express.Router();
 router.post("/signup", authController.signup); //http://localhost:1123/api/v1/users/signup
 router.post("/logout", authController.logout);
 router.post("/login", authController.login);
+router.post(
+  "/changepassword",
+  authController.protect,
+  authController.changePassword
+);
 router.get(
   "/me",
   authController.protect,
