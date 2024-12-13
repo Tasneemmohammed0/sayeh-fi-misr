@@ -68,7 +68,15 @@ function VisitedList({ id }) {
             alignItems: "center",
           }}
         >
-          <Card key={index} card={item} selectedOption={selectedOption} />
+          <Card
+            key={index}
+            card={item}
+            selectedOption={selectedOption}
+            visitList={visitList}
+            inVisitList={true}
+            setVisitList={setVisitList}
+            setLoading={setLoading}
+          />
         </div>
       ))}
     </div>
