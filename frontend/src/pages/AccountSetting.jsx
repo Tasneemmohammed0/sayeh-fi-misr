@@ -1,18 +1,11 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import styles from "../styles/AccountSetting.module.css";
 import { ToastContainer, toast } from "react-toastify";
+import { UserContext } from "../App";
+
 import "react-toastify/dist/ReactToastify.css";
 import ChangePasswordForm from "../components/ChangePasswordForm";
 import Signout from "../components/Signout";
-const usertemp = {
-  id: 1,
-  firstname: "Amr",
-  lastname: "Hany",
-  username: "fire gamer",
-  profilePic: "/src/assets/images/user avatar.png",
-  email: "amrhanyseed@gmail.com",
-  password: "Amrhany123",
-};
 
 function reducer(state, action) {
   switch (action.type) {
@@ -137,15 +130,15 @@ function AccountSetting() {
   const [edit, setEdit] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showSignOut, setShowSignOut] = useState(false);
-
+  const { user } = useContext(UserContext);
   const [state, dispatch] = useReducer(reducer, {
-    first_name: usertemp.firstname,
+    first_name: user?.first_name,
     error_firstname: "",
-    last_name: usertemp.lastname,
+    last_name: user?.last_name,
     error_lastname: "",
-    username: usertemp.username,
+    username: user?.username,
     error_username: "",
-    email: usertemp.email,
+    email: user?.email,
     error_email: "",
     password: "",
     error_password: "",
