@@ -71,3 +71,31 @@
   font-family: var(--main-font);
   word-spacing: 1px;
 }
+
+.activationContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 0 1rem;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+
+.status {
+  font-family: "Inter";
+  font-size: 0.9rem;
+}
+
+.actionBtn {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.actionBtn:hover {
+  background-color: darkslategrey;
+  color: white;
+  transform: translateY(-2px);
+}
