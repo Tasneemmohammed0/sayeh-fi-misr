@@ -82,14 +82,14 @@ exports.updateWishlist = async (req, res) => {
       status: "success",
       length: response.rowCount,
       data: response.rows[0],
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: "fail",
-        message: err.message,
-      });
-    }
-  };
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
 
 exports.deleteWishlist = async (req, res) => {
   try {
@@ -114,15 +114,14 @@ exports.deleteWishlist = async (req, res) => {
       status: "success",
       length: deleteResponse.rowCount,
       message: "Deleted Successfully",
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: "fail",
-        message: err.message,
-      });
-    }
-  };
-    
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
 
 // delete a place from wishlist
 exports.deleteFromWishList = async (req, res) => {
