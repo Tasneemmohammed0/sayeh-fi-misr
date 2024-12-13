@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import ErrorMessage from "./ErrorMessage";
-import styles from "../styles/WishListForm.module.css"; 
+import styles from "../styles/WishListForm.module.css";
 
 function WishListForm({ isOpen, handleForm }) {
-
   const [wishlistName, setWishlistName] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
 
-
-  if (!isOpen) return null; 
+  if (!isOpen) return null;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -30,10 +28,7 @@ function WishListForm({ isOpen, handleForm }) {
   return (
     <div className={styles.popupOverlay}>
       <div className={styles.popup}>
-        <button
-          className={styles.popupClose}
-          onClick={() => handleForm(false)}
-        >
+        <button className={styles.popupClose} onClick={() => handleForm(false)}>
           <IoMdClose />
         </button>
         <h2>Create Wishlist</h2>
@@ -59,11 +54,13 @@ function WishListForm({ isOpen, handleForm }) {
             ></textarea>
           </label>
           {error && <ErrorMessage error="Wishlist name is required" />}
-          <button type="submit" className={styles.formButton} onClick={(e)=>handleSubmit(e)}>
+          <button
+            type="submit"
+            className={styles.formButton}
+            onClick={(e) => handleSubmit(e)}
+          >
             Create
           </button>
-
-         
         </form>
       </div>
     </div>
