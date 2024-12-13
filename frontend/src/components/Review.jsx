@@ -56,28 +56,32 @@ function Review({ review, setReviews, setLoading, loading, canEdit }) {
             </span>
           </h2>
           <p className={styles.p}> {review.main_content} </p>
-        {canEdit && (
-          <div className={styles.buttonsContainer}>
-            <button className={styles.editbutton} onClick={() => setEdit(true)}>
-              <CiEdit style={{ fontSize: "20px" }} />
-              Edit
-            </button>
-            <button className={styles.deletebutton} onClick={deleteReview}>
-              <MdDelete style={{ fontSize: "20px" }} />
-              Delete
-            </button>
-          </div>
+          {canEdit && (
+            <div className={styles.buttonsContainer}>
+              <button
+                className={styles.editbutton}
+                onClick={() => setEdit(true)}
+              >
+                <CiEdit style={{ fontSize: "20px" }} />
+                Edit
+              </button>
+              <button className={styles.deletebutton} onClick={deleteReview}>
+                <MdDelete style={{ fontSize: "20px" }} />
+                Delete
+              </button>
+            </div>
+          )}
         </div>
-        </div>
-        {edit && (
-          <EditReviewForm
-            review={review}
-            setReviews={setReviews}
-            setLoading={setLoading}
-            handleClose={() => setEdit(false)}
-            loading={loading}
-          />
-        )}
+      </div>
+      {edit && (
+        <EditReviewForm
+          review={review}
+          setReviews={setReviews}
+          setLoading={setLoading}
+          handleClose={() => setEdit(false)}
+          loading={loading}
+        />
+      )}
     </>
   );
 }
