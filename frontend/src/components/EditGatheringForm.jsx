@@ -58,9 +58,28 @@ function EditGatheringForm({
       return;
     }
 
+    //PUT Request
+
+    try {
+      const response = await axios.put(
+        `http://localhost:1123/api/v1/gatherings/${id}`,
+        {
+          title: title,
+          duration: duration,
+          description: description,
+          max_capacity: capacity,
+          place_name: placeName,
+        }
+      );
+
+      console.log(response.data.data);
+      toast.success("Gathering updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update your gathering.");
+    }
     // If all validations pass
     // console.log("Form is valid. Submitting data...");
-    toast.success("Gathering updated successfully.");
+    //toast.success("Gathering updated successfully.");
 
     setTimeout(() => {
       onClose();
