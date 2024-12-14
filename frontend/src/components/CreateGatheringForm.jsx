@@ -32,6 +32,8 @@ function CreateGatheringForm({
   createFormVisible,
   onClose,
   setGatheringList,
+  setLoading,
+  setMessage,
 }) {
   const initialState = {
     title: "",
@@ -94,16 +96,17 @@ function CreateGatheringForm({
     console.log(formState);
 
     try {
-      console.log("sending request");
+      setLoading(true);
+
       const response = await axios.post(
         `http://localhost:1123/api/v1/gatherings`,
         {
           title: formState.title,
-          duration: formState.duration,
+          duration: parseInt(formState.duration, 10),
           gathering_date: formState.gathering_date,
           description: formState.description,
-          max_capacity: formState.max_capacity,
-          place_id: formState.place_id,
+          max_capacity: parseInt(formState.max_capacity, 10),
+          place_name: formState.place_id,
           host_id: formState.host_id,
         },
         {
@@ -111,22 +114,20 @@ function CreateGatheringForm({
         }
       );
 
-      console.log(response.data);
       if (response.status === "fail") {
         console.log("error");
         toast.error("unknown error occur");
         return;
       }
+      console.log(response.data.data);
+      setGatheringList((prev) => [...prev, response.data.data]);
 
-      setGatheringList((prev) => [...prev, response.data.data.gathering]);
-      toast.success("gathering create successfully ");
-      setTimeout(() => {
-        onClose();
-      }, 1000);
+      setMessage("Gathering created successfully");
+      onClose();
+      setLoading(false);
 
       dispatch({ type: "RESET_FORM", initialState });
     } catch (err) {
-      // toast.error("unknown error occur");
       console.log(err.message);
     }
   }
@@ -196,7 +197,7 @@ function CreateGatheringForm({
                     Select Place
                   </option>
                   {places.map((place) => (
-                    <option key={place.place_id} value={place.place_id}>
+                    <option key={place.place_id} value={place.name}>
                       {place.name}
                     </option>
                   ))}

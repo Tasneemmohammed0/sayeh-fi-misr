@@ -10,6 +10,10 @@ import { FiSettings } from "react-icons/fi";
 import { IoAddSharp } from "react-icons/io5";
 import CreateGatheringForm from "./CreateGatheringForm";
 import { UserContext } from "../App";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Swal from "sweetalert2";
 
 function UserGatheingList({ id, canEdit }) {
   const [gatheringList, setGatheringList] = useState([]);
@@ -19,16 +23,19 @@ function UserGatheingList({ id, canEdit }) {
   const [createFormVisible, setCreateFormVisible] = useState(false);
   const [userPlaces, setUserPlaces] = useState([]);
   const { places: Places, setPlaces } = useContext(UserContext);
-
-  // useEffect(() => {
-  //   if (places) {
-  //     setUserPlaces(places);
-  //   }
-  // }, [places]);
-
-  // useEffect(() => {
-  //   console.log("places", Places);
-  // }, []);
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    if (message === "Gathering created successfully") {
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: message,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      setMessage("");
+    }
+  }, [message]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +75,7 @@ function UserGatheingList({ id, canEdit }) {
   // console.log("gatheringList", gatheringList);
   return (
     <>
+      <ToastContainer />
       <div className={styles.list} style={{ position: "relative" }}>
         {loading && <Loading />}
         {canEdit && (
@@ -128,6 +136,8 @@ function UserGatheingList({ id, canEdit }) {
           createFormVisible={createFormVisible}
           onClose={() => setCreateFormVisible(false)}
           setGatheringList={setGatheringList}
+          setLoading={setLoading}
+          setMessage={setMessage}
         />
       )}
     </>
