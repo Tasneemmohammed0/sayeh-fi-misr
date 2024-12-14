@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../styles/GiftPopup.module.css";
 import { IoMdClose } from "react-icons/io";
 import axios from "axios";
+
 function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
   const handlePurchase = async (product_code) => {
     const purchaseData = {
@@ -24,7 +25,9 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
         updatePoints(newTotalPoints);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err.message);
+    } finally {
+      alert("🎉 Congrats! Your purchase completed Successfully");
     }
   };
 
