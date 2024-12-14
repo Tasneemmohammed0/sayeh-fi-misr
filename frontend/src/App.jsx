@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext, Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -26,20 +26,14 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("fetching main place effect data");
         setLoading(true);
-
-        // Fetch places
         const endpoint =
           location.pathname === "/"
             ? `http://localhost:1123/api/v1`
             : `http://localhost:1123/api/v1/places`;
 
         const response = await axios.get(endpoint);
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-
         setPlaces(response.data.data);
       } catch (err) {
         console.log(err.message);
@@ -48,7 +42,7 @@ function App() {
       }
     };
     fetchData();
-  }, [location.pathname]);
+  }, []);
 
   useEffect(() => {
     if (user) return;
@@ -75,10 +69,21 @@ function App() {
     fetchUser();
   }, []);
 
+  const contextValue = React.useMemo(
+    () => ({
+      user,
+      setUser,
+      places,
+      setPlaces,
+    }),
+    [user, places]
+  );
   return (
-    <UserContext.Provider value={{ user, setUser, places, setPlaces }}>
+    <UserContext.Provider value={contextValue}>
       {loading && <Loading />}
-      <RouterProvider router={router} />
+      <Suspense fallback={<Loading />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </UserContext.Provider>
   );
 }

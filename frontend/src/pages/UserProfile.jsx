@@ -82,10 +82,11 @@ export default UserProfile;
 
 export async function UserLoader({ params }) {
   const id = params.id;
-
   let cu = null;
+
   try {
     if (!id) {
+      console.log("loader user  called");
       const response = await axios.get(
         `http://localhost:1123/api/v1/users/me`,
         {
