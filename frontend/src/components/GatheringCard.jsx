@@ -14,25 +14,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function GatheringCard({
-  photo,
-  placeName,
-  location,
-  hostname,
-  currentcapacity = 0,
-  duration,
+  gathering,
   onClick,
-  id,
   selectedOption = null,
+  setGatheringList,
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
   const navigate = useNavigate();
 
   function handleDelete(id) {
-    console.log("delete", id);
+    // console.log("delete", id);
     setShowEditForm(false);
   }
   function handleEdit() {
-    console.log("edit", id);
+    // console.log("edit", id);
     setShowEditForm(true);
   }
 
@@ -67,31 +62,41 @@ function GatheringCard({
             paddingTop: "10px",
           }}
         >
-          <img src={photo} alt="card image" className={styles.cardImage} />
+          <img
+            src={gathering.photo}
+            alt="card image"
+            className={styles.cardImage}
+          />
         </div>
         <div className={styles.cardContent}>
           <h2
             className={styles.cardTitle}
-            style={{ fontSize: `${placeName.length >= 20 ? "18px" : "24px"}` }}
+            style={{
+              fontSize: `${gathering.title.length >= 20 ? "18px" : "24px"}`,
+            }}
           >
-            {placeName}
+            {gathering.title}
           </h2>
         </div>
         <div className={styles.cardInfo}>
           <div className={styles.cardInfoDiv}>
             <IoPeopleOutline className={styles.cardIcon} />
             <p style={{ fontSize: "12px" }}>
-              Current Capacity:{currentcapacity}
+              Max Capacity:{gathering.max_capacity}
             </p>
           </div>
           <div className={styles.cardInfoDiv}>
             <LuCalendarDays className={styles.cardIcon} />
-            <p style={{ fontSize: "12px" }}> Duration:{duration} hours </p>
+            <p style={{ fontSize: "12px" }}>
+              {" "}
+              Duration:{gathering.duration} hours{" "}
+            </p>
           </div>
           <div className={styles.cardInfoDiv}>
             <MdEmojiPeople className={styles.cardIcon} />
             <p style={{ fontSize: "12px" }}>
-              Created by: <span style={{ color: "#FF6B00" }}>{hostname}</span>
+              Created by:{" "}
+              <span style={{ color: "#FF6B00" }}>{gathering.first_name}</span>
             </p>
           </div>
         </div>
@@ -100,26 +105,22 @@ function GatheringCard({
             className={`${styles.cardIcon}`}
             style={{ color: "orange" }}
           />
-          <p style={{ fontSize: "16px" }}>{location}</p>
+          <p style={{ fontSize: "16px" }}>{gathering.name}</p>
         </div>
         <div className={styles.dottedLine}></div>
         <div className={styles.cardFooter}>
           <p className="join">JOIN</p>
           <MdOutlineArrowRightAlt
             className={styles.rightArrow}
-            onClick={() => navigate(`/gatherings/${id}`)}
+            onClick={() => navigate(`/gatherings/${gathering.gathering_id}`)}
           />
         </div>
       </div>
 
       <EditGatheringForm
-        photo={photo}
-        placeName={placeName}
-        location={location}
-        currentcapacity={currentcapacity}
-        duration={duration}
-        id={id}
+        gathering={gathering}
         isOpen={showEditForm}
+        setGatheringList={setGatheringList}
         onClose={() => setShowEditForm(false)}
       />
     </>

@@ -119,6 +119,7 @@ exports.updateGathering = async (req, res) => {
         req.params.id,
       ]
     );
+    // console.log(res.data);
     res.status(200).json({
       status: "success",
       data: data.rows[0],
