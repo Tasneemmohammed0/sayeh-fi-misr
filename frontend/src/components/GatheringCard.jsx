@@ -20,13 +20,13 @@ function GatheringCard({
   hostname,
   currentcapacity = 0,
   duration,
+  description,
   onClick,
   id,
   selectedOption = null,
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
   const navigate = useNavigate();
-
   function handleDelete(id) {
     console.log("delete", id);
     setShowEditForm(false);
@@ -118,6 +118,7 @@ function GatheringCard({
         location={location}
         currentcapacity={currentcapacity}
         duration={duration}
+        description={description}
         id={id}
         isOpen={showEditForm}
         onClose={() => setShowEditForm(false)}

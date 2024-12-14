@@ -14,6 +14,7 @@ function EditGatheringForm({
   duration,
   currentcapacity,
   placeName,
+  description,
   onClose,
 }) {
   if (!isOpen) return null;
@@ -27,7 +28,7 @@ function EditGatheringForm({
     capacity: currentcapacity,
     duration: duration,
 
-    description: "",
+    description: description || "",
   });
 
   console.log("formData", formData);

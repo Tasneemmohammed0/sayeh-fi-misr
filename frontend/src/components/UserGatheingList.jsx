@@ -83,6 +83,7 @@ function UserGatheingList({ id, canEdit }) {
             hostname={item.first_name}
             currentcapacity={item.current_capacity}
             duration={item.duration}
+            description={item.description}
             id={item.gathering_id}
             selectedOption={selectedOption}
             onDelete={handleDelete}

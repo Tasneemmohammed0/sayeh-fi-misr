@@ -28,6 +28,8 @@ function GatheringList({ search, filter, count = 100 }) {
 
         setGatherings(response.data.data);
         console.log(response.data.data);
+        console.log(response.data.data.description);
+
         setLoading(false);
       } catch (err) {
         console.log(err.message);
@@ -69,6 +71,7 @@ function GatheringList({ search, filter, count = 100 }) {
             hostname={item.first_name}
             currentcapacity={item.current_capacity}
             duration={item.duration}
+            description={item.description}
             id={item.gathering_id}
           />
         </div>
