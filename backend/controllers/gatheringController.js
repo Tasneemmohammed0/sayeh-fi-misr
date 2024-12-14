@@ -90,18 +90,30 @@ exports.getGatheringDetails = async (req, res) => {
 
 exports.deleteGathering = async (req, res) => {
   try {
+    await db.query("COMMIT");
     const data = await db.query(
       `DELETE FROM gathering
-WHERE gathering_id= $1`,
+WHERE gathering_id= $1 RETURNING*`,
       [req.params.id]
     );
+    if (!data.rowCount) {
+      res.status(400).json({
+        message: "Failed to delete",
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
+      length: data.rowCount,
       data: data.rows[0],
     });
-    console.log(res.data);
   } catch (err) {
+    await db.query("ROLLBACK");
     console.log(err);
+    res.status(400).json({
+      message: err.message,
+    });
   }
 };
 exports.updateGathering = async (req, res) => {
