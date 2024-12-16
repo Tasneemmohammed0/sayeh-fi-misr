@@ -83,7 +83,37 @@ exports.signup = async (req, res, next) => {
       password: hashedPassword,
       nationalities: req.body.nationalities,
     };
-
+    const {
+      firstName,
+      lastName,
+      username,
+      role,
+      email,
+      gender,
+      age,
+      country,
+      city,
+      password,
+      nationalities,
+    } = newUser;
+    if (
+      !firstName ||
+      !lastName ||
+      !username ||
+      !role ||
+      !email ||
+      !gender ||
+      !age ||
+      !country ||
+      !city ||
+      !password ||
+      nationalities.length === 0
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Missing information",
+      });
+    }
     // Add user to database and return it
     const insertUserQuery = `
       INSERT INTO visitor 
@@ -107,7 +137,6 @@ exports.signup = async (req, res, next) => {
     let result;
     result = await db.query(insertUserQuery, userParams);
     // contains the new user
-    console.log(result.rows);
     if (newUser.role === "host") {
       userParams.push(
         req.body.phone,
@@ -125,7 +154,6 @@ exports.signup = async (req, res, next) => {
     const user = result.rows[0];
 
     let insertNationalityQuery;
-    console.log(user.user_id);
     newUser.nationalities.forEach(async (nationality) => {
       insertNationalityQuery = `
         INSERT INTO visitor_nationality
