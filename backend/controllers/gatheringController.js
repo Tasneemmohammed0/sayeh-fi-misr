@@ -64,8 +64,11 @@ exports.checkCapacity = async (req, res, next) => {
 
     // Add current capacity and is_full to req.gathering
     req.gathering = {};
-    req.gathering.current_capacity = +data.rows[0].current_capacity;
-    req.gathering.is_full = data.rows[0].is_full;
+    console.log(data.rows);
+    req.gathering.current_capacity =
+      data.rows && data.rows.length > 0 ? +data.rows[0].current_capacity : 0;
+    req.gathering.is_full =
+      data.rows && data.rows.length > 0 ? data.rows[0].is_full : false;
 
     next();
   } catch (err) {
