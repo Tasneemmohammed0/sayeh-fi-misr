@@ -187,6 +187,16 @@ exports.postPhoto = async (req, res) => {
 // Add to wish list
 exports.addToWishList = async (req, res) => {
   try {
+    const valQuery = await db.query(
+      "SELECT user_id FROM wishlist WHERE user_id=$1 AND wishlist_id=$2",
+      [req.user.user_id, req.body.wishlist_id]
+    );
+    if (!valQuery.rowCount) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Can't add to a wishlist that you don't own",
+      });
+    }
     const data = await db.query(
       `INSERT INTO place_wishlist (place_id, wishlist_id) VALUES ($1, $2)`,
       [req.params.id, req.body.wishlist_id]
@@ -281,4 +291,3 @@ exports.deleteFromVisitedList = async (req, res) => {
     });
   }
 };
-
