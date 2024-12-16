@@ -46,7 +46,7 @@ function GatheringCard({
         {selectedOption === "delete" && (
           <div className={styles.tooltip}>
             <MdDelete
-              onClick={() => handleDelete(id)}
+              onClick={() => handleDelete(gathering.gathering_id)}
               className={styles.opIcons}
               style={{ color: "red" }}
             />

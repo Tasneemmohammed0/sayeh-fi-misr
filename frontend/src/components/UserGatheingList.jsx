@@ -112,6 +112,7 @@ function UserGatheingList({ id, canEdit }) {
               justifyContent: "space-around",
               alignItems: "center",
             }}
+          >
             <GatheringCard
               key={index}
               gathering={item}
