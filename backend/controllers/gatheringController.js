@@ -88,34 +88,54 @@ exports.getGatheringDetails = async (req, res) => {
   }
 };
 
-exports.deleteGathering = async (req, res) => {
+eexports.deleteGathering = async (req, res) => {
   try {
+    await db.query("COMMIT");
     const data = await db.query(
       `DELETE FROM gathering
-WHERE gathering_id= $1`,
+WHERE gathering_id= $1 RETURNING*`,
       [req.params.id]
     );
+    if (!data.rowCount) {
+      res.status(400).json({
+        message: "Failed to delete",
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
+      length: data.rowCount,
       data: data.rows[0],
     });
-    console.log(res.data);
   } catch (err) {
+    await db.query("ROLLBACK");
     console.log(err);
+    res.status(400).json({
+      message: err.message,
+    });
   }
 };
 exports.updateGathering = async (req, res) => {
   try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
+
     console.log(req.params);
     const data = await db.query(
       `UPDATE gathering
-	SET  title=$1, duration=$2,  description=$3, max_capacity=$4
-	WHERE gathering_id=$5;`,
+	SET  title=$1, duration=$2,  description=$3, max_capacity=$4,place_id=$5
+	WHERE gathering_id=$6  RETURNING *`,
       [
         req.body.title,
         req.body.duration,
         req.body.description,
         req.body.max_capacity,
+        place_id,
         req.params.id,
       ]
     );
@@ -123,12 +143,10 @@ exports.updateGathering = async (req, res) => {
       status: "success",
       data: data.rows[0],
     });
-    console.log(res.data);
   } catch (err) {
     console.log(err);
   }
 };
-
 exports.createGathering = async (req, res) => {
   try {
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
