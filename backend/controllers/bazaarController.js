@@ -117,3 +117,47 @@ exports.setActivity = async (req, res) => {
     });
   }
 };
+
+exports.addGift = async (req, res) => {
+  try {
+    const addGiftQuery = `INSERT INTO gift(name,photo,points,description,place_id,is_available) VALUES($1,$2,$3,$4,$5,$6) RETURNING*`;
+
+    const addGiftData = await db.query(addGiftQuery, [
+      req.body.name,
+      req.body.photo,
+      req.body.points,
+      req.body.description,
+      req.body.place_id,
+      req.body.is_available,
+    ]);
+    res.status(201).json({
+      status: "success",
+      length: addGiftData.rowCount,
+      data: addGiftData.rows[0],
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+exports.editGift = async (req, res) => {
+  try {
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.deleteGift = async (req, res) => {
+  try {
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
