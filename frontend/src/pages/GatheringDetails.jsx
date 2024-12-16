@@ -46,11 +46,9 @@ function GatheringDetails() {
           console.log("error");
           return;
         }
-        console.log(response.data.data);
         // get gathering
         const gatheringData = response.data.data.gathering[0];
 
-        console.log(gatheringData);
         // set all states
         setGathering(gatheringData);
         setIsOpen(gathering.is_open);
@@ -103,7 +101,7 @@ function GatheringDetails() {
   async function handleJoin() {
     try {
       // check current capacity
-      if (isFull) {
+      if (isFull && !isJoined) {
         toast("Gathering is full");
         return;
       }
@@ -141,6 +139,12 @@ function GatheringDetails() {
 
   async function handleAddUser() {
     if (!search) return;
+
+    if (isFull) {
+      toast("Can't join, Gathering is full");
+      return;
+    }
+
     try {
       // send join request to API
       const res = await axios.post(
@@ -193,7 +197,9 @@ function GatheringDetails() {
             className={styles.backgroundImage}
             style={{ backgroundImage: `url(${place.photo})` }}
           >
+            {isFull && <button className={styles.fullLabel}>FULL</button>}
             {isJoined && <button className={styles.joinLabel}>JOINED</button>}
+
             <h1 className={styles.title}>{gathering.title}</h1>
           </div>
           <div className={styles.container}>
