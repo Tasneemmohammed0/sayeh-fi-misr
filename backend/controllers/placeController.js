@@ -143,7 +143,9 @@ exports.postReview = async (req, res) => {
         5,
         req.body.date
       );
-    } catch (err) {}
+    } catch (err) {
+      console.error(err.message);
+    }
 
     console.log(data.rows[0]);
     res.status(200).json({
@@ -281,4 +283,3 @@ exports.deleteFromVisitedList = async (req, res) => {
     });
   }
 };
-
