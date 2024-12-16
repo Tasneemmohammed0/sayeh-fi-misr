@@ -16,9 +16,23 @@ router.get(
   gatheringController.checkJoined
 );
 
-router.delete("/:id", gatheringController.deleteGathering);
-router.put("/:id", gatheringController.updateGathering);
-router.post("/", gatheringController.createGathering);
+router.delete(
+  "/:id",
+  authController.protect,
+  gatheringController.deleteGathering
+);
+router.put(
+  "/:id",
+  authController.protect,
+  authController.restrictTo("host"),
+  gatheringController.updateGathering
+);
+router.post(
+  "/",
+  authController.protect,
+  authController.restrictTo("host"),
+  gatheringController.createGathering
+);
 
 router.post(
   "/:id/join",

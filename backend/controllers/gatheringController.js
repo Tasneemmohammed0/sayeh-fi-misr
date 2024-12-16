@@ -92,9 +92,15 @@ exports.deleteGathering = async (req, res) => {
   try {
     const data = await db.query(
       `DELETE FROM gathering
-WHERE gathering_id= $1`,
-      [req.params.id]
+      WHERE gathering_id= $1 AND host_id=$2`,
+      [req.params.id, req.user.user_id]
     );
+    if (!data.rowCount) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Can't delete a gathering that doesn't belong to you",
+      });
+    }
     res.status(200).json({
       status: "success",
       data: data.rows[0],
@@ -109,16 +115,23 @@ exports.updateGathering = async (req, res) => {
     console.log(req.params);
     const data = await db.query(
       `UPDATE gathering
-	SET  title=$1, duration=$2,  description=$3, max_capacity=$4
-	WHERE gathering_id=$5;`,
+	    SET  title=$1, duration=$2,  description=$3, max_capacity=$4
+	    WHERE gathering_id=$5 AND host_id=$6;`,
       [
         req.body.title,
         req.body.duration,
         req.body.description,
         req.body.max_capacity,
         req.params.id,
+        req.user.user_id,
       ]
     );
+    if (!data.rowCount) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Can't edit a gathering that doesn't belong to you",
+      });
+    }
     res.status(200).json({
       status: "success",
       data: data.rows[0],
@@ -148,7 +161,7 @@ exports.createGathering = async (req, res) => {
       req.body.description,
       req.body.max_capacity,
       place_id,
-      req.body.host_id,
+      req.user.user_id,
     ]);
 
     res.status(201).json({
