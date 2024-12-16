@@ -138,9 +138,9 @@ exports.createGathering = async (req, res) => {
     console.log(place_id);
     const insertQuery = `
       INSERT INTO gathering (title, duration, gathering_date, description, max_capacity, place_id, host_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING*
     `;
-    await db.query(insertQuery, [
+    const data = await db.query(insertQuery, [
       req.body.title,
       req.body.duration,
       req.body.gathering_date,
@@ -154,6 +154,7 @@ exports.createGathering = async (req, res) => {
     res.status(201).json({
       status: "success",
       message: "Insert Successfully",
+      data: data.rows[0],
     });
   } catch (error) {
     console.error(error);
