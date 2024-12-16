@@ -25,7 +25,7 @@ function formatDate(date) {
   return { formattedDate, formattedTime };
 }
 
-function GatheringInfo({ gathering }) {
+function GatheringInfo({ gathering, currentCapacity }) {
   const { formattedDate, formattedTime } = formatDate(gathering.gathering_date);
 
   return (
@@ -44,9 +44,7 @@ function GatheringInfo({ gathering }) {
       </div>
       <div className={styles.detailItem}>
         <FaUsers className={styles.icon} />
-        {gathering.current_capacity && (
-          <span>Current Capacity: {gathering.current_capacity}</span>
-        )}
+        <span>Current Capacity: {currentCapacity}</span>
         {gathering.max_capacity && (
           <span className={styles.maxCapacity}>
             Max Capacity: {gathering.max_capacity}

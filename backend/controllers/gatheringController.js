@@ -46,9 +46,41 @@ exports.getGathering = async (req, res) => {
   }
 };
 
+// Get gathering current capacity
+exports.checkCapacity = async (req, res, next) => {
+  try {
+    const data = await db.query(
+      `SELECT COUNT(VG.user_id) AS current_capacity, 
+       CASE 
+          WHEN COUNT(VG.user_id) >= G.max_capacity THEN true
+          ELSE false
+        END AS is_full
+        FROM gathering G
+		    LEFT JOIN visitor_gathering VG ON G.gathering_id = VG.gathering_id
+        WHERE VG.gathering_id=$1
+		    GROUP BY G.gathering_id`,
+      [req.params.id]
+    );
+
+    // Add current capacity and is_full to req.gathering
+    req.gathering = {};
+    console.log(data.rows);
+    req.gathering.current_capacity =
+      data.rows && data.rows.length > 0 ? +data.rows[0].current_capacity : 0;
+    req.gathering.is_full =
+      data.rows && data.rows.length > 0 ? data.rows[0].is_full : false;
+
+    next();
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      message: err.message,
+    });
+  }
+};
+
 exports.getGatheringDetails = async (req, res) => {
   try {
-    console.log(req.params.id);
     const gatheringDetailsQuery = `
     SELECT g.*, p.name, p.photo, p.location, h.profile_pic, h.first_name, h.last_name, h.phone_number
     FROM gathering g, place p, host h
@@ -78,6 +110,8 @@ exports.getGatheringDetails = async (req, res) => {
         gathering: gatheringDetails.rows,
         users: allUsers.rows,
         languages: allLanguages.rows,
+        current_capacity: req.gathering.current_capacity,
+        isFull: req.gathering.is_full,
       },
     });
   } catch (err) {

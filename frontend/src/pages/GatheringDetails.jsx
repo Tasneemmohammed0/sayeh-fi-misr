@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/GatheringDetails.module.css";
@@ -26,7 +27,26 @@ function GatheringDetails() {
   const [addUser, setAddUser] = useState(false);
   const [deleteUser, setDeleteUser] = useState(false);
   const [deletedUser, setDeletedUser] = useState(0);
+  const [isOpen, setIsOpen] = useState(true);
+  const [isFull, setIsFull] = useState(false);
+  const [currentCapacity, setCurrentCapacity] = useState(0);
   const { user } = useContext(UserContext);
+
+  // close gathering when time of it is gone
+  function checkGatheringTime() {
+    const gatheringDate = new Date(gathering.gathering_date);
+    const currentDate = new Date();
+    // Set the time of both dates to 00:00:00 to ignore the time part
+    currentDate.setHours(0, 0, 0, 0);
+    gatheringDate.setHours(0, 0, 0, 0);
+    const diffInMs = currentDate - gatheringDate;
+    const oneDayInMs = 24 * 60 * 60 * 1000;
+    // check if difference is one day or more
+    if (diffInMs >= oneDayInMs) {
+      setIsOpen(false);
+    }
+  }
+
   // Fetch gathering details
   useEffect(() => {
     const fetchGathering = async () => {
@@ -44,9 +64,10 @@ function GatheringDetails() {
         // get gathering
         const gatheringData = response.data.data.gathering[0];
 
-        console.log(gatheringData);
         // set all states
         setGathering(gatheringData);
+        setIsOpen(gathering.is_open);
+        console.log(isOpen);
         setPlace({
           photo: gatheringData.photo,
           location: gatheringData.location,
@@ -60,6 +81,10 @@ function GatheringDetails() {
           phone_number: gatheringData.phone_number,
         });
         setUsers(response.data.data.users);
+        setCurrentCapacity(response.data.data.current_capacity);
+        setIsFull(response.data.data.isFull);
+
+        checkGatheringTime();
 
         setLoadingData(false);
         setFinalLoading(false);
@@ -69,7 +94,7 @@ function GatheringDetails() {
       }
     };
     fetchGathering();
-  }, [isJoined, addUser, deletedUser, deletedUser]);
+  }, [isJoined, addUser, deletedUser, deletedUser, isOpen]);
 
   // check joining status
   useEffect(() => {
@@ -89,10 +114,22 @@ function GatheringDetails() {
       }
     }
     checkJoiningStatus();
-  }, []);
+  }, [addUser, deletedUser]);
 
   async function handleJoin() {
     try {
+      // check if close
+      if (!isOpen) {
+        toast("Gathering is closed");
+        return;
+      }
+
+      // check avalaible capacity
+      if (isFull && !isJoined) {
+        toast("Gathering is full");
+        return;
+      }
+
       const url = isJoined
         ? `http://localhost:1123/api/v1/gatherings/${gatheringId}/leave`
         : `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`;
@@ -126,6 +163,18 @@ function GatheringDetails() {
 
   async function handleAddUser() {
     if (!search) return;
+
+    // check if close
+    if (!isOpen) {
+      toast("Gathering is closed");
+      return;
+    }
+
+    if (isFull) {
+      toast("Can't join, Gathering is full");
+      return;
+    }
+
     try {
       // send join request to API
       const res = await axios.post(
@@ -178,7 +227,9 @@ function GatheringDetails() {
             className={styles.backgroundImage}
             style={{ backgroundImage: `url(${place.photo})` }}
           >
+            {isFull && <button className={styles.fullLabel}>FULL</button>}
             {isJoined && <button className={styles.joinLabel}>JOINED</button>}
+
             <h1 className={styles.title}>{gathering.title}</h1>
           </div>
           <div className={styles.container}>
@@ -219,7 +270,10 @@ function GatheringDetails() {
                 host={host}
               />
               <div className={styles.gatheringInfo}>
-                <GatheringInfo gathering={gathering} />
+                <GatheringInfo
+                  gathering={gathering}
+                  currentCapacity={currentCapacity}
+                />
               </div>
             </div>
             <ReviewForm

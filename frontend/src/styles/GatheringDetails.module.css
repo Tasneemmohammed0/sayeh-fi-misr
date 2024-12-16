@@ -24,15 +24,28 @@
 }
 
 .joinLabel {
-  background-color: transparent;
+  background-color: green;
   position: absolute;
   font-size: 18px;
   font-weight: 800;
   right: 15px;
   top: 15px;
-  color: green;
+  color: white;
   padding: 0.6rem 0.6rem;
   border: 2px solid green;
+  border-radius: 50%;
+}
+
+.fullLabel {
+  background-color: rgb(166, 40, 40);
+  position: absolute;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  left: 15px;
+  top: 15px;
+  padding: 0.6rem 0.9rem;
+  border: 2px solid rgb(166, 40, 40);
   border-radius: 50%;
 }
 
