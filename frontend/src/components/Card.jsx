@@ -68,10 +68,6 @@ function Card({
     setShowEditForm(true);
   }
 
-  // if (deleted) {
-  //   return <ToastContainer />;
-  // }
-
   if (!card.place_id) return null;
 
   return (
