@@ -114,6 +114,17 @@ exports.signup = async (req, res, next) => {
         message: "Missing information",
       });
     }
+    if (password.length < 8) {
+      return res.status(400).json({
+        status: "fail",
+        message: "password is too short",
+      });
+    }
+    if (age <= 0)
+      return res.status(400).json({
+        status: "fail",
+        message: "Age must be positive",
+      });
     // Add user to database and return it
     const insertUserQuery = `
       INSERT INTO visitor 
