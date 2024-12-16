@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/GatheringDetails.module.css";
@@ -26,7 +27,10 @@ function GatheringDetails() {
   const [addUser, setAddUser] = useState(false);
   const [deleteUser, setDeleteUser] = useState(false);
   const [deletedUser, setDeletedUser] = useState(0);
+  const [isOpen, setIsOpen] = useState(true);
+  const [isFull, setIsFull] = useState(false);
   const { user } = useContext(UserContext);
+
   // Fetch gathering details
   useEffect(() => {
     const fetchGathering = async () => {
@@ -47,6 +51,7 @@ function GatheringDetails() {
         console.log(gatheringData);
         // set all states
         setGathering(gatheringData);
+        setIsOpen(gathering.is_open);
         setPlace({
           photo: gatheringData.photo,
           location: gatheringData.location,
@@ -93,6 +98,12 @@ function GatheringDetails() {
 
   async function handleJoin() {
     try {
+      // check current capacity
+      if (isFull) {
+        toast("Gathering is full");
+        return;
+      }
+
       const url = isJoined
         ? `http://localhost:1123/api/v1/gatherings/${gatheringId}/leave`
         : `http://localhost:1123/api/v1/gatherings/${gatheringId}/join`;

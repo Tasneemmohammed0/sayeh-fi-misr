@@ -239,7 +239,7 @@ exports.getReports = async (req, res, next) => {
     const gatheringQuery = `
     SELECT distinct  r.*, rg.*, g.gathering_id, g.title as name, p.name AS place_name ,u.username
     FROM report r, report_gathering rg, gathering g, place p, visitor u
-    WHERE r.report_id=rg.gathering_id AND g.gathering_id = rg.gathering_id AND p.place_id=g.place_id  and u.user_id=r.user_id;
+    WHERE r.report_id=rg.report_id AND g.gathering_id = rg.gathering_id AND p.place_id=g.place_id  and u.user_id=r.user_id;
     `;
     const gatheringResponse = await db.query(gatheringQuery);
     const gatherings = gatheringResponse.rows;
