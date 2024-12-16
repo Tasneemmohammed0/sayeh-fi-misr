@@ -144,6 +144,24 @@ exports.addGift = async (req, res) => {
 };
 exports.editGift = async (req, res) => {
   try {
+    const editGiftQuery = `UPDATE gift 
+set name=$1,photo=$2,points=$3,description=$4,place_id=$5,is_available=$6
+WHERE product_code =$7 RETURNING*`;
+
+    const editGiftData = await db.query(editGiftQuery, [
+      req.body.name,
+      req.body.photo,
+      req.body.points,
+      req.body.description,
+      req.body.place_id,
+      req.body.is_available,
+      req.params.id,
+    ]);
+    res.status(200).json({
+      status: "success",
+      length: editGiftData.rowCount,
+      data: editGiftData.rows[0],
+    });
   } catch (err) {
     res.status(400).json({
       status: "fail",
@@ -154,7 +172,19 @@ exports.editGift = async (req, res) => {
 
 exports.deleteGift = async (req, res) => {
   try {
+    await db.query("COMMIT");
+    const deleteGiftQuery = `DELETE FROM gift 
+
+WHERE product_code =$1 RETURNING*`;
+
+    const deleteGiftData = await db.query(deleteGiftQuery, [req.params.id]);
+    res.status(200).json({
+      status: "success",
+      length: deleteGiftData.rowCount,
+      data: deleteGiftData.rows[0],
+    });
   } catch (err) {
+    await db.query("ROLLBACK");
     res.status(400).json({
       status: "fail",
       message: err.message,
