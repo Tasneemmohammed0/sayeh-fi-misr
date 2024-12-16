@@ -212,9 +212,19 @@ exports.protect = (req, res, next) => {
     currentUser = user;
   }); // sets the user in request body
 
-  // (TBA) 3) Check if user still exists
-
-  // (TBA) 4) Check if user changed password after JWT was issued (tell him to login again)
+  // 3) Check if user still exists
+  const query = `
+  SELECT DISTINCT user_id FROM visitor WHERE user_id=$1
+  `;
+  const result = db.query(query, [currentUser.user_id]);
+  console.log("ROWCOUNT:", result.rowCount);
+  if (!result.rowCount || result.rowCount === 0) {
+    res.clearCookie("jwt");
+    return res.status(400).json({
+      status: "fail",
+      message: "User no longer exists, please login again",
+    });
+  }
 
   // 5) Grant access
   req.user = currentUser;
