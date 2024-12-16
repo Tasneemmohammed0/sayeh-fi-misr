@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import styles from "../styles/placeslist.module.css";
 import styles2 from "../styles/UserGatheringList.module.css";
@@ -7,18 +7,41 @@ import GatheringCard from "./GatheringCard";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { FiSettings } from "react-icons/fi";
+import { IoAddSharp } from "react-icons/io5";
+import CreateGatheringForm from "./CreateGatheringForm";
+import { UserContext } from "../App";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Swal from "sweetalert2";
 
 function UserGatheingList({ id, canEdit }) {
   const [gatheringList, setGatheringList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [createFormVisible, setCreateFormVisible] = useState(false);
+  const [userPlaces, setUserPlaces] = useState([]);
+  const { places: Places, setPlaces } = useContext(UserContext);
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    if (message === "Gathering created successfully") {
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: message,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      setMessage("");
+    }
+  }, [message]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-
+        // setUserPlaces(places);
         const response = await axios.get(
           `http://localhost:1123/api/v1/users/gatherings/${id}`
         );
@@ -45,47 +68,73 @@ function UserGatheingList({ id, canEdit }) {
   function handleEdit() {
     setSelectedOption((op) => (op === "edit" ? null : "edit"));
   }
-  console.log("gatheringList", gatheringList);
+  function handleAdd() {
+    setSelectedOption((op) => (op === "add" ? null : "add"));
+    setCreateFormVisible(true);
+  }
+
+  // console.log("gatheringList", gatheringList);
   return (
-    <div className={styles.list} style={{ position: "relative" }}>
-      {loading && <Loading />}
-      {canEdit && (
-        <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
-          {showOptions && (
-            <>
-              <CiEdit
-                className={styles2.editIcon}
-                onClick={() => {
-                  handleEdit();
-                }}
-              />
-              <MdDelete onClick={handleDelete} className={styles2.deleteIcon} />
-            </>
-          )}
+    <>
+      <ToastContainer />
+      <div className={styles.list} style={{ position: "relative" }}>
+        {loading && <Loading />}
+        {canEdit && (
+          <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
+            {showOptions && (
+              <>
+                <IoAddSharp className={styles2.addIcon} onClick={handleAdd} />
 
-          <FiSettings onClick={handleOptions} className={styles2.optionIcon} />
-        </div>
+                <CiEdit
+                  className={styles2.editIcon}
+                  onClick={() => {
+                    handleEdit();
+                  }}
+                />
+                <MdDelete
+                  onClick={handleDelete}
+                  className={styles2.deleteIcon}
+                />
+              </>
+            )}
+
+            <FiSettings
+              onClick={handleOptions}
+              className={styles2.optionIcon}
+            />
+          </div>
+        )}
+
+        {gatheringList.map((item, index) => (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}
+            <GatheringCard
+              key={index}
+              gathering={item}
+              setGatheringList={setGatheringList}
+              selectedOption={selectedOption}
+              onDelete={handleDelete}
+            />
+          </div>
+        ))}
+      </div>
+
+      {selectedOption === "add" && (
+        <CreateGatheringForm
+          id={id}
+          places={Places}
+          createFormVisible={createFormVisible}
+          onClose={() => setCreateFormVisible(false)}
+          setGatheringList={setGatheringList}
+          setLoading={setLoading}
+          setMessage={setMessage}
+        />
       )}
-
-      {gatheringList.map((item, index) => (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-          key={index}
-        >
-          <GatheringCard
-            key={index}
-            gathering={item}
-            setGatheringList={setGatheringList}
-            selectedOption={selectedOption}
-            onDelete={handleDelete}
-          />
-        </div>
-      ))}
-    </div>
+    </>
   );
 }
 

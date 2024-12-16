@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
+
 import styles from "../../styles/AllPlaces.module.css";
 import PlacesList from "../../components/PlacesList";
 import CreatePlaceForm from "./CreatePlaceForm";
