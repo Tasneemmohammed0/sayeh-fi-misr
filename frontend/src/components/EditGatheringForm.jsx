@@ -19,6 +19,7 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
     capacity: gathering.max_capacity,
     duration: gathering.duration,
     description: gathering.description,
+    status: gathering.is_open,
   });
 
   console.log("formData", formData);
@@ -65,6 +66,7 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
       max_capacity: parseInt(capacity, 10),
       duration: parseInt(duration, 10),
       description,
+      is_open: formData.status,
     };
 
     console.log("Submitting data:", payload);
@@ -197,6 +199,19 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
               required
             />
           </div>
+          <button
+            className={styles.statusButton}
+            type="button"
+            style={{
+              background: formData.status ? "#e10a0a" : "rgb(90, 253, 26)",
+            }}
+            onClick={() =>
+              setFormData((prev) => ({ ...prev, status: !prev.status }))
+            }
+          >
+            {formData.status ? "Close" : "Open"}
+          </button>
+
           <button type="submit" className={styles.saveButton}>
             Save
           </button>

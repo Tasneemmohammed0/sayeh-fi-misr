@@ -91,7 +91,6 @@
   background: #45a049;
 }
 
-
 .select {
   width: 100% !important;
   background-color: white !important;
@@ -100,3 +99,18 @@
   height: 45px !important;
 }
 
+.statusButton {
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 50%;
+}
+
+.statusButton:hover {
+  background-color: #eefd1a; /* open */
+  background-color: #e10a0a; /* closed */
+}
