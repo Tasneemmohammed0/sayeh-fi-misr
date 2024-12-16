@@ -144,6 +144,13 @@ exports.updateGathering = async (req, res) => {
 
 exports.createGathering = async (req, res) => {
   try {
+    if (req.body.max_capacity && req.body.max_capacity <= 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Maximum capacity must be a positive number",
+      });
+    }
+
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
     const placeResult = await db.query(placeQuery, [req.body.place_name]);
 
