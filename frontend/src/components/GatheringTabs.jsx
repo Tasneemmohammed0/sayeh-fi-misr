@@ -52,9 +52,15 @@ function Tabs({ destination, host, hostId }) {
           >
             {host.profile_pic && (
               <img
+                onClick={() => navigate(`/profile/${hostId}`)}
                 src={host.profile_pic}
                 alt="host-pic"
-                style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  cursor: "pointer",
+                }}
               />
             )}
             <div
@@ -64,6 +70,7 @@ function Tabs({ destination, host, hostId }) {
                 fontWeight: "bold",
                 fontSize: "22px",
                 color: "var(--our-blue)",
+                cursor: "pointer",
               }}
             >
               {host.first_name} {host.last_name}

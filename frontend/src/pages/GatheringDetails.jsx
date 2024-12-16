@@ -32,6 +32,24 @@ function GatheringDetails() {
   const [currentCapacity, setCurrentCapacity] = useState(0);
   const { user } = useContext(UserContext);
 
+  // close gathering when time of it is gone
+  function checkGatheringTime() {
+    const gatheringDate = new Date(gathering.gathering_date);
+    const currentDate = new Date();
+
+    // Set the time of both dates to 00:00:00 to ignore the time part
+    currentDate.setHours(0, 0, 0, 0);
+    gatheringDate.setHours(0, 0, 0, 0);
+
+    const diffInMs = currentDate - gatheringDate;
+    const oneDayInMs = 24 * 60 * 60 * 1000;
+
+    // check if difference is one day or more
+    if (diffInMs >= oneDayInMs) {
+      setIsOpen(false);
+    }
+  }
+
   // Fetch gathering details
   useEffect(() => {
     const fetchGathering = async () => {
@@ -68,6 +86,8 @@ function GatheringDetails() {
         setCurrentCapacity(response.data.data.current_capacity);
         setIsFull(response.data.data.isFull);
 
+        checkGatheringTime();
+
         setLoadingData(false);
         setFinalLoading(false);
       } catch (err) {
@@ -100,9 +120,15 @@ function GatheringDetails() {
 
   async function handleJoin() {
     try {
-      // check current capacity
+      // check avalaible capacity
       if (isFull && !isJoined) {
         toast("Gathering is full");
+        return;
+      }
+
+      // check if close
+      if (!isOpen) {
+        toast("Gathering is closed");
         return;
       }
 
@@ -142,6 +168,12 @@ function GatheringDetails() {
 
     if (isFull) {
       toast("Can't join, Gathering is full");
+      return;
+    }
+
+    // check if close
+    if (!isOpen) {
+      toast("Gathering is closed");
       return;
     }
 
