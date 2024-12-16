@@ -268,6 +268,12 @@ exports.changePassword = async (req, res) => {
         message: "Passwords don't match",
       });
     }
+    if (newPassword.length < 8) {
+      res.status(400).json({
+        status: "fail",
+        message: "New password is too short",
+      });
+    }
     let curUser = await db.query(
       "SELECT DISTINCT * from visitor WHERE user_id=$1",
       [req.user.user_id]
@@ -291,7 +297,9 @@ exports.changePassword = async (req, res) => {
       newHashedPassword,
       req.user.user_id,
     ]);
+
     if (response.rows[0].password) response.rows[0].password = undefined; // to not send it
+
     res.status(201).json({
       status: "success",
       data: response.rows[0],
