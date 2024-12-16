@@ -201,45 +201,53 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.protect = (req, res, next) => {
-  // 1) Get token and check if it exists
-  const token = req.cookies.jwt;
-  if (token == null) {
-    return res.status(401).json({
-      status: "fail",
-      message: "Not logged in",
-    });
-  }
-
-  // 2) Token verification
-  let currentUser;
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
+exports.protect = async (req, res, next) => {
+  try {
+    // 1) Get token and check if it exists
+    const token = req.cookies.jwt;
+    if (token == null) {
       return res.status(401).json({
-        message: "unverified token",
-        token,
+        status: "fail",
+        message: "Not logged in",
       });
     }
-    currentUser = user;
-  }); // sets the user in request body
 
-  // 3) Check if user still exists
-  const query = `
+    // 2) Token verification
+    let currentUser;
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        return res.status(401).json({
+          message: "unverified token",
+          token,
+        });
+      }
+      currentUser = user;
+    }); // sets the user in request body
+    console.log("CURRENT USER:", currentUser);
+    // 3) Check if user still exists
+    const query = `
   SELECT DISTINCT user_id FROM visitor WHERE user_id=$1
   `;
-  const result = db.query(query, [currentUser.user_id]);
-  console.log("ROWCOUNT:", result.rowCount);
-  if (!result.rowCount || result.rowCount === 0) {
-    res.clearCookie("jwt");
-    return res.status(400).json({
-      status: "fail",
-      message: "User no longer exists, please login again",
-    });
-  }
+    const result = await db.query(query, [currentUser.user_id]);
+    console.log("ROWCOUNT:", result.rowCount);
+    if (!result.rowCount || result.rowCount === 0) {
+      res.clearCookie("jwt");
+      return res.status(400).json({
+        status: "fail",
+        message: "User no longer exists, please login again",
+      });
+    }
 
-  // 5) Grant access
-  req.user = currentUser;
-  next();
+    // 5) Grant access
+    req.user = currentUser;
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: "failed to authenticate user",
+    });
+  } finally {
+    next();
+  }
 };
 
 exports.restrictTo = (...roles) =>
