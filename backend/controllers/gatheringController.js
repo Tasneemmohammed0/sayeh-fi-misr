@@ -88,7 +88,7 @@ exports.getGatheringDetails = async (req, res) => {
   }
 };
 
-eexports.deleteGathering = async (req, res) => {
+exports.deleteGathering = async (req, res) => {
   try {
     await db.query("COMMIT");
     const data = await db.query(
