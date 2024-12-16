@@ -119,6 +119,7 @@ function UserGatheingList({ id, canEdit }) {
               setGatheringList={setGatheringList}
               selectedOption={selectedOption}
               onDelete={handleDelete}
+              setLoading={setLoading}
             />
           </div>
         ))}

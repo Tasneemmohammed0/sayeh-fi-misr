@@ -9,7 +9,7 @@ import { CiEdit } from "react-icons/ci";
 import styles from "../styles/GatheringCard.module.css";
 import EditGatheringForm from "./EditGatheringForm";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,18 +18,39 @@ function GatheringCard({
   onClick,
   selectedOption = null,
   setGatheringList,
+  setLoading,
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
   const navigate = useNavigate();
 
-  function handleDelete(id) {
-    // console.log("delete", id);
+  async function handleDelete(id) {
+    try {
+      setLoading(true);
+      const response = await axios.delete(
+        `http://localhost:1123/api/v1/gatherings/${id} `,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.status !== "fail") {
+        setGatheringList((list) => list.filter((g) => g.gathering_id !== id));
+        toast.success("Gathering deleted successfully");
+      }
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+
     setShowEditForm(false);
   }
   function handleEdit() {
     // console.log("edit", id);
     setShowEditForm(true);
   }
+
+  console.log(gathering);
 
   return (
     <>
