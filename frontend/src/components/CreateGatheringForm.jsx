@@ -113,6 +113,7 @@ function CreateGatheringForm({
           withCredentials: true,
         }
       );
+      console.log("CREATE GATHERING RES:", response.data.data);
 
       if (response.status === "fail") {
         console.log("error");

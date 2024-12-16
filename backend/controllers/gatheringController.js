@@ -109,8 +109,8 @@ exports.updateGathering = async (req, res) => {
     console.log(req.params);
     const data = await db.query(
       `UPDATE gathering
-	SET  title=$1, duration=$2,  description=$3, max_capacity=$4
-	WHERE gathering_id=$5;`,
+	    SET  title=$1, duration=$2,  description=$3, max_capacity=$4
+	    WHERE gathering_id=$5;`,
       [
         req.body.title,
         req.body.duration,
@@ -141,7 +141,9 @@ exports.createGathering = async (req, res) => {
       INSERT INTO gathering (title, duration, gathering_date, description, max_capacity, place_id, host_id)
       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING*
     `;
-    const data = await db.query(insertQuery, [
+    // place_photo, host_first_name
+
+    const gatheringData = await db.query(insertQuery, [
       req.body.title,
       req.body.duration,
       req.body.gathering_date,
@@ -151,11 +153,25 @@ exports.createGathering = async (req, res) => {
       place_id,
       req.body.host_id,
     ]);
+    const getData = `
+    SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
+    FROM gathering g, place p, host h
+    WHERE g.place_id=p.place_id AND h.user_id=g.host_id AND g.gathering_id=$1
 
+    UNION
+
+    SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
+    FROM gathering g, visitor_gathering vg, host h, place p
+    WHERE g.place_id=p.place_id AND h.user_id=g.host_id AND vg.gathering_id=g.gathering_id AND g.gathering_id=$1
+    `;
+    const allData = await db.query(getData, [
+      gatheringData.rows[0]?.gathering_id,
+    ]);
     res.status(201).json({
       status: "success",
       message: "Insert Successfully",
-      data: data.rows[0],
+      gatheringData: gatheringData.rows[0],
+      data: allData.rows[0],
     });
   } catch (error) {
     console.error(error);
