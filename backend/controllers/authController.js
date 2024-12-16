@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
     const query = `
       SELECT *
       FROM visitor
-      WHERE email = $1
+      WHERE email ILIKE $1
     `;
     const params = [email];
     let user = await db.query(query, params);
