@@ -1,5 +1,6 @@
 const db = require("../db/index.js");
 const { assignBadge } = require("../controllers/badgeSystemController.js");
+const { addPoints } = require("../controllers/pointSystemController.js");
 
 exports.getAllGatherings = async (req, res) => {
   try {
@@ -193,6 +194,13 @@ exports.addToGathering = async (req, res) => {
       [userId, req.params.id]
     );
 
+    // Add this gathering to user's activities
+    try {
+      await addPoints(eq.user.user_id, "gathering", 20);
+    } catch (err) {
+      console.error(err.message);
+    }
+
     res.status(200).json({
       status: "success",
       message: "Joined Successfully",
@@ -271,6 +279,14 @@ exports.joinGathering = async (req, res) => {
       [req.user.user_id, req.params.id]
     );
 
+    //Add this gathering to user's activities
+    try {
+      addPoints(req.user.user_id, "gathering", 20);
+    } catch (err) {
+      console.error(err.message);
+    }
+
+    //Badge system
     try {
       await assignBadge(
         req.user.user_id,
