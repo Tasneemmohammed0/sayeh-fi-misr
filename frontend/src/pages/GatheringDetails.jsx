@@ -29,6 +29,7 @@ function GatheringDetails() {
   const [deletedUser, setDeletedUser] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
   const [isFull, setIsFull] = useState(false);
+  const [currentCapacity, setCurrentCapacity] = useState(0);
   const { user } = useContext(UserContext);
 
   // Fetch gathering details
@@ -45,6 +46,7 @@ function GatheringDetails() {
           console.log("error");
           return;
         }
+        console.log(response.data.data);
         // get gathering
         const gatheringData = response.data.data.gathering[0];
 
@@ -65,6 +67,8 @@ function GatheringDetails() {
           phone_number: gatheringData.phone_number,
         });
         setUsers(response.data.data.users);
+        setCurrentCapacity(response.data.data.current_capacity);
+        setIsFull(response.data.data.isFull);
 
         setLoadingData(false);
         setFinalLoading(false);
@@ -230,7 +234,10 @@ function GatheringDetails() {
                 host={host}
               />
               <div className={styles.gatheringInfo}>
-                <GatheringInfo gathering={gathering} />
+                <GatheringInfo
+                  gathering={gathering}
+                  currentCapacity={currentCapacity}
+                />
               </div>
             </div>
             <ReviewForm
