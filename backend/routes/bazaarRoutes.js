@@ -6,19 +6,19 @@ const router = express.Router();
 
 router.get("/", bazaarController.getAllGifts);
 router.get("/points", authController.protect, bazaarController.getPoints);
+router.post(
+  "/gift",
+  authController.protect,
+  authController.restrictTo("admin"),
+  bazaarController.addGift
+);
 
-router.post("/", authController.protect, bazaarController.buyGift);
+router.post("/buy", authController.protect, bazaarController.buyGift);
 router.post(
   "/:id",
   authController.protect,
   authController.restrictTo("admin"),
   bazaarController.setActivity
-);
-router.post(
-  "/addGift",
-  authController.protect,
-  authController.restrictTo("admin"),
-  bazaarController.addGift
 );
 
 router.put(
