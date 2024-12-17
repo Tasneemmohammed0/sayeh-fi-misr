@@ -9,6 +9,7 @@ import { IoAddSharp } from "react-icons/io5";
 import { FiSettings } from "react-icons/fi";
 import Card from "./Card";
 import { UserContext } from "../App";
+import { pad } from "@cloudinary/url-gen/actions/resize";
 
 function PlacesList({
   search,
@@ -58,6 +59,7 @@ function PlacesList({
     gridTemplateColumns: `repeat(${gridCount}, minmax(350px, 1fr))`,
     rowGap: "30px",
     margin: "50px 0",
+    padding: "0 50px",
     position: "relative",
   };
 
