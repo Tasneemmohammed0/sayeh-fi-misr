@@ -70,7 +70,7 @@ app.use("/api/v1/bazaar", bazaarRouter);
 app.use("/api/v1/photos", photoRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/wishlist", wishlistRouter);
-
+app.use("/api/v1/stats", statsRouter);
 app.all("*", (req, res, next) => {
   const msg = `Can't find ${req.originalUrl}`;
   res.json({
