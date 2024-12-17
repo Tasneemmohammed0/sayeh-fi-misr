@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", bazaarController.getAllGifts);
 router.get("/points", authController.protect, bazaarController.getPoints);
 router.post(
-  "/gift",
+  "/addGift",
   authController.protect,
   authController.restrictTo("admin"),
   bazaarController.addGift
