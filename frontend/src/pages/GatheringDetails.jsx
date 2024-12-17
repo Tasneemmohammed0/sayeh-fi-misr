@@ -36,14 +36,11 @@ function GatheringDetails() {
   function checkGatheringTime() {
     const gatheringDate = new Date(gathering.gathering_date);
     const currentDate = new Date();
-
     // Set the time of both dates to 00:00:00 to ignore the time part
     currentDate.setHours(0, 0, 0, 0);
     gatheringDate.setHours(0, 0, 0, 0);
-
     const diffInMs = currentDate - gatheringDate;
     const oneDayInMs = 24 * 60 * 60 * 1000;
-
     // check if difference is one day or more
     if (diffInMs >= oneDayInMs) {
       setIsOpen(false);
@@ -70,6 +67,7 @@ function GatheringDetails() {
         // set all states
         setGathering(gatheringData);
         setIsOpen(gathering.is_open);
+        console.log(isOpen);
         setPlace({
           photo: gatheringData.photo,
           location: gatheringData.location,
@@ -96,7 +94,7 @@ function GatheringDetails() {
       }
     };
     fetchGathering();
-  }, [isJoined, addUser, deletedUser, deletedUser]);
+  }, [isJoined, addUser, deletedUser, deletedUser, isOpen]);
 
   // check joining status
   useEffect(() => {
@@ -126,6 +124,7 @@ function GatheringDetails() {
         return;
       }
 
+      console.log(isOpen);
       // check if close
       if (!isOpen) {
         toast("Gathering is closed");
