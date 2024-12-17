@@ -130,7 +130,7 @@ function GatheringDetails() {
       // send join request to API
       const res = await axios.post(
         `http://localhost:1123/api/v1/gatherings/${gatheringId}/addToGathering`,
-        { username: search },
+        { username: search, date: new Date().toISOString() },
         {
           withCredentials: true,
         }

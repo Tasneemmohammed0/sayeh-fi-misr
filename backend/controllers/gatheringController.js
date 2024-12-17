@@ -1,5 +1,8 @@
 const db = require("../db/index.js");
-const { assignBadge } = require("../controllers/badgeSystemController.js");
+const {
+  assignBadge,
+  deleteBadge,
+} = require("../controllers/badgeSystemController.js");
 const { addPoints } = require("../controllers/pointSystemController.js");
 
 exports.getAllGatherings = async (req, res) => {
@@ -193,10 +196,22 @@ exports.addToGathering = async (req, res) => {
       `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
       [userId, req.params.id]
     );
+    //Badge system
+    try {
+      await assignBadge(
+        userId,
+        "Top Participant",
+        "visitor_gathering",
+        5,
+        req.body.date
+      );
+    } catch (err) {
+      console.error(err);
+    }
 
     // Add this gathering to user's activities
     try {
-      await addPoints(eq.user.user_id, "gathering", 20);
+      await addPoints(req.user.user_id, "gathering", 20);
     } catch (err) {
       console.error(err.message);
     }
@@ -234,7 +249,16 @@ exports.deleteFromGathering = async (req, res) => {
       `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
       [req.params.user_id, req.params.id]
     );
-
+    try {
+      await deleteBadge(
+        req.user.user_id,
+        "Top Participant",
+        "visitor_gathering",
+        5
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       length: data.rowCount,
@@ -256,7 +280,16 @@ exports.leaveGathering = async (req, res) => {
       `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
       [req.user.user_id, req.params.id]
     );
-
+    try {
+      await deleteBadge(
+        req.user.user_id,
+        "Top Participant",
+        "visitor_gathering",
+        5
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       length: data.rowCount,

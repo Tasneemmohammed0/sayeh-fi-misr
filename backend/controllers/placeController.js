@@ -1,5 +1,8 @@
 const db = require("../db/index.js");
-const { assignBadge } = require("../controllers/badgeSystemController.js");
+const {
+  assignBadge,
+  deleteBadge,
+} = require("../controllers/badgeSystemController.js");
 const { addPoints } = require("../controllers/pointSystemController.js");
 // Get one Place RouteHandler
 exports.getPlace = async (req, res) => {
@@ -293,7 +296,11 @@ exports.deleteFromVisitedList = async (req, res) => {
       });
       return;
     }
-
+    try {
+      await deleteBadge(req.user.user_id, "Top Visitor", "visitor_place", 5);
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       length: data.rowCount,
