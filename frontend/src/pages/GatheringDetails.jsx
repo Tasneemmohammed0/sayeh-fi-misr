@@ -114,7 +114,7 @@ function GatheringDetails() {
       }
     }
     checkJoiningStatus();
-  }, []);
+  }, [addUser, deletedUser]);
 
   async function handleJoin() {
     try {
