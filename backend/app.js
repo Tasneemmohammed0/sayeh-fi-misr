@@ -15,6 +15,7 @@ const bazaarRouter = require("./routes/bazaarRoutes");
 const photoRouter = require("./routes/photoRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
 const wishlistRouter = require("./routes/wishlistRoutes");
+const statsRouter = require("./routes/statsRoutes");
 
 const app = express();
 
