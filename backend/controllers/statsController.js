@@ -1,6 +1,5 @@
 const db = require("../db/index");
 
-
 // Get top 5 nationalities
 exports.getTopFiveNationalities = async (req, res) => {
   try {
@@ -13,14 +12,14 @@ exports.getTopFiveNationalities = async (req, res) => {
       legnth: data.rows.length,
       data: data.rows,
     });
-    } catch (err) {
+  } catch (err) {
     res.status(400).json({
       status: "fail",
       message: err.message,
     });
     console.error(err);
   }
-
+};
 exports.getUsersTypes = async (req, res, next) => {
   try {
     const query = `
