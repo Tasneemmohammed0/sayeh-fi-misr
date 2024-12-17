@@ -49,19 +49,21 @@ function Gift({
     }
   };
 
-  // async function handleDelete(id) {
-  //   setIsLoading(true);
-  //   try {
-  //     await axios.delete(`http://localhost:1123/api/v1/bazaar/${id}`, {
-  //       withCredentials: true,
-  //     });
-  //     setGifts((prevGifts) => prevGifts.filter((item) => item.product_code !== id));
-  //   } catch (err) {
-  //     console.error("Error deleting gift:", err.message);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }
+  async function handleDelete(id) {
+    setIsLoading(true);
+    try {
+      await axios.delete(`http://localhost:1123/api/v1/bazaar/${id}`, {
+        withCredentials: true,
+      });
+      setGifts((prevGifts) =>
+        prevGifts.filter((item) => item.product_code !== id)
+      );
+    } catch (err) {
+      console.error("Error deleting gift:", err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const handleEdit = () => {
     setShowEditForm(true);
@@ -81,7 +83,7 @@ function Gift({
 
         {role == "admin" && selectedOption === "delete" && (
           <MdDelete
-            onClick={() => handleDelete(card.place_id)}
+            onClick={() => handleDelete(card.product_code)}
             className={styles.opIcons}
             style={{ color: "red" }}
           />

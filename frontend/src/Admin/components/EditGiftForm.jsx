@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styles from "../styles/EditGiftForm.module.css";
-
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../components/Loading";
 function EditGiftForm({ onClose, giftData, setGifts, places }) {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: giftData?.name || "",
     points: giftData?.points || "",
@@ -19,11 +23,47 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // send the data to the server
+    try {
+      setLoading(true);
+      const data = {
+        name: formData.name,
+        points: formData.points,
+        place: formData.place,
+        description: formData.description,
+      };
+      // console.log(data);
+      const response = axios.put(
+        `http://localhost:1123/api/v1/bazaar/${giftData.product_code}/editGift`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === "fail") {
+        toast.error("Failed to update gift");
+        return;
+      }
+
+      setGifts((prevGifts) =>
+        prevGifts.map((item) =>
+          item.product_code === giftData.product_code
+            ? { ...item, ...data }
+            : item
+        )
+      );
+      toast.success("Gift updated successfully");
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   return (
     <div className={styles.overlay}>
+      <ToastContainer />
       <div className={styles.modal}>
         <h2 className={styles.title}>Edit Gift</h2>
         <form className={styles.form} onSubmit={handleSubmit}>

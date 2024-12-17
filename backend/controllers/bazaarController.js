@@ -138,7 +138,7 @@ exports.addGift = async (req, res) => {
     res.status(201).json({
       status: "success",
       length: addGiftData.rowCount,
-      data: addGiftData.rows[0],
+      data: { ...addGiftData.rows[0], place_name: req.body.place_name },
     });
   } catch (err) {
     res.status(400).json({

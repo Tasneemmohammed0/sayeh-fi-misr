@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import styles from "../styles/EditGiftForm.module.css";
-
-function EditGiftForm({ onClose, setGifts, places }) {
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import Loading from "../../components/Loading";
+function AddGiftForm({ onClose, setGifts, places }) {
   const [formData, setFormData] = useState({
     name: "",
     points: "",
     place: "",
     description: "",
   });
+
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,13 +23,79 @@ function EditGiftForm({ onClose, setGifts, places }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dtnpd6qvp/image/upload";
+    if (file) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "Amrhany");
+      data.append("cloud_name", "dtnpd6qvp");
+
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      return urlimage.url;
+    } else {
+      return null;
+    }
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    // send the data to the server
-  };
+    setLoading(true);
+
+    if (!file) {
+      toast.error("Please upload an image");
+      return;
+    }
+
+    let url = await handlesImage(file);
+    if (!url) {
+      toast.error("Failed to upload image");
+      return;
+    }
+
+    const data = {
+      name: formData.name,
+      points: parseInt(formData.points, 10),
+      place_name: formData.place,
+      description: formData.description,
+      photo: url,
+      is_available: true,
+    };
+    //console.log("==========Data", data);
+    try {
+      const response = await axios.post(
+        `http://localhost:1123/api/v1/bazaar/addGift`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === "fail") {
+        toast.error("Failed to add gift");
+        return;
+      }
+      // console.log("==========Gift", response.data.data);
+      setGifts((prev) => [...prev, response.data.data]);
+      toast.success("Gift added successfully");
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+    } catch (err) {
+      console.log(err.message);
+      toast.error("Failed to add gift");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className={styles.overlay}>
+      <ToastContainer />
+      {loading && <Loading />}
       <div className={styles.modal}>
         <h2 className={styles.title}>Edit Gift</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -41,15 +113,30 @@ function EditGiftForm({ onClose, setGifts, places }) {
               required
             />
           </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="name" className={styles.label}>
+              Photo
+            </label>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png,.svg"
+              id="photo"
+              name="photo"
+              value={formData.photo}
+              onChange={(e) => setFile(e.target.files[0])}
+              className={styles.input}
+              required
+            />
+          </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="price" className={styles.label}>
+            <label htmlFor="points" className={styles.label}>
               Price
             </label>
             <input
               type="number"
-              id="price"
-              name="price"
+              id="points"
+              name="points"
               value={formData.points}
               onChange={handleChange}
               className={styles.input}
@@ -113,4 +200,4 @@ function EditGiftForm({ onClose, setGifts, places }) {
   );
 }
 
-export default EditGiftForm;
+export default AddGiftForm;
