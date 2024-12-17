@@ -5,6 +5,7 @@ import AdminUsers from "../Admin/components/AdminUsers";
 import AdminPlaces from "../Admin/components/AdminPlaces";
 import AdminReports from "../Admin/components/AdminReports";
 import AdminBazaar from "../Admin/components/AdminBazaar";
+import AdminStatistics from "../Admin/components/AdminStatistics";
 function DashBoard() {
   const [active, setActive] = useState("Users");
   return (
@@ -14,6 +15,7 @@ function DashBoard() {
       {active === "Places" && <AdminPlaces />}
       {active === "Reports" && <AdminReports />}
       {active === "Bazaar" && <AdminBazaar />}
+      {active === "Statistics" && <AdminStatistics />}
     </main>
   );
 }

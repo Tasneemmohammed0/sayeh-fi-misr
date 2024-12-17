@@ -1,0 +1,13 @@
+.header {
+  margin: 40px 0;
+  text-align: center;
+  height: 50px;
+}
+
+.statistics {
+  display: grid;
+  /* grid-template-areas: ; */
+  margin: 40px 0;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
