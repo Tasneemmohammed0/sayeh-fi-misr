@@ -120,6 +120,11 @@ exports.setActivity = async (req, res) => {
 
 exports.addGift = async (req, res) => {
   try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
     const addGiftQuery = `INSERT INTO gift(name,photo,points,description,place_id,is_available) VALUES($1,$2,$3,$4,$5,$6) RETURNING*`;
 
     const addGiftData = await db.query(addGiftQuery, [
@@ -127,7 +132,7 @@ exports.addGift = async (req, res) => {
       req.body.photo,
       req.body.points,
       req.body.description,
-      req.body.place_id,
+      place_id,
       req.body.is_available,
     ]);
     res.status(201).json({
@@ -144,6 +149,11 @@ exports.addGift = async (req, res) => {
 };
 exports.editGift = async (req, res) => {
   try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
     const editGiftQuery = `UPDATE gift 
 set name=$1,photo=$2,points=$3,description=$4,place_id=$5,is_available=$6
 WHERE product_code =$7 RETURNING*`;
@@ -153,7 +163,7 @@ WHERE product_code =$7 RETURNING*`;
       req.body.photo,
       req.body.points,
       req.body.description,
-      req.body.place_id,
+      place_id,
       req.body.is_available,
       req.params.id,
     ]);

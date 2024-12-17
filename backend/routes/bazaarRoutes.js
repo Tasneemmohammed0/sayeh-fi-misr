@@ -14,5 +14,24 @@ router.post(
   authController.restrictTo("admin"),
   bazaarController.setActivity
 );
+router.post(
+  "/addGift",
+  authController.protect,
+  authController.restrictTo("admin"),
+  bazaarController.addGift
+);
 
+router.put(
+  "/:id/editGift",
+  authController.protect,
+  authController.restrictTo("admin"),
+  bazaarController.editGift
+);
+
+router.delete(
+  "/:id",
+  authController.protect,
+  authController.restrictTo("admin"),
+  bazaarController.deleteGift
+);
 module.exports = router;
