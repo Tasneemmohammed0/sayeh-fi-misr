@@ -118,16 +118,15 @@ function GatheringDetails() {
 
   async function handleJoin() {
     try {
-      // check avalaible capacity
-      if (isFull && !isJoined) {
-        toast("Gathering is full");
-        return;
-      }
-
-      console.log(isOpen);
       // check if close
       if (!isOpen) {
         toast("Gathering is closed");
+        return;
+      }
+
+      // check avalaible capacity
+      if (isFull && !isJoined) {
+        toast("Gathering is full");
         return;
       }
 
@@ -165,14 +164,14 @@ function GatheringDetails() {
   async function handleAddUser() {
     if (!search) return;
 
-    if (isFull) {
-      toast("Can't join, Gathering is full");
-      return;
-    }
-
     // check if close
     if (!isOpen) {
       toast("Gathering is closed");
+      return;
+    }
+
+    if (isFull) {
+      toast("Can't join, Gathering is full");
       return;
     }
 
