@@ -8,26 +8,18 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { UserContext } from "../App";
 
-function EditGatheringForm({
-  isOpen,
-  id,
-  duration,
-  currentcapacity,
-  placeName,
-  onClose,
-}) {
+function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
   if (!isOpen) return null;
 
   const { places, setPlaces } = useContext(UserContext);
 
-  // console.log("places", places);
-
   const [formData, setFormData] = useState({
-    placeName: placeName,
-    capacity: currentcapacity,
-    duration: duration,
-
-    description: "",
+    title: gathering.title,
+    placeName: gathering.name,
+    capacity: gathering.max_capacity,
+    duration: gathering.duration,
+    description: gathering.description,
+    status: gathering.is_open,
   });
 
   console.log("formData", formData);
@@ -40,30 +32,79 @@ function EditGatheringForm({
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Validation
-    const { placeName, capacity, duration, description } = formData;
+    // Extract data from formData
+    const { title, placeName, capacity, duration, description } = formData;
 
-    // Check if capacity is a positive integer
-    if (isNaN(capacity) || capacity < 0) {
+    if (!title || title.trim() === "") {
+      toast.error("Title is required.");
+      return;
+    }
+
+    if (!placeName || placeName.trim() === "") {
+      toast.error("Place name is required.");
+      return;
+    }
+
+    if (!capacity || isNaN(capacity) || capacity <= 0) {
       toast.error("Capacity must be a positive number.");
-      formData.capacity = currentcapacity;
       return;
     }
 
-    // Check if duration is a positive integer
-    if (isNaN(duration) || duration <= 0) {
+    if (!duration || isNaN(duration) || duration <= 0) {
       toast.error("Duration must be a positive number.");
-      formData.duration = duration;
       return;
     }
 
-    // If all validations pass
-    // console.log("Form is valid. Submitting data...");
-    toast.success("Gathering updated successfully.");
+    if (!description || description.trim() === "") {
+      toast.error("Description is required.");
+      return;
+    }
 
-    setTimeout(() => {
-      onClose();
-    }, 1000);
+    const payload = {
+      title,
+      placeName,
+      max_capacity: parseInt(capacity, 10),
+      duration: parseInt(duration, 10),
+      description,
+      is_open: formData.status,
+    };
+
+    console.log("Submitting data:", payload);
+
+    try {
+      // Simulate API call
+      const response = await axios.put(
+        `http://localhost:1123/api/v1/gatherings/${gathering.gathering_id}`,
+        payload,
+        { withCredentials: true }
+      );
+
+      console.log("Response:", response.data);
+
+      if (response.status != "fail") {
+        setGatheringList((list) =>
+          list.map((g) => {
+            if (g.gathering_id === gathering.gathering_id) {
+              return {
+                ...g,
+                ...payload,
+              };
+            }
+            return g;
+          })
+        );
+        toast.success("Gathering updated successfully.");
+
+        setTimeout(() => {
+          onClose();
+        }, 1000);
+      } else {
+        toast.error("Failed to update the gathering. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during submission:", error);
+      toast.error("An error occurred while updating the gathering.");
+    }
   }
 
   return (
@@ -77,6 +118,19 @@ function EditGatheringForm({
         <h2 className={styles.heading}>Edit Gathering</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="title">
+              Title:
+            </label>
+            <input
+              className={styles.input}
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+
             <label className={styles.label} htmlFor="name">
               Place:
             </label>
@@ -145,6 +199,19 @@ function EditGatheringForm({
               required
             />
           </div>
+          <button
+            className={styles.statusButton}
+            type="button"
+            style={{
+              background: formData.status ? "#e10a0a" : "rgb(90, 253, 26)",
+            }}
+            onClick={() =>
+              setFormData((prev) => ({ ...prev, status: !prev.status }))
+            }
+          >
+            {formData.status ? "Close" : "Open"}
+          </button>
+
           <button type="submit" className={styles.saveButton}>
             Save
           </button>
