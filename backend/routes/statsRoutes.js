@@ -5,10 +5,17 @@ const authController = require("../controllers/authController");
 
 module.exports = router;
 
+router.use(authController.protect, authController.restrictTo("admin"))
+
+
+router.get(
+  "/users",
+  statsController.getUsersTypes
+);
+
+
 // Top 5 nationalities
 router.get(
   "/nationalities",
-  authController.protect,
-  authController.restrictTo("admin"),
   statsController.getTopFiveNationalities
 );
