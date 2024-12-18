@@ -77,7 +77,11 @@ function UserGatheingList({ id, canEdit }) {
   return (
     <>
       <ToastContainer />
-      <div className={styles.list} style={{ position: "relative" }}>
+      <div
+        className={styles.list}
+        style={{ position: "relative" }}
+        id="gatheringlist"
+      >
         {loading && <Loading />}
         {canEdit && (
           <div style={{ position: "absolute", top: "-50px", right: "10px" }}>

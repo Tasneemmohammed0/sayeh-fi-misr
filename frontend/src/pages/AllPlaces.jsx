@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import styles from "../styles/AllPlaces.module.css";
 import PlacesList from "../components/PlacesList";
+import Loading from "../components/Loading";
 function AllPlaces() {
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
+  // const [loading, setLoading] = useState(true);
   const cities = [
     "Cairo",
     "Giza",
@@ -31,6 +33,7 @@ function AllPlaces() {
 
   return (
     <main className={styles.colorMain}>
+      {/* {loading && <Loading />} */}
       <div className={styles.imageContainer}>
         <img
           src="/src/assets/images/temple.png"

@@ -6,8 +6,14 @@ const router = express.Router();
 
 router.get("/", bazaarController.getAllGifts);
 router.get("/points", authController.protect, bazaarController.getPoints);
+router.post(
+  "/addGift",
+  authController.protect,
+  authController.restrictTo("admin"),
+  bazaarController.addGift
+);
 
-router.post("/", authController.protect, bazaarController.buyGift);
+router.post("/buy", authController.protect, bazaarController.buyGift);
 router.post(
   "/:id",
   authController.protect,
@@ -15,4 +21,17 @@ router.post(
   bazaarController.setActivity
 );
 
+router.put(
+  "/:id/editGift",
+  authController.protect,
+  authController.restrictTo("admin"),
+  bazaarController.editGift
+);
+
+router.delete(
+  "/:id",
+  authController.protect,
+  authController.restrictTo("admin"),
+  bazaarController.deleteGift
+);
 module.exports = router;

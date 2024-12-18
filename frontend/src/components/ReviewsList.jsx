@@ -3,7 +3,7 @@ import Review from "../components/Review";
 import Loading from "../components/Loading";
 import axios from "axios";
 
-function ReviewsList({ id, canEdit }) {
+function ReviewsList({ id, canEdit, setStats }) {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +29,7 @@ function ReviewsList({ id, canEdit }) {
     fetchData();
   }, [id]);
   return (
-    <ul>
+    <ul id="reviews">
       {loading && <Loading />}
       {reviews &&
         reviews.map((review, index) => {
@@ -37,6 +37,7 @@ function ReviewsList({ id, canEdit }) {
             <li key={index}>
               {" "}
               <Review
+                setStats={setStats}
                 review={review}
                 setReviews={setReviews}
                 setLoading={setLoading}

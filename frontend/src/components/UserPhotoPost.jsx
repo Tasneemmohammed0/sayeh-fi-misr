@@ -4,7 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import axios from "axios";
 import EditPostForm from "./EditPostForm";
-function UserPhotoPost({ post, selectedOption, setPostList }) {
+function UserPhotoPost({ post, selectedOption, setPostList, setStats }) {
   const [showEditForm, setShowEditForm] = useState(false);
 
   // format date
@@ -23,7 +23,14 @@ function UserPhotoPost({ post, selectedOption, setPostList }) {
         }
       );
       console.log("response", response.data);
+
       setPostList((prev) => prev.filter((item) => item.photo_id !== photoId));
+      setStats((prevStats) => {
+        return {
+          ...prevStats,
+          photos_count: prevStats.photos_count - 1,
+        };
+      });
     } catch (err) {
       console.log(err.message);
     }

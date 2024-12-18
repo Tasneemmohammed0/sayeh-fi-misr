@@ -117,3 +117,87 @@ exports.setActivity = async (req, res) => {
     });
   }
 };
+
+exports.addGift = async (req, res) => {
+  try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
+    const addGiftQuery = `INSERT INTO gift(name,photo,points,description,place_id,is_available) VALUES($1,$2,$3,$4,$5,$6) RETURNING*`;
+
+    const addGiftData = await db.query(addGiftQuery, [
+      req.body.name,
+      req.body.photo,
+      req.body.points,
+      req.body.description,
+      place_id,
+      req.body.is_available,
+    ]);
+    res.status(201).json({
+      status: "success",
+      length: addGiftData.rowCount,
+      data: { ...addGiftData.rows[0], place_name: req.body.place_name },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+exports.editGift = async (req, res) => {
+  try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
+    const editGiftQuery = `UPDATE gift 
+set name=$1,photo=$2,points=$3,description=$4,place_id=$5,is_available=$6
+WHERE product_code =$7 RETURNING*`;
+
+    const editGiftData = await db.query(editGiftQuery, [
+      req.body.name,
+      req.body.photo,
+      req.body.points,
+      req.body.description,
+      place_id,
+      req.body.is_available,
+      req.params.id,
+    ]);
+    res.status(200).json({
+      status: "success",
+      length: editGiftData.rowCount,
+      data: editGiftData.rows[0],
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.deleteGift = async (req, res) => {
+  try {
+    await db.query("COMMIT");
+    const deleteGiftQuery = `DELETE FROM gift 
+
+WHERE product_code =$1 RETURNING*`;
+
+    const deleteGiftData = await db.query(deleteGiftQuery, [req.params.id]);
+    res.status(200).json({
+      status: "success",
+      length: deleteGiftData.rowCount,
+      data: deleteGiftData.rows[0],
+    });
+  } catch (err) {
+    await db.query("ROLLBACK");
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};

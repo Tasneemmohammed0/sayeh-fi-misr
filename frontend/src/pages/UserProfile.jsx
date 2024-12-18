@@ -15,11 +15,14 @@ import Loading from "../components/Loading";
 function UserProfile() {
   const currentUser = useLoaderData();
   const { user } = useContext(UserContext);
+  const [stats, setStats] = useState({});
   const { id } = useParams();
   const [selectedList, setSelectedList] = useState("Reviews");
+
   if (!currentUser && !id) return <h1>login</h1>;
   if (!currentUser && id) return <h1>User not found</h1>;
 
+  console.log("selectedList", selectedList);
   return (
     <>
       <div>
@@ -35,6 +38,8 @@ function UserProfile() {
             className={styles.coverPhoto}
           />
           <UserInfo
+            stats={stats}
+            setStats={setStats}
             user={currentUser}
             canEdit={currentUser.user_id === user?.user_id}
             selectedList={selectedList}
@@ -45,22 +50,24 @@ function UserProfile() {
           {currentUser.user_id && selectedList === "Reviews" && (
             <ReviewsList
               id={currentUser.user_id}
+              setStats={setStats}
               canEdit={currentUser?.user_id === user?.user_id}
             />
           )}
 
-          {currentUser.user_id && selectedList === "Wish List" && (
+          {currentUser.user_id && selectedList === "Wishlist" && (
             <WishLists id={currentUser.user_id} />
           )}
 
-          {currentUser.user_id && selectedList === "Visted List" && (
+          {currentUser.user_id && selectedList === "Visitedlist" && (
             <VisitedList
+              setStats={setStats}
               id={currentUser.user_id}
               canEdit={currentUser?.user_id === user?.user_id}
             />
           )}
 
-          {currentUser.user_id && selectedList === "Gathering List" && (
+          {currentUser.user_id && selectedList === "Gatheringlist" && (
             <UserGatheingList
               id={currentUser.user_id}
               canEdit={currentUser?.user_id === user?.user_id}
@@ -69,6 +76,7 @@ function UserProfile() {
 
           {currentUser.user_id && selectedList === "Photos" && (
             <UserPhotosList
+              setStats={setStats}
               id={currentUser.user_id}
               canEdit={currentUser?.user_id === user?.user_id}
             />
