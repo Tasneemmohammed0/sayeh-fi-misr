@@ -93,7 +93,7 @@ function GatheringCard({
           <h2
             className={styles.cardTitle}
             style={{
-              fontSize: `${gathering.title.length >= 20 ? "18px" : "24px"}`,
+              fontSize: `${gathering.title?.length >= 20 ? "18px" : "24px"}`,
             }}
           >
             {gathering.title}
