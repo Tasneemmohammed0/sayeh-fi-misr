@@ -6,7 +6,7 @@ import LastWeekVisits from "./StatisticsComponents/LastWeekVisits";
 import style from "../styles/AdminStatistics.module.css";
 function AdminStatistics() {
   return (
-    <div>
+    <div id="statistics">
       <h2 className={style.header}>AdminStatistics</h2>
       <section className={style.statistics}>
         <VistorsCount />

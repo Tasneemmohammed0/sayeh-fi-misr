@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import styles from "../styles/placeslist.module.css";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -19,6 +19,7 @@ function PlacesList({
   role = "user",
   setShowAddPlace,
   showAddPlace,
+  setLoading,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,6 +30,7 @@ function PlacesList({
 
   const { places: Places, setPlaces } = useContext(UserContext);
   let places = Places;
+
   if (count !== 100) {
     places = Places.slice(0, count);
   }

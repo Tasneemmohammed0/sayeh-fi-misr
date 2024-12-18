@@ -102,11 +102,10 @@ function NavBar() {
             activeclassname="active-link"
             className={styles.link}
           >
-            {user ? (
-              <img src={`${user.profile_pic}`} className={styles.profileIcon} />
-            ) : (
-              <FaUserCircle className={styles.profileIcon} />
-            )}
+            <img
+              src={user?.profile_pic || `../src/assets/images/userAvatar.png`}
+              className={styles.profileIcon}
+            />
           </NavLink>
         </li>
       </ul>

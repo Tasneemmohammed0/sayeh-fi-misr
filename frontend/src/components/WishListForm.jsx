@@ -5,7 +5,7 @@ import axios from "axios";
 import Loading from "./Loading";
 import styles from "../styles/WishListForm.module.css";
 
-function WishListForm({ isOpen, handleForm, user_id, can }) {
+function WishListForm({ isOpen, handleForm, user_id, can, setWishLists }) {
   const [wishlistName, setWishlistName] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
@@ -33,7 +33,7 @@ function WishListForm({ isOpen, handleForm, user_id, can }) {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+      setWishLists((prev) => [...prev, response.data.data]);
       handleForm(false);
       setWishlistName("");
       setDescription("");

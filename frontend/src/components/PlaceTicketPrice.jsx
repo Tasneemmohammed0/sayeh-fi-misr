@@ -8,6 +8,9 @@ function PlaceTicketPrice({
   otherAdultPrice,
 }) {
   const [selectedTab, setSelectedTab] = useState("Egyptian");
+
+  console.log(egyptianChildPrice, egyptianAdultPrice);
+
   return (
     <div className={styles.container}>
       <h3 className={styles.header}>Ticket Price</h3>
