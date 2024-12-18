@@ -1,6 +1,7 @@
 import React from "react";
 import VistorsCount from "./StatisticsComponents/VistorsCount";
 import TopNationalities from "./StatisticsComponents/TopNationalities";
+import MostPopularGathering from "./StatisticsComponents/MostPopularGathering";
 import style from "../styles/AdminStatistics.module.css";
 function AdminStatistics() {
   return (
@@ -9,6 +10,7 @@ function AdminStatistics() {
       <section className={style.statistics}>
         <VistorsCount />
         <TopNationalities />
+        <MostPopularGathering />
       </section>
     </div>
   );
