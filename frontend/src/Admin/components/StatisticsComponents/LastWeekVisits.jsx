@@ -31,9 +31,10 @@ function LastWeekVisits() {
   const [days, setDays] = useState([]);
   const [loading, setLoading] = useState(true);
   const { places } = useContext(UserContext);
-  const [place, setPlace] = useState(places[0].place_id);
+  const [place, setPlace] = useState(null);
   console.log("places", places);
   useEffect(() => {
+    setPlace(places[0]?.place_id);
     async function fetchData() {
       try {
         const res = await axios.get(
@@ -63,7 +64,7 @@ function LastWeekVisits() {
       }
     }
     fetchData();
-  }, [place]);
+  }, [place, places]);
 
   if (loading) {
     return <p>Loading...</p>;
@@ -137,8 +138,8 @@ function LastWeekVisits() {
             className={style.select}
           >
             {places.map((place) => (
-              <option key={place.place_id} value={place.place_id}>
-                {place.name}
+              <option key={place?.place_id} value={place?.place_id}>
+                {place?.name}
               </option>
             ))}
           </select>
