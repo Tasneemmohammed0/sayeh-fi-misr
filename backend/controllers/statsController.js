@@ -20,6 +20,7 @@ exports.getTopFiveNationalities = async (req, res) => {
     console.error(err);
   }
 };
+
 exports.getUsersTypes = async (req, res, next) => {
   try {
     const query = `
@@ -38,6 +39,38 @@ exports.getUsersTypes = async (req, res, next) => {
       status: "success",
       length: response.rowCount,
       data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+    console.error(err);
+  }
+};
+
+exports.getPlaceVisits = async (req, res) => {
+  try {
+    const data = await db.query(
+      `SELECT date, COUNT(*) AS visit_count
+      FROM visitor_place
+      WHERE place_id=$1 and date >= CURRENT_DATE - INTERVAL '7 days'
+      GROUP BY date
+      ORDER BY date;`,
+      [req.params.id]
+    );
+
+    if (!data.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No visits found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      legnth: data.rows.length,
+      data: data.rows,
     });
   } catch (err) {
     res.status(400).json({
