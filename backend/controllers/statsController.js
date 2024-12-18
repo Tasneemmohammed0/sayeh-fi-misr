@@ -1,4 +1,5 @@
 const db = require("../db/index");
+const { format, subDays } = require("date-fns");
 
 // Get top 5 nationalities
 exports.getTopFiveNationalities = async (req, res) => {
@@ -98,10 +99,28 @@ exports.getPlaceVisits = async (req, res) => {
       });
     }
 
+    // Generate an array of the last 7 days
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      days.push(format(subDays(new Date(), i), "yyyy-MM-dd"));
+    }
+    days.reverse(); // Ensure ascending order
+    const totalDays = [];
+    for (let i = 0; i < days.length; i += 1) {
+      const day = days[i];
+      const found = data.rows.find(
+        (row) => row.date.toISOString().split("T")[0] === day
+      );
+      totalDays.push({
+        visit_date: day,
+        visit_count: found ? +found.visit_count : 0,
+      });
+    }
+
     res.status(200).json({
       status: "success",
-      legnth: data.rows.length,
-      data: data.rows,
+      legnth: totalDays.length,
+      data: totalDays,
     });
   } catch (err) {
     res.status(400).json({
