@@ -69,8 +69,8 @@ exports.deleteBadge = async (userId, badgeName, relationName, threshold) => {
 
       try {
         const deleteBadgeQuery = await db.query(
-          `DELETE FROM visitor_badge WHERE user_id=$1 RETURNING *`,
-          [userId]
+          `DELETE FROM visitor_badge WHERE user_id=$1 AND badge_name =$2 RETURNING *`,
+          [userId, badgeName]
         );
         console.log("Badge deleted:");
       } catch (err) {
