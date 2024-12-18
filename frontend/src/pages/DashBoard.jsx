@@ -5,7 +5,6 @@ import AdminUsers from "../Admin/components/AdminUsers";
 import AdminPlaces from "../Admin/components/AdminPlaces";
 import AdminReports from "../Admin/components/AdminReports";
 import AdminBazaar from "../Admin/components/AdminBazaar";
-
 import AdminStatistics from "../Admin/components/AdminStatistics";
 import { UserContext } from "../App";
 function DashBoard() {
