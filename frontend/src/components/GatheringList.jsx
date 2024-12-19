@@ -61,16 +61,7 @@ function GatheringList({ search, filter, count = 100 }) {
           }}
           key={index}
         >
-          <GatheringCard
-            key={index}
-            photo={item.photo}
-            placeName={item.title}
-            location={item.city}
-            hostname={item.first_name}
-            currentcapacity={item.current_capacity}
-            duration={item.duration}
-            id={item.gathering_id}
-          />
+          <GatheringCard key={index} gathering={item} />
         </div>
       ))}
     </div>

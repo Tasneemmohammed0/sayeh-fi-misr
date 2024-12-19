@@ -54,7 +54,7 @@ function AdminUsers() {
   console.log(search);
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="users">
       {loading && <Loading />}
       <h1 style={{ textAlign: "center" }}>Users</h1>
       <div className={styles.bar}>

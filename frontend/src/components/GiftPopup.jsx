@@ -12,7 +12,7 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
     };
 
     try {
-      const endPoint = `http://localhost:1123/api/v1/bazaar`;
+      const endPoint = `http://localhost:1123/api/v1/bazaar/buy`;
 
       const response = await axios.post(endPoint, purchaseData, {
         withCredentials: true,

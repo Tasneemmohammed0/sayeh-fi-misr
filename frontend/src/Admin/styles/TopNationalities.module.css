@@ -1,0 +1,50 @@
+.container {
+  text-align: center;
+  width: 100%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.table {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.th,
+.td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.thead {
+  background-color: #0078d4;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+.tr {
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.tr:nth-child(even) {
+  background-color: #f2f7fc;
+}
+
+.tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.tr:hover {
+  background-color: #e2eefb;
+}

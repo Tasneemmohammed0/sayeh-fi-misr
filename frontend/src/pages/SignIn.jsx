@@ -68,7 +68,6 @@ function SignIn() {
             type="email"
             name="email"
             placeholder="Email"
-            autoComplete="off"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
@@ -82,7 +81,6 @@ function SignIn() {
             type="password"
             name="password"
             placeholder="Password"
-            autoComplete="off"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}

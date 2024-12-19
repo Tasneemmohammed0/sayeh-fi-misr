@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { HiHomeModern } from "react-icons/hi2";
 import { PiParkFill } from "react-icons/pi";
@@ -8,7 +8,25 @@ import { IoIosHome } from "react-icons/io";
 import { BsShop } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import style from "../styles/Sidebar.module.css";
-function Sidebar({ active, setActive }) {
+
+function Sidebar({ active, setActive, user }) {
+  // Function to handle hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        setActive(hash.charAt(0).toUpperCase() + hash.slice(1));
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [setActive]);
+
   function handleActive(name) {
     setActive(name);
   }
@@ -19,81 +37,92 @@ function Sidebar({ active, setActive }) {
         <div>
           <img
             className={style.image}
-            src="../src/assets/images/userAvatar.png"
+            src={user?.profile_pic || `../src/assets/images/userAvatar.png`}
+            alt="User Avatar"
           />
         </div>
         <h2>
-          Hi <span className={style.name}> Hany </span>
+          Hi <span className={style.name}> {user?.username} </span>
         </h2>
       </div>
 
       <ul className={style.buttons}>
-        <li
-          className={`${style.btn}  ${active == "Users" ? style.active : ""} `}
+        <a
+          href="#users"
+          className={`${style.btn} ${active === "Users" ? style.active : ""}`}
           onClick={() => handleActive("Users")}
         >
-          <Link to="#Users" className={style.link}>
+          <li className={style.link}>
             <IoPersonCircleOutline />
             Users
-          </Link>
-        </li>
+          </li>
+        </a>
 
-        <li
-          className={`${style.btn}  ${active == "Places" ? style.active : ""} `}
+        <a
+          href="#places"
+          className={`${style.btn} ${active === "Places" ? style.active : ""}`}
           onClick={() => handleActive("Places")}
         >
-          <Link to="#Places" className={style.link}>
+          <li className={style.link}>
             <HiHomeModern />
             Places
-          </Link>
-        </li>
+          </li>
+        </a>
 
-        <li
-          className={`${style.btn}  ${active == "Gatherings" ? style.active : ""} `}
+        <Link
+          to="/gatherings"
+          className={`${style.btn} ${
+            active === "Gatherings" ? style.active : ""
+          }`}
           onClick={() => handleActive("Gatherings")}
         >
-          <Link to="/gatherings" className={style.link}>
+          <li className={style.link}>
             <PiParkFill />
             Gatherings
-          </Link>
-        </li>
+          </li>
+        </Link>
 
-        <li
-          className={`${style.btn}  ${active == "Reports" ? style.active : ""} `}
+        <a
+          href="#reports"
+          className={`${style.btn} ${active === "Reports" ? style.active : ""}`}
           onClick={() => handleActive("Reports")}
         >
-          <Link to="#reports" className={style.link}>
+          <li className={style.link}>
             <HiDocumentReport />
             Reports
-          </Link>
-        </li>
+          </li>
+        </a>
 
-        <li
-          className={`${style.btn}  ${active == "Bazaar" ? style.active : ""} `}
+        <a
+          href="#bazaar"
+          className={`${style.btn} ${active === "Bazaar" ? style.active : ""}`}
           onClick={() => handleActive("Bazaar")}
         >
-          <Link to="#bazaar" className={style.link}>
+          <li className={style.link}>
             <BsShop />
             Bazaar
-          </Link>
-        </li>
+          </li>
+        </a>
 
-        <li
-          className={`${style.btn}  ${active == "Statistics" ? style.active : ""} `}
+        <a
+          href="#statistics"
+          className={`${style.btn} ${
+            active === "Statistics" ? style.active : ""
+          }`}
           onClick={() => handleActive("Statistics")}
         >
-          <Link to="#statistics" className={style.link}>
+          <li className={style.link}>
             <IoStatsChartSharp />
             Statistics
-          </Link>
-        </li>
+          </li>
+        </a>
 
-        <li className={style.btn}>
-          <Link to="/" className={style.link}>
+        <Link to="/" className={style.btn}>
+          <li className={style.link}>
             <IoIosHome />
             Go To Home
-          </Link>
-        </li>
+          </li>
+        </Link>
       </ul>
     </nav>
   );

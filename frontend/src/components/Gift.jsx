@@ -1,13 +1,25 @@
 import styles from "../styles/Gift.module.css";
 import { BiCoinStack } from "react-icons/bi";
 import { React, useState, useContext, useEffect } from "react";
+import { MdDelete } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
 import GiftPopup from "./GiftPopup";
 import axios from "axios";
 import Loading from "../../src/components/Loading";
-
-function Gift({ card, totalPoints, updatePoints, role = "user", setGifts }) {
+import EditGiftForm from "../Admin/components/EditGiftForm";
+import { UserContext } from "../App";
+function Gift({
+  card,
+  totalPoints,
+  updatePoints,
+  role = "user",
+  setGifts,
+  selectedOption,
+}) {
   const [showPopup, setShowPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const { places } = useContext(UserContext);
   const handleActivation = async () => {
     if (role !== "admin") return;
 
@@ -37,6 +49,26 @@ function Gift({ card, totalPoints, updatePoints, role = "user", setGifts }) {
     }
   };
 
+  async function handleDelete(id) {
+    setIsLoading(true);
+    try {
+      await axios.delete(`http://localhost:1123/api/v1/bazaar/${id}`, {
+        withCredentials: true,
+      });
+      setGifts((prevGifts) =>
+        prevGifts.filter((item) => item.product_code !== id)
+      );
+    } catch (err) {
+      console.error("Error deleting gift:", err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const handleEdit = () => {
+    setShowEditForm(true);
+  };
+
   return (
     <>
       {isLoading && <Loading />}
@@ -45,6 +77,18 @@ function Gift({ card, totalPoints, updatePoints, role = "user", setGifts }) {
         style={role === "admin" ? { height: "21rem" } : undefined}
         onClick={() => setShowPopup(true)}
       >
+        {role == "admin" && selectedOption === "edit" && (
+          <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />
+        )}
+
+        {role == "admin" && selectedOption === "delete" && (
+          <MdDelete
+            onClick={() => handleDelete(card.product_code)}
+            className={styles.opIcons}
+            style={{ color: "red" }}
+          />
+        )}
+
         <img src={card.photo} alt="gift 1" className={styles.giftImage}></img>
         <div className={styles.giftDetailsContainer}>
           <div className={styles.priceContainer}>
@@ -97,8 +141,19 @@ function Gift({ card, totalPoints, updatePoints, role = "user", setGifts }) {
           updatePoints={updatePoints}
         />
       )}
+
+      {role === "admin" && showEditForm && (
+        <EditGiftForm
+          giftData={card}
+          onClose={() => setShowEditForm(false)}
+          setGifts={setGifts}
+          places={places}
+        />
+      )}
     </>
   );
 }
 
 export default Gift;
+
+/// price place name description

@@ -8,7 +8,11 @@ const router = express.Router();
 router.get("/", gatheringController.getAllGatherings);
 
 //Get one gathering
-router.get("/:id", gatheringController.getGatheringDetails);
+router.get(
+  "/:id",
+  gatheringController.checkCapacity,
+  gatheringController.getGatheringDetails
+);
 //router.get("/:id", gatheringController.getGathering);
 router.get(
   "/:id/checkJoined",
@@ -51,4 +55,5 @@ router.get(
   authController.protect,
   gatheringController.checkJoined
 );
+
 module.exports = router;
