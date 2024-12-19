@@ -1,12 +1,14 @@
-import React, { useState, useReducer, useContext } from "react";
+import React, { useState, useReducer, useContext, useEffect } from "react";
 import styles from "../styles/AccountSetting.module.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useLoaderData } from "react-router-dom";
 import { UserContext } from "../App";
 
 import "react-toastify/dist/ReactToastify.css";
 import ChangePasswordForm from "../components/ChangePasswordForm";
 import Signout from "../components/Signout";
 import axios from "axios";
+import AccountPhotoEditFrom from "../components/AccountPhotoEditFrom";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -131,19 +133,27 @@ function AccountSetting() {
   const [edit, setEdit] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showSignOut, setShowSignOut] = useState(false);
-  const { user } = useContext(UserContext);
+  const [showPhotoForm, setShowPhotoForm] = useState(false);
+
+  const currentUser = useLoaderData();
+  const [hover, sethover] = useState(false);
+  const { user, setUser } = useContext(UserContext);
   const [state, dispatch] = useReducer(reducer, {
-    first_name: user?.first_name,
+    first_name: currentUser?.first_name,
     error_firstname: "",
-    last_name: user?.last_name,
+    last_name: currentUser?.last_name,
     error_lastname: "",
-    username: user?.username,
+    username: currentUser?.username,
     error_username: "",
-    email: user?.email,
+    email: currentUser?.email,
     error_email: "",
     password: "",
     error_password: "",
+    profile: currentUser?.profile_pic,
   });
+
+  console.log(currentUser);
+  if (!currentUser) return <h1>Please login</h1>;
 
   function handleEdit(e, type) {
     e.preventDefault();
@@ -172,7 +182,7 @@ function AccountSetting() {
       .filter((key) => key.startsWith("error_") && state[key]) // Filter error keys that are non-empty
       .map((key) => state[key]); // Get their corresponding error messages
 
-    errorMessages.forEach((message) => toast.error(message)); // Display each error message using toast
+    errorMessages.forEach((message) => toast.error(message));
   }
 
   async function handleSubmit(e) {
@@ -183,17 +193,17 @@ function AccountSetting() {
     if (errors.length > 0) {
       if (state.error_firstname === "Firstname must not be empty") {
         console.log("empty here ");
-        dispatch({ type: "updateFirstname", payload: user.firstname });
+        dispatch({ type: "updateFirstname", payload: currentUser.firstname });
       }
       if (state.error_lastname === "Lastname must not be empty") {
         console.log("empty here last ");
-        dispatch({ type: "updateLastname", payload: user.lastname });
+        dispatch({ type: "updateLastname", payload: currentUser.lastname });
       }
       if (state.error_username === "Usernane must not be empty") {
-        dispatch({ type: "updateUsername", payload: user.username });
+        dispatch({ type: "updateUsername", payload: currentUser.username });
       }
       if (state.error_email === "Email must not be empty") {
-        dispatch({ type: "updateEmail", payload: user.email });
+        dispatch({ type: "updateEmail", payload: currentUser.email });
       }
 
       handleErrors();
@@ -212,153 +222,184 @@ function AccountSetting() {
     setEdit("");
   }
 
-  if (!user) return <h1>Please login</h1>;
   return (
-    <div
-      className="container"
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-      onClick={(e) => handleEdit(e, "")}
-    >
-      <ToastContainer />
-      <h1 className={styles.heading}>Account Settings</h1>
+    <>
+      <div
+        className="container"
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+        onClick={(e) => handleEdit(e, "")}
+      >
+        <ToastContainer />
+        <h1 className={styles.heading}>Account Settings</h1>
 
-      <form className={styles.form}>
-        {/* First Name */}
-        <div className={styles.formGroup}>
-          <label htmlFor="firstName" className={styles.label}>
-            First Name:
-          </label>
-          <input
-            type="text"
-            id="firstName"
-            className={styles.input}
-            value={state.first_name}
-            onChange={(e) =>
-              dispatch({ type: "updateFirstname", payload: e.target.value })
-            }
-            disabled={edit !== "first_name"}
-          />
-          <button
-            className={styles.edit}
-            onClick={(e) => handleEdit(e, "first_name")}
+        <form className={styles.form}>
+          <div
+            className={styles.profileContainer}
+            onMouseEnter={() => sethover(true)}
+            onMouseLeave={() => setEdit(false)}
           >
-            Edit
+            <img
+              src={state.profile || "../../src/assets/images/userAvatar.png"}
+              alt="Profile Picture"
+              className={styles.profilePicture}
+            />
+            {hover && (
+              <button
+                className={styles.editProfileButton}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowPhotoForm(true);
+                }}
+              >
+                Edit
+              </button>
+            )}
+          </div>
+
+          {/* First Name */}
+          <div className={styles.formGroup}>
+            <label htmlFor="firstName" className={styles.label}>
+              First Name:
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              className={styles.input}
+              value={state.first_name}
+              onChange={(e) =>
+                dispatch({ type: "updateFirstname", payload: e.target.value })
+              }
+              disabled={edit !== "first_name"}
+            />
+            <button
+              className={styles.edit}
+              onClick={(e) => handleEdit(e, "first_name")}
+            >
+              Edit
+            </button>
+          </div>
+
+          {/* Last Name */}
+          <div className={styles.formGroup}>
+            <label htmlFor="lastName" className={styles.label}>
+              Last Name:
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              className={styles.input}
+              value={state.last_name}
+              onChange={(e) =>
+                dispatch({ type: "updateLastname", payload: e.target.value })
+              }
+              disabled={edit !== "last_name"}
+            />
+            <button
+              className={styles.edit}
+              onClick={(e) => handleEdit(e, "last_name")}
+            >
+              Edit
+            </button>
+          </div>
+
+          {/* Username */}
+          <div className={styles.formGroup}>
+            <label htmlFor="username" className={styles.label}>
+              Username:
+            </label>
+            <input
+              type="text"
+              id="username"
+              className={styles.input}
+              value={state.username}
+              onChange={(e) =>
+                dispatch({ type: "updateUsername", payload: e.target.value })
+              }
+              disabled={edit !== "username"}
+            />
+            <button
+              className={styles.edit}
+              onClick={(e) => handleEdit(e, "username")}
+            >
+              Edit
+            </button>
+          </div>
+
+          {/* Email */}
+          <div className={styles.formGroup}>
+            <label htmlFor="email" className={styles.label}>
+              Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              className={styles.input}
+              value={state.email}
+              onChange={(e) =>
+                dispatch({ type: "updateEmail", payload: e.target.value })
+              }
+              disabled={edit !== "email"}
+            />
+            <button
+              className={styles.edit}
+              onClick={(e) => handleEdit(e, "email")}
+            >
+              Edit
+            </button>
+          </div>
+
+          <div className={styles.formGroup}>
+            <button
+              className={`${styles.button} ${styles.password}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowChangePassword(true);
+              }}
+            >
+              Change Password
+            </button>
+
+            <button
+              className={`${styles.button} ${styles.password}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowSignOut(true);
+              }}
+            >
+              Sign Out
+            </button>
+          </div>
+
+          {/* Submit Button */}
+          <button className={styles.button} onClick={(e) => handleSubmit(e)}>
+            Save Changes
           </button>
-        </div>
+        </form>
 
-        {/* Last Name */}
-        <div className={styles.formGroup}>
-          <label htmlFor="lastName" className={styles.label}>
-            Last Name:
-          </label>
-          <input
-            type="text"
-            id="lastName"
-            className={styles.input}
-            value={state.last_name}
-            onChange={(e) =>
-              dispatch({ type: "updateLastname", payload: e.target.value })
-            }
-            disabled={edit !== "last_name"}
-          />
-          <button
-            className={styles.edit}
-            onClick={(e) => handleEdit(e, "last_name")}
-          >
-            Edit
-          </button>
-        </div>
+        <ChangePasswordForm
+          isOpen={showChangePassword}
+          handleForm={setShowChangePassword}
+          userPassword={user?.password}
+        />
 
-        {/* Username */}
-        <div className={styles.formGroup}>
-          <label htmlFor="username" className={styles.label}>
-            Username:
-          </label>
-          <input
-            type="text"
-            id="username"
-            className={styles.input}
-            value={state.username}
-            onChange={(e) =>
-              dispatch({ type: "updateUsername", payload: e.target.value })
-            }
-            disabled={edit !== "username"}
-          />
-          <button
-            className={styles.edit}
-            onClick={(e) => handleEdit(e, "username")}
-          >
-            Edit
-          </button>
-        </div>
+        <Signout isOpen={showSignOut} handleForm={setShowSignOut} user={user} />
+      </div>
 
-        {/* Email */}
-        <div className={styles.formGroup}>
-          <label htmlFor="email" className={styles.label}>
-            Email:
-          </label>
-          <input
-            type="email"
-            id="email"
-            className={styles.input}
-            value={state.email}
-            onChange={(e) =>
-              dispatch({ type: "updateEmail", payload: e.target.value })
-            }
-            disabled={edit !== "email"}
-          />
-          <button
-            className={styles.edit}
-            onClick={(e) => handleEdit(e, "email")}
-          >
-            Edit
-          </button>
-        </div>
-
-        <div className={styles.formGroup}>
-          <button
-            className={`${styles.button} ${styles.password}`}
-            onClick={(e) => {
-              e.preventDefault();
-              setShowChangePassword(true);
-            }}
-          >
-            Change Password
-          </button>
-        </div>
-
-        <div className={styles.formGroup}>
-          <button
-            className={`${styles.button} ${styles.password}`}
-            onClick={(e) => {
-              e.preventDefault();
-              setShowSignOut(true);
-            }}
-          >
-            Sign Out
-          </button>
-        </div>
-
-        {/* Submit Button */}
-        <button className={styles.button} onClick={(e) => handleSubmit(e)}>
-          Save Changes
-        </button>
-      </form>
-
-      <ChangePasswordForm
-        isOpen={showChangePassword}
-        handleForm={setShowChangePassword}
-        userPassword={user?.password}
-      />
-
-      <Signout isOpen={showSignOut} handleForm={setShowSignOut} user={user} />
-    </div>
+      {showPhotoForm && (
+        <AccountPhotoEditFrom
+          photo={state.profile || "../../src/assets/images/userAvatar.png"}
+          onClose={() => setShowPhotoForm(false)}
+          user={currentUser}
+          setUser={setUser}
+        />
+      )}
+    </>
   );
 }
 

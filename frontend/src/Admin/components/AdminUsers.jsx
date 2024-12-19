@@ -21,7 +21,6 @@ function AdminUsers() {
 
         setUsers(res.data.data);
         console.log(res.data.data);
-        setLoading(false);
       } catch (error) {
         console.log(error);
       } finally {

@@ -9,6 +9,14 @@ exports.getWishlist = async (req, res, next) => {
     WHERE pw.wishlist_id=w.wishlist_id AND p.place_id=pw.place_id AND w.wishlist_id=$1
     `;
     const response = await db.query(query, [id]);
+
+    if (!response.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Wishlist doesn't exist",
+      });
+    }
+
     res.status(200).json({
       status: "success",
       length: response.rowCount,
@@ -53,8 +61,7 @@ exports.updateWishlist = async (req, res) => {
       `SELECT user_id FROM wishlist WHERE wishlist_id=$1`,
       [id]
     );
-    const wishlistUser = wishlist.rows[0].user_id;
-    if (wishlistUser !== req.user.user_id) {
+    if (wishlist.rows[0].user_id !== req.user.user_id) {
       return res.status(401).json({
         status: "fail",
         message: "You can't edit a wishlist that's not yours",
@@ -76,7 +83,6 @@ exports.updateWishlist = async (req, res) => {
     }
     params.push(id);
     query += ` WHERE wishlist_id=$${params.length} RETURNING *`;
-    console.log(query);
     const response = await db.query(query, params);
     res.status(200).json({
       status: "success",
@@ -99,11 +105,9 @@ exports.deleteWishlist = async (req, res) => {
     `;
     const response = await db.query(checkQuery, [req.params.id]);
     if (!response.rowCount || response.rows[0].user_id != currentUserId) {
-      console.log(response.rowCount);
-      console.log(response.rows[0].user_id, currentUserId);
       return res.status(405).json({
         status: "fail",
-        message: "Can't delete a list that doesn't belong to you!",
+        message: "Wishlist doesn't exist or doesn't belong to you.",
       });
     }
 
@@ -130,16 +134,27 @@ exports.deleteWishlist = async (req, res) => {
 exports.deleteFromWishList = async (req, res) => {
   try {
     await db.query("COMMIT");
+    const wishlistUser = await db.query(
+      "SELECT user_id FROM wishlist WHERE wishlist_id=$1",
+      [req.params.id]
+    );
+    if (wishlist.rows[0].user_id !== req.user.user_id) {
+      return res.status(401).json({
+        status: "fail",
+        message:
+          "Can't delete place from a wishlist that doens't belong to you.",
+      });
+    }
     const data = await db.query(
       `DELETE FROM place_wishlist WHERE place_id=$1 AND wishlist_id=$2 RETURNING *`,
       [req.params.place_id, req.params.id]
     );
 
     if (!data.rowCount) {
-      res.status(400).json({
-        message: "Failed to delete",
+      return res.status(400).json({
+        status: "fail",
+        message: "Place and wishlist combination doesn't exist",
       });
-      return;
     }
 
     res.status(200).json({
@@ -149,9 +164,9 @@ exports.deleteFromWishList = async (req, res) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
-    console.log(err);
     res.status(404).json({
-      message: err,
+      status: "fail",
+      message: err.message,
     });
   }
 };

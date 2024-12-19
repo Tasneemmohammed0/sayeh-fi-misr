@@ -10,10 +10,10 @@ exports.deletePhoto = async (req, res) => {
     );
 
     if (!data.rowCount) {
-      res.status(400).json({
-        message: "Failed to delete",
+      return res.status(400).json({
+        message:
+          "Failed to delete. Photo doesn't exist or doesn't belong to you",
       });
-      return;
     }
 
     res.status(200).json({
@@ -37,7 +37,6 @@ exports.updatePhoto = async (req, res) => {
     const params = [];
     const conditions = [];
     const { caption, photo } = req.body;
-    console.log(caption, photo);
 
     if (caption) {
       params.push(caption);
@@ -61,10 +60,9 @@ exports.updatePhoto = async (req, res) => {
     const data = await db.query(query, params);
 
     if (!data.rowCount) {
-      res.status(400).json({
-        message: "Failed to edit",
+      return res.status(400).json({
+        message: "Failed to edit. Photo doesn't exist or doesn't belong to you",
       });
-      return;
     }
 
     res.status(200).json({
@@ -73,8 +71,7 @@ exports.updatePhoto = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.log(err);
-    res.status(404).json({
+    res.status(400).json({
       message: err.message,
     });
   }

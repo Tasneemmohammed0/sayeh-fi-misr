@@ -14,8 +14,6 @@ exports.addReport = async (req, res) => {
       ]
     );
 
-    console.log(reportData.rows[0]);
-
     let data = null;
     if (req.body.entityType === "place") {
       // insert to report_place table
@@ -23,12 +21,17 @@ exports.addReport = async (req, res) => {
         `INSERT INTO report_place (report_id, place_id) VALUES ($1, $2) RETURNING *`,
         [reportData.rows[0].report_id, req.body.placeId]
       );
-    } else {
+    } else if (req.body.entityType === "gathering") {
       // insert to report_gathering table
       data = await db.query(
         `INSERT INTO report_gathering (report_id, gathering_id) VALUES ($1, $2) RETURNING *`,
         [reportData.rows[0].report_id, req.body.gatheringId]
       );
+    } else {
+      return res.status(400).json({
+        status: "fail",
+        message: "Entity type doesn't exist",
+      });
     }
 
     res.status(200).json({
@@ -36,8 +39,8 @@ exports.addReport = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.log(err);
     res.status(404).json({
+      status: "fail",
       message: err,
     });
   }

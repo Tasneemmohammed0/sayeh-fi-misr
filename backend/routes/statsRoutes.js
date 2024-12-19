@@ -11,8 +11,11 @@ router.get("/users", statsController.getUsersTypes);
 
 router.get("/gathering", statsController.getPopularGathering);
 
+router.get("/ratings/:city", statsController.getAvgRatings);
+
 // Top 5 nationalities
 router.get("/nationalities", statsController.getTopFiveNationalities);
 
 // Get place visits in the last 7 days
 router.get("/place/:id", statsController.getPlaceVisits);
+router.get("/activities", statsController.getActivitiesCount);

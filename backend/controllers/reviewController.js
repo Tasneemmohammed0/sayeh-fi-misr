@@ -1,4 +1,5 @@
 const db = require("../db/index");
+const { deleteBadge } = require("../controllers/badgeSystemController.js");
 
 // Delete a review
 exports.deleteReview = async (req, res) => {
@@ -11,11 +12,15 @@ exports.deleteReview = async (req, res) => {
 
     if (!data.rowCount) {
       res.status(400).json({
-        message: "Failed to delete",
+        message: "Review doesn't exist or it doesn't belong to you.",
       });
       return;
     }
-
+    try {
+      await deleteBadge(req.user.user_id, "Top Reviewer", "review", 5);
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       length: data.rowCount,
@@ -23,8 +28,8 @@ exports.deleteReview = async (req, res) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
-    console.log(err);
     res.status(400).json({
+      status: "fail",
       message: err.message,
     });
   }
@@ -65,10 +70,9 @@ exports.updateReview = async (req, res) => {
     const data = await db.query(query, params);
 
     if (!data.rowCount) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Failed to edit",
       });
-      return;
     }
 
     res.status(200).json({
@@ -77,8 +81,8 @@ exports.updateReview = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.log(err);
     res.status(404).json({
+      status: "fail",
       message: err.message,
     });
   }

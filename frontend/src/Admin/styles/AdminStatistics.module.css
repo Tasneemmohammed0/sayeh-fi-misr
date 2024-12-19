@@ -38,3 +38,10 @@
   border: 1px solid #ccc;
   margin-bottom: 20px;
 }
+
+.option {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}

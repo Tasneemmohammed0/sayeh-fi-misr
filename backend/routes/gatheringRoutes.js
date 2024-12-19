@@ -7,22 +7,35 @@ const router = express.Router();
 //Get all gatherings
 router.get("/", gatheringController.getAllGatherings);
 
-//Get one gathering
 router.get(
   "/:id",
   gatheringController.checkCapacity,
   gatheringController.getGatheringDetails
 );
-//router.get("/:id", gatheringController.getGathering);
+
 router.get(
   "/:id/checkJoined",
   authController.protect,
   gatheringController.checkJoined
 );
 
-router.delete("/:id", gatheringController.deleteGathering);
-router.put("/:id", gatheringController.updateGathering);
-router.post("/", gatheringController.createGathering);
+router.delete(
+  "/:id",
+  authController.protect,
+  gatheringController.deleteGathering
+);
+router.put(
+  "/:id",
+  authController.protect,
+  authController.restrictTo("host"),
+  gatheringController.updateGathering
+);
+router.post(
+  "/",
+  authController.protect,
+  authController.restrictTo("host"),
+  gatheringController.createGathering
+);
 
 router.post(
   "/:id/join",

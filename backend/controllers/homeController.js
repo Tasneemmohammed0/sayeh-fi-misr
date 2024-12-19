@@ -3,10 +3,10 @@ const db = require("../db/index.js");
 exports.getExplorePlaces = async (req, res) => {
   try {
     const data = await db.query(`SELECT p.*, AVG(r.rating) AS rate
-FROM place p
-LEFT JOIN review r ON p.place_id = r.place_id
-GROUP BY p.place_id
-ORDER BY place_id ASC LIMIT 4
+    FROM place p
+    LEFT JOIN review r ON p.place_id = r.place_id
+    GROUP BY p.place_id
+    ORDER BY place_id ASC LIMIT 4
 `);
 
     res.status(200).json({
@@ -15,7 +15,10 @@ ORDER BY place_id ASC LIMIT 4
       data: data.rows,
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 
@@ -44,7 +47,10 @@ ORDER BY gathering_id ASC LIMIT 4
       data: data.rows,
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 exports.getTrendingPlaces = async (req, res) => {
@@ -57,11 +63,13 @@ exports.getTrendingPlaces = async (req, res) => {
      LIMIT 3
     `;
     const trendingData = await db.query(trendingQuery);
-    // You need to check data is received
-    const data = trendingData.rows;
 
-    console.log(data);
-    //Insert in trending table
+    if (!trendingData.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No trending places found",
+      });
+    }
 
     res.status(200).json({
       status: "success",
@@ -69,6 +77,9 @@ exports.getTrendingPlaces = async (req, res) => {
       data: trendingData.rows,
     });
   } catch (err) {
-    console.log("Error Fetching Trending", err.message);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
