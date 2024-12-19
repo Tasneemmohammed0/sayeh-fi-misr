@@ -265,6 +265,18 @@ exports.createGathering = async (req, res) => {
 // Add user to gathering
 exports.addToGathering = async (req, res) => {
   try {
+    if (req.user.role === "host") {
+      const canAdd = await db.query(
+        `select host_id from gathering where gathering_id=$1`,
+        [req.params.id]
+      );
+      if (canAdd.rowCount && canAdd.rows[0] !== req.user.user_id) {
+        return res.status(401).json({
+          status: "fail",
+          message: "Can't add users to gathering you don't own",
+        });
+      }
+    }
     const userIdData = await db.query(
       `select distinct user_id from visitor where username=$1`,
       [req.body.username]
@@ -279,7 +291,7 @@ exports.addToGathering = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      message: "Joined Successfully",
+      message: "Added Successfully",
       data: data.rows[0],
     });
   } catch (err) {
@@ -398,9 +410,12 @@ exports.joinGathering = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
+    let message = err.message;
+    if (err.message.includes("duplicate"))
+      message = "You're already in this gathering";
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message,
     });
   }
 };
