@@ -98,11 +98,6 @@ function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
     });
   }
 
-  function navigateToCreateList() {
-    // redirect to create list page
-    navigate("/profile#wishlist");
-  }
-
   return (
     <div className={styles.popupOverlay}>
       <ToastContainer />
