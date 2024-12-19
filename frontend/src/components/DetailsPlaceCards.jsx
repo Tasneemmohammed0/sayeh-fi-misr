@@ -1,4 +1,4 @@
-import DetailsPlaceCards from "./DetailsPlaceCard";
+import DetailsPlaceCard from "./DetailsPlaceCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
@@ -30,7 +30,7 @@ function Cards({ reviews, photos }) {
 
           return (
             <SwiperSlide key={index}>
-              <DetailsPlaceCards
+              <DetailsPlaceCard
                 key={review.review_id}
                 review={{
                   rating: review.rating,
@@ -53,7 +53,7 @@ function Cards({ reviews, photos }) {
 
           return (
             <SwiperSlide key={index}>
-              <DetailsPlaceCards
+              <DetailsPlaceCard
                 key={photo.photo_id}
                 photo={{
                   uploadedPhoto: photo.photo,

@@ -3,11 +3,11 @@
   flex-direction: column;
   border: 1px solid black;
   border-radius: 10px;
-  background-color: var(--our-gray);
+  background-color: var(--our-light-sand);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 16px;
-  width: 370px;
-  height: 420px;
+  width: 380px;
+  height: 360px;
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
   position: relative;
@@ -57,6 +57,9 @@
   color: var(--our-black);
   margin-top: 15px;
   text-align: right;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 
 .stars {
@@ -72,8 +75,8 @@
 }
 
 .photo {
-  height: 260px;
-  width: 340px;
+  height: 100%;
+  width: 100%;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }

@@ -19,7 +19,6 @@ function PlaceDetails() {
   const [place, setPlace] = useState({});
   const [isVisited, setIsVisited] = useState(false);
   const [finalLoading, setFinalLoading] = useState(false);
-
   const [reviews, setReviews] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
@@ -129,26 +128,13 @@ function PlaceDetails() {
               className={styles.bookmarkIcon}
             />
           )}
-          <h1
-            className={styles.title}
-            style={{
-              color: "black",
-              backgroundColor: "#FFF8E8",
-              padding: "2px 10px",
-              borderRadius: "10px",
-            }}
-          >
-            {place.name}
-          </h1>
+          <h1 className={styles.title}>{place.name}</h1>
           {isVisited && <button className={styles.visitLabel}>VISITED</button>}
         </div>
         <div className={styles.container}>
           <div className={styles.breif}>
             <h3>Breif</h3>
-            <SeeMoreText
-              className={styles.breifText}
-              text={place.description}
-            />
+            <SeeMoreText text={place.description} />
           </div>
           <div className={styles.placeBtns}>
             <div className={styles.btnContainer}>
@@ -174,8 +160,8 @@ function PlaceDetails() {
               </p>
             </div>
           </div>
-          <hr></hr>
-          <div className={styles.info}>
+          <hr className={styles.horizontalLine}></hr>
+          <section className={styles.info}>
             <PlaceTicketPrice
               egyptianChildPrice={place.egyptian_student_ticket_price}
               egyptianAdultPrice={place.egyptian_adult_ticket_price}
@@ -189,9 +175,9 @@ function PlaceDetails() {
               />
               <PlaceLocation location={place.location} name={place.name} />
             </div>
-          </div>
+          </section>
           <hr></hr>
-          <div className={styles.reviewSection}>
+          <section className={styles.reviewSection}>
             <div className={styles.reviewsHeader}>
               <h3>See what visitors are saying</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
@@ -220,7 +206,7 @@ function PlaceDetails() {
               placeId={placeId}
               isReport={false}
             />
-          </div>
+          </section>
           <hr style={{ margin: "20px" }}></hr>
           <div className={styles.photoSection}>
             <div className={styles.reviewsHeader}>
