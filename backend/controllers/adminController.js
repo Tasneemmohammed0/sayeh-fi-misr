@@ -103,12 +103,21 @@ exports.deletePlace = async (req, res, next) => {
   try {
     await db.query("COMMIT");
     const query = `
-    DELETE FROM place WHERE place_id=$1;
+    DELETE FROM place WHERE place_id=$1 RETURNING *;
     `;
     const response = await db.query(query, [req.params.id]);
+
+    if (!response.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: err.message,
+      });
+    }
+
     res.status(200).json({
       status: "success",
       length: response.rowCount,
+      data: response.rows[0],
     });
   } catch (err) {
     await db.query("ROLLBACK");
@@ -121,20 +130,81 @@ exports.deletePlace = async (req, res, next) => {
 
 exports.createPlace = async (req, res, next) => {
   try {
+    const {
+      name,
+      location,
+      city,
+      photo,
+      type,
+      description,
+      foreign_adult_ticket_price,
+      egyptian_adult_ticket_price,
+      foreign_student_ticket_price,
+      egyptian_student_ticket_price,
+      opening_hours_holidays,
+      opening_hours_working_days,
+    } = req.body;
+
+    // Validate empty fields
+    if (
+      !name ||
+      !location ||
+      !city ||
+      !type ||
+      !description ||
+      foreign_adult_ticket_price === undefined ||
+      egyptian_adult_ticket_price === undefined ||
+      foreign_student_ticket_price === undefined ||
+      egyptian_student_ticket_price === undefined ||
+      !opening_hours_holidays ||
+      !opening_hours_working_days
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Fields are missing",
+      });
+    }
+
+    // Validate ticket prices
+    const ticketPrices = [
+      +foreign_adult_ticket_price,
+      +egyptian_adult_ticket_price,
+      +foreign_student_ticket_price,
+      +egyptian_student_ticket_price,
+    ];
+    if (ticketPrices.some((price) => typeof price !== "number" || price < 0)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Ticket prices must be non-negative numbers.",
+      });
+    }
+
+    // Validate opening hours format (just string)
+    if (
+      typeof opening_hours_holidays !== "string" ||
+      typeof opening_hours_working_days !== "string"
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Opening hours must be strings.",
+      });
+    }
+
     const place = {
-      name: req.body.name,
-      location: req.body.location,
-      city: req.body.city,
-      photo: req.body.photo,
-      type: req.body.type,
-      description: req.body.description,
-      foreign_adult_ticket_price: req.body.foreign_adult_ticket_price,
-      foreign_student_ticket_price: req.body.foreign_student_ticket_price,
-      egyptian_adult_ticket_price: req.body.egyptian_adult_ticket_price,
-      egyptian_student_ticket_price: req.body.egyptian_student_ticket_price,
-      opening_hours_holidays: req.body.opening_hours_holidays,
-      opening_hours_working_days: req.body.opening_hours_working_days,
+      name,
+      location,
+      city,
+      photo,
+      type,
+      description,
+      foreign_adult_ticket_price,
+      foreign_student_ticket_price,
+      egyptian_adult_ticket_price,
+      egyptian_student_ticket_price,
+      opening_hours_holidays,
+      opening_hours_working_days,
     };
+
     const query = `
     INSERT INTO place 
     (name, location, city, photo,type, description, foreign_adult_ticket_price, foreign_student_ticket_price, egyptian_adult_ticket_price, egyptian_student_ticket_price, opening_hours_holidays, opening_hours_working_days)
@@ -148,9 +218,17 @@ exports.createPlace = async (req, res, next) => {
       data: response.rows,
     });
   } catch (err) {
+    let message = err.message;
+    console.log(err.message);
+    if (err.message.includes("duplicate")) {
+      if (err.message.includes("place_name_key"))
+        message = "There's already a place with this name";
+      else if (err.message.includes("place_location_key"))
+        message = "There's already a place in this location";
+    }
     res.status(400).json({
       status: "fail",
-      message: err,
+      message,
     });
   }
 };
@@ -164,7 +242,7 @@ exports.updatePlace = async (req, res, next) => {
     if (!place_id) {
       return res.status(400).json({
         status: "fail",
-        message: "there exist no place id",
+        message: "There's no such place id",
       });
     }
     const params = [];
@@ -190,18 +268,38 @@ exports.updatePlace = async (req, res, next) => {
       conditions.push(`description=$${params.length}`);
     }
     if (req.body.foreign_adult_ticket_price != undefined) {
+      if (+req.body.foreign_adult_ticket_price < 0)
+        return res.status(400).json({
+          status: "fail",
+          message: "Opening hours must be positive numbers.",
+        });
       params.push(req.body.foreign_adult_ticket_price);
       conditions.push(`foreign_adult_ticket_price=$${params.length}`);
     }
     if (req.body.foreign_student_ticket_price != undefined) {
+      if (+req.body.foreign_student_ticket_price < 0)
+        return res.status(400).json({
+          status: "fail",
+          message: "Opening hours must be positive numbers.",
+        });
       params.push(req.body.foreign_student_ticket_price);
       conditions.push(`foreign_student_ticket_price=$${params.length}`);
     }
     if (req.body.egyptian_student_ticket_price != undefined) {
+      if (+req.body.foreign_student_ticket_price < 0)
+        return res.status(400).json({
+          status: "fail",
+          message: "Opening hours must be positive numbers.",
+        });
       params.push(req.body.egyptian_student_ticket_price);
       conditions.push(`egyptian_student_ticket_price=$${params.length}`);
     }
     if (req.body.egyptian_adult_ticket_price != undefined) {
+      if (+req.body.foreign_student_ticket_price < 0)
+        return res.status(400).json({
+          status: "fail",
+          message: "Opening hours must be positive numbers.",
+        });
       params.push(req.body.egyptian_adult_ticket_price);
       conditions.push(`egyptian_adult_ticket_price=$${params.length}`);
     }
@@ -227,9 +325,16 @@ exports.updatePlace = async (req, res, next) => {
       data: response.rows,
     });
   } catch (err) {
+    let message = err.message;
+    if (err.message.includes("duplicate")) {
+      if (err.message.includes("place_name_key"))
+        message = "Place with this name already exists";
+      else if (err.message.includes("place_location_key"))
+        message = "place in this location already exists";
+    }
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message,
     });
   }
 };

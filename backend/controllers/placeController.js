@@ -41,11 +41,6 @@ exports.getPlaceDetails = async (req, res) => {
       ),
     ]);
 
-    console.log({
-      place: placeData.rows[0],
-      reviews: reviewsData.rows,
-      photos: photosData.rows,
-    });
     res.status(200).json({
       status: "success",
       data: {
@@ -55,8 +50,8 @@ exports.getPlaceDetails = async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(err);
-    res.status(404).json({
+    res.status(400).json({
+      status: "fail",
       message: err,
     });
   }
@@ -66,20 +61,28 @@ exports.getPlaceDetails = async (req, res) => {
 exports.getAllPlaces = async (req, res) => {
   try {
     const data = await db.query(`SELECT p.*, AVG(r.rating) AS rate
-FROM place p
-LEFT JOIN review r ON p.place_id = r.place_id
-GROUP BY p.place_id
-ORDER BY p.place_id ASC
+    FROM place p
+    LEFT JOIN review r ON p.place_id = r.place_id
+    GROUP BY p.place_id
+    ORDER BY p.place_id ASC
+    `);
 
-`);
-
+    if (!data.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No places exist",
+      });
+    }
     res.status(200).json({
       status: "success",
       length: data.rows.length,
       data: data.rows,
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 
@@ -99,7 +102,10 @@ exports.getPlaceReviews = async (req, res) => {
       data: data.rows,
     });
   } catch (err) {
-    console.error(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 
@@ -119,7 +125,10 @@ exports.getAllPhotos = async (req, res) => {
       data: data.rows,
     });
   } catch (err) {
-    console.error(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 
@@ -159,14 +168,13 @@ exports.postReview = async (req, res) => {
       console.error(err.message);
     }
 
-    console.log(data.rows[0]);
     res.status(200).json({
       status: "success",
       data: data.rows[0],
     });
   } catch (err) {
-    console.error(err);
     res.status(404).json({
+      status: "fail",
       message: err,
     });
   }
@@ -196,9 +204,9 @@ exports.postPhoto = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.error(err);
-    res.status(404).json({
-      message: err,
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };
@@ -206,6 +214,16 @@ exports.postPhoto = async (req, res) => {
 // Add to wish list
 exports.addToWishList = async (req, res) => {
   try {
+    const valQuery = await db.query(
+      "SELECT user_id FROM wishlist WHERE user_id=$1 AND wishlist_id=$2",
+      [req.user.user_id, req.body.wishlist_id]
+    );
+    if (!valQuery.rowCount) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Can't add to a wishlist that you don't own",
+      });
+    }
     const data = await db.query(
       `INSERT INTO place_wishlist (place_id, wishlist_id) VALUES ($1, $2)`,
       [req.params.id, req.body.wishlist_id]
@@ -216,9 +234,9 @@ exports.addToWishList = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.error(err);
-    res.status(404).json({
-      message: err,
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };
@@ -254,9 +272,9 @@ exports.addToVisitedList = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.error(err);
-    res.status(404).json({
-      message: err,
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };
@@ -274,9 +292,9 @@ exports.checkVisited = async (req, res) => {
       data: data.rows[0].is_visited,
     });
   } catch (err) {
-    console.log(err);
-    res.status(404).json({
-      message: err,
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };
@@ -291,10 +309,9 @@ exports.deleteFromVisitedList = async (req, res) => {
     );
 
     if (!data.rowCount) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Failed to delete",
       });
-      return;
     }
     try {
       await deleteBadge(req.user.user_id, "Top Visitor", "visitor_place", 5);
@@ -308,9 +325,9 @@ exports.deleteFromVisitedList = async (req, res) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
-    console.log(err);
-    res.status(404).json({
-      message: err,
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };

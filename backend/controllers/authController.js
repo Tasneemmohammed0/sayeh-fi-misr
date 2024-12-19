@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
     const query = `
       SELECT *
       FROM visitor
-      WHERE email = $1
+      WHERE email ILIKE $1
     `;
     const params = [email];
     let user = await db.query(query, params);
@@ -83,7 +83,48 @@ exports.signup = async (req, res, next) => {
       password: hashedPassword,
       nationalities: req.body.nationalities,
     };
-
+    const {
+      firstName,
+      lastName,
+      username,
+      role,
+      email,
+      gender,
+      age,
+      country,
+      city,
+      password,
+      nationalities,
+    } = newUser;
+    if (
+      !firstName ||
+      !lastName ||
+      !username ||
+      !role ||
+      !email ||
+      !gender ||
+      !age ||
+      !country ||
+      !city ||
+      !password ||
+      nationalities.length === 0
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Missing information",
+      });
+    }
+    if (password.length < 8) {
+      return res.status(400).json({
+        status: "fail",
+        message: "password is too short",
+      });
+    }
+    if (age <= 0)
+      return res.status(400).json({
+        status: "fail",
+        message: "Age must be positive",
+      });
     // Add user to database and return it
     const insertUserQuery = `
       INSERT INTO visitor 
@@ -107,7 +148,6 @@ exports.signup = async (req, res, next) => {
     let result;
     result = await db.query(insertUserQuery, userParams);
     // contains the new user
-    console.log(result.rows);
     if (newUser.role === "host") {
       userParams.push(
         req.body.phone,
@@ -125,7 +165,6 @@ exports.signup = async (req, res, next) => {
     const user = result.rows[0];
 
     let insertNationalityQuery;
-    console.log(user.user_id);
     newUser.nationalities.forEach(async (nationality) => {
       insertNationalityQuery = `
         INSERT INTO visitor_nationality
@@ -162,35 +201,52 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.protect = (req, res, next) => {
-  // 1) Get token and check if it exists
-  const token = req.cookies.jwt;
-  if (token == null) {
-    return res.status(401).json({
-      status: "fail",
-      message: "Not logged in",
-    });
-  }
-
-  // 2) Token verification
-  let currentUser;
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
+exports.protect = async (req, res, next) => {
+  try {
+    // 1) Get token and check if it exists
+    const token = req.cookies.jwt;
+    if (token == null) {
       return res.status(401).json({
-        message: "unverified token",
-        token,
+        status: "fail",
+        message: "Not logged in",
       });
     }
-    currentUser = user;
-  }); // sets the user in request body
 
-  // (TBA) 3) Check if user still exists
+    // 2) Token verification
+    let currentUser;
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        return res.status(401).json({
+          message: "unverified token",
+          token,
+        });
+      }
+      currentUser = user;
+    }); // sets the user in request body
+    console.log("CURRENT USER:", currentUser);
+    // 3) Check if user still exists
+    const query = `
+  SELECT DISTINCT user_id FROM visitor WHERE user_id=$1
+  `;
+    const result = await db.query(query, [currentUser.user_id]);
+    console.log("ROWCOUNT:", result.rowCount);
+    if (!result.rowCount || result.rowCount === 0) {
+      res.clearCookie("jwt");
+      return res.status(400).json({
+        status: "fail",
+        message: "User no longer exists, please login again",
+      });
+    }
 
-  // (TBA) 4) Check if user changed password after JWT was issued (tell him to login again)
-
-  // 5) Grant access
-  req.user = currentUser;
-  next();
+    // 5) Grant access
+    req.user = currentUser;
+    next();
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: "failed to authenticate user",
+    });
+  }
 };
 
 exports.restrictTo = (...roles) =>
@@ -219,6 +275,12 @@ exports.changePassword = async (req, res) => {
         message: "Passwords don't match",
       });
     }
+    if (newPassword.length < 8) {
+      res.status(400).json({
+        status: "fail",
+        message: "New password is too short",
+      });
+    }
     let curUser = await db.query(
       "SELECT DISTINCT * from visitor WHERE user_id=$1",
       [req.user.user_id]
@@ -242,7 +304,9 @@ exports.changePassword = async (req, res) => {
       newHashedPassword,
       req.user.user_id,
     ]);
+
     if (response.rows[0].password) response.rows[0].password = undefined; // to not send it
+
     res.status(201).json({
       status: "success",
       data: response.rows[0],

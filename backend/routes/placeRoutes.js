@@ -21,7 +21,11 @@ router.post(
 // Post a photo for the place
 router.post("/:id/addPhoto", authController.protect, placeController.postPhoto);
 // Add to wishlist route
-router.post("/:id/addToWishlist", placeController.addToWishList);
+router.post(
+  "/:id/addToWishlist",
+  authController.protect,
+  placeController.addToWishList
+);
 // Add to visit list route
 router.post(
   "/:id/addToVisitedList",

@@ -30,7 +30,10 @@ JOIN
       data: data.rows,
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 
@@ -40,13 +43,21 @@ exports.getGathering = async (req, res) => {
       `SELECT * FROM gathering WHERE gathering_id = $1`,
       [req.params.id]
     );
+    if (!data.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Gathering doesn't exist",
+      });
+    }
     res.status(200).json({
       status: "success",
       data: data.rows[0],
     });
-    console.log(res.data);
   } catch (err) {
-    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 
@@ -93,7 +104,12 @@ exports.getGatheringDetails = async (req, res) => {
     const gatheringDetails = await db.query(gatheringDetailsQuery, [
       req.params.id,
     ]);
-
+    if (!gatheringDetails.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Gathering doesn't exist",
+      });
+    }
     const allUsersQuery = `
     SELECT DISTINCT v.user_id, v.first_name, v.last_name, v.profile_pic
     FROM visitor_gathering vg, visitor v
@@ -131,14 +147,15 @@ exports.deleteGathering = async (req, res) => {
     await db.query("COMMIT");
     const data = await db.query(
       `DELETE FROM gathering
-WHERE gathering_id= $1 RETURNING*`,
-      [req.params.id]
+      WHERE gathering_id= $1 AND host_id=$2 RETURNING *`,
+      [req.params.id, req.user.user_id]
     );
     if (!data.rowCount) {
-      res.status(400).json({
-        message: "Failed to delete",
+      return res.status(401).json({
+        status: "fail",
+        message:
+          "Can't delete a gathering that doesn't exist or doesn't belong to you",
       });
-      return;
     }
 
     res.status(200).json({
@@ -157,42 +174,113 @@ WHERE gathering_id= $1 RETURNING*`,
 exports.updateGathering = async (req, res) => {
   try {
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
-
-    const placeResult = await db.query(placeQuery, [req.body.place_name]);
-
+    console.log(req.body);
+    const placeResult = await db.query(placeQuery, [req.body.placeName]);
     const place_id = placeResult.rows[0].place_id;
-    console.log(place_id);
 
-    console.log(req.params);
+    const { title, duration, description, max_capacity } = req.body;
+    if (!title || !duration || !description || !max_capacity) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Fields are missing",
+      });
+    }
     const data = await db.query(
       `UPDATE gathering
     	SET  title=$1, duration=$2,  description=$3, max_capacity=$4,place_id=$5
-	    WHERE gathering_id=$6  RETURNING *`,
+	    WHERE gathering_id=$6 AND host_id=$7 RETURNING *`,
       [
-        req.body.title,
-        req.body.duration,
-        req.body.description,
-        req.body.max_capacity,
+        title,
+        duration,
+        description,
+        max_capacity,
         place_id,
         req.params.id,
+        req.user.user_id,
       ]
     );
-    // console.log(res.data);
+
+    if (!data.rowCount) {
+      return res.status(401).json({
+        status: "fail",
+        message:
+          "Can't edit a gathering that doesn't exist or doesn't belong to you",
+      });
+    }
+
     res.status(200).json({
       status: "success",
       data: data.rows[0],
     });
   } catch (err) {
-    console.log(err);
+    let message = err.message;
+    if (err.message.includes("duplicate")) {
+      message = "Gathering with this title already exists";
+    }
+    res.status(400).json({
+      status: "fail",
+      message,
+    });
   }
 };
 exports.createGathering = async (req, res) => {
   try {
+    const {
+      title,
+      duration,
+      gathering_date,
+      description,
+      max_capacity,
+      place_name,
+    } = req.body;
+
+    if (
+      !title ||
+      !duration ||
+      !gathering_date ||
+      !description ||
+      !max_capacity ||
+      !place_name
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "There are missing information",
+      });
+    }
+
+    if (max_capacity <= 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Maximum capacity must be a positive number",
+      });
+    }
+
+    if (duration <= 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Duration must be a positive number",
+      });
+    }
+
+    if (new Date(gathering_date) < Date.now()) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Can't create a gathering in the past!",
+      });
+    }
+
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
     const placeResult = await db.query(placeQuery, [req.body.place_name]);
 
+    if (!placeResult.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Place doesn't exist",
+      });
+    }
+
     const place_id = placeResult.rows[0].place_id;
-    console.log(place_id);
+
     const insertQuery = `
       INSERT INTO gathering (title, duration, gathering_date, description, max_capacity, place_id, host_id)
       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING*
@@ -207,7 +295,7 @@ exports.createGathering = async (req, res) => {
       req.body.description,
       req.body.max_capacity,
       place_id,
-      req.body.host_id,
+      req.user.user_id,
     ]);
     const getData = `
     SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
@@ -229,14 +317,32 @@ exports.createGathering = async (req, res) => {
       gatheringData: gatheringData.rows[0],
       data: allData.rows[0],
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    let message = err.message;
+    if (err.message.includes("duplicate"))
+      message = "Gathering with this title already exists";
+    res.status(400).json({
+      status: "fail",
+      message,
+    });
   }
 };
 
 // Add user to gathering
 exports.addToGathering = async (req, res) => {
   try {
+    if (req.user.role === "host") {
+      const canAdd = await db.query(
+        `select host_id from gathering where gathering_id=$1`,
+        [req.params.id]
+      );
+      if (canAdd.rowCount && canAdd.rows[0] !== req.user.user_id) {
+        return res.status(401).json({
+          status: "fail",
+          message: "Can't add users to gathering you don't own",
+        });
+      }
+    }
     const userIdData = await db.query(
       `select distinct user_id from visitor where username=$1`,
       [req.body.username]
@@ -270,13 +376,11 @@ exports.addToGathering = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      message: "Joined Successfully",
+      message: "Added Successfully",
       data: data.rows[0],
     });
   } catch (err) {
-    console.error(err.message);
-
-    let message;
+    let message = err.message;
     if (
       err.message == "Cannot read properties of undefined (reading 'user_id')"
     ) {
@@ -288,7 +392,8 @@ exports.addToGathering = async (req, res) => {
       message = "User already in the gathering";
     }
 
-    res.status(404).json({
+    res.status(400).json({
+      status: "fail",
       message,
     });
   }
@@ -297,10 +402,32 @@ exports.addToGathering = async (req, res) => {
 // Delete user from gathering
 exports.deleteFromGathering = async (req, res) => {
   try {
+    if (req.user.role === "host") {
+      const gatheringMaker = await db.query(
+        `select host_id from gathering where gathering_id=$1`,
+        [req.params.id]
+      );
+      if (
+        gatheringMaker.rowCount &&
+        !gatheringMaker.rows[0] === req.user.user_id
+      ) {
+        return res.status(401).json({
+          status: "fail",
+          message: "Can't delete users from gatherings you don't own",
+        });
+      }
+    }
+
     const data = await db.query(
       `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
       [req.params.user_id, req.params.id]
     );
+    if (!data.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User isn't in this gathering",
+      });
+    }
     try {
       await deleteBadge(
         req.user.user_id,
@@ -315,11 +442,11 @@ exports.deleteFromGathering = async (req, res) => {
       status: "success",
       length: data.rowCount,
       data: data.rows[0],
-      message: "deleted successfully",
+      message: "Deleted successfully",
     });
   } catch (err) {
-    console.error(err);
-    res.status(404).json({
+    res.status(400).json({
+      status: "fail",
       message: err.message,
     });
   }
@@ -332,6 +459,14 @@ exports.leaveGathering = async (req, res) => {
       `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
       [req.user.user_id, req.params.id]
     );
+
+    if (!data.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "You're not part of this gathering",
+      });
+    }
+
     try {
       await deleteBadge(
         req.user.user_id,
@@ -346,11 +481,11 @@ exports.leaveGathering = async (req, res) => {
       status: "success",
       length: data.rowCount,
       data: data.rows[0],
-      message: "deleted successfully",
+      message: "Left successfully",
     });
   } catch (err) {
-    console.error(err);
-    res.status(404).json({
+    res.status(400).json({
+      status: "fail",
       message: err.message,
     });
   }
@@ -390,9 +525,12 @@ exports.joinGathering = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.error(err);
-    res.status(404).json({
-      message: err,
+    let message = err.message;
+    if (err.message.includes("duplicate"))
+      message = "You're already in this gathering";
+    res.status(400).json({
+      status: "fail",
+      message,
     });
   }
 };
@@ -410,9 +548,9 @@ exports.checkJoined = async (req, res) => {
       data: data.rows[0].is_joined,
     });
   } catch (err) {
-    console.log(err);
-    res.status(404).json({
-      message: err,
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };
