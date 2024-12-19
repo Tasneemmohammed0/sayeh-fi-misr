@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/placeslist.module.css";
 import Loading from "./Loading";
 import { MdDelete } from "react-icons/md";
@@ -13,10 +13,10 @@ function VisitedList({ id, canEdit, setStats }) {
 
   const [visitList, setVisitList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  console.log("visitList");
   function handleOptions() {
     setShowOptions((op) => !op);
     setSelectedOption(null);
@@ -35,15 +35,17 @@ function VisitedList({ id, canEdit, setStats }) {
           `http://localhost:1123/api/v1/users/visitlist/${id}`
         );
         setVisitList(response.data.data);
-        console.log("visited list ", response.data.data);
         setLoading(false);
       } catch (err) {
-        console.log(err.message);
         setLoading(false);
       }
     };
     fetchData();
   }, [id]);
+
+  function handleClick(id) {
+    navigate(`/places/${id}`);
+  }
 
   return (
     <div className={styles.list} id="visitlist">
@@ -78,6 +80,7 @@ function VisitedList({ id, canEdit, setStats }) {
             inVisitList={true}
             setVisitList={setVisitList}
             setLoading={setLoading}
+            onClick={() => handleClick(item.place_id)}
           />
         </div>
       ))}
