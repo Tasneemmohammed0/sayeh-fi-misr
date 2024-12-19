@@ -4,7 +4,7 @@ import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import style from "../../styles/AdminStatistics.module.css";
 import Loading from "../../../components/Loading";
 import ErrorMessage from "../../../components/ErrorMessage";
-function DetailedStats() {
+function AverageRating() {
   const [city, setCity] = useState("Cairo");
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
@@ -103,4 +103,4 @@ function DetailedStats() {
   );
 }
 
-export default DetailedStats;
+export default AverageRating;
