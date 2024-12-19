@@ -130,3 +130,36 @@ exports.getPlaceVisits = async (req, res) => {
     console.error(err);
   }
 };
+
+exports.getAvgRatings = async (req, res) => {
+  try {
+    const query = `
+    SELECT  p.city, AVG(r.rating) AS rate
+    FROM place p
+    LEFT JOIN review r ON p.place_id = r.place_id
+    WHERE p.city ILIKE $1
+    GROUP BY p.city
+    ORDER BY rate ASC
+    `;
+
+    const response = await db.query(query, [req.params.city]);
+
+    if (!response.rowCount)
+      return res.status(404).json({
+        status: "fail",
+        message: "City doesn't exist in our database",
+      });
+
+    if (response.rows[0]?.rate === null) response.rows[0].rate = 0;
+
+    res.status(200).json({
+      status: "success",
+      data: response.rows[0],
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};

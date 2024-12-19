@@ -11,6 +11,8 @@ router.get("/users", statsController.getUsersTypes);
 
 router.get("/gathering", statsController.getPopularGathering);
 
+router.get("/ratings/:city", statsController.getAvgRatings);
+
 // Top 5 nationalities
 router.get("/nationalities", statsController.getTopFiveNationalities);
 
