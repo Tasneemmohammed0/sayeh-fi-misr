@@ -30,7 +30,6 @@ function Card({
 
   async function handleDelete(id) {
     try {
-      setLoading(true);
       if (inVisitList) {
         const response = await axios.delete(
           `http://localhost:1123/api/v1/places/${id}/deleteFromVisitedList`,
@@ -46,7 +45,6 @@ function Card({
             "An error occured while deleting the place please try again later."
           );
         }
-        setLoading(false);
         return;
       } else {
         await axios.delete(`http://localhost:1123/api/v1/places/${id}`, {
