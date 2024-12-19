@@ -157,7 +157,7 @@ exports.deleteGathering = async (req, res) => {
           "Can't delete a gathering that doesn't exist or doesn't belong to you",
       });
     }
-    
+
     res.status(200).json({
       status: "success",
       length: data.rowCount,
@@ -174,9 +174,10 @@ exports.deleteGathering = async (req, res) => {
 exports.updateGathering = async (req, res) => {
   try {
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
-    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+    console.log(req.body);
+    const placeResult = await db.query(placeQuery, [req.body.placeName]);
     const place_id = placeResult.rows[0].place_id;
-    
+
     const { title, duration, description, max_capacity } = req.body;
     if (!title || !duration || !description || !max_capacity) {
       return res.status(400).json({
@@ -187,7 +188,7 @@ exports.updateGathering = async (req, res) => {
     const data = await db.query(
       `UPDATE gathering
     	SET  title=$1, duration=$2,  description=$3, max_capacity=$4,place_id=$5
-	    WHERE gathering_id=$6  RETURNING *`,
+	    WHERE gathering_id=$6 AND host_id=$7 RETURNING *`,
       [
         title,
         duration,
@@ -198,7 +199,7 @@ exports.updateGathering = async (req, res) => {
         req.user.user_id,
       ]
     );
-    
+
     if (!data.rowCount) {
       return res.status(401).json({
         status: "fail",
@@ -206,7 +207,7 @@ exports.updateGathering = async (req, res) => {
           "Can't edit a gathering that doesn't exist or doesn't belong to you",
       });
     }
-    
+
     res.status(200).json({
       status: "success",
       data: data.rows[0],
@@ -426,7 +427,7 @@ exports.deleteFromGathering = async (req, res) => {
         status: "fail",
         message: "User isn't in this gathering",
       });
-
+    }
     try {
       await deleteBadge(
         req.user.user_id,
@@ -458,13 +459,14 @@ exports.leaveGathering = async (req, res) => {
       `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
       [req.user.user_id, req.params.id]
     );
-    
+
     if (!data.rowCount) {
       return res.status(404).json({
         status: "fail",
         message: "You're not part of this gathering",
       });
-      
+    }
+
     try {
       await deleteBadge(
         req.user.user_id,
