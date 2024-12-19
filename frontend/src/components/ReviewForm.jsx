@@ -126,6 +126,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
             <label className={styles.formLabel}>
               <span>Title</span>
               <input
+                style={{ marginLeft: "2rem" }}
                 className={styles.title}
                 type="text"
                 placeholder={"Enter review title"}
