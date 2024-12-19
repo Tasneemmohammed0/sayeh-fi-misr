@@ -4,6 +4,7 @@ import TopNationalities from "./StatisticsComponents/TopNationalities";
 import MostPopularGathering from "./StatisticsComponents/MostPopularGathering";
 import LastWeekVisits from "./StatisticsComponents/LastWeekVisits";
 import style from "../styles/AdminStatistics.module.css";
+import DetailedStats from "./StatisticsComponents/DetailedStats";
 function AdminStatistics() {
   return (
     <div id="statistics">
@@ -13,6 +14,7 @@ function AdminStatistics() {
         <TopNationalities />
         <LastWeekVisits />
         <MostPopularGathering />
+        <DetailedStats />
       </section>
     </div>
   );

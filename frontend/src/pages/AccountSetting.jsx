@@ -143,6 +143,7 @@ function AccountSetting() {
     error_email: "",
     password: "",
     error_password: "",
+    profile: user?.profile_picture,
   });
 
   function handleEdit(e, type) {
@@ -229,6 +230,17 @@ function AccountSetting() {
       <h1 className={styles.heading}>Account Settings</h1>
 
       <form className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="profile" className={styles.label}>
+            Profile Picture:
+          </label>
+          <img
+            src={user?.profile_picture}
+            alt="Profile Picture"
+            className={styles.profilePicture}
+          />
+        </div>
+
         {/* First Name */}
         <div className={styles.formGroup}>
           <label htmlFor="firstName" className={styles.label}>

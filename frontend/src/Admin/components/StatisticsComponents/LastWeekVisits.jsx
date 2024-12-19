@@ -14,6 +14,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { IoMdReturnLeft } from "react-icons/io";
 
 // Register Chart.js modules
 ChartJS.register(
@@ -32,11 +33,11 @@ function LastWeekVisits() {
   const [loading, setLoading] = useState(true);
   const { places } = useContext(UserContext);
   const [place, setPlace] = useState(null);
-  console.log("places", places);
   useEffect(() => {
     setPlace(places[0]?.place_id);
     async function fetchData() {
       try {
+        if (!place) return;
         const res = await axios.get(
           `http://localhost:1123/api/v1/stats/place/${place}`,
           {
