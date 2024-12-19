@@ -54,6 +54,10 @@
   justify-content: center;
 }
 
+.formLabel > span {
+  margin-top: 0.3rem;
+}
+
 .title {
   margin-left: 10px;
   height: 40px;
@@ -70,13 +74,14 @@
   margin-left: 10px;
   padding: 10px;
   height: 300px;
-  width: 400px;
+  width: 360px;
   background-color: rgb(255, 240, 240);
   border: 1px solid var(--our-blue);
   border-radius: 10px;
   font-size: 15px;
   color: var(--our-black);
 }
+
 .formButton {
   height: 40px;
   width: 120px;
@@ -98,17 +103,26 @@
   background-color: rgb(255, 240, 240);
 }
 
+.reviewContent {
+  display: flex;
+  flex-direction: column;
+  align-items: first baseline;
+  gap: 0.8rem;
+  padding: 0rem 2rem;
+}
+
 /*Report styles*/
 .severity {
   display: flex;
-  justify-content: space-between;
+  align-self: center;
   gap: 1rem;
   color: var(--our-blue);
+  cursor: pointer;
 }
 
 .dropList {
   height: 30px;
-  width: 200px;
+  width: 360px;
   border-radius: 10px;
   border: 1px solid var(--our-blue);
   padding: 0.2rem;

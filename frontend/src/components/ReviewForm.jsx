@@ -121,68 +121,71 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
           <IoMdClose />
         </button>
         {!isReport && <Rate rate={rate} setRate={setRate} />}
-        {!isReport && (
+        <div className={styles.reviewContent}>
+          {!isReport && (
+            <label className={styles.formLabel}>
+              <span>Title</span>
+              <input
+                className={styles.title}
+                type="text"
+                placeholder={"Enter review title"}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </label>
+          )}
+          {isReport && (
+            <label className={styles.formLabel}>
+              <span>Reason</span>
+              <select
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className={styles.dropList}
+              >
+                <option>Offensive</option>
+                <option>Spam</option>
+                <option>Inappropriate</option>
+                <option>Other</option>
+              </select>
+            </label>
+          )}
           <label className={styles.formLabel}>
-            Title
-            <input
-              className={styles.title}
-              type="text"
-              placeholder={"Enter review title"}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+            <span style={{ marginTop: "0.5rem" }}>
+              {isReport ? "Content" : "Review"}
+            </span>
+            <textarea
+              className={styles.reviewText}
+              placeholder={
+                isReport ? "Write your report..." : "Write your review.."
+              }
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              maxLength={400}
+            ></textarea>
           </label>
-        )}
-        {isReport && (
-          <label className={styles.formLabel}>
-            Reason
-            <select
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className={styles.dropList}
-            >
-              <option>Offensive</option>
-              <option>Spam</option>
-              <option>Inappropriate</option>
-              <option>Other</option>
-            </select>
-          </label>
-        )}
-        <label className={styles.formLabel}>
-          {isReport ? "Content" : "Review"}
-          <textarea
-            className={styles.reviewText}
-            placeholder={
-              isReport ? "Write your report..." : "Write your review.."
-            }
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            maxLength={400}
-          ></textarea>
-        </label>
-        {isReport && (
-          <div className={styles.severity}>
-            <p className={styles.formLabel}>Severity</p>
-            <div>
-              {Array.from({ length: 5 }, (_, index) => {
-                const value = index + 1;
-                return (
-                  <label key={value}>
-                    <input
-                      type="radio"
-                      name="rating"
-                      value={value}
-                      onChange={() => setRate(value)}
-                      style={{ marginLeft: "10px", marginRight: "5px" }}
-                    />
-                    {value}
-                  </label>
-                );
-              })}
+          {isReport && (
+            <div className={styles.severity}>
+              <p>Severity</p>
+              <div>
+                {Array.from({ length: 5 }, (_, index) => {
+                  const value = index + 1;
+                  return (
+                    <label key={value}>
+                      <input
+                        type="radio"
+                        name="rating"
+                        value={value}
+                        onChange={() => setRate(value)}
+                        style={{ marginLeft: "10px", marginRight: "5px" }}
+                      />
+                      {value}
+                    </label>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        )}
-
+          )}
+        </div>
         <button
           type="submit"
           className={styles.formButton}
