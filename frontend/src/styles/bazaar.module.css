@@ -67,6 +67,7 @@
   justify-content: center;
   column-gap: 5rem;
   row-gap: 2rem;
+  margin: 30px;
 }
 
 @media (max-width: 1120px) {
