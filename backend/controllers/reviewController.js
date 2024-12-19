@@ -11,7 +11,7 @@ exports.deleteReview = async (req, res) => {
 
     if (!data.rowCount) {
       res.status(400).json({
-        message: "Failed to delete",
+        message: "Review doesn't exist or it doesn't belong to you.",
       });
       return;
     }
@@ -23,8 +23,8 @@ exports.deleteReview = async (req, res) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
-    console.log(err);
     res.status(400).json({
+      status: "fail",
       message: err.message,
     });
   }
@@ -65,10 +65,9 @@ exports.updateReview = async (req, res) => {
     const data = await db.query(query, params);
 
     if (!data.rowCount) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Failed to edit",
       });
-      return;
     }
 
     res.status(200).json({
@@ -77,8 +76,8 @@ exports.updateReview = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.log(err);
     res.status(404).json({
+      status: "fail",
       message: err.message,
     });
   }
