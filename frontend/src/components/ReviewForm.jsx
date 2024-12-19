@@ -124,7 +124,14 @@ function ReviewForm({
         <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
-        {!isReport && <Rate rate={rate} setRate={setRate} />}
+        {!isReport && (
+          <Rate
+            disabledColor={"gray"}
+            activeColor={"gold"}
+            rate={rate}
+            setRate={setRate}
+          />
+        )}
         <div className={styles.reviewContent}>
           {!isReport && (
             <label className={styles.formLabel}>

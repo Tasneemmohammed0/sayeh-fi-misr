@@ -13,6 +13,7 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
 
   function handleClose() {
     setPhoto(null);
+    setCaption("");
     setIsOpen(false);
   }
 
@@ -75,7 +76,6 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
       console.error(err);
     }
   }
-
   // pretty alerts
   function notify(msg) {
     Swal.fire({

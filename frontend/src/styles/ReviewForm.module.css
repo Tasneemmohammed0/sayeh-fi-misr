@@ -18,7 +18,7 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: var(--our-blue);
+  color: #674636;
   cursor: pointer;
 }
 
@@ -34,7 +34,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--our-green);
+  background-color: #fff8e8;
   margin-top: 100px;
   padding: 20px;
   border-radius: 20px;
@@ -42,14 +42,14 @@
 
 .form > h3 {
   font-size: 1.6rem;
-  color: var(--our-blue);
+  color: #674636;
   padding: 0.2rem 1rem;
   text-align: center;
 }
 
 .formLabel {
   font-size: 1rem;
-  color: var(--our-blue);
+  color: #674636;
   display: flex;
   justify-content: center;
 }
@@ -63,10 +63,10 @@
   height: 40px;
   width: 360px;
   border-radius: 10px;
-  border: 1px solid var(--our-blue);
+  border: 1px solid black;
   padding: 10px;
   font-size: 15px;
-  background-color: rgb(255, 240, 240);
+  background-color: #ddcfb7;
 }
 
 .reviewText {
@@ -74,7 +74,7 @@
   padding: 10px;
   height: 300px;
   width: 360px;
-  background-color: rgb(255, 240, 240);
+  background-color: #ddcfb7;
   border: 1px solid var(--our-blue);
   border-radius: 10px;
   font-size: 15px;
@@ -85,11 +85,15 @@
   height: 40px;
   width: 120px;
   border-radius: 10px;
-  background-color: var(--our-blue);
+  background-color: #674636;
   color: var(--our-white);
   font-size: 1.1rem;
   cursor: pointer;
   margin-top: 15px;
+}
+
+.formButton:hover {
+  transform: scale(1.05);
 }
 
 .photo {
