@@ -211,8 +211,9 @@ exports.getUserStats = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { user_id } = req.user;
-    const { first_name, last_name, username, email } = req.body.state;
-    // firstname, lastname, username, email
+    const { first_name, last_name, username, email, profile_pic } =
+      req.body.state;
+    // firstname, lastname, username, email,profile_pic
     const params = [];
     const conditions = [];
     let query = "";
@@ -231,6 +232,10 @@ exports.updateUser = async (req, res) => {
     if (email) {
       params.push(email);
       conditions.push(`email=$${params.length}`);
+    }
+    if (profile_pic) {
+      params.push(profile_pic);
+      conditions.push(`profile_pic=$${params.length}`);
     }
     params.push(user_id);
     if (conditions.length > 0) {
