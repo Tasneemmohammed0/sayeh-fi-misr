@@ -123,7 +123,7 @@ function UserGatheingList({ id, canEdit }) {
               selectedOption={selectedOption}
               onDelete={handleDelete}
               setLoading={setLoading}
-              // canEdit={id === item.host_id}
+              canEdit={id === item.host_id}
             />
           </div>
         ))}
