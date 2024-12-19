@@ -70,12 +70,30 @@
   margin-bottom: 0.6rem;
 }
 
-.reviewsHeader > div > h5 {
+.reviewsHeader > div > h5,
+.btnLabel {
   font-size: 1rem;
   color: var(--our-brown);
   cursor: pointer;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  transition: text-decoration 0.3s ease-in-out;
+  position: relative;
+}
+
+.reviewsHeader > div > h5::after,
+.btnLabel::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--our-brown);
+  transition: width 0.3s ease-in-out;
+}
+
+.reviewsHeader > div > h5:hover::after,
+.btnLabel:hover::after {
+  width: 100%;
 }
 
 .placeBtns {
@@ -109,11 +127,6 @@
 .addIcon:hover {
   color: #7b8b59;
   transform: scale(1.2);
-}
-
-.reviewsHeader > div > h5:hover {
-  text-decoration: underline;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .visitLabel {

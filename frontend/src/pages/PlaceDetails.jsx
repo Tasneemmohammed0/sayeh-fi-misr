@@ -156,7 +156,9 @@ function PlaceDetails() {
                 onClick={handleVisited}
                 className={styles.addIcon}
               />
-              <p>Visited</p>
+              <p className={styles.btnLabel} onClick={handleVisited}>
+                Visited
+              </p>
             </div>
 
             <div className={styles.btnContainer}>
@@ -164,7 +166,12 @@ function PlaceDetails() {
                 onClick={() => setIsReportFormOpen(true)}
                 className={styles.addIcon}
               />
-              <p>Add Report</p>
+              <p
+                className={styles.btnLabel}
+                onClick={() => setIsReportFormOpen(true)}
+              >
+                Add Report
+              </p>
             </div>
           </div>
           <hr></hr>
@@ -183,7 +190,9 @@ function PlaceDetails() {
             <div className={styles.reviewsHeader}>
               <h3>See what visitors are saying</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
-                <h5>Share Your Review</h5>
+                <h5 onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}>
+                  Share Your Review
+                </h5>
 
                 <IoAddCircleSharp
                   className={styles.addIcon}
@@ -212,7 +221,9 @@ function PlaceDetails() {
             <div className={styles.reviewsHeader}>
               <h3>Captured Moments of {place.name} 🌍</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
-                <h5>Got a Shot to Share? Show Us Your Perspective!</h5>
+                <h5 onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}>
+                  Got a Shot to Share? Show Us Your Perspective!
+                </h5>
 
                 <IoAddCircleSharp
                   className={styles.addIcon}
