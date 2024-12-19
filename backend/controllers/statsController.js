@@ -1,7 +1,6 @@
 const db = require("../db/index");
 const { format, subDays } = require("date-fns");
 
-// Get top 5 nationalities
 exports.getTopFiveNationalities = async (req, res) => {
   try {
     const data = await db.query(`SELECT nationality, COUNT(*) AS user_count

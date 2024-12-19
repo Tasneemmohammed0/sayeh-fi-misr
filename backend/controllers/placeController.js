@@ -198,8 +198,15 @@ exports.addToWishList = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
+    if (
+      err.message ==
+      `duplicate key value violates unique constraint "place_wishlist_pkey"`
+    ) {
+      message = "Place already in the list";
+    }
+
     res.status(404).json({
-      message: err,
+      message,
     });
   }
 };
@@ -281,4 +288,3 @@ exports.deleteFromVisitedList = async (req, res) => {
     });
   }
 };
-

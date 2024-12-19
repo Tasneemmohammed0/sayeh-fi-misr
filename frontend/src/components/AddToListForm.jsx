@@ -1,17 +1,19 @@
 import styles from "../styles/AddToListForm.module.css";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { IoMdClose, IoIosAddCircleOutline } from "react-icons/io";
 import Loading from "./Loading";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ErrorMessage from "./ErrorMessage";
-
+import Swal from "sweetalert2";
 import axios from "axios";
 
 function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
+  const navigate = useNavigate();
   const [lists, setLists] = useState([]);
   const [selectedList, setSelectedList] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [noListMsg, SetNoListMsg] = useState(false);
 
   if (!isOpen) return null;
 
@@ -30,7 +32,10 @@ function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
         setLoading(false);
       } catch (err) {
         console.log(err);
-        notify("Error in getting wishlists");
+        if (err.response.data.message == "No wishlists found.")
+          SetNoListMsg(true);
+
+        setLoading(false);
       }
     };
     fetchLists();
@@ -47,7 +52,7 @@ function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
 
     // if no list is selected
     if (!selectedList) {
-      notify("Please, select a list");
+      toast("Please, select a list");
       return;
     }
 
@@ -67,17 +72,13 @@ function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
       );
 
       // show success message
-      alert("🎉 place added to the list");
+      notify("Place added to the list");
 
       // clear the form
       handleClose();
     } catch (err) {
       console.log(err);
-
-      if (err.response.status === 404) {
-        notify("Place is already in the list");
-        return;
-      }
+      toast(err.response.data.message);
     }
   }
 
@@ -87,16 +88,39 @@ function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
     setIsOpen(false);
   }
 
-  // handling pretty alerts
+  // pretty alerts
   function notify(msg) {
-    toast(msg);
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: msg,
+      timer: 3000,
+    });
+  }
+
+  function navigateToCreateList() {
+    // redirect to create list page
+    navigate("/profile#wishlist");
   }
 
   return (
     <div className={styles.popupOverlay}>
       <ToastContainer />
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h3>Add this place to a list</h3>
+        {noListMsg ? (
+          <>
+            <h3>No Lists Found</h3>
+            <div
+              onClick={() => navigate("/profile#wishlist")}
+              className={styles.createList}
+            >
+              <p>Create a list first to get started!</p>
+              <IoIosAddCircleOutline className={styles.addListIcon} />
+            </div>
+          </>
+        ) : (
+          <h3>Add this place to a list</h3>
+        )}
         <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
@@ -119,13 +143,15 @@ function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
               })}
           </div>
         )}
-        <button
-          type="submit"
-          className={styles.formButton}
-          onClick={handleSubmit}
-        >
-          Add to list
-        </button>
+        {!noListMsg && (
+          <button
+            type="submit"
+            className={styles.formButton}
+            onClick={handleSubmit}
+          >
+            Add to list
+          </button>
+        )}
       </form>
     </div>
   );

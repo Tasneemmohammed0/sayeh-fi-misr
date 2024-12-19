@@ -95,6 +95,14 @@ exports.getUserWishlists = async (req, res, next) => {
     `;
     const params = [+req.params.id];
     const result = await db.query(query, params);
+
+    if (!result.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No wishlists found.",
+      });
+    }
+
     res.status(200).json({
       status: "success",
       length: result.rows.length,
