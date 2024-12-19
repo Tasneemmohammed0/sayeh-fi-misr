@@ -5,36 +5,37 @@ import axios from "axios";
 import Loading from "../../../components/Loading";
 import ErrorMessage from "../../../components/ErrorMessage";
 import style from "../../styles/AdminStatistics.module.css";
-const dataset = [
-  {
-    type: "Historical",
-    visitCount: 150,
-    reviewCount: 200,
-    photosCount: 250,
-    gatheringCount: 100,
-  },
-  {
-    type: "Museums",
-    visitCount: 120,
-    reviewCount: 180,
-    photosCount: 220,
-    gatheringCount: 90,
-  },
-  {
-    type: "Religious",
-    visitCount: 170,
-    reviewCount: 210,
-    photosCount: 260,
-    gatheringCount: 110,
-  },
-  {
-    type: "Saqqara & Dahshur",
-    visitCount: 130,
-    reviewCount: 190,
-    photosCount: 240,
-    gatheringCount: 95,
-  },
-];
+
+// const dataset = [
+//   {
+//     type: "Historical",
+//     visitCount: 150,
+//     reviewCount: 200,
+//     photosCount: 250,
+//     gatheringCount: 100,
+//   },
+//   {
+//     type: "Museums",
+//     visitCount: 120,
+//     reviewCount: 180,
+//     photosCount: 220,
+//     gatheringCount: 90,
+//   },
+//   {
+//     type: "Religious",
+//     visitCount: 170,
+//     reviewCount: 210,
+//     photosCount: 260,
+//     gatheringCount: 110,
+//   },
+//   {
+//     type: "Saqqara & Dahshur",
+//     visitCount: 130,
+//     reviewCount: 190,
+//     photosCount: 240,
+//     gatheringCount: 95,
+//   },
+// ];
 
 const valueFormatter = (value) => `${value}`;
 
@@ -65,6 +66,33 @@ const chartSetting = {
 };
 
 function CountsByType() {
+  const [dataset, setDataSet] = useState([]);
+  useEffect(() => {
+    const fetchActivitiesData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1123/api/v1/stats/activities`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response.data.status !== "fail") {
+          const transformedData = response.data.data.map((item) => ({
+            type: item.type,
+            visitCount: +item.visits_count,
+            gatheringCount: +item.gatherings_count,
+            reviewCount: +item.reviews_count,
+            photosCount: +item.photos_count,
+          }));
+          setDataSet(transformedData);
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+    fetchActivitiesData();
+  }, []);
+
   return (
     <div
       className={style.graph}

@@ -163,3 +163,39 @@ exports.getAvgRatings = async (req, res) => {
     });
   }
 };
+
+exports.getActivitiesCount = async (req, res) => {
+  try {
+    const query = `
+   SELECT 
+    p.type,
+   
+    COUNT(DISTINCT vp.place_id) AS visits_count,
+    COUNT(DISTINCT g.place_id) AS gatherings_count,
+    COUNT(DISTINCT r.place_id) AS reviews_count,
+    COUNT(DISTINCT ph.place_id) AS photos_count
+FROM 
+    place p
+LEFT JOIN visitor_place vp ON vp.place_id = p.place_id
+LEFT JOIN gathering g ON g.place_id = p.place_id
+LEFT JOIN review r ON r.place_id = p.place_id
+LEFT JOIN photo ph ON ph.place_id = p.place_id
+GROUP BY 
+    p.type
+   
+
+    `;
+
+    const response = await db.query(query);
+
+    res.status(200).json({
+      status: "success",
+      data: response.rows,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
