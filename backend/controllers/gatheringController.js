@@ -1,5 +1,9 @@
 const db = require("../db/index.js");
-const { assignBadge } = require("../controllers/badgeSystemController.js");
+const {
+  assignBadge,
+  deleteBadge,
+} = require("../controllers/badgeSystemController.js");
+const { addPoints } = require("../controllers/pointSystemController.js");
 
 exports.getAllGatherings = async (req, res) => {
   try {
@@ -124,32 +128,52 @@ exports.getGatheringDetails = async (req, res) => {
 
 exports.deleteGathering = async (req, res) => {
   try {
+    await db.query("COMMIT");
     const data = await db.query(
       `DELETE FROM gathering
-WHERE gathering_id= $1`,
+WHERE gathering_id= $1 RETURNING*`,
       [req.params.id]
     );
+    if (!data.rowCount) {
+      res.status(400).json({
+        message: "Failed to delete",
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
+      length: data.rowCount,
       data: data.rows[0],
     });
-    console.log(res.data);
   } catch (err) {
+    await db.query("ROLLBACK");
     console.log(err);
+    res.status(400).json({
+      message: err.message,
+    });
   }
 };
 exports.updateGathering = async (req, res) => {
   try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
+
     console.log(req.params);
     const data = await db.query(
       `UPDATE gathering
-	    SET  title=$1, duration=$2,  description=$3, max_capacity=$4
-	    WHERE gathering_id=$5;`,
+    	SET  title=$1, duration=$2,  description=$3, max_capacity=$4,place_id=$5
+	    WHERE gathering_id=$6  RETURNING *`,
       [
         req.body.title,
         req.body.duration,
         req.body.description,
         req.body.max_capacity,
+        place_id,
         req.params.id,
       ]
     );
@@ -158,12 +182,10 @@ exports.updateGathering = async (req, res) => {
       status: "success",
       data: data.rows[0],
     });
-    console.log(res.data);
   } catch (err) {
     console.log(err);
   }
 };
-
 exports.createGathering = async (req, res) => {
   try {
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
@@ -226,6 +248,25 @@ exports.addToGathering = async (req, res) => {
       `INSERT INTO visitor_gathering(user_id, gathering_id) VALUES ($1, $2)`,
       [userId, req.params.id]
     );
+    //Badge system
+    try {
+      await assignBadge(
+        userId,
+        "Top Participant",
+        "visitor_gathering",
+        5,
+        req.body.date
+      );
+    } catch (err) {
+      console.error(err);
+    }
+
+    // Add this gathering to user's activities
+    try {
+      await addPoints(req.user.user_id, "gathering", 20);
+    } catch (err) {
+      console.error(err.message);
+    }
 
     res.status(200).json({
       status: "success",
@@ -260,7 +301,16 @@ exports.deleteFromGathering = async (req, res) => {
       `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
       [req.params.user_id, req.params.id]
     );
-
+    try {
+      await deleteBadge(
+        req.user.user_id,
+        "Top Participant",
+        "visitor_gathering",
+        5
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       length: data.rowCount,
@@ -282,7 +332,16 @@ exports.leaveGathering = async (req, res) => {
       `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
       [req.user.user_id, req.params.id]
     );
-
+    try {
+      await deleteBadge(
+        req.user.user_id,
+        "Top Participant",
+        "visitor_gathering",
+        5
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       length: data.rowCount,
@@ -305,6 +364,14 @@ exports.joinGathering = async (req, res) => {
       [req.user.user_id, req.params.id]
     );
 
+    //Add this gathering to user's activities
+    try {
+      addPoints(req.user.user_id, "gathering", 20);
+    } catch (err) {
+      console.error(err.message);
+    }
+
+    //Badge system
     try {
       await assignBadge(
         req.user.user_id,

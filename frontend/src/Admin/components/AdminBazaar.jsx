@@ -58,36 +58,41 @@ function AdminBazaar() {
   }
 
   return (
-    <div className={styles.mainBazaar}>
-      {loading && <Loading />}
-      <div style={{ position: "absolute", top: "-10px", right: "10px" }}>
-        {showOptions && (
-          <>
-            <IoAddSharp className={styles.addIcon} onClick={() => addItem()} />
+    <>
+      <div className={styles.mainBazaar}>
+        {loading && <Loading />}
+        <div style={{ position: "absolute", top: "-10px", right: "10px" }}>
+          {showOptions && (
+            <>
+              <IoAddSharp
+                className={styles.addIcon}
+                onClick={() => addItem()}
+              />
 
-            <CiEdit
-              className={styles.editIcon}
-              onClick={() => {
-                handleEdit();
-              }}
+              <CiEdit
+                className={styles.editIcon}
+                onClick={() => {
+                  handleEdit();
+                }}
+              />
+              <MdDelete className={styles.deleteIcon} onClick={handleDelete} />
+            </>
+          )}
+
+          <FiSettings onClick={handleOptions} className={styles.optionIcon} />
+        </div>
+
+        <div className={styles.giftContainer}>
+          {gifts.map((item, index) => (
+            <Gift
+              key={index}
+              card={item}
+              role="admin"
+              setGifts={setGifts}
+              selectedOption={selectedOption}
             />
-            <MdDelete className={styles.deleteIcon} onClick={handleDelete} />
-          </>
-        )}
-
-        <FiSettings onClick={handleOptions} className={styles.optionIcon} />
-      </div>
-
-      <div className={styles.giftContainer}>
-        {gifts.map((item, index) => (
-          <Gift
-            key={index}
-            card={item}
-            role="admin"
-            setGifts={setGifts}
-            selectedOption={selectedOption}
-          />
-        ))}
+          ))}
+        </div>
       </div>
       {showAddItem && (
         <AddGiftForm
@@ -96,7 +101,7 @@ function AdminBazaar() {
           places={places}
         />
       )}
-    </div>
+    </>
   );
 }
 
