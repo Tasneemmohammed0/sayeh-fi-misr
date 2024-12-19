@@ -25,7 +25,7 @@ function WishLists({ id }) {
         );
         setWishLists(response.data.data);
       } catch (err) {
-        console.log(err.message);
+        toast.error(err.response.data.message);
       } finally {
         setLoading(false);
       }
@@ -42,8 +42,6 @@ function WishLists({ id }) {
   };
 
   const handleUpdateWishList = (updatedWishList) => {
-    console.log(updatedWishList);
-
     setWishLists((prevWishLists) =>
       prevWishLists.map((wishList) =>
         wishList.wishlist_id === updatedWishList.wishlist_id
@@ -55,7 +53,6 @@ function WishLists({ id }) {
 
   const handleDeleteWishlist = async (id) => {
     try {
-      console.log(id);
       setLoading(true);
 
       const response = await axios.delete(
@@ -67,7 +64,7 @@ function WishLists({ id }) {
         (prevWishLists || []).filter((wishlist) => wishlist.wishlist_id !== id)
       );
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -101,18 +98,26 @@ function WishLists({ id }) {
               >
                 <h2 className={styles.titleStyle}>{wishList.name}</h2>
                 <p className={styles.description}>{wishList.description}</p>
-                <button
-                  className={styles.editBtn}
-                  onClick={() => setEditWishList(wishList)}
+                <div
+                  style={{
+                    display: "flex",
+                    alignSelf: "flex-end",
+                    columnGap: "10px",
+                  }}
                 >
-                  Edit
-                </button>
-                <button
-                  className={styles.deleteBtn}
-                  onClick={() => handleDeleteWishlist(wishList.wishlist_id)}
-                >
-                  Delete
-                </button>
+                  <button
+                    className={styles.editBtn}
+                    onClick={() => setEditWishList(wishList)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className={styles.deleteBtn}
+                    onClick={() => handleDeleteWishlist(wishList.wishlist_id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </li>
             )
         )}
@@ -145,9 +150,6 @@ function EditWishListPopup({
     try {
       setLoading(true);
 
-      if (name == "") {
-      }
-
       const response = await axios.patch(
         `http://localhost:1123/api/v1/wishlist/${wishList.wishlist_id}`,
         {
@@ -159,7 +161,6 @@ function EditWishListPopup({
         }
       );
 
-      console.log(response.data);
       if (response.status == 200)
         setWishLists((prevWishLists) =>
           prevWishLists.map((prevwishList) =>
@@ -168,13 +169,13 @@ function EditWishListPopup({
               : prevwishList
           )
         );
-      toast.success("update is complete ");
+
+      toast.success(`Updated successfully`);
       setTimeout(() => {
         closeForm();
       }, 1000);
     } catch (err) {
-      toast.error(err.message);
-      console.error("Error updating wishlist:", err.message);
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -192,7 +193,6 @@ function EditWishListPopup({
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              required
             />
           </label>
           <label>
@@ -201,7 +201,6 @@ function EditWishListPopup({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows="4"
-              required
             />
           </label>
           <div className={styles.buttonGroup}>
