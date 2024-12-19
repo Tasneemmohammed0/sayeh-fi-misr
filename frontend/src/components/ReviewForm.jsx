@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import Rate from "./Rate";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
   const [title, setTitle] = useState("");
@@ -53,8 +54,8 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     } finally {
       // show success message
       isReport
-        ? alert("Report Submitted Successfully!")
-        : alert("🎉 Review Submitted Successfully!");
+        ? notify("Report Submitted Successfully!")
+        : notify("🎉 Review Submitted Successfully!");
     }
   }
 
@@ -68,8 +69,6 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
       return;
     }
 
-    console.log(reason);
-    console.log(reason, review, rate);
     // Report without title and review
     if (isReport && (!reason || !review || !rate)) {
       toast(
@@ -95,6 +94,16 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     setReview("");
     setIsOpen(false);
     setRate(0);
+  }
+
+  // pretty alerts
+  function notify(msg) {
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: msg,
+      timer: 3000,
+    });
   }
 
   return (
@@ -154,20 +163,23 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
         {isReport && (
           <div className={styles.severity}>
             <p className={styles.formLabel}>Severity</p>
-            {Array.from({ length: 5 }, (_, index) => {
-              const value = index + 1;
-              return (
-                <label key={value}>
-                  <input
-                    type="radio"
-                    name="rating"
-                    value={value}
-                    onChange={() => setRate(value)}
-                  />
-                  {value}
-                </label>
-              );
-            })}
+            <div>
+              {Array.from({ length: 5 }, (_, index) => {
+                const value = index + 1;
+                return (
+                  <label key={value}>
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={value}
+                      onChange={() => setRate(value)}
+                      style={{ marginLeft: "10px", marginRight: "5px" }}
+                    />
+                    {value}
+                  </label>
+                );
+              })}
+            </div>
           </div>
         )}
 

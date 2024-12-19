@@ -49,7 +49,6 @@
 
 .formLabel {
   font-size: 1rem;
-
   color: var(--our-blue);
   display: flex;
   justify-content: center;
@@ -99,6 +98,7 @@
   background-color: rgb(255, 240, 240);
 }
 
+/*Report styles*/
 .severity {
   display: flex;
   justify-content: space-between;
