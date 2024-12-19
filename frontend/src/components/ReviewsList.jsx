@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Review from "../components/Review";
 import Loading from "../components/Loading";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function ReviewsList({ id, canEdit, setStats }) {
   const [reviews, setReviews] = useState([]);
@@ -14,22 +15,17 @@ function ReviewsList({ id, canEdit, setStats }) {
         const response = await axios.get(
           `http://localhost:1123/api/v1/users/reviews/${id}`
         );
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
         setReviews(response.data.data);
-        console.log(response.data.data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
+        toast.error(err.response.data.message);
         setLoading(false);
       }
     };
     fetchData();
   }, [id]);
   return (
-    <ul id="reviews">
+    <ul id="reviews" style={{ margin: "0 70px" }}>
       {loading && <Loading />}
       {reviews &&
         reviews.map((review, index) => {

@@ -42,6 +42,16 @@ exports.updateReview = async (req, res) => {
     const params = [];
     const conditions = [];
     const { rating, title, main_content } = req.body;
+    console.log(title);
+
+    if (title && typeof title === "number") {
+      console.log(title);
+      return res.status(400).json({
+        status: "fail",
+        message: "Title can't be a number",
+      });
+    }
+
     if (rating) {
       params.push(rating);
       conditions.push(`rating=$${params.length}`);
@@ -62,9 +72,8 @@ exports.updateReview = async (req, res) => {
     if (conditions.length > 0) {
       query += `SET ${conditions.join(", ")} WHERE review_id = $${
         params.length
-      } AND user_id = $${params.length + 1} RETURNING *`;
+      } AND user_id = $${params.length + 1}`;
     }
-
     params.push(req.user.user_id);
 
     const data = await db.query(query, params);
@@ -75,10 +84,15 @@ exports.updateReview = async (req, res) => {
       });
     }
 
+    const review = `SELECT P.photo, P.name,R.review_id ,R.title, R.rating, R.date, R.main_content 
+    FROM PLACE P, REVIEW R 
+    WHERE R.place_id = P.place_id AND R.review_id=$1`;
+    const reviewData = await db.query(review, [req.params.id]);
+
     res.status(200).json({
       status: "success",
-      length: data.rowCount,
-      data: data.rows[0],
+      length: reviewData.rowCount,
+      data: reviewData.rows[0],
     });
   } catch (err) {
     res.status(404).json({

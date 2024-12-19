@@ -6,13 +6,14 @@
   border-radius: 20px;
   background-color: var(--our-white);
   margin: 20px 0;
-  transition: transform 0.6s;
+  transition: all 0.3s;
 }
 
 .review:hover {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
-  border: 2px solid var(--our-yellow);
+  transform: translateY(-2px);
+  /* border: 2px solid var(--our-yellow); */
+  box-shadow: 0 2px 15px 1px rgb(0, 0, 0);
 }
 
 .info,
@@ -33,11 +34,6 @@
   width: 285px;
   height: 100%;
   border-radius: 20px;
-  transition: all 0.6s;
-}
-
-.img:hover {
-  transform: scale(1.07);
 }
 
 .p {
@@ -83,5 +79,4 @@
 .deletebutton:hover {
   background-color: var(--our-hover-blue);
   color: white;
-  transform: translateY(-5px);
 }

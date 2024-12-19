@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
-function Rate({ rate, setRate }) {
+function Rate({
+  rate,
+  setRate,
+  activeColor = "yellow",
+  disabledColor = "var(--our-white)",
+}) {
   return (
     <div>
       {[...Array(5)].map((_, index) => {
@@ -21,8 +26,8 @@ function Rate({ rate, setRate }) {
               size={22}
               color={
                 givenRating < rate || givenRating === rate
-                  ? "yellow"
-                  : "var(--our-white)"
+                  ? activeColor
+                  : disabledColor
               }
             />
           </label>

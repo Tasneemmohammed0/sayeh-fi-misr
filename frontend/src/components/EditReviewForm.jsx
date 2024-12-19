@@ -13,10 +13,9 @@ function EditReviewForm({
   handleClose,
   loading,
 }) {
-  const [title, setTitle] = useState(review.name);
+  const [title, setTitle] = useState(review.title);
   const [reviewText, setReview] = useState(review.main_content);
   const [rate, setRate] = useState(review.rating);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -24,7 +23,7 @@ function EditReviewForm({
       const response = await axios.patch(
         `http://localhost:1123/api/v1/reviews/${review.review_id}`,
         {
-          title: title,
+          title: +title ? +title : title,
           main_content: reviewText,
           rating: rate,
         },
@@ -32,26 +31,18 @@ function EditReviewForm({
           withCredentials: true,
         }
       );
-
+      console.log(response.data.data);
       setReviews((prev) =>
         prev.map((r) =>
-          r.review_id === review.review_id
-            ? {
-                ...r,
-                title: title,
-                main_content: reviewText,
-                rating: rate,
-              }
-            : r
+          r.review_id === review.review_id ? response.data.data : r
         )
       );
-      console.log(response.data.data);
       toast.success("Review updated successfully!");
+      handleClose();
     } catch (error) {
-      toast.error("Failed to update the review.");
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
-      handleClose();
     }
   };
 
@@ -64,7 +55,20 @@ function EditReviewForm({
         <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
-        <Rate rate={rate} setRate={setRate} />
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Rate
+            rate={rate}
+            setRate={setRate}
+            activeColor={"gold"}
+            disabledColor={"lightgray"}
+          />
+        </div>
 
         <label className={styles.formLabel}>
           Title
