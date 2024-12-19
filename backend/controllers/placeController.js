@@ -1,5 +1,9 @@
 const db = require("../db/index.js");
-const { assignBadge } = require("../controllers/badgeSystemController.js");
+const {
+  assignBadge,
+  deleteBadge,
+} = require("../controllers/badgeSystemController.js");
+const { addPoints } = require("../controllers/pointSystemController.js");
 // Get one Place RouteHandler
 exports.getPlace = async (req, res) => {
   try {
@@ -135,6 +139,14 @@ exports.postReview = async (req, res) => {
       ]
     );
 
+    //Add this review to user's activities
+
+    try {
+      await addPoints(req.user.user_id, "review", 20);
+    } catch (err) {
+      console.error(err.message);
+    }
+    //Badge system
     try {
       await assignBadge(
         req.user.user_id,
@@ -143,7 +155,9 @@ exports.postReview = async (req, res) => {
         5,
         req.body.date
       );
-    } catch (err) {}
+    } catch (err) {
+      console.error(err.message);
+    }
 
     console.log(data.rows[0]);
     res.status(200).json({
@@ -171,7 +185,12 @@ exports.postPhoto = async (req, res) => {
         req.params.id,
       ]
     );
-
+    // Add this photo to users's activities
+    try {
+      await addPoints(req.user.user_id, "photo", 10);
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       data: data.rows[0],
@@ -211,6 +230,14 @@ exports.addToVisitedList = async (req, res) => {
       `INSERT INTO visitor_place (user_id, place_id, date) VALUES ($1, $2, $3)`,
       [req.user.user_id, req.params.id, req.body.date]
     );
+
+    // Add this visit to user's activities
+    try {
+      await addPoints(req.user.user_id, "visit", 20);
+    } catch (err) {
+      console.error(err.message);
+    }
+    //badge system
     try {
       await assignBadge(
         req.user.user_id,
@@ -219,7 +246,9 @@ exports.addToVisitedList = async (req, res) => {
         5,
         req.body.date
       );
-    } catch (err) {}
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       data: data.rows[0],
@@ -267,7 +296,11 @@ exports.deleteFromVisitedList = async (req, res) => {
       });
       return;
     }
-
+    try {
+      await deleteBadge(req.user.user_id, "Top Visitor", "visitor_place", 5);
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       length: data.rowCount,
@@ -281,4 +314,3 @@ exports.deleteFromVisitedList = async (req, res) => {
     });
   }
 };
-
