@@ -27,7 +27,7 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
 
         setTimeout(() => {
           handleForm(false);
-        }, 3000);
+        }, 1500);
       }
     } catch (err) {
       console.log(err);
