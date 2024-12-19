@@ -6,11 +6,18 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
+function ReviewForm({
+  isOpen,
+  setIsOpen,
+  placeId,
+  gatheringId,
+  isReport,
+  setTriggerFetch,
+  triggerFetch,
+}) {
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
-  const [error, setError] = useState(false);
   const [reason, setReason] = useState("Offensive");
 
   if (!isOpen) return null;
@@ -47,10 +54,11 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
       const res = await axios.post(url, isReport ? reportData : reviewData, {
         withCredentials: true,
       });
-    } catch (err) {
+
+      // Update the review list
+      if (!isReport) setTriggerFetch((prev) => !prev);
+    } catch {
       toast("❌ Error submitting");
-      console.error(err); // Log the error for debugging purposes
-      setError(err);
     } finally {
       // show success message
       isReport
@@ -64,7 +72,6 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
 
     // Review without rating
     if (!rate && !isReport) {
-      setError(true);
       toast("⭐ Please rate the place");
       return;
     }
@@ -81,11 +88,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     postReview();
 
     // clear the form
-    setTitle("");
-    setReview("");
-    setIsOpen(false);
-    setRate(0);
-    setReason("Offensive");
+    handleClose();
   }
 
   function handleClose() {
@@ -94,6 +97,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     setReview("");
     setIsOpen(false);
     setRate(0);
+    setReason("Offensive");
   }
 
   // pretty alerts

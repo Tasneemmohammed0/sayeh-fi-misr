@@ -17,7 +17,7 @@ function SeeMoreText({ text }) {
         {text}
       </p>
 
-      {text?.length > 120 && (
+      {text?.length > 180 && (
         <p
           style={{
             color: "var(--our-blue)",

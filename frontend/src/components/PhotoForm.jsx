@@ -6,7 +6,7 @@ import axios from "axios";
 import { AdvancedImage } from "@cloudinary/react";
 import { Cloudinary } from "@cloudinary/url-gen";
 
-function PhotoForm({ isOpen, setIsOpen, placeId }) {
+function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
   const [photo, setPhoto] = useState(null);
   const [caption, setCaption] = useState("");
   const [error, setError] = useState(false);
@@ -67,6 +67,9 @@ function PhotoForm({ isOpen, setIsOpen, placeId }) {
         data,
         { withCredentials: true }
       );
+
+      // Update the photo list
+      setTriggerFetch((prev) => !prev);
 
       handleClose();
     } catch (err) {

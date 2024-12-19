@@ -26,6 +26,7 @@ function PlaceDetails() {
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [triggerFetch, setTriggerFetch] = useState(false);
 
   // Fetch place details
   useEffect(() => {
@@ -54,7 +55,7 @@ function PlaceDetails() {
       }
     };
     fetchData();
-  }, []);
+  }, [triggerFetch, placeId]);
 
   // check if the place is visited
   useEffect(() => {
@@ -198,6 +199,8 @@ function PlaceDetails() {
               isReport={true}
             />
             <ReviewForm
+              setTriggerFetch={setTriggerFetch}
+              triggerFetch={triggerFetch}
               isOpen={isReviewFormOpen}
               setIsOpen={setIsReviewFormOpen}
               placeId={placeId}
@@ -222,6 +225,7 @@ function PlaceDetails() {
               isOpen={isPhotosFormOpen}
               setIsOpen={setIsPhotosFormOpen}
               placeId={placeId}
+              setTriggerFetch={setTriggerFetch}
             />
           </div>
         </div>
