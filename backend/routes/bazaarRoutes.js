@@ -4,6 +4,12 @@ const authController = require("../controllers/authController");
 
 const router = express.Router();
 
+router.delete(
+  "/:id",
+  authController.protect,
+  authController.restrictTo("admin"),
+  bazaarController.deleteGift
+);
 router.get("/", bazaarController.getAllGifts);
 router.get("/points", authController.protect, bazaarController.getPoints);
 router.post(
@@ -28,10 +34,4 @@ router.put(
   bazaarController.editGift
 );
 
-router.delete(
-  "/:id",
-  authController.protect,
-  authController.restrictTo("admin"),
-  bazaarController.deleteGift
-);
 module.exports = router;

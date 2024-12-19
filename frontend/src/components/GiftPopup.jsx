@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/GiftPopup.module.css";
 import { IoMdClose } from "react-icons/io";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
+  const [message, setMessage] = useState("");
   const handlePurchase = async (product_code) => {
     const purchaseData = {
       date: new Date().toISOString(),
       product_code: product_code,
     };
-
     try {
       const endPoint = `http://localhost:1123/api/v1/bazaar/buy`;
 
@@ -19,15 +18,20 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
       });
       if (response.status == 200) {
         //close the popup
-        toast.success("Congrats! Your purchase completed successfully");
+        // toast.success("");
+        console.log(response.data);
+
+        setMessage(
+          "Gift purchased successfully order code  : " +
+            response.data.data.order_id
+        );
         //Update points
         const newTotalPoints = totalPoints - card.points;
         updatePoints(newTotalPoints);
-        //
 
         setTimeout(() => {
           handleForm(false);
-        }, 1500);
+        }, 0);
       }
     } catch (err) {
       console.log(err);
@@ -35,9 +39,20 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
     }
   };
 
+  useEffect(() => {
+    if (message !== "") {
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: `${message} `,
+        showConfirmButton: true,
+      });
+      setMessage("");
+    }
+  }, [message]);
+
   return (
     <div className={styles.popupOverlay}>
-      <ToastContainer />
       <div className={styles.popup}>
         <button className={styles.popupClose} onClick={() => handleForm(false)}>
           <IoMdClose />
