@@ -150,21 +150,18 @@ exports.addGift = async (req, res) => {
 exports.editGift = async (req, res) => {
   try {
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
-    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+    const placeResult = await db.query(placeQuery, [req.body.place]);
 
     const place_id = placeResult.rows[0].place_id;
-    console.log(place_id);
     const editGiftQuery = `UPDATE gift 
-set name=$1,photo=$2,points=$3,description=$4,place_id=$5,is_available=$6
-WHERE product_code =$7 RETURNING*`;
+    set name=$1, points=$2, description=$3, place_id=$4
+    WHERE product_code =$5 RETURNING*`;
 
     const editGiftData = await db.query(editGiftQuery, [
       req.body.name,
-      req.body.photo,
       req.body.points,
       req.body.description,
       place_id,
-      req.body.is_available,
       req.params.id,
     ]);
     res.status(200).json({

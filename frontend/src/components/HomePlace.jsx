@@ -9,8 +9,7 @@ function HomePlace({ count }) {
   const navigate = useNavigate();
   const list = {
     display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    width: "100%",
+    gridTemplateColumns: "repeat(4,minmax(350px, 1fr))",
   };
 
   const handleSelectedPlace = (e, id) => {
