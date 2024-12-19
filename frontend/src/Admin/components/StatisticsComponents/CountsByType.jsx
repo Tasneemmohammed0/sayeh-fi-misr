@@ -54,10 +54,10 @@ const chartSetting = {
   height: 300,
   sx: {
     [`.${axisClasses.left} .${axisClasses.label} tspan`]: {
-      dy: "10px",
+      dy: "20px",
     },
     [`.${axisClasses.left} .${axisClasses.label}`]: {
-      transform: "translate(-20px, 0)",
+      transform: "translate(-10px, 0)",
       fontSize: "14px",
       fontWeight: "bold",
       fill: "#333",
