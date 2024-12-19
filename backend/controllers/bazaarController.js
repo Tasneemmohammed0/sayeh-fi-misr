@@ -2,16 +2,26 @@ const db = require("../db/index.js");
 exports.getAllGifts = async (req, res) => {
   try {
     const data = await db.query(`SELECT gift.*,p.name AS place_name
-FROM gift
-JOIN place p
-ON p.place_id=gift.place_id`);
+    FROM gift
+    JOIN place p
+    ON p.place_id=gift.place_id`);
+
+    if (!data.rowCount) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No gifts available",
+      });
+    }
     res.status(200).json({
       status: "success",
       length: data.rows.length,
       data: data.rows,
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 
@@ -76,7 +86,10 @@ exports.getPoints = async (req, res) => {
       totalPoints: totalPoints,
     });
   } catch (err) {
-    console.log(err);
+    req.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 exports.buyGift = async (req, res) => {
@@ -93,7 +106,10 @@ exports.buyGift = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 
