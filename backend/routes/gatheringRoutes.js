@@ -8,13 +8,16 @@ const router = express.Router();
 router.get("/", gatheringController.getAllGatherings);
 
 router.get(
+  "/:id",
+  gatheringController.checkCapacity,
+  gatheringController.getGatheringDetails
+);
+
+router.get(
   "/:id/checkJoined",
   authController.protect,
   gatheringController.checkJoined
 );
-//Get one gathering
-router.get("/:id", gatheringController.getGatheringDetails);
-//router.get("/:id", gatheringController.getGathering);
 
 router.delete(
   "/:id",
@@ -65,4 +68,5 @@ router.get(
   authController.protect,
   gatheringController.checkJoined
 );
+
 module.exports = router;

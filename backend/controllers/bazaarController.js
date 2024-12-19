@@ -28,58 +28,36 @@ exports.getAllGifts = async (req, res) => {
 exports.getPoints = async (req, res) => {
   try {
     // Calculate Points Logic
-    const pointsQuery = `WITH review_points AS (
-      SELECT user_id, COUNT(DISTINCT review_id) * 20 AS points
-      FROM review
-      GROUP BY user_id
-  ),
-  photo_points AS (
-      SELECT user_id, COUNT(DISTINCT photo_id) * 15 AS points
-      FROM photo
-      GROUP BY user_id
-  ),
-  place_points AS (
-      SELECT user_id, COUNT(DISTINCT place_id) * 10 AS points
-      FROM visitor_place
-      GROUP BY user_id
-  ),
-  gathering_points AS (
-      SELECT user_id, COUNT(DISTINCT gathering_id) * 20 AS points
-      FROM visitor_gathering
-      GROUP BY user_id
-  ),
-  gift_points AS (
-      SELECT visitor_gift.user_id, COALESCE(SUM(gift.points), 0) AS points
-      FROM visitor_gift
-      JOIN gift ON gift.product_code = visitor_gift.product_code
-      GROUP BY visitor_gift.user_id
-  )
-  SELECT
 
-      COALESCE(review_points.points, 0) +
-      COALESCE(photo_points.points, 0) +
-      COALESCE(place_points.points, 0)+
-	    COALESCE(gathering_points.points, 0)-
-      COALESCE(gift_points.points, 0) AS total_points
-
-
-  FROM visitor
-
-
-
-  LEFT JOIN review_points ON review_points.user_id = visitor.user_id
-  LEFT JOIN photo_points ON photo_points.user_id = visitor.user_id
-  LEFT JOIN place_points ON place_points.user_id = visitor.user_id
-  LEFT JOIN gathering_points ON gathering_points.user_id = visitor.user_id
-  LEFT JOIN gift_points ON gift_points.user_id = visitor.user_id
-
-
-  WHERE visitor.user_id = $1;
-
-
+    //Points gained by activities
+    const gainedPointsQuery = `
+     
+    SELECT SUM(points) as gained_points
+    FROM visitor_activity
+    where user_id=$1
+    GROUP BY user_id
   `;
-    const pointsData = await db.query(pointsQuery, [req.user.user_id]);
-    const totalPoints = pointsData.rows[0]?.total_points || 0;
+    const gainedPointsData = await db.query(gainedPointsQuery, [
+      req.user.user_id,
+    ]);
+    const gainedPoints = +gainedPointsData.rows[0]?.gained_points || 0;
+    //Points spent on gifts
+    const spentPointsQuery = `
+   SELECT SUM(  points) as spent_points
+   FROM visitor_gift vg,gift g
+   where user_id=$1 AND vg.product_code=g.product_code
+   GROUP BY user_id
+
+`;
+
+    const spentPointsData = await db.query(spentPointsQuery, [
+      req.user.user_id,
+    ]);
+    const spentPoints = +spentPointsData.rows[0]?.spent_points || 0;
+    console.log(gainedPoints, spentPoints);
+    // Handle delete some activities after purchase a gift
+    const totalPoints =
+      gainedPoints > spentPoints ? gainedPoints - spentPoints : 0;
 
     res.status(200).json({
       status: "success",
@@ -127,6 +105,87 @@ exports.setActivity = async (req, res) => {
       },
     });
   } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.addGift = async (req, res) => {
+  try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+    const placeResult = await db.query(placeQuery, [req.body.place_name]);
+
+    const place_id = placeResult.rows[0].place_id;
+    console.log(place_id);
+    const addGiftQuery = `INSERT INTO gift(name,photo,points,description,place_id,is_available) VALUES($1,$2,$3,$4,$5,$6) RETURNING*`;
+
+    const addGiftData = await db.query(addGiftQuery, [
+      req.body.name,
+      req.body.photo,
+      req.body.points,
+      req.body.description,
+      place_id,
+      req.body.is_available,
+    ]);
+    res.status(201).json({
+      status: "success",
+      length: addGiftData.rowCount,
+      data: { ...addGiftData.rows[0], place_name: req.body.place_name },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+exports.editGift = async (req, res) => {
+  try {
+    const placeQuery = "SELECT place_id FROM place WHERE name = $1";
+    const placeResult = await db.query(placeQuery, [req.body.place]);
+    
+    const place_id = placeResult.rows[0].place_id;
+    const editGiftQuery = `UPDATE gift 
+    set name=$1, points=$2, description=$3, place_id=$4
+    WHERE product_code =$5 RETURNING*`;
+
+    const editGiftData = await db.query(editGiftQuery, [
+      req.body.name,
+      req.body.points,
+      req.body.description,
+      place_id,
+      req.params.id,
+    ]);
+    res.status(200).json({
+      status: "success",
+      length: editGiftData.rowCount,
+      data: editGiftData.rows[0],
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.deleteGift = async (req, res) => {
+  try {
+    await db.query("COMMIT");
+    const deleteGiftQuery = `DELETE FROM gift 
+
+WHERE product_code =$1 RETURNING*`;
+
+    const deleteGiftData = await db.query(deleteGiftQuery, [req.params.id]);
+    res.status(200).json({
+      status: "success",
+      length: deleteGiftData.rowCount,
+      data: deleteGiftData.rows[0],
+    });
+  } catch (err) {
+    await db.query("ROLLBACK");
     res.status(400).json({
       status: "fail",
       message: err.message,

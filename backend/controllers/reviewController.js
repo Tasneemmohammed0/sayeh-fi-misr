@@ -1,4 +1,5 @@
 const db = require("../db/index");
+const { deleteBadge } = require("../controllers/badgeSystemController.js");
 
 // Delete a review
 exports.deleteReview = async (req, res) => {
@@ -15,7 +16,11 @@ exports.deleteReview = async (req, res) => {
       });
       return;
     }
-
+    try {
+      await deleteBadge(req.user.user_id, "Top Reviewer", "review", 5);
+    } catch (err) {
+      console.error(err.message);
+    }
     res.status(200).json({
       status: "success",
       length: data.rowCount,

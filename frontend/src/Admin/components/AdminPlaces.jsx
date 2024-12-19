@@ -35,7 +35,7 @@ function AdminPlaces() {
   const [showAddPlace, setShowAddPlace] = useState(false);
 
   return (
-    <section>
+    <section id="places">
       <h2 style={{ textAlign: "center", margin: "20px" }}>Places </h2>
       <div className={styles.bar} style={{ marginBottom: "30px" }}>
         <div className={styles.searchWrapper}>

@@ -8,7 +8,7 @@ import { CiEdit } from "react-icons/ci";
 import { FiSettings } from "react-icons/fi";
 import Card from "./Card";
 
-function VisitedList({ id, canEdit }) {
+function VisitedList({ id, canEdit, setStats }) {
   /// fetching by user id to get the visited places
 
   const [visitList, setVisitList] = useState([]);
@@ -16,7 +16,7 @@ function VisitedList({ id, canEdit }) {
 
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-
+  console.log("visitList");
   function handleOptions() {
     setShowOptions((op) => !op);
     setSelectedOption(null);
@@ -35,7 +35,7 @@ function VisitedList({ id, canEdit }) {
           `http://localhost:1123/api/v1/users/visitlist/${id}`
         );
         setVisitList(response.data.data);
-        console.log(response.data.data);
+        console.log("visited list ", response.data.data);
         setLoading(false);
       } catch (err) {
         console.log(err.message);
@@ -43,10 +43,10 @@ function VisitedList({ id, canEdit }) {
       }
     };
     fetchData();
-  }, [id, location.pathname]);
+  }, [id]);
 
   return (
-    <div className={styles.list}>
+    <div className={styles.list} id="visitlist">
       {loading && <Loading />}
       {canEdit && (
         <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
@@ -69,8 +69,8 @@ function VisitedList({ id, canEdit }) {
             alignItems: "center",
           }}
         >
-
           <Card
+            setStats={setStats}
             key={index}
             card={item}
             selectedOption={selectedOption}
@@ -79,7 +79,6 @@ function VisitedList({ id, canEdit }) {
             setVisitList={setVisitList}
             setLoading={setLoading}
           />
-
         </div>
       ))}
     </div>

@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import styles from "../styles/placeslist.module.css";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -9,6 +9,7 @@ import { IoAddSharp } from "react-icons/io5";
 import { FiSettings } from "react-icons/fi";
 import Card from "./Card";
 import { UserContext } from "../App";
+import { pad } from "@cloudinary/url-gen/actions/resize";
 
 function PlacesList({
   search,
@@ -18,6 +19,7 @@ function PlacesList({
   role = "user",
   setShowAddPlace,
   showAddPlace,
+  setLoading,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,6 +30,7 @@ function PlacesList({
 
   const { places: Places, setPlaces } = useContext(UserContext);
   let places = Places;
+
   if (count !== 100) {
     places = Places.slice(0, count);
   }
@@ -58,6 +61,7 @@ function PlacesList({
     gridTemplateColumns: `repeat(${gridCount}, minmax(350px, 1fr))`,
     rowGap: "30px",
     margin: "50px 0",
+    padding: "0 50px",
     position: "relative",
   };
 

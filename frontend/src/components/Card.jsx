@@ -11,6 +11,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../App";
 import EditPlaceForm from "../Admin/components/EditPlaceForm";
+import { Link } from "react-router-dom";
 function Card({
   card,
   selectedOption,
@@ -19,6 +20,7 @@ function Card({
   inVisitList = false,
   setVisitList,
   setLoading,
+  setStats,
 }) {
   {
     /*  admin */
@@ -45,6 +47,13 @@ function Card({
             "An error occured while deleting the place please try again later."
           );
         }
+        setStats((prevStats) => {
+          return {
+            ...prevStats,
+            places_count: prevStats.places_count - 1,
+          };
+        });
+        setLoading(false);
         return;
       } else {
         await axios.delete(`http://localhost:1123/api/v1/places/${id}`, {
@@ -65,10 +74,6 @@ function Card({
 
     setShowEditForm(true);
   }
-
-  // if (deleted) {
-  //   return <ToastContainer />;
-  // }
 
   if (!card.place_id) return null;
 
@@ -116,15 +121,21 @@ function Card({
         </div>
         <div className={styles.cardInfo}>
           <div className={styles.cardInfoDiv}>
-            <MdOutlineReviews className={styles.cardIcon} />
+            <Link to={`/places/${card.place_id}`}>
+              <MdOutlineReviews className={styles.cardIcon} />
+            </Link>
             <p style={{ fontSize: "12px" }}>Reviews</p>
           </div>
           <div className={styles.cardInfoDiv}>
-            <IoCameraOutline className={styles.cardIcon} />
+            <Link to={`/places/${card.place_id}`}>
+              <IoCameraOutline className={styles.cardIcon} />
+            </Link>
             <p style={{ fontSize: "12px" }}>Photos</p>
           </div>
           <div className={styles.cardInfoDiv}>
-            <IoPeopleOutline className={styles.cardIcon} />
+            <Link to={`/places/${card.place_id}`}>
+              <IoPeopleOutline className={styles.cardIcon} />
+            </Link>
             <p style={{ fontSize: "12px" }}>People</p>
           </div>
         </div>

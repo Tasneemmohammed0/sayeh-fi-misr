@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import PlacesList from "./PlacesList";
+import HomePlace from "./HomePlace";
 import GatheringList from "./GatheringList"; // New component for gatherings
 import styles from "../styles/exploresection.module.css";
 
@@ -35,7 +35,7 @@ function ExploreSection() {
       </ul>
       {/* Conditional rendering based on the active tab */}
       {activeTab === "places" ? (
-        <PlacesList count={4} />
+        <HomePlace count={4} />
       ) : (
         <GatheringList count={6} />
       )}

@@ -2,6 +2,8 @@ import React from "react";
 import styles from "../styles/GiftPopup.module.css";
 import { IoMdClose } from "react-icons/io";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
   const handlePurchase = async (product_code) => {
     const purchaseData = {
@@ -10,26 +12,32 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
     };
 
     try {
-      const endPoint = `http://localhost:1123/api/v1/bazaar`;
+      const endPoint = `http://localhost:1123/api/v1/bazaar/buy`;
 
       const response = await axios.post(endPoint, purchaseData, {
         withCredentials: true,
       });
       if (response.status == 200) {
         //close the popup
-        handleForm(false);
-
+        toast.success("Congrats! Your purchase completed successfully");
         //Update points
         const newTotalPoints = totalPoints - card.points;
         updatePoints(newTotalPoints);
+        //
+
+        setTimeout(() => {
+          handleForm(false);
+        }, 3000);
       }
     } catch (err) {
       console.log(err);
+      toast.error("Purchase failed");
     }
   };
 
   return (
     <div className={styles.popupOverlay}>
+      <ToastContainer />
       <div className={styles.popup}>
         <button className={styles.popupClose} onClick={() => handleForm(false)}>
           <IoMdClose />

@@ -18,6 +18,7 @@ import Page404 from "../pages/Page404";
 /// loaders
 
 import { UserLoader } from "../pages/UserProfile";
+import { dashboardLoader } from "../pages/DashBoard";
 
 // Define the router
 const router = createBrowserRouter([
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
   {
     path: "/profile/accountsetting",
     element: <AccountSetting />,
+    loader: dashboardLoader,
   },
   {
     path: "/profile/wishlist/:id",
@@ -83,6 +85,7 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashBoard />,
+    loader: dashboardLoader,
   },
   {
     path: "*",

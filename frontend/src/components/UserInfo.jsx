@@ -9,7 +9,31 @@ import styles from "../styles/userinfo.module.css";
 import { Link } from "react-router-dom";
 // <HiOutlineMail />
 
-function UserInfo({ user, selectedList, setSelectedList, canEdit }) {
+function UserInfo({
+  user,
+  selectedList,
+  setSelectedList,
+  canEdit,
+  stats,
+  setStats,
+}) {
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        setSelectedList(hash.charAt(0).toUpperCase() + hash.slice(1));
+      }
+    };
+
+    handleHashChange();
+
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [setSelectedList]);
+
   // Badges Logic
   const [badges, setBadges] = useState([]);
   useEffect(() => {
@@ -28,14 +52,12 @@ function UserInfo({ user, selectedList, setSelectedList, canEdit }) {
   }, [user]);
 
   // User Stats
-  const [stats, setStats] = useState({});
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const response = await axios.get(
           `http://localhost:1123/api/v1/users/stats/${user.user_id}`
         );
-
         setStats(response.data.data[0]);
       } catch (error) {
         console.log(error);
@@ -122,48 +144,63 @@ function UserInfo({ user, selectedList, setSelectedList, canEdit }) {
       </div>
 
       <ul className={styles.lists}>
-        <Link to="#reviews" style={{ color: "black" }}>
+        <a
+          href="#reviews"
+          style={{ color: "black" }}
+          onClick={() => setSelectedList("Reviews")}
+        >
           {" "}
           <li
             className={`${styles.listItem} ${selectedList === "Reviews" ? styles.active : ""}`}
-            onClick={() => setSelectedList("Reviews")}
           >
             Reviews
           </li>
-        </Link>
-        <Link to="#wishlist" style={{ color: "black" }}>
+        </a>
+        <a
+          href="#wishlist"
+          style={{ color: "black" }}
+          onClick={() => setSelectedList("Wishlist")}
+        >
           <li
-            className={`${styles.listItem} ${selectedList === "Wish List" ? styles.active : ""}`}
-            onClick={() => setSelectedList("Wish List")}
+            className={`${styles.listItem} ${selectedList === "Wishlist" ? styles.active : ""}`}
           >
             Wish List
           </li>
-        </Link>
-        <Link to="#visitedlist" style={{ color: "black" }}>
+        </a>
+        <a
+          href="#visitedlist"
+          style={{ color: "black" }}
+          onClick={() => setSelectedList("Visitedlist")}
+        >
           <li
-            className={`${styles.listItem} ${selectedList === "Visted List" ? styles.active : ""}`}
-            onClick={() => setSelectedList("Visted List")}
+            className={`${styles.listItem} ${selectedList === "Visitedlist" ? styles.active : ""}`}
           >
             Visted List
           </li>
-        </Link>
-        <Link to="#gathering" style={{ color: "black" }}>
+        </a>
+        <a
+          href="#gatheringlist"
+          style={{ color: "black" }}
+          onClick={() => setSelectedList("Gatheringlist")}
+        >
           <li
-            className={`${styles.listItem} ${selectedList === "Gathering List" ? styles.active : ""}`}
-            onClick={() => setSelectedList("Gathering List")}
+            className={`${styles.listItem} ${selectedList === "Gatheringlist" ? styles.active : ""}`}
           >
             Gathering
           </li>
-        </Link>
+        </a>
 
-        <Link to="#photos" style={{ color: "black" }}>
+        <a
+          href="#photos"
+          style={{ color: "black" }}
+          onClick={() => setSelectedList("Photos")}
+        >
           <li
             className={`${styles.listItem} ${selectedList === "Photos" ? styles.active : ""}`}
-            onClick={() => setSelectedList("Photos")}
           >
             Photos
           </li>
-        </Link>
+        </a>
       </ul>
     </section>
   );

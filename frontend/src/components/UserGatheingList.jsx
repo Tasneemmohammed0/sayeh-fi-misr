@@ -46,6 +46,7 @@ function UserGatheingList({ id, canEdit }) {
           `http://localhost:1123/api/v1/users/gatherings/${id}`
         );
         setGatheringList(response.data.data);
+        console.log("gathering list ", response.data.data);
         setLoading(false);
       } catch (err) {
         console.log(err.message);
@@ -76,7 +77,11 @@ function UserGatheingList({ id, canEdit }) {
   return (
     <>
       <ToastContainer />
-      <div className={styles.list} style={{ position: "relative" }}>
+      <div
+        className={styles.list}
+        style={{ position: "relative" }}
+        id="gatheringlist"
+      >
         {loading && <Loading />}
         {canEdit && (
           <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
@@ -111,19 +116,14 @@ function UserGatheingList({ id, canEdit }) {
               justifyContent: "space-around",
               alignItems: "center",
             }}
-            key={index}
           >
             <GatheringCard
               key={index}
-              photo={item.photo}
-              placeName={item.title}
-              location={item.city}
-              hostname={item.first_name}
-              currentcapacity={item.current_capacity}
-              duration={item.duration}
-              id={item.gathering_id}
+              gathering={item}
+              setGatheringList={setGatheringList}
               selectedOption={selectedOption}
               onDelete={handleDelete}
+              setLoading={setLoading}
             />
           </div>
         ))}

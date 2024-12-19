@@ -53,20 +53,19 @@ function WishLists({ id }) {
     );
   };
 
-  const handleDeleteWishlist = async (deletedWishList) => {
+  const handleDeleteWishlist = async (id) => {
     try {
+      console.log(id);
       setLoading(true);
+
       const response = await axios.delete(
-        `http://localhost:1123/api/v1/wishlist/${deletedWishList.wishlist_id}`,
+        `http://localhost:1123/api/v1/wishlist/${id}`,
         { withCredentials: true }
       );
+
       setWishLists((prevWishLists) =>
-        prevWishLists.map((wishList) =>
-          wishList.wishlist_id === deletedWishList.wishlist_id ? null : wishList
-        )
+        (prevWishLists || []).filter((wishlist) => wishlist.wishlist_id !== id)
       );
-      alert(`🗑️ ${response.data.message}`);
-      // toast(response.data.message);
     } catch (err) {
       console.log(err.message);
     } finally {
@@ -75,18 +74,20 @@ function WishLists({ id }) {
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative" }} id="wishlists">
       {loading && <Loading />}
       {user?.user_id === id && (
         <button className={styles.create} onClick={() => setIsFormOpen(true)}>
           Create Wishlist
         </button>
       )}
+
       <WishListForm
         isOpen={isFormOpen}
         handleForm={setIsFormOpen}
         user_id={user?.user_id}
         can={user?.user_id === id}
+        setWishLists={setWishLists}
       />
 
       <ul className={styles.allWishLists}>
@@ -108,7 +109,7 @@ function WishLists({ id }) {
                 </button>
                 <button
                   className={styles.deleteBtn}
-                  onClick={() => handleDeleteWishlist(wishList)}
+                  onClick={() => handleDeleteWishlist(wishList.wishlist_id)}
                 >
                   Delete
                 </button>

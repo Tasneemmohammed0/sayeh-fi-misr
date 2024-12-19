@@ -5,7 +5,8 @@
   align-items: center;
   justify-content: center;
   margin-top: 2rem;
-  padding: 30px;
+  padding: 50px 30px;
+  position: relative;
 }
 
 .giftContainer {
@@ -26,4 +27,64 @@
   .giftContainer {
     grid-template-columns: 1fr;
   }
+}
+
+.editIcon,
+.deleteIcon,
+.optionIcon,
+.addIcon {
+  font-size: 40px;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.editIcon {
+  color: yellow;
+  background-color: white;
+  padding: 2px 5px;
+}
+
+.editIcon:hover {
+  color: black;
+  background-color: yellow;
+  transform: translateY(-5px);
+}
+
+.deleteIcon {
+  color: #e74c3c;
+  background-color: white;
+  padding: 2px;
+}
+
+.deleteIcon:hover {
+  color: white;
+  background-color: #e74c3c;
+  transform: translateY(-5px);
+}
+
+.optionIcon {
+  color: #3498db;
+  background-color: white;
+  padding: 2px;
+}
+
+.optionIcon:hover {
+  color: white;
+  background-color: #3498db;
+  transform: translateY(-5px);
+}
+
+.addIcon {
+  color: #2ecc71;
+  background-color: white;
+  padding: 2px;
+}
+
+.addIcon:hover {
+  color: white;
+  background-color: #2ecc71;
+  transform: translateY(-5px);
 }
