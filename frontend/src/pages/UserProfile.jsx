@@ -32,11 +32,13 @@ function UserProfile() {
             borderBottom: "1px solid black",
           }}
         >
-          <img
-            src="/src/assets/images/temple.png"
-            alt="user profile bg"
-            className={styles.coverPhoto}
-          />
+          <div className={styles.coverPhoto}>
+            <img
+              src="/src/assets/images/temple.png"
+              alt="user profile bg"
+              className={styles.coverPhoto}
+            />
+          </div>
           <UserInfo
             stats={stats}
             setStats={setStats}
