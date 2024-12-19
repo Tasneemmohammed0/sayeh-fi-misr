@@ -22,7 +22,6 @@ function UserProfile() {
   if (!currentUser && !id) return <h1>login</h1>;
   if (!currentUser && id) return <h1>User not found</h1>;
 
-  console.log("selectedList", selectedList);
   return (
     <>
       <div>
@@ -96,7 +95,6 @@ export async function UserLoader({ params }) {
 
   try {
     if (!id) {
-      console.log("loader user  called");
       const response = await axios.get(
         `http://localhost:1123/api/v1/users/me`,
         {
