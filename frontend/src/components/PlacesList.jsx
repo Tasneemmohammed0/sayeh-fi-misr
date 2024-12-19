@@ -9,7 +9,6 @@ import { IoAddSharp } from "react-icons/io5";
 import { FiSettings } from "react-icons/fi";
 import Card from "./Card";
 import { UserContext } from "../App";
-import { pad } from "@cloudinary/url-gen/actions/resize";
 
 function PlacesList({
   search,
