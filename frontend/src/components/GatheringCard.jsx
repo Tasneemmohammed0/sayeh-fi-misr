@@ -50,8 +50,6 @@ function GatheringCard({
     setShowEditForm(true);
   }
 
-  console.log(gathering);
-
   return (
     <>
       <ToastContainer />

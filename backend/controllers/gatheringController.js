@@ -178,11 +178,25 @@ exports.updateGathering = async (req, res) => {
     const placeResult = await db.query(placeQuery, [req.body.placeName]);
     const place_id = placeResult.rows[0].place_id;
 
-    const { title, duration, description, max_capacity } = req.body;
-    if (!title || !duration || !description || !max_capacity) {
+    const { title, duration, description, max_capacity, gathering_date } =
+      req.body;
+    if (
+      !title ||
+      !duration ||
+      !description ||
+      !max_capacity ||
+      !gathering_date
+    ) {
       return res.status(400).json({
         status: "fail",
         message: "Fields are missing",
+      });
+    }
+
+    if (new Date(gathering_date) < Date.now()) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Can't make a gathering in the past!",
       });
     }
     const data = await db.query(

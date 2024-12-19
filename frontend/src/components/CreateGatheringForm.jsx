@@ -79,22 +79,6 @@ function CreateGatheringForm({
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (formState.title == "") {
-      toast.error("Please enter a gathering title");
-    } else if (formState.duration == "") {
-      toast.error("Please enter the duration");
-    } else if (formState.gathering_date == "") {
-      toast.error("Please enter the gathering date");
-    } else if (formState.description == "") {
-      toast.error("Please enter a description");
-    } else if (formState.max_capacity == "" || isNaN(formState.max_capacity)) {
-      toast.error("Please enter a valid maximum capacity");
-    } else if (formState.place_id == "") {
-      toast.error("Please select a place");
-    }
-
-    console.log(formState);
-
     try {
       setLoading(true);
 
@@ -113,23 +97,15 @@ function CreateGatheringForm({
           withCredentials: true,
         }
       );
-      console.log("CREATE GATHERING RES:", response.data.data);
 
-      if (response.status === "fail") {
-        console.log("error");
-        toast.error("unknown error occur");
-        return;
-      }
-      console.log(response.data.data);
       setGatheringList((prev) => [...prev, response.data.data]);
-
-      setMessage("Gathering created successfully");
       onClose();
-      setLoading(false);
-
       dispatch({ type: "RESET_FORM", initialState });
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.response.data.message);
+    } finally {
+      console.log("ONCE");
+      setLoading(false);
     }
   }
 
@@ -221,11 +197,7 @@ function CreateGatheringForm({
                   justifyContent: "center",
                 }}
               >
-                <button
-                  type="submit"
-                  className={styles.submitButton}
-                  onClick={(e) => handleSubmit(e)}
-                >
+                <button type="submit" className={styles.submitButton}>
                   Submit
                 </button>
               </div>

@@ -11,6 +11,14 @@ import { UserContext } from "../App";
 function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
   if (!isOpen) return null;
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const { places, setPlaces } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
@@ -20,9 +28,8 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
     duration: gathering.duration,
     description: gathering.description,
     status: gathering.is_open,
+    gathering_date: formatDate(gathering.gathering_date),
   });
-
-  console.log("formData", formData);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -33,7 +40,14 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
     e.preventDefault();
 
     // Extract data from formData
-    const { title, placeName, capacity, duration, description } = formData;
+    const {
+      title,
+      placeName,
+      capacity,
+      duration,
+      description,
+      gathering_date,
+    } = formData;
 
     if (!title || title.trim() === "") {
       toast.error("Title is required.");
@@ -59,7 +73,6 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
       toast.error("Description is required.");
       return;
     }
-
     const payload = {
       title,
       placeName,
@@ -67,9 +80,8 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
       duration: parseInt(duration, 10),
       description,
       is_open: formData.status,
+      gathering_date,
     };
-
-    console.log("Submitting data:", payload);
 
     try {
       // Simulate API call
@@ -79,31 +91,24 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
         { withCredentials: true }
       );
 
-      console.log("Response:", response.data);
+      setGatheringList((list) =>
+        list.map((g) => {
+          if (g.gathering_id === gathering.gathering_id) {
+            return {
+              ...g,
+              ...payload,
+            };
+          }
+          return g;
+        })
+      );
+      toast.success("Gathering updated successfully.");
 
-      if (response.status != "fail") {
-        setGatheringList((list) =>
-          list.map((g) => {
-            if (g.gathering_id === gathering.gathering_id) {
-              return {
-                ...g,
-                ...payload,
-              };
-            }
-            return g;
-          })
-        );
-        toast.success("Gathering updated successfully.");
-
-        setTimeout(() => {
-          onClose();
-        }, 1000);
-      } else {
-        toast.error("Failed to update the gathering. Please try again.");
-      }
+      setTimeout(() => {
+        onClose();
+      }, 1000);
     } catch (error) {
-      console.error("Error during submission:", error);
-      toast.error("An error occurred while updating the gathering.");
+      toast.error(error.response.data.message);
     }
   }
 
@@ -162,6 +167,7 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
             <label className={styles.label} htmlFor="capacity">
               Capacity:
             </label>
+
             <input
               className={styles.input}
               type="number"
@@ -173,8 +179,19 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
             />
           </div>
           <div className={styles.formGroup}>
+            <label className={styles.label}>Gathering Date:</label>
+            <input
+              type="date"
+              name="gathering_date"
+              className={styles.input}
+              value={formData.gathering_date}
+              onChange={handleChange}
+              // required
+            />
+          </div>
+          <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="duration">
-              Duration (days):
+              Duration (hours):
             </label>
             <input
               className={styles.input}
