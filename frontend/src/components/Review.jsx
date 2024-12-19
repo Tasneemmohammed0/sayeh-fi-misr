@@ -6,7 +6,14 @@ import { CiEdit } from "react-icons/ci";
 import styles from "../styles/review.module.css";
 import axios from "axios";
 
-function Review({ review, setReviews, setLoading, loading, canEdit }) {
+function Review({
+  review,
+  setReviews,
+  setLoading,
+  loading,
+  canEdit,
+  setStats,
+}) {
   const formattedDate = new Date(review.date);
 
   const [edit, setEdit] = useState(false);
@@ -29,6 +36,13 @@ function Review({ review, setReviews, setLoading, loading, canEdit }) {
       setReviews((prevReviews) => {
         return prevReviews.filter((r) => r.review_id !== review.review_id);
       });
+      setStats((prevStats) => {
+        return {
+          ...prevStats,
+          reviews_count: prevStats.reviews_count - 1,
+        };
+      });
+
       setLoading(false);
     } catch (err) {
       console.log(err);

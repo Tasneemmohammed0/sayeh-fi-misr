@@ -51,7 +51,7 @@ function AdminReports() {
   return loading ? (
     <Loading />
   ) : (
-    <section className={styles.container}>
+    <section className={styles.container} id="reports">
       <div className={styles.filter}>
         <select
           onChange={(e) => setFilter(e.target.value)}

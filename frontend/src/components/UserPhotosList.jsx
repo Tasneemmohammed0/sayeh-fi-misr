@@ -6,7 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import UserPhotoPost from "./UserPhotoPost";
 import axios from "axios";
-function UserPhotosList({ id, canEdit }) {
+function UserPhotosList({ id, canEdit, setStats }) {
   const [postList, setPostList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -44,7 +44,11 @@ function UserPhotosList({ id, canEdit }) {
   }
 
   return (
-    <div className={styles.list} style={{ position: "relative" }}>
+    <div
+      className={styles.list}
+      style={{ position: "relative" }}
+      id="photoslist"
+    >
       {loading && <Loading />}
       {canEdit && (
         <div style={{ position: "absolute", top: "-50px", right: "10px" }}>
@@ -66,6 +70,7 @@ function UserPhotosList({ id, canEdit }) {
 
       {postList.map((item, index) => (
         <UserPhotoPost
+          setStats={setStats}
           post={item}
           key={index}
           setPostList={setPostList}

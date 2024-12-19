@@ -16,18 +16,21 @@ function SeeMoreText({ text }) {
       >
         {text}
       </p>
-      <p
-        style={{
-          color: "var(--our-blue)",
-          cursor: "pointer",
-          display: "inline-block",
-          marginTop: "0px",
-          fontSize: "1.1rem",
-        }}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {isExpanded ? "See Less" : "See More"}
-      </p>
+
+      {text?.length > 120 && (
+        <p
+          style={{
+            color: "var(--our-blue)",
+            cursor: "pointer",
+            display: "inline-block",
+            marginTop: "0px",
+            fontSize: "1.1rem",
+          }}
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? "See Less" : "See More"}
+        </p>
+      )}
     </div>
   );
 }
