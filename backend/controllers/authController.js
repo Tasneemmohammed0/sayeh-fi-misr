@@ -240,13 +240,12 @@ exports.protect = async (req, res, next) => {
 
     // 5) Grant access
     req.user = currentUser;
+    next();
   } catch (err) {
     res.status(400).json({
       status: "fail",
       message: "failed to authenticate user",
     });
-  } finally {
-    next();
   }
 };
 

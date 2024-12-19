@@ -40,7 +40,7 @@ exports.getGathering = async (req, res) => {
       [req.params.id]
     );
     if (!data.rowCount) {
-      res.status(404).json({
+      return res.status(404).json({
         status: "fail",
         message: "Gathering doesn't exist",
       });
@@ -153,7 +153,8 @@ exports.updateGathering = async (req, res) => {
     if (!data.rowCount) {
       return res.status(401).json({
         status: "fail",
-        message: "Can't edit a gathering that doesn't belong to you",
+        message:
+          "Can't edit a gathering that doesn't exist or doesn't belong to you",
       });
     }
     res.status(200).json({
@@ -182,6 +183,7 @@ exports.createGathering = async (req, res) => {
       max_capacity,
       place_name,
     } = req.body;
+
     if (
       !title ||
       !duration ||
@@ -190,7 +192,7 @@ exports.createGathering = async (req, res) => {
       !max_capacity ||
       !place_name
     ) {
-      res.status(400).json({
+      return res.status(400).json({
         status: "fail",
         message: "There are missing information",
       });
@@ -207,6 +209,13 @@ exports.createGathering = async (req, res) => {
       return res.status(400).json({
         status: "fail",
         message: "Duration must be a positive number",
+      });
+    }
+
+    if (new Date(gathering_date) < Date.now()) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Can't create a gathering in the past!",
       });
     }
 
@@ -296,6 +305,22 @@ exports.addToGathering = async (req, res) => {
 // Delete user from gathering
 exports.deleteFromGathering = async (req, res) => {
   try {
+    if (req.user.role === "host") {
+      const gatheringMaker = await db.query(
+        `select host_id from gathering where gathering_id=$1`,
+        [req.params.id]
+      );
+      if (
+        gatheringMaker.rowCount &&
+        !gatheringMaker.rows[0] === req.user.user_id
+      ) {
+        return res.status(401).json({
+          status: "fail",
+          message: "Can't delete users from gatherings you don't own",
+        });
+      }
+    }
+
     const data = await db.query(
       `delete from visitor_gathering where user_id=$1 and gathering_id=$2 RETURNING *`,
       [req.params.user_id, req.params.id]
@@ -337,7 +362,7 @@ exports.leaveGathering = async (req, res) => {
       status: "success",
       length: data.rowCount,
       data: data.rows[0],
-      message: "deleted successfully",
+      message: "Left successfully",
     });
   } catch (err) {
     res.status(400).json({

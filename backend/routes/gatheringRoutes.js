@@ -7,14 +7,14 @@ const router = express.Router();
 //Get all gatherings
 router.get("/", gatheringController.getAllGatherings);
 
-//Get one gathering
-router.get("/:id", gatheringController.getGatheringDetails);
-//router.get("/:id", gatheringController.getGathering);
 router.get(
   "/:id/checkJoined",
   authController.protect,
   gatheringController.checkJoined
 );
+//Get one gathering
+router.get("/:id", gatheringController.getGatheringDetails);
+//router.get("/:id", gatheringController.getGathering);
 
 router.delete(
   "/:id",
