@@ -14,6 +14,7 @@ import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
@@ -181,7 +182,7 @@ function PlaceDetails() {
             <div className={styles.reviewsHeader}>
               <h3>See what visitors are saying</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
-                <h5 onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}>
+                <h5 onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}>
                   Share Your Review
                 </h5>
 
@@ -208,7 +209,8 @@ function PlaceDetails() {
             />
           </section>
           <hr style={{ margin: "20px" }}></hr>
-          <div className={styles.photoSection}>
+
+          <section className={styles.photoSection}>
             <div className={styles.reviewsHeader}>
               <h3>Captured Moments of {place.name} 🌍</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
@@ -229,7 +231,7 @@ function PlaceDetails() {
               placeId={placeId}
               setTriggerFetch={setTriggerFetch}
             />
-          </div>
+          </section>
         </div>
       </main>
     </>

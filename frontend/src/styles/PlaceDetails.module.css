@@ -61,19 +61,23 @@
 
 /*Reviews Section*/
 .reviewSection {
-  padding: 20px;
+  padding: 110px 15px;
+}
+
+.photoSection {
+  padding: 70px 5px;
 }
 
 .reviewsHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
 .reviewsHeader > h3 {
-  font-size: 1.6rem;
+  font-size: 2rem;
   color: #674636;
   margin-bottom: 0.6rem;
 }

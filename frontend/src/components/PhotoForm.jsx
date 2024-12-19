@@ -1,15 +1,13 @@
 import styles from "../styles/PhotoForm.module.css";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import ErrorMessage from "./ErrorMessage";
 import axios from "axios";
-import { AdvancedImage } from "@cloudinary/react";
-import { Cloudinary } from "@cloudinary/url-gen";
+import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 
 function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
   const [photo, setPhoto] = useState(null);
   const [caption, setCaption] = useState("");
-  const [error, setError] = useState(false);
 
   if (!isOpen) return null;
 
@@ -20,7 +18,7 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
 
   async function handleImage(file) {
     if (!file) {
-      setError("Please choose a photo to upload.");
+      toast("Please choose a photo to upload.");
       return;
     }
 
@@ -40,9 +38,8 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
       console.log(urlImage);
       return urlImage;
     } catch (err) {
-      console.error("Error uploading image:", err);
-      setError("Failed to upload the image. Please try again.");
-      return null;
+      console.error(err);
+      toast("Error uploading the photo");
     }
   }
 
@@ -50,9 +47,10 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
     e.preventDefault();
 
     if (!photo) {
-      setError("Please choose a photo to upload.");
+      toast("Please choose a photo to upload.");
       return;
     }
+
     const date = new Date().toISOString();
     try {
       const data = {
@@ -71,14 +69,26 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
       // Update the photo list
       setTriggerFetch((prev) => !prev);
 
+      notify("Photo uploaded successfully");
       handleClose();
     } catch (err) {
       console.error(err);
     }
   }
 
+  // pretty alerts
+  function notify(msg) {
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: msg,
+      timer: 3000,
+    });
+  }
+
   return (
     <div className={styles.popupOverlay}>
+      <ToastContainer />
       <form className={styles.form} onSubmit={handleSubmit}>
         <h3>Share Your View: Upload a Photo</h3>
         <button className={styles.popupClose} onClick={handleClose}>

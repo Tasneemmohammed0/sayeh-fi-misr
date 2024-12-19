@@ -31,7 +31,6 @@ function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
 
         setLoading(false);
       } catch (err) {
-        console.log(err);
         if (err.response.data.message == "No wishlists found.")
           SetNoListMsg(true);
 
