@@ -129,11 +129,11 @@ exports.editGift = async (req, res) => {
   try {
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
     const placeResult = await db.query(placeQuery, [req.body.place]);
+    
     const place_id = placeResult.rows[0].place_id;
-
     const editGiftQuery = `UPDATE gift 
     set name=$1, points=$2, description=$3, place_id=$4
-    WHERE product_code =$5 RETURNING *`;
+    WHERE product_code =$5 RETURNING*`;
 
     const editGiftData = await db.query(editGiftQuery, [
       req.body.name,

@@ -68,6 +68,7 @@ const router = createBrowserRouter([
   {
     path: "/profile/accountsetting",
     element: <AccountSetting />,
+    loader: dashboardLoader,
   },
   {
     path: "/profile/wishlist/:id",
