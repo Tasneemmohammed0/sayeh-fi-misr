@@ -47,7 +47,6 @@ function GatheringCard({
     setShowEditForm(false);
   }
   function handleEdit() {
-    // console.log("edit", id);
     setShowEditForm(true);
   }
 

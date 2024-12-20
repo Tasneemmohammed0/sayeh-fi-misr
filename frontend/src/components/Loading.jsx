@@ -11,7 +11,7 @@ function Loading({ top = "50%", left = "50%" }) {
         width: "100%",
         height: "100%",
         backgroundColor: "rgba(0, 0, 0, 0.5)",
-        zIndex: 1000,
+        zIndex: 2000,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

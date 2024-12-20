@@ -1,6 +1,7 @@
 import React, { useReducer, useState } from "react";
 import styles from "../styles/CreateGatheringForm.module.css";
 import axios from "axios";
+import ErrorMessage from "./ErrorMessage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const formReducer = (state, action) => {
@@ -44,9 +45,8 @@ function CreateGatheringForm({
     place_id: "",
     host_id: id,
   };
-
+  const [error, setError] = useState("");
   const [formState, dispatch] = useReducer(formReducer, initialState);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -99,129 +99,140 @@ function CreateGatheringForm({
       );
 
       setGatheringList((prev) => [...prev, response.data.data]);
-      onClose();
-      dispatch({ type: "RESET_FORM", initialState });
+      setMessage("Gathering created successfully!");
+      handleClose(); // Close the form after successful submission
+      setError("");
     } catch (err) {
-      toast.error(err.response.data.message);
+      const errorMessage =
+        err.response?.data?.message || "An unexpected error occurred.";
+      setError(errorMessage);
     } finally {
-      console.log("ONCE");
       setLoading(false);
     }
   }
 
+  const handleClose = () => {
+    onClose();
+    dispatch({ type: "RESET_FORM", initialState });
+  };
+
   return (
     <>
-      <ToastContainer />
       {createFormVisible && (
-        <div className={styles.overlay}>
-          <div className={styles.popup}>
-            <h2>Create Gathering</h2>
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <label className={styles.formLabel}>
-                Title:
-                <input
-                  type="text"
-                  name="title"
-                  className={styles.formInput}
-                  value={formState.title}
-                  onChange={handleChange}
-                  // required
-                />
-              </label>
-              <label className={styles.formLabel}>
-                Duration:
-                <input
-                  type="number"
-                  name="duration"
-                  className={styles.formInput}
-                  value={formState.duration}
-                  onChange={handleChange}
-                  // required
-                />
-              </label>
-              <label className={styles.formLabel}>
-                Gathering Date:
-                <input
-                  type="date"
-                  name="gathering_date"
-                  className={styles.formInput}
-                  value={formState.gathering_date}
-                  onChange={handleChange}
-                  // required
-                />
-              </label>
-              <label className={styles.formLabel}>
-                Max Capacity:
-                <input
-                  type="number"
-                  name="max_capacity"
-                  className={styles.formInput}
-                  value={formState.max_capacity}
-                  onChange={handleChange}
-                  // required
-                />
-              </label>
-              <label className={styles.formLabel}>
-                Place:
-                <select
-                  name="place_id"
-                  value={formState.place_id}
-                  className={styles.formSelect}
-                  onChange={handleChange}
-                  // required
-                >
-                  <option value="" disabled>
-                    Select Place
-                  </option>
-                  {places.map((place) => (
-                    <option key={place.place_id} value={place.name}>
-                      {place.name}
+        <>
+          <ToastContainer />
+
+          <div className={styles.overlay}>
+            <div className={styles.popup}>
+              <h2>Create Gathering</h2>
+              <form onSubmit={handleSubmit} className={styles.form}>
+                <label className={styles.formLabel}>
+                  Title:
+                  <input
+                    type="text"
+                    name="title"
+                    className={styles.formInput}
+                    value={formState.title}
+                    onChange={handleChange}
+                    // required
+                  />
+                </label>
+                <label className={styles.formLabel}>
+                  Duration:
+                  <input
+                    type="number"
+                    name="duration"
+                    className={styles.formInput}
+                    value={formState.duration}
+                    onChange={handleChange}
+                    // required
+                  />
+                </label>
+                <label className={styles.formLabel}>
+                  Gathering Date:
+                  <input
+                    type="date"
+                    name="gathering_date"
+                    className={styles.formInput}
+                    value={formState.gathering_date}
+                    onChange={handleChange}
+                    // required
+                  />
+                </label>
+                <label className={styles.formLabel}>
+                  Max Capacity:
+                  <input
+                    type="number"
+                    name="max_capacity"
+                    className={styles.formInput}
+                    value={formState.max_capacity}
+                    onChange={handleChange}
+                    // required
+                  />
+                </label>
+                <label className={styles.formLabel}>
+                  Place:
+                  <select
+                    name="place_id"
+                    value={formState.place_id}
+                    className={styles.formSelect}
+                    onChange={handleChange}
+                    // required
+                  >
+                    <option value="" disabled>
+                      Select Place
                     </option>
-                  ))}
-                </select>
-              </label>
-              <label className={styles.formLabel}>
-                Description:
-                <textarea
-                  name="description"
-                  value={formState.description}
-                  className={styles.formTextarea}
-                  onChange={handleChange}
-                  // required
-                />
-              </label>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <button type="submit" className={styles.submitButton}>
-                  Submit
-                </button>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <button
-                  type="button"
-                  className={styles.cancelButton}
-                  onClick={() => {
-                    onClose();
-                    dispatch({ type: "RESET_FORM", initialState });
+                    {places.map((place) => (
+                      <option key={place.place_id} value={place.name}>
+                        {place.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className={styles.formLabel}>
+                  Description:
+                  <textarea
+                    name="description"
+                    value={formState.description}
+                    className={styles.formTextarea}
+                    onChange={handleChange}
+                    // required
+                  />
+                </label>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  Cancel
-                </button>
-              </div>
-            </form>
+                  <button type="submit" className={styles.submitButton}>
+                    Submit
+                  </button>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button
+                    type="button"
+                    className={styles.cancelButton}
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <div style={{ gridColumn: "span 2" }}>
+                  {error && <ErrorMessage error={error} />}
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

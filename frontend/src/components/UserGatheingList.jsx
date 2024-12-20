@@ -24,18 +24,18 @@ function UserGatheingList({ id, canEdit }) {
   const [userPlaces, setUserPlaces] = useState([]);
   const { places: Places, setPlaces } = useContext(UserContext);
   const [message, setMessage] = useState("");
-  // useEffect(() => {
-  //   if (message === "Gathering created successfully") {
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "Success!",
-  //       text: message,
-  //       showConfirmButton: false,
-  //       timer: 2000,
-  //     });
-  //     setMessage("");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (message === "Gathering created successfully!") {
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: message,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      setMessage("");
+    }
+  }, [message]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +70,7 @@ function UserGatheingList({ id, canEdit }) {
   }
   function handleAdd() {
     setSelectedOption((op) => (op === "add" ? null : "add"));
-    setCreateFormVisible(true);
+    if (!createFormVisible) setCreateFormVisible(true);
   }
 
   return (
@@ -115,6 +115,7 @@ function UserGatheingList({ id, canEdit }) {
               justifyContent: "space-around",
               alignItems: "center",
             }}
+            key={index}
           >
             <GatheringCard
               key={index}
