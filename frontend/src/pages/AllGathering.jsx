@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import styles from "../styles/AllPlaces.module.css";
@@ -47,7 +46,7 @@ function AllGathering() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="search for a place "
+            placeholder="search for a gathering "
             className={styles.searchInput}
           />
         </div>
