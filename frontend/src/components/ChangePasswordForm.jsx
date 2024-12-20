@@ -78,11 +78,19 @@ function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
     }
   }
 
+  function handleClose() {
+    handleForm(false);
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setError("");
+  }
+
   return (
     <div className={styles.popupOverlay}>
       {loading && <Loading />}
       <div className={styles.popup}>
-        <button className={styles.popupClose} onClick={() => handleForm(false)}>
+        <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
         <h2>Change Password</h2>

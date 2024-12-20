@@ -20,7 +20,6 @@ function EditPostForm({ post, onClose, setPostList }) {
           withCredentials: true,
         }
       );
-      console.log("response", response.data);
       toast.success("Post updated successfully.");
       setPostList((prev) =>
         prev.map((item) =>
@@ -32,8 +31,7 @@ function EditPostForm({ post, onClose, setPostList }) {
         onClose();
       }, 2000);
     } catch (error) {
-      toast.error("Failed to update post.");
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   }
 
@@ -44,7 +42,7 @@ function EditPostForm({ post, onClose, setPostList }) {
         <button className={styles.closeButton} onClick={onClose}>
           <IoMdClose />
         </button>
-        <h2 className={styles.heading}>Edit Place</h2>
+        <h2 className={styles.heading}>Edit Post</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="name">

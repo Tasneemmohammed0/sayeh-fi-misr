@@ -19,6 +19,7 @@ function GatheringCard({
   selectedOption = null,
   setGatheringList,
   setLoading,
+  canEdit = false,
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
   const navigate = useNavigate();
@@ -46,25 +47,22 @@ function GatheringCard({
     setShowEditForm(false);
   }
   function handleEdit() {
-    // console.log("edit", id);
     setShowEditForm(true);
   }
-
-  console.log(gathering);
 
   return (
     <>
       <ToastContainer />
 
       <div className={styles.card} onClick={onClick}>
-        {selectedOption === "edit" && (
+        {canEdit && selectedOption === "edit" && (
           <div className={styles.tooltip}>
             <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />
             <span className={styles.tooltipText}>Edit</span>
           </div>
         )}
 
-        {selectedOption === "delete" && (
+        {canEdit && selectedOption === "delete" && (
           <div className={styles.tooltip}>
             <MdDelete
               onClick={() => handleDelete(gathering.gathering_id)}

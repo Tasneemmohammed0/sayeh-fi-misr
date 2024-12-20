@@ -22,7 +22,6 @@ function UserPhotoPost({ post, selectedOption, setPostList, setStats }) {
           withCredentials: true,
         }
       );
-      console.log("response", response.data);
 
       setPostList((prev) => prev.filter((item) => item.photo_id !== photoId));
       setStats((prevStats) => {
@@ -32,7 +31,7 @@ function UserPhotoPost({ post, selectedOption, setPostList, setStats }) {
         };
       });
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.response.data.message);
     }
   }
 
@@ -71,6 +70,8 @@ function UserPhotoPost({ post, selectedOption, setPostList, setStats }) {
         </div>
         <div className={styles.details}>
           <h2 className={styles.title}>{post.caption}</h2>
+        </div>
+        <div className={styles.details}>
           <p className={styles.place}>Place: {post.place_name}</p>
           <p className={styles.date}>Date post: {formattedDateString} </p>
         </div>

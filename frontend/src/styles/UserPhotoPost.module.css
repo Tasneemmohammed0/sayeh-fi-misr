@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
   max-width: 600px;
   margin: 20px auto;
   padding: 16px;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border-radius: 23px;
+  background-color: var(--our-white);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
   position: relative;
@@ -19,10 +20,10 @@
 }
 
 .image {
-  width: 320px;
+  width: 400px;
   object-fit: cover;
-  height: auto;
-  border-radius: 8px;
+  height: 200px;
+  border-radius: 13px;
   margin-bottom: 16px;
 }
 

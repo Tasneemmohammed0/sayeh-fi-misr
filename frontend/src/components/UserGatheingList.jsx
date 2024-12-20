@@ -26,7 +26,7 @@ function UserGatheingList({ id, canEdit }) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (message === "Gathering created successfully") {
+    if (message === "Gathering created successfully!") {
       Swal.fire({
         icon: "success",
         title: "Success!",
@@ -71,10 +71,9 @@ function UserGatheingList({ id, canEdit }) {
   }
   function handleAdd() {
     setSelectedOption((op) => (op === "add" ? null : "add"));
-    setCreateFormVisible(true);
+    if (!createFormVisible) setCreateFormVisible(true);
   }
 
-  // console.log("gatheringList", gatheringList);
   return (
     <>
       <ToastContainer />
@@ -117,6 +116,7 @@ function UserGatheingList({ id, canEdit }) {
               justifyContent: "space-around",
               alignItems: "center",
             }}
+            key={index}
           >
             <GatheringCard
               key={index}
@@ -125,6 +125,7 @@ function UserGatheingList({ id, canEdit }) {
               selectedOption={selectedOption}
               onDelete={handleDelete}
               setLoading={setLoading}
+              canEdit={id === item.host_id}
             />
           </div>
         ))}

@@ -55,10 +55,10 @@ function Review({
       <div className={styles.review}>
         <div className={styles.info}>
           <img src={review.photo} alt={review.name} className={styles.img} />
-          <p style={{ display: "flex", gap: "10px ", fontSize: "20px" }}>
+          <div style={{ display: "flex", gap: "10px ", fontSize: "20px" }}>
             {" "}
             <Stars count={review.rating} fontSize="20px" />
-          </p>
+          </div>
           <p> Written in {formattedDateString}</p>
         </div>
         <div className={styles.text}>

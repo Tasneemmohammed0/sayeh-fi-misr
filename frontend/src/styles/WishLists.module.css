@@ -2,19 +2,21 @@
   position: absolute;
   top: 0;
   right: 0;
-  margin: 10px;
+  margin: 10px 40px;
   padding: 10px;
   background-color: var(--our-yellow);
   color: white;
+  font-weight: 500;
+  font-size: 15px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: all 0.6s;
 }
 .create:hover {
   background-color: white;
   color: var(--our-yellow);
-  transform: translateY(-5px);
+  /* transform: translateY(-5px); */
 }
 
 .allWishLists {
@@ -22,14 +24,17 @@
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 20px;
   padding: 20px;
-  margin: 20px;
+  margin: 0 50px;
   justify-content: center;
   align-items: center;
   transition: all 0.5s;
 }
 
 .wishListInfo {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 35px;
   background-color: #f9f9f9;
   border-radius: 25px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -37,12 +42,13 @@
   transition: all 0.5s;
   cursor: pointer;
   color: black;
+  background-color: var(--our-white);
 }
 .wishListInfo:hover {
-  transform: translateY(-5px);
-  background-color: #875ebf;
-  border: 1px solid blueviolet;
-  color: white;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  /* border: 2px solid var(--our-yellow); */
+  box-shadow: 0 2px 15px 1px rgb(0, 0, 0);
 }
 
 .titleStyle {

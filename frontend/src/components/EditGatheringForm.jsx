@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import styles from "../styles/EditGatheringForm.module.css";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
-import Loading from "./Loading";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,7 +10,15 @@ import { UserContext } from "../App";
 function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
   if (!isOpen) return null;
 
-  const { places, setPlaces } = useContext(UserContext);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const { places } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     title: gathering.title,
@@ -20,9 +27,8 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
     duration: gathering.duration,
     description: gathering.description,
     status: gathering.is_open,
+    gathering_date: formatDate(gathering.gathering_date),
   });
-
-  console.log("formData", formData);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -32,33 +38,14 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Extract data from formData
-    const { title, placeName, capacity, duration, description } = formData;
-
-    if (!title || title.trim() === "") {
-      toast.error("Title is required.");
-      return;
-    }
-
-    if (!placeName || placeName.trim() === "") {
-      toast.error("Place name is required.");
-      return;
-    }
-
-    if (!capacity || isNaN(capacity) || capacity <= 0) {
-      toast.error("Capacity must be a positive number.");
-      return;
-    }
-
-    if (!duration || isNaN(duration) || duration <= 0) {
-      toast.error("Duration must be a positive number.");
-      return;
-    }
-
-    if (!description || description.trim() === "") {
-      toast.error("Description is required.");
-      return;
-    }
+    const {
+      title,
+      placeName,
+      capacity,
+      duration,
+      description,
+      gathering_date,
+    } = formData;
 
     const payload = {
       title,
@@ -67,50 +54,48 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
       duration: parseInt(duration, 10),
       description,
       is_open: formData.status,
+      gathering_date,
     };
 
-    console.log("Submitting data:", payload);
-
     try {
-      // Simulate API call
-      const response = await axios.put(
+      await axios.put(
         `http://localhost:1123/api/v1/gatherings/${gathering.gathering_id}`,
         payload,
         { withCredentials: true }
       );
 
-      console.log("Response:", response.data);
+      setGatheringList((list) =>
+        list.map((g) =>
+          g.gathering_id === gathering.gathering_id ? { ...g, ...payload } : g
+        )
+      );
 
-      if (response.status != "fail") {
-        setGatheringList((list) =>
-          list.map((g) => {
-            if (g.gathering_id === gathering.gathering_id) {
-              return {
-                ...g,
-                ...payload,
-              };
-            }
-            return g;
-          })
-        );
-        toast.success("Gathering updated successfully.");
-
-        setTimeout(() => {
-          onClose();
-        }, 1000);
-      } else {
-        toast.error("Failed to update the gathering. Please try again.");
-      }
+      // Trigger toast and close modal after the toast disappears
+      toast.success("Gathering updated successfully", {
+        position: "top-right",
+        autoClose: 800,
+        onClose: () => onClose(), // Close the modal after the toast disappears
+      });
     } catch (error) {
-      console.error("Error during submission:", error);
-      toast.error("An error occurred while updating the gathering.");
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 800,
+      });
     }
   }
 
   return (
     <div className={styles.overlay}>
-      <ToastContainer />
-
+      <ToastContainer
+        position="top-right"
+        autoClose={800}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover={false}
+        draggable={false}
+        theme="light"
+      />
       <div className={styles.modal}>
         <button className={styles.closeButton} onClick={onClose}>
           <IoMdClose />
@@ -128,30 +113,25 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              required
             />
-
+          </div>
+          <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="name">
               Place:
             </label>
-
             <select
               className={`${styles.input} ${styles.select}`}
               value={formData.placeName}
               name="placeName"
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             >
-              <option value={formData.placeName} disabled>
+              <option value={formData.placeName} disabled key={0}>
                 {formData.placeName}
               </option>
               {places.map(
-                (place) =>
+                (place, index) =>
                   place.name !== formData.placeName && (
-                    <option
-                      className={styles.input}
-                      key={place.id}
-                      value={place.name}
-                    >
+                    <option key={index + 1} value={place.name}>
                       {place.name}
                     </option>
                   )
@@ -169,12 +149,24 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
               name="capacity"
               value={formData.capacity}
               onChange={handleChange}
-              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="gathering_date">
+              Gathering Date:
+            </label>
+            <input
+              className={styles.input}
+              type="date"
+              id="gathering_date"
+              name="gathering_date"
+              value={formData.gathering_date}
+              onChange={handleChange}
             />
           </div>
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="duration">
-              Duration (days):
+              Duration (hours):
             </label>
             <input
               className={styles.input}
@@ -183,7 +175,6 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
               name="duration"
               value={formData.duration}
               onChange={handleChange}
-              required
             />
           </div>
           <div className={styles.formGroup}>
@@ -196,7 +187,6 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              required
             />
           </div>
           <button
@@ -211,7 +201,6 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
           >
             {formData.status ? "Close" : "Open"}
           </button>
-
           <button type="submit" className={styles.saveButton}>
             Save
           </button>

@@ -85,7 +85,7 @@ function UserInfo({
           </h2>
           <div>
             <p className={styles.p}>
-              <PiMapPinLight style={{ fontSize: "20px" }} /> Lives in
+              <PiMapPinLight style={{ fontSize: "20px" }} /> Lives in{" "}
               {user.city}, {user.country}
             </p>
             <p className={styles.p}>
@@ -94,7 +94,7 @@ function UserInfo({
             {canEdit && (
               <Link to="accountsetting">
                 <p className={styles.p}>
-                  <FiSettings style={{ fontSize: "20px" }} /> Account Setting
+                  <FiSettings style={{ fontSize: "20px" }} /> Edit Profile
                 </p>
               </Link>
             )}

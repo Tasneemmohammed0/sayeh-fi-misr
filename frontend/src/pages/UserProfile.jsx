@@ -22,7 +22,6 @@ function UserProfile() {
   if (!currentUser && !id) return <h1>login</h1>;
   if (!currentUser && id) return <h1>User not found</h1>;
 
-  console.log("selectedList", selectedList);
   return (
     <>
       <div>
@@ -32,11 +31,13 @@ function UserProfile() {
             borderBottom: "1px solid black",
           }}
         >
-          <img
-            src="/src/assets/images/temple.png"
-            alt="user profile bg"
-            className={styles.coverPhoto}
-          />
+          <div className={styles.coverPhoto}>
+            <img
+              src="/src/assets/images/temple.png"
+              alt="user profile bg"
+              className={styles.coverPhoto}
+            />
+          </div>
           <UserInfo
             stats={stats}
             setStats={setStats}
@@ -56,7 +57,10 @@ function UserProfile() {
           )}
 
           {currentUser.user_id && selectedList === "Wishlist" && (
-            <WishLists id={currentUser.user_id} />
+            <WishLists
+              id={currentUser.user_id}
+              canEdit={currentUser?.user_id === user?.user_id}
+            />
           )}
 
           {currentUser.user_id && selectedList === "Visitedlist" && (
@@ -70,7 +74,10 @@ function UserProfile() {
           {currentUser.user_id && selectedList === "Gatheringlist" && (
             <UserGatheingList
               id={currentUser.user_id}
-              canEdit={currentUser?.user_id === user?.user_id}
+              canEdit={
+                currentUser?.user_id === user?.user_id &&
+                currentUser?.role === "host"
+              }
             />
           )}
 
@@ -94,7 +101,6 @@ export async function UserLoader({ params }) {
 
   try {
     if (!id) {
-      console.log("loader user  called");
       const response = await axios.get(
         `http://localhost:1123/api/v1/users/me`,
         {

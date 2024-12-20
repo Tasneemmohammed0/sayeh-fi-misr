@@ -58,7 +58,7 @@ exports.updateWishlist = async (req, res) => {
     const { id } = req.params;
     const { name, description } = req.body;
     const wishlist = await db.query(
-      `SELECT user_id FROM wishlist WHERE wishlist_id=$1`,
+      `SELECT * FROM wishlist WHERE wishlist_id=$1`,
       [id]
     );
     if (wishlist.rows[0].user_id !== req.user.user_id) {
@@ -77,10 +77,16 @@ exports.updateWishlist = async (req, res) => {
       params.push(description);
       conditions.push(`description=$${params.length}`);
     }
-    let query = `UPDATE wishlist SET `;
-    if (conditions.length > 0) {
-      query += `${conditions.join(", ")}`;
-    }
+    if (conditions.length === 0)
+      return res.status(200).json({
+        status: "success",
+        length: wishlist.rowCount,
+        data: wishlist.rows[0],
+      });
+    let query = `UPDATE wishlist `;
+
+    query += ` SET ${conditions.join(", ")}`;
+
     params.push(id);
     query += ` WHERE wishlist_id=$${params.length} RETURNING *`;
     const response = await db.query(query, params);
