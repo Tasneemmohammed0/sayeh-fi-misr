@@ -63,7 +63,10 @@ function UserList({ users, setLoading, setUsers }) {
             users.map((user, index) => (
               <tr key={index} className={styles.tr}>
                 <td className={styles.td}>
-                  <Link to={`/profile/${user.id}`} style={{ color: "black" }}>
+                  <Link
+                    to={`/profile/${user.user_id}`}
+                    style={{ color: "black" }}
+                  >
                     {user.username}
                   </Link>
                 </td>
