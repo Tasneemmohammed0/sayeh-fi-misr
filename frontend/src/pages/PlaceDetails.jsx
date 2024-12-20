@@ -37,20 +37,12 @@ function PlaceDetails() {
           `http://localhost:1123/api/v1/places/${placeId}`
         );
 
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-
         const data = response.data.data;
         setPlace(data.place);
         setReviews(data.reviews);
         setPhotos(data.photos);
-        console.log(data);
-
         setFinalLoading(false);
-      } catch (err) {
-        console.log(err.message);
+      } catch {
         setFinalLoading(false);
       }
     };
@@ -68,7 +60,7 @@ function PlaceDetails() {
 
         setIsVisited(response.data.data);
       } catch (err) {
-        console.log(err);
+        toast(err.response.data.message);
       }
     };
     checkVisited();
@@ -117,7 +109,7 @@ function PlaceDetails() {
 
       setIsVisited((isVisited) => !isVisited);
     } catch (err) {
-      console.log(err);
+      toast(err.response.data.message);
     }
   }
 

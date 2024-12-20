@@ -36,10 +36,8 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
 
       const urlImage = response.data.url;
       setPhoto(urlImage);
-      console.log(urlImage);
       return urlImage;
     } catch (err) {
-      console.error(err);
       toast("Error uploading the photo");
     }
   }
@@ -72,8 +70,8 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
 
       notify("Photo uploaded successfully");
       handleClose();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      toast("Error uploading the photo");
     }
   }
   // pretty alerts

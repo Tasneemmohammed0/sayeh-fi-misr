@@ -76,7 +76,6 @@ function AddToListForm({ isOpen, setIsOpen, placeId, isWishList }) {
       // clear the form
       handleClose();
     } catch (err) {
-      console.log(err);
       toast(err.response.data.message);
     }
   }

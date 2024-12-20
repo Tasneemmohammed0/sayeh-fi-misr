@@ -26,7 +26,6 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("fetching main place effect data");
         setLoading(true);
         const endpoint =
           location.pathname === "/"
