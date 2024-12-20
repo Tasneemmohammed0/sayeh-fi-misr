@@ -57,7 +57,10 @@ function UserProfile() {
           )}
 
           {currentUser.user_id && selectedList === "Wishlist" && (
-            <WishLists id={currentUser.user_id} />
+            <WishLists
+              id={currentUser.user_id}
+              canEdit={currentUser?.user_id === user?.user_id}
+            />
           )}
 
           {currentUser.user_id && selectedList === "Visitedlist" && (
