@@ -40,7 +40,7 @@ function GatheringList({ search, filter, count = 100 }) {
 
   if (search) {
     gatherings = gatherings.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
+      item.title.toLowerCase().includes(search.toLowerCase())
     );
   }
 
