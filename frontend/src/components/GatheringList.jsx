@@ -20,17 +20,17 @@ function GatheringList({ search, filter, count = 100 }) {
             : `http://localhost:1123/api/v1/gatherings`;
 
         const response = await axios.get(endpoint);
-        console.log(response);
+        //console.log(response);
         if (response.status === "fail") {
           console.log("error");
           return;
         }
 
         setGatherings(response.data.data);
-        console.log(response.data.data);
+        //console.log(response.data.data);
         setLoading(false);
       } catch (err) {
-        console.log(err.message);
+        //console.log(err.message);
       }
     };
     fetchData();
