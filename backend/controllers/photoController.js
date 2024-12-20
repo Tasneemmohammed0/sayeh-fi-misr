@@ -33,31 +33,20 @@ exports.deletePhoto = async (req, res) => {
 // Update a photo
 exports.updatePhoto = async (req, res) => {
   try {
-    let query = `UPDATE photo `;
-    const params = [];
-    const conditions = [];
-    const { caption, photo } = req.body;
-
-    if (caption) {
-      params.push(caption);
-      conditions.push(`caption = $${params.length}`);
+    if (!req.body.caption) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Empty fields exist",
+      });
     }
 
-    if (photo) {
-      params.push(photo);
-      conditions.push(`photo = $${params.length}`);
-    }
-    params.push(req.params.id);
+    const query = `UPDATE photo SET caption=$1 WHERE photo_id=$2 AND user_id=$3 RETURNING *`;
 
-    if (conditions.length > 0) {
-      console.log(params.length);
-      query += `SET ${conditions.join(", ")} WHERE photo_id = $${
-        params.length
-      } AND user_id = $${params.length + 1} RETURNING *`;
-    }
-
-    params.push(req.user.user_id);
-    const data = await db.query(query, params);
+    const data = await db.query(query, [
+      req.body.caption,
+      req.params.id,
+      req.user.user_id,
+    ]);
 
     if (!data.rowCount) {
       return res.status(400).json({
