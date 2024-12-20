@@ -8,16 +8,16 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 20px;
-  color: var(--our-blue);
+  font-size: 1.5rem;
+  color: #674636;
   font-weight: 600;
   cursor: pointer;
 }
 
 .icon {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: var(--our-blue);
+  color: #674636;
 }
 
 .text:hover .icon {

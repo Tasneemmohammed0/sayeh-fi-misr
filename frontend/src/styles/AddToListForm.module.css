@@ -18,7 +18,8 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: var(--our-blue);
+  text-align: center;
+  color: #674636;
   cursor: pointer;
 }
 
@@ -34,31 +35,24 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--our-green);
+  background-color: #fff8e8;
   margin-top: 100px;
-  padding: 20px;
+  padding: 40px;
   border-radius: 20px;
 }
 
 .form > h3 {
   font-size: 1.6rem;
-  color: var(--our-blue);
+  color: #674636;
   margin-top: 1rem;
   text-align: center;
-}
-
-.formLabel {
-  font-size: 1.1rem;
-  color: var(--our-blue);
-  display: flex;
-  justify-content: center;
 }
 
 .formButton {
   height: 40px;
   width: 200px;
   border-radius: 10px;
-  background-color: var(--our-blue);
+  background-color: #674636;
   color: var(--our-white);
   font-size: 1.1rem;
   cursor: pointer;
@@ -70,7 +64,6 @@
   flex-direction: column;
   gap: 10px;
   justify-content: space-between;
-
   width: 100%;
   overflow-y: auto;
   align-items: stretch;
@@ -79,7 +72,7 @@
 .listItem {
   width: 100%;
   height: 50px;
-  background-color: var(--our-white);
+  background-color: #ddcfb7;
   display: flex;
   justify-content: space-between;
   padding: 10px;
@@ -90,8 +83,13 @@
   transition: background-color 0.3s;
 }
 
+.listItem:hover {
+  background-color: #674636;
+  color: var(--our-white);
+}
+
 .listItem.active {
-  background-color: var(--our-blue);
+  background-color: #674636;
   color: var(--our-white);
 }
 
@@ -103,4 +101,42 @@
 
 .addIcon:hover {
   color: var(--our-green);
+}
+
+.createList {
+  font-size: 20px;
+  color: var(--our-blue);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createList > p {
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.createList > p::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--our-blue);
+  transition: width 0.7s ease;
+}
+
+.createList > p:hover::after {
+  width: 100%;
+}
+
+.addListIcon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.addListIcon:hover {
+  transform: scale(1.05);
 }

@@ -1,6 +1,6 @@
 .main {
-  background-color: var(--our-light-white);
-  height: 100vh;
+  background-color: #fff8e8;
+  height: 100%;
 }
 
 .backgroundImage {
@@ -21,61 +21,91 @@
 }
 
 .title {
-  color: var(--our-white);
-
+  color: #f7eed3;
+  font-size: 2.5rem;
+  font-weight: 800;
   position: absolute;
   top: 220px;
   left: 50px;
 }
 
 .container {
-  padding: 0rem 1.5rem;
+  padding: 3rem 10rem;
 }
 
 /* breif section  */
-
 .breif {
-  font-size: 1.6rem;
-  color: var(--our-blue);
-
-  margin-top: 1rem;
+  font-size: 2rem;
+  color: #674636;
   display: flex;
   flex-direction: column;
+  padding: 1rem 1rem;
+}
+
+.breif > h3 {
+  margin-bottom: 1rem;
 }
 
 /* place info */
-.vLine {
-  transform: rotate(90deg);
+.horizontalLine {
   margin: 0;
-  width: 220px;
-  height: 2px;
+  color: #674636;
 }
 
 .info {
   display: flex;
   align-items: center;
+  padding: 2rem 1rem;
+  gap: 3rem;
+}
+
+/*Reviews Section*/
+.reviewSection {
+  padding: 110px 15px;
+}
+
+.photoSection {
+  padding: 70px 5px;
 }
 
 .reviewsHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
 .reviewsHeader > h3 {
-  font-size: 1.6rem;
-  color: var(--our-blue);
+  font-size: 2rem;
+  color: #674636;
   margin-bottom: 0.6rem;
 }
 
-.reviewsHeader > div > h5 {
+.reviewsHeader > div > h5,
+.btnLabel {
   font-size: 1rem;
   color: var(--our-brown);
   cursor: pointer;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  transition: text-decoration 0.3s ease-in-out;
+  position: relative;
+}
+
+.reviewsHeader > div > h5::after,
+.btnLabel::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--our-brown);
+  transition: width 0.3s ease-in-out;
+}
+
+.reviewsHeader > div > h5:hover::after,
+.btnLabel:hover::after {
+  width: 100%;
 }
 
 .placeBtns {
@@ -111,19 +141,15 @@
   transform: scale(1.2);
 }
 
-.reviewsHeader > div > h5:hover {
-  text-decoration: underline;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-}
-
 .visitLabel {
   background-color: transparent;
   position: absolute;
   font-size: 18px;
   font-weight: 800;
-  left: 15px;
-  top: 15px;
-  color: green;
+  left: 30px;
+  top: 30px;
+  background-color: green;
+  color: white;
   padding: 0.6rem 0.6rem;
   border: 2px solid green;
   border-radius: 50%;

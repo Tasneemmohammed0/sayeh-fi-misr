@@ -24,6 +24,7 @@ function UserGatheingList({ id, canEdit }) {
   const [userPlaces, setUserPlaces] = useState([]);
   const { places: Places, setPlaces } = useContext(UserContext);
   const [message, setMessage] = useState("");
+
   useEffect(() => {
     if (message === "Gathering created successfully") {
       Swal.fire({

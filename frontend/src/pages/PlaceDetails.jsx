@@ -14,18 +14,19 @@ import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
   const [isVisited, setIsVisited] = useState(false);
   const [finalLoading, setFinalLoading] = useState(false);
-
   const [reviews, setReviews] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [triggerFetch, setTriggerFetch] = useState(false);
 
   // Fetch place details
   useEffect(() => {
@@ -36,25 +37,17 @@ function PlaceDetails() {
           `http://localhost:1123/api/v1/places/${placeId}`
         );
 
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-
         const data = response.data.data;
         setPlace(data.place);
         setReviews(data.reviews);
         setPhotos(data.photos);
-        console.log(data);
-
         setFinalLoading(false);
-      } catch (err) {
-        console.log(err.message);
+      } catch {
         setFinalLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [triggerFetch, placeId]);
 
   // check if the place is visited
   useEffect(() => {
@@ -67,10 +60,33 @@ function PlaceDetails() {
 
         setIsVisited(response.data.data);
       } catch (err) {
-        console.log(err);
+        toast(err.response.data.message);
       }
     };
     checkVisited();
+  }, []);
+
+  // Scroll to the target section when hash changes
+  useEffect(() => {
+    function handleHashChange() {
+      const hash = window.location.hash.slice(1);
+
+      if (hash) {
+        const target = document.getElementById(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+
+    handleHashChange();
+
+    window.addEventListener("hashchange", handleHashChange);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
   }, []);
 
   // Handle visited
@@ -93,7 +109,7 @@ function PlaceDetails() {
 
       setIsVisited((isVisited) => !isVisited);
     } catch (err) {
-      console.log(err);
+      toast(err.response.data.message);
     }
   }
 
@@ -128,26 +144,13 @@ function PlaceDetails() {
               className={styles.bookmarkIcon}
             />
           )}
-          <h1
-            className={styles.title}
-            style={{
-              color: "black",
-              backgroundColor: "#FFF8E8",
-              padding: "2px 10px",
-              borderRadius: "10px",
-            }}
-          >
-            {place.name}
-          </h1>
+          <h1 className={styles.title}>{place.name}</h1>
           {isVisited && <button className={styles.visitLabel}>VISITED</button>}
         </div>
         <div className={styles.container}>
           <div className={styles.breif}>
             <h3>Breif</h3>
-            <SeeMoreText
-              className={styles.breifText}
-              text={place.description}
-            />
+            <SeeMoreText text={place.description} />
           </div>
           <div className={styles.placeBtns}>
             <div className={styles.btnContainer}>
@@ -155,7 +158,9 @@ function PlaceDetails() {
                 onClick={handleVisited}
                 className={styles.addIcon}
               />
-              <p>Visited</p>
+              <p className={styles.btnLabel} onClick={handleVisited}>
+                Visited
+              </p>
             </div>
 
             <div className={styles.btnContainer}>
@@ -163,12 +168,22 @@ function PlaceDetails() {
                 onClick={() => setIsReportFormOpen(true)}
                 className={styles.addIcon}
               />
-              <p>Add Report</p>
+              <p
+                className={styles.btnLabel}
+                onClick={() => setIsReportFormOpen(true)}
+              >
+                Add Report
+              </p>
             </div>
           </div>
-          <hr></hr>
-          <div className={styles.info}>
-            <PlaceTicketPrice />
+          <hr className={styles.horizontalLine}></hr>
+          <section id="info" className={styles.info}>
+            <PlaceTicketPrice
+              egyptianChildPrice={place.egyptian_student_ticket_price}
+              egyptianAdultPrice={place.egyptian_adult_ticket_price}
+              otherChildPrice={place.foreign_student_ticket_price}
+              otherAdultPrice={place.foreign_adult_ticket_price}
+            />
             <div>
               <OpeningHours
                 openingHoursNormal={place.opening_hours_working_days}
@@ -176,13 +191,15 @@ function PlaceDetails() {
               />
               <PlaceLocation location={place.location} name={place.name} />
             </div>
-          </div>
+          </section>
           <hr></hr>
-          <div className={styles.reviewSection}>
+          <section id="reviews" className={styles.reviewSection}>
             <div className={styles.reviewsHeader}>
               <h3>See what visitors are saying</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
-                <h5>Share Your Review</h5>
+                <h5 onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}>
+                  Share Your Review
+                </h5>
 
                 <IoAddCircleSharp
                   className={styles.addIcon}
@@ -198,18 +215,23 @@ function PlaceDetails() {
               isReport={true}
             />
             <ReviewForm
+              setTriggerFetch={setTriggerFetch}
+              triggerFetch={triggerFetch}
               isOpen={isReviewFormOpen}
               setIsOpen={setIsReviewFormOpen}
               placeId={placeId}
               isReport={false}
             />
-          </div>
+          </section>
           <hr style={{ margin: "20px" }}></hr>
-          <div className={styles.photoSection}>
+
+          <section id="photos" className={styles.photoSection}>
             <div className={styles.reviewsHeader}>
               <h3>Captured Moments of {place.name} 🌍</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
-                <h5>Got a Shot to Share? Show Us Your Perspective!</h5>
+                <h5 onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}>
+                  Got a Shot to Share? Show Us Your Perspective!
+                </h5>
 
                 <IoAddCircleSharp
                   className={styles.addIcon}
@@ -222,8 +244,9 @@ function PlaceDetails() {
               isOpen={isPhotosFormOpen}
               setIsOpen={setIsPhotosFormOpen}
               placeId={placeId}
+              setTriggerFetch={setTriggerFetch}
             />
-          </div>
+          </section>
         </div>
       </main>
     </>

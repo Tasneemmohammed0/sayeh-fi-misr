@@ -234,9 +234,16 @@ exports.addToWishList = async (req, res) => {
       data: data.rows[0],
     });
   } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err.message,
+    console.error(err);
+    if (
+      err.message ==
+      `duplicate key value violates unique constraint "place_wishlist_pkey"`
+    ) {
+      message = "Place already in the list";
+    }
+
+    res.status(404).json({
+      message,
     });
   }
 };

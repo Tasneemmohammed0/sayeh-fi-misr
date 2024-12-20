@@ -4,12 +4,20 @@ import { IoMdClose } from "react-icons/io";
 import Rate from "./Rate";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Swal from "sweetalert2";
 
-function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
+function ReviewForm({
+  isOpen,
+  setIsOpen,
+  placeId,
+  gatheringId,
+  isReport,
+  setTriggerFetch,
+  triggerFetch,
+}) {
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
-  const [error, setError] = useState(false);
   const [reason, setReason] = useState("Offensive");
 
   if (!isOpen) return null;
@@ -46,15 +54,16 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
       const res = await axios.post(url, isReport ? reportData : reviewData, {
         withCredentials: true,
       });
-    } catch (err) {
+
+      // Update the review list
+      if (!isReport) setTriggerFetch((prev) => !prev);
+    } catch {
       toast("❌ Error submitting");
-      console.error(err); // Log the error for debugging purposes
-      setError(err);
     } finally {
       // show success message
       isReport
-        ? alert("Report Submitted Successfully!")
-        : alert("🎉 Review Submitted Successfully!");
+        ? notify("Report Submitted Successfully!")
+        : notify("🎉 Review Submitted Successfully!");
     }
   }
 
@@ -63,13 +72,21 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
 
     // Review without rating
     if (!rate && !isReport) {
-      setError(true);
       toast("⭐ Please rate the place");
       return;
     }
 
-    console.log(reason);
-    console.log(reason, review, rate);
+    // check content is not numbers only
+    if (
+      review == parseInt(review) ||
+      review == parseFloat(review) ||
+      title == parseInt(title) ||
+      title == parseFloat(title)
+    ) {
+      toast("Please enter a valid content");
+      return;
+    }
+
     // Report without title and review
     if (isReport && (!reason || !review || !rate)) {
       toast(
@@ -82,11 +99,7 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     postReview();
 
     // clear the form
-    setTitle("");
-    setReview("");
-    setIsOpen(false);
-    setRate(0);
-    setReason("Offensive");
+    handleClose();
   }
 
   function handleClose() {
@@ -95,6 +108,17 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
     setReview("");
     setIsOpen(false);
     setRate(0);
+    setReason("Offensive");
+  }
+
+  // pretty alerts
+  function notify(msg) {
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: msg,
+      timer: 3000,
+    });
   }
 
   return (
@@ -111,66 +135,80 @@ function ReviewForm({ isOpen, setIsOpen, placeId, gatheringId, isReport }) {
         <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
-        {!isReport && <Rate rate={rate} setRate={setRate} />}
         {!isReport && (
+          <Rate
+            disabledColor={"gray"}
+            activeColor={"gold"}
+            rate={rate}
+            setRate={setRate}
+          />
+        )}
+        <div className={styles.reviewContent}>
+          {!isReport && (
+            <label className={styles.formLabel}>
+              <span>Title</span>
+              <input
+                style={{ marginLeft: "2rem" }}
+                className={styles.title}
+                type="text"
+                placeholder={"Enter review title"}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </label>
+          )}
+          {isReport && (
+            <label className={styles.formLabel}>
+              <span>Reason</span>
+              <select
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className={styles.dropList}
+              >
+                <option>Offensive</option>
+                <option>Spam</option>
+                <option>Inappropriate</option>
+                <option>Other</option>
+              </select>
+            </label>
+          )}
           <label className={styles.formLabel}>
-            Title
-            <input
-              className={styles.title}
-              type="text"
-              placeholder={"Enter review title"}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+            <span style={{ marginTop: "0.5rem" }}>
+              {isReport ? "Content" : "Review"}
+            </span>
+            <textarea
+              className={styles.reviewText}
+              placeholder={
+                isReport ? "Write your report..." : "Write your review.."
+              }
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              maxLength={400}
+            ></textarea>
           </label>
-        )}
-        {isReport && (
-          <label className={styles.formLabel}>
-            Reason
-            <select
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className={styles.dropList}
-            >
-              <option>Offensive</option>
-              <option>Spam</option>
-              <option>Inappropriate</option>
-              <option>Other</option>
-            </select>
-          </label>
-        )}
-        <label className={styles.formLabel}>
-          {isReport ? "Content" : "Review"}
-          <textarea
-            className={styles.reviewText}
-            placeholder={
-              isReport ? "Write your report..." : "Write your review.."
-            }
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            maxLength={400}
-          ></textarea>
-        </label>
-        {isReport && (
-          <div className={styles.severity}>
-            <p className={styles.formLabel}>Severity</p>
-            {Array.from({ length: 5 }, (_, index) => {
-              const value = index + 1;
-              return (
-                <label key={value}>
-                  <input
-                    type="radio"
-                    name="rating"
-                    value={value}
-                    onChange={() => setRate(value)}
-                  />
-                  {value}
-                </label>
-              );
-            })}
-          </div>
-        )}
-
+          {isReport && (
+            <div className={styles.severity}>
+              <p>Severity</p>
+              <div>
+                {Array.from({ length: 5 }, (_, index) => {
+                  const value = index + 1;
+                  return (
+                    <label key={value}>
+                      <input
+                        type="radio"
+                        name="rating"
+                        value={value}
+                        onChange={() => setRate(value)}
+                        style={{ marginLeft: "10px", marginRight: "5px" }}
+                      />
+                      {value}
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
         <button
           type="submit"
           className={styles.formButton}

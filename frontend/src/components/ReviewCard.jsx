@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
-import styles from "../styles/DetailsPlaceCard.module.css";
+import styles from "../styles/ReviewCard.module.css";
 import Stars from "./Stars";
 import { useState } from "react";
 
-function DetailsPlaceCard({
-  photo,
+function ReviewCard({
   review,
   date,
   firstName = "",
@@ -21,31 +20,21 @@ function DetailsPlaceCard({
 
   return (
     <div className={styles.container}>
-      {review && (
-        <div className={styles.stars}>
-          <Stars count={review.rating} color={"orange"} />
-        </div>
-      )}
+      <div className={styles.stars}>
+        <Stars count={review.rating} color={"orange"} />
+      </div>
+
       <div className={styles.userInfo}>
         <img className={styles.profileImage} src={`${userProfilePic}`} />
         <h3 className={styles.userName}>
           {firstName} {lastName}
         </h3>
       </div>
-      <h4 className={review ? styles.title : styles.caption}>
-        {review ? review.title : photo.caption}
-      </h4>
-      {photo && (
-        <img
-          src={photo.uploadedPhoto}
-          alt="uploaded photo"
-          className={styles.photo}
-        />
-      )}
-      {review && <p className={styles.mainContent}>{review.mainContent}</p>}
+      <h4 className={review ? styles.title : styles.caption}>{review.title}</h4>
+      <p className={styles.mainContent}>{review.mainContent}</p>
       <p className={styles.time}>Posted {formattedDateString}</p>
     </div>
   );
 }
 
-export default DetailsPlaceCard;
+export default ReviewCard;
