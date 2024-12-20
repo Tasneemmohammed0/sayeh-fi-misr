@@ -76,6 +76,17 @@ function ReviewForm({
       return;
     }
 
+    // check content is not numbers only
+    if (
+      review == parseInt(review) ||
+      review == parseFloat(review) ||
+      title == parseInt(title) ||
+      title == parseFloat(title)
+    ) {
+      toast("Please enter a valid content");
+      return;
+    }
+
     // Report without title and review
     if (isReport && (!reason || !review || !rate)) {
       toast(
