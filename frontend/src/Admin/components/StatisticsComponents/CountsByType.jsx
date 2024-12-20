@@ -83,6 +83,7 @@ function CountsByType() {
             gatheringCount: +item.gatherings_count,
             reviewCount: +item.reviews_count,
             photosCount: +item.photos_count,
+            reportsCount: +item.reports_count,
           }));
           setDataSet(transformedData);
         }
@@ -116,6 +117,7 @@ function CountsByType() {
             label: "Gathering Count",
             valueFormatter,
           },
+          { dataKey: "reportsCount", label: "Reports Count", valueFormatter },
         ]}
         {...chartSetting}
       />
