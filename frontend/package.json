@@ -29,6 +29,7 @@
     "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^7.0.1",
     "react-toastify": "^10.0.6",
+    "sonner": "^1.7.1",
     "styled-components": "^6.1.13",
     "sweetalert2": "^11.15.0",
     "swiper": "^11.1.15",

@@ -78,7 +78,6 @@ function AddGiftForm({ onClose, setGifts, places }) {
         toast.error("Failed to add gift");
         return;
       }
-      // console.log("==========Gift", response.data.data);
       setGifts((prev) => [...prev, response.data.data]);
       toast.success("Gift added successfully");
       setTimeout(() => {
@@ -97,7 +96,7 @@ function AddGiftForm({ onClose, setGifts, places }) {
       <ToastContainer />
       {loading && <Loading />}
       <div className={styles.modal}>
-        <h2 className={styles.title}>Edit Gift</h2>
+        <h2 className={styles.title}>Add Gift</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
             <label htmlFor="name" className={styles.label}>

@@ -1,70 +1,98 @@
+/* ReportCard.module.css */
+
 .card {
-  padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #b49e9e;
   border-radius: 8px;
-  background-color: #f9f9f9;
-  max-width: 500px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  background-color: #f8f9fa;
+}
+
+/* Add hover animation to the card */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
 .header {
   font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   text-align: center;
 }
 
-.details {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch; /* Ensures all children span the same height */
-  gap: 10px;
-  width: 100%;
-  padding: 10px;
+.reportInfo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* Add this to your ReportCard.module.css */
+.severity {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+  width: fit-content;
+  margin-bottom: 8px;
+}
+
+.severity-low {
+  background-color: green;
+  color: white;
+}
+
+.severity-medium {
+  background-color: yellow;
+  color: black;
+}
+
+.severity-high {
+  background-color: red;
+  color: white;
 }
 
 .detailItem {
-  font-size: 1rem;
-  color: #555;
-  margin: 5px 0;
-}
-
-.detailColumn {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  word-wrap: break-word;
-  gap: 15px;
+  flex: 1 1 45%;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .description {
-  font-style: italic;
-  color: #666;
-  border-left: 3px solid #007bff;
-  padding-left: 10px;
-  flex: 1;
-  overflow-y: auto;
-  max-height: 250px;
+  margin-top: 16px;
+}
+
+.description h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }
 
 .button {
-  display: block;
-  width: 100%;
-  padding: 10px;
   background-color: #007bff;
-  color: #fff;
-  text-align: center;
+  color: white;
   border: none;
-  border-radius: 5px;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 1rem;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
 }
 
+/* Add hover animation to the button */
 .button:hover {
   background-color: #0056b3;
+  transform: scale(1.1);
 }

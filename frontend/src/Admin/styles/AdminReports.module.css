@@ -4,6 +4,13 @@
   flex-direction: column;
 }
 
+.header {
+  font-size: 2rem;
+  text-align: center;
+
+  margin: 40px 0;
+}
+
 .reportList {
   display: grid;
   grid-template-columns: repeat(2, minmax(450px, 1fr));

@@ -6,7 +6,7 @@ import axios from "axios";
 import { UserContext } from "../../App";
 import "react-toastify/dist/ReactToastify.css";
 
-function CreatePlaceForm({ isOpen, onClose }) {
+function CreatePlaceForm({ isOpen, onClose, setLoading }) {
   const { places: Places, setPlaces } = useContext(UserContext);
   const [formData, setFormData] = useState({
     name: "",
@@ -57,7 +57,9 @@ function CreatePlaceForm({ isOpen, onClose }) {
   async function handleSubmit(e) {
     e.preventDefault();
     // console.log("Submitted Data:", formData);
+
     try {
+      setLoading(true);
       const res = await axios.post(
         `http://localhost:1123/api/v1/places`,
         formData,
@@ -66,15 +68,16 @@ function CreatePlaceForm({ isOpen, onClose }) {
         }
       );
       toast.success("Place Updated successfully.");
-      setPlaces([...Places, res.data.data]);
+      console.log("res", res.data.data);
+      setPlaces((prev) => [...prev, res.data.data]);
+      setTimeout(() => {
+        onClose();
+      }, 1000);
     } catch (err) {
-      toast.error("Failed to create place.");
-      console.log(err);
+      toast.error(err.response.data.message);
+    } finally {
+      setLoading(false);
     }
-
-    setTimeout(() => {
-      onClose();
-    }, 1000);
   }
 
   return (
@@ -123,6 +126,10 @@ function CreatePlaceForm({ isOpen, onClose }) {
               value={formData.city}
               onChange={handleChange}
             >
+              <option value="" disabled name="city" key={0}>
+                {" "}
+                Select City{" "}
+              </option>
               {cities.map((city) => (
                 <option key={city} value={city} name="city">
                   {city}
