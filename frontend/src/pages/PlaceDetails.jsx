@@ -74,6 +74,29 @@ function PlaceDetails() {
     checkVisited();
   }, []);
 
+  // Scroll to the target section when hash changes
+  useEffect(() => {
+    function handleHashChange() {
+      const hash = window.location.hash.slice(1);
+
+      if (hash) {
+        const target = document.getElementById(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+
+    handleHashChange();
+
+    window.addEventListener("hashchange", handleHashChange);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
   // Handle visited
   async function handleVisited() {
     try {
@@ -162,7 +185,7 @@ function PlaceDetails() {
             </div>
           </div>
           <hr className={styles.horizontalLine}></hr>
-          <section className={styles.info}>
+          <section id="info" className={styles.info}>
             <PlaceTicketPrice
               egyptianChildPrice={place.egyptian_student_ticket_price}
               egyptianAdultPrice={place.egyptian_adult_ticket_price}
@@ -178,7 +201,7 @@ function PlaceDetails() {
             </div>
           </section>
           <hr></hr>
-          <section className={styles.reviewSection}>
+          <section id="reviews" className={styles.reviewSection}>
             <div className={styles.reviewsHeader}>
               <h3>See what visitors are saying</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
@@ -210,7 +233,7 @@ function PlaceDetails() {
           </section>
           <hr style={{ margin: "20px" }}></hr>
 
-          <section className={styles.photoSection}>
+          <section id="photos" className={styles.photoSection}>
             <div className={styles.reviewsHeader}>
               <h3>Captured Moments of {place.name} 🌍</h3>
               <div style={{ display: "flex", gap: "0.6rem" }}>
