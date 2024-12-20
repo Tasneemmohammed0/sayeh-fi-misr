@@ -1,6 +1,7 @@
 /* ReportCard.module.css */
 
 .card {
+  position: relative;
   border: 1px solid #b49e9e;
   border-radius: 8px;
   padding: 16px;
@@ -67,6 +68,14 @@
 .description {
   margin-top: 16px;
 }
+.description p {
+  display: block;
+  margin: 5px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: normal;
+  margin-bottom: 35px;
+}
 
 .description h3 {
   font-size: 1.2rem;
@@ -80,6 +89,9 @@
 }
 
 .button {
+  position: absolute;
+  bottom: 10px;
+  left: 45%;
   background-color: #007bff;
   color: white;
   border: none;

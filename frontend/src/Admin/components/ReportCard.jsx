@@ -63,7 +63,7 @@ function ReportCard({ card, setReports, setLoading, setMessage }) {
       {/* Report Details Section */}
       <div className={styles.description}>
         <h3>Description</h3>
-        <p style={{ margin: "5px" }}>{card.description}</p>
+        <p>{card.description}</p>
       </div>
 
       {/* Resolve Button */}
