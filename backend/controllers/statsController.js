@@ -82,13 +82,18 @@ exports.getUsersTypes = async (req, res, next) => {
 
 exports.getPlaceVisits = async (req, res) => {
   try {
+    const dataId = await db.query(
+      `SELECT place_id FROM place WHERE name = $1`,
+      [req.params.name]
+    );
+    const placeId = dataId.rows[0].place_id;
     const data = await db.query(
       `SELECT date, COUNT(*) AS visit_count
       FROM visitor_place
       WHERE place_id=$1 and date >= CURRENT_DATE - INTERVAL '7 days'
       GROUP BY date
       ORDER BY date;`,
-      [req.params.id]
+      [placeId]
     );
 
     if (!data.rowCount) {

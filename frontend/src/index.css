@@ -35,6 +35,10 @@ body {
   font-family: "Quicksand", sans-serif;
   height: 100%;
 }
+
+#root {
+  height: 100%;
+}
 /* Default (Mobile-first) */
 .container {
   width: 100%;

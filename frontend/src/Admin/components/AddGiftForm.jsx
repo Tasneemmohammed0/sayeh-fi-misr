@@ -23,6 +23,8 @@ function AddGiftForm({ onClose, setGifts, places }) {
     }));
   };
 
+  console.log(places);
+
   async function handlesImage(filex) {
     const file = filex;
     const CLOUDINARY_URL =
@@ -74,18 +76,13 @@ function AddGiftForm({ onClose, setGifts, places }) {
         }
       );
 
-      if (response.status === "fail") {
-        toast.error("Failed to add gift");
-        return;
-      }
       setGifts((prev) => [...prev, response.data.data]);
       toast.success("Gift added successfully");
       setTimeout(() => {
         onClose();
       }, 1000);
     } catch (err) {
-      console.log(err.message);
-      toast.error("Failed to add gift");
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -155,11 +152,11 @@ function AddGiftForm({ onClose, setGifts, places }) {
               className={styles.select}
               required
             >
-              <option value="" disabled>
+              <option value="" disabled key={0}>
                 Select a place
               </option>
               {places.map((place) => (
-                <option key={place.id} value={place.name}>
+                <option key={place.place_id} value={place.name}>
                   {place.name}
                 </option>
               ))}

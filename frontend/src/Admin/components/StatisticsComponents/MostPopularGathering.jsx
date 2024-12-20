@@ -3,13 +3,14 @@ import axios from "axios";
 import GatheringCard from "../../../components/GatheringCard";
 import style from "../../styles/AdminStatistics.module.css";
 
-function MostPopularGathering() {
+function MostPopularGathering({ setLoading }) {
   const [gatheringData, setGatheringData] = useState(null);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(
           "http://localhost:1123/api/v1/stats/gathering",
           { withCredentials: true }
@@ -39,6 +40,8 @@ function MostPopularGathering() {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 

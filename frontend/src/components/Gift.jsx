@@ -59,7 +59,7 @@ function Gift({
         prevGifts.filter((item) => item.product_code !== id)
       );
     } catch (err) {
-      console.error("Error deleting gift:", err.message);
+      console.error(err.response.data.message);
     } finally {
       setIsLoading(false);
     }

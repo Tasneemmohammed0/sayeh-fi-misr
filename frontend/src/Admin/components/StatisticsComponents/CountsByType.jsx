@@ -33,11 +33,12 @@ const chartSetting = {
   },
 };
 
-function CountsByType() {
+function CountsByType({ setLoading }) {
   const [dataset, setDataSet] = useState([]);
   useEffect(() => {
     const fetchActivitiesData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `http://localhost:1123/api/v1/stats/activities`,
           {
@@ -57,6 +58,8 @@ function CountsByType() {
         }
       } catch (err) {
         console.error(err.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchActivitiesData();

@@ -17,5 +17,5 @@ router.get("/ratings/:city", statsController.getAvgRatings);
 router.get("/nationalities", statsController.getTopFiveNationalities);
 
 // Get place visits in the last 7 days
-router.get("/place/:id", statsController.getPlaceVisits);
+router.get("/place/:name", statsController.getPlaceVisits);
 router.get("/activities", statsController.getActivitiesCount);
