@@ -7,7 +7,7 @@ import Loading from "./Loading";
 import styles from "../styles/WishLists.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-function WishLists({ id, canEdit }) {
+function WishLists({ id, canEdit = false, canEdit }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [wishLists, setWishLists] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -73,7 +73,7 @@ function WishLists({ id, canEdit }) {
   return (
     <div style={{ position: "relative" }} id="wishlists">
       {loading && <Loading />}
-      {user?.user_id === id && (
+      {canEdit && (
         <button className={styles.create} onClick={() => setIsFormOpen(true)}>
           Create Wishlist
         </button>
@@ -83,7 +83,7 @@ function WishLists({ id, canEdit }) {
         isOpen={isFormOpen}
         handleForm={setIsFormOpen}
         user_id={user?.user_id}
-        can={user?.user_id === id}
+        canEdit={canEdit}
         setWishLists={setWishLists}
       />
 
@@ -98,28 +98,30 @@ function WishLists({ id, canEdit }) {
               >
                 <h2 className={styles.titleStyle}>{wishList.name}</h2>
                 <p className={styles.description}>{wishList.description}</p>
-
+                {canEdit && (
+  
                 {canEdit && (
                   <div
-                    style={{
-                      display: "flex",
-                      alignSelf: "flex-end",
-                      columnGap: "10px",
-                    }}
-                  >
-                    <button
-                      className={styles.editBtn}
-                      onClick={() => setEditWishList(wishList)}
+                      style={{
+                        display: "flex",
+                        alignSelf: "flex-end",
+                        columnGap: "10px",
+                      }}
                     >
-                      Edit
-                    </button>
-                    <button
-                      className={styles.deleteBtn}
-                      onClick={() => handleDeleteWishlist(wishList.wishlist_id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                      <button
+                        className={styles.editBtn}
+                        onClick={() => setEditWishList(wishList)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={() => handleDeleteWishlist(wishList.wishlist_id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                )}
                 )}
               </li>
             )
