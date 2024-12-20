@@ -350,7 +350,7 @@ exports.addToGathering = async (req, res) => {
         `select host_id from gathering where gathering_id=$1`,
         [req.params.id]
       );
-      if (canAdd.rowCount && canAdd.rows[0] !== req.user.user_id) {
+      if (canAdd.rowCount && canAdd.rows[0].host_id !== req.user.user_id) {
         return res.status(401).json({
           status: "fail",
           message: "Can't add users to gathering you don't own",
@@ -383,7 +383,7 @@ exports.addToGathering = async (req, res) => {
 
     // Add this gathering to user's activities
     try {
-      await addPoints(req.user.user_id, "gathering", 20);
+      await addPoints(userId, "gathering", 20);
     } catch (err) {
       console.error(err.message);
     }
