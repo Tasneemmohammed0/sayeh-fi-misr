@@ -13,7 +13,7 @@ import AccountPhotoEditFrom from "../components/AccountPhotoEditFrom";
 function reducer(state, action) {
   switch (action.type) {
     case "updateFirstname":
-      if (action.payload.length === 0) {
+      if (!action.payload) {
         return {
           ...state,
           first_name: action.payload,
@@ -40,7 +40,7 @@ function reducer(state, action) {
       return { ...state, first_name: action.payload, error_firstname: "" };
 
     case "updateLastname":
-      if (action.payload.length === 0) {
+      if (!action.payload) {
         return {
           ...state,
           last_name: action.payload,
@@ -66,7 +66,7 @@ function reducer(state, action) {
       return { ...state, last_name: action.payload, error_lastname: "" };
 
     case "updateUsername":
-      if (action.payload.length === 0) {
+      if (!action.payload) {
         return {
           ...state,
           username: action.payload,
@@ -88,7 +88,7 @@ function reducer(state, action) {
       return { ...state, username: action.payload, error_username: "" };
 
     case "updateEmail":
-      if (action.payload.length === 0) {
+      if (!action.payload) {
         return {
           ...state,
           email: action.payload,
@@ -191,19 +191,20 @@ function AccountSetting() {
       (key) => key.startsWith("error_") && state[key]
     );
     if (errors.length > 0) {
-      if (state.error_firstname === "Firstname must not be empty") {
-        console.log("empty here ");
-        dispatch({ type: "updateFirstname", payload: currentUser.firstname });
+      if (state?.error_firstname === "Firstname must not be empty") {
+        console.log("empty here first ");
+        console.log(currentUser);
+        dispatch({ type: "updateFirstname", payload: currentUser?.first_name });
       }
-      if (state.error_lastname === "Lastname must not be empty") {
+      if (state?.error_lastname === "Lastname must not be empty") {
         console.log("empty here last ");
-        dispatch({ type: "updateLastname", payload: currentUser.lastname });
+        dispatch({ type: "updateLastname", payload: currentUser?.last_name });
       }
-      if (state.error_username === "Usernane must not be empty") {
-        dispatch({ type: "updateUsername", payload: currentUser.username });
+      if (state?.error_username === "Usernane must not be empty") {
+        dispatch({ type: "updateUsername", payload: currentUser?.username });
       }
-      if (state.error_email === "Email must not be empty") {
-        dispatch({ type: "updateEmail", payload: currentUser.email });
+      if (state?.error_email === "Email must not be empty") {
+        dispatch({ type: "updateEmail", payload: currentUser?.email });
       }
 
       handleErrors();
@@ -385,10 +386,15 @@ function AccountSetting() {
         <ChangePasswordForm
           isOpen={showChangePassword}
           handleForm={setShowChangePassword}
-          userPassword={user?.password}
+          userPassword={currentUser?.password}
         />
 
-        <Signout isOpen={showSignOut} handleForm={setShowSignOut} user={user} />
+        <Signout
+          isOpen={showSignOut}
+          handleForm={setShowSignOut}
+          user={currentUser}
+          setUser={setUser}
+        />
       </div>
 
       {showPhotoForm && (

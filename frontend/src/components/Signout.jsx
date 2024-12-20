@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import styles from "../styles/Signout.module.css";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
-function Signout({ isOpen, handleForm, user }) {
+function Signout({ isOpen, handleForm, user, setUser }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -21,6 +21,7 @@ function Signout({ isOpen, handleForm, user }) {
       );
       setLoading(false);
       handleForm(false);
+      setUser(null);
       navigate("/");
     } catch (error) {
       console.error("Sign-out error:", error);
@@ -43,7 +44,7 @@ function Signout({ isOpen, handleForm, user }) {
         </button>
         <h3 className={styles.header}>Are you sure you want to sign out?</h3>
         {loading ? (
-          <Loading /> // Replace this with your loading spinner
+          <Loading />
         ) : (
           <div>
             <button className={styles.popupButton} onClick={handleSignOut}>
