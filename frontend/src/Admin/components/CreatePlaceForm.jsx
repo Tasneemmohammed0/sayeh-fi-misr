@@ -47,7 +47,7 @@ function CreatePlaceForm({ isOpen, onClose, setLoading }) {
     "South Sinai",
   ];
 
-  const types = ["Historical", "Museums", "Religious", "Saqqara & Dahshur"];
+  const types = ["Historical", "Museum", "Religious", "Saqqara & Dahshur"];
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -56,7 +56,6 @@ function CreatePlaceForm({ isOpen, onClose, setLoading }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    // console.log("Submitted Data:", formData);
 
     try {
       setLoading(true);
@@ -68,7 +67,7 @@ function CreatePlaceForm({ isOpen, onClose, setLoading }) {
         }
       );
       toast.success("Place Updated successfully.");
-      console.log("res", res.data.data);
+
       setPlaces((prev) => [...prev, res.data.data]);
       setTimeout(() => {
         onClose();

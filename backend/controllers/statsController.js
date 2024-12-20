@@ -96,13 +96,6 @@ exports.getPlaceVisits = async (req, res) => {
       [placeId]
     );
 
-    if (!data.rowCount) {
-      return res.status(404).json({
-        status: "fail",
-        message: "No visits found",
-      });
-    }
-
     // Generate an array of the last 7 days
     const days = [];
     for (let i = 0; i < 7; i++) {
