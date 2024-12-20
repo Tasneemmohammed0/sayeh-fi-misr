@@ -9,6 +9,8 @@ import { FiSettings } from "react-icons/fi";
 import Loading from "../../components/Loading";
 import AddGiftForm from "./AddGiftForm";
 import { UserContext } from "../../App";
+import { Toaster, toast } from "sonner";
+
 function AdminBazaar() {
   const [gifts, setGifts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,6 +63,7 @@ function AdminBazaar() {
     <>
       <div className={styles.mainBazaar}>
         {loading && <Loading />}
+        <Toaster richColors />
         <div style={{ position: "absolute", top: "-10px", right: "10px" }}>
           {showOptions && (
             <>

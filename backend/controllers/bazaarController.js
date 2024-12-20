@@ -180,21 +180,47 @@ exports.addGift = async (req, res) => {
 };
 exports.editGift = async (req, res) => {
   try {
+    const { name, points, description, photo } = req.body;
+    if (
+      (typeof name === "string" && !name.trim()) ||
+      !points ||
+      !description.trim()
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Can't leave empty fields",
+      });
+    }
+    if (points <= 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Points must be a positive number",
+      });
+    }
+    if (typeof name === "number") {
+      return res.status(400).json({
+        status: "fail",
+        message: "Name can't be a number",
+      });
+    }
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
     const placeResult = await db.query(placeQuery, [req.body.place]);
 
     const place_id = placeResult.rows[0].place_id;
-    const editGiftQuery = `UPDATE gift 
-    set name=$1, points=$2, description=$3, place_id=$4
-    WHERE product_code =$5 RETURNING*`;
+    let editGiftQuery = `UPDATE gift 
+    set name=$1, points=$2, description=$3, place_id=$4`;
+    if (photo) editGiftQuery += `, photo='${photo}' `;
+
+    editGiftQuery += ` WHERE product_code =$5 RETURNING*`;
 
     const editGiftData = await db.query(editGiftQuery, [
-      req.body.name,
-      req.body.points,
-      req.body.description,
+      name,
+      points,
+      description,
       place_id,
       req.params.id,
     ]);
+    editGiftData.rows[0].place_name = req.body.place;
     res.status(200).json({
       status: "success",
       length: editGiftData.rowCount,
@@ -223,9 +249,12 @@ WHERE product_code =$1 RETURNING*`;
     });
   } catch (err) {
     await db.query("ROLLBACK");
+    let message = err.message;
+    if (err.message.includes("foreign"))
+      message = "Can't delete a gift that somebody has";
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message,
     });
   }
 };

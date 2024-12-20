@@ -11,9 +11,8 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
     points: giftData?.points || "",
     place: giftData?.place_name || "",
     description: giftData?.description || "",
-    photo: null,
   });
-  console.log(giftData);
+  const [file, setFile] = useState();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,16 +45,16 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
     try {
       setLoading(true);
 
-      let url = await handlesImage(photo);
+      let url = await handlesImage(file);
 
       const data = {
-        name: formData.name,
+        name: +formData.name ? +formData.name : formData.name,
         points: formData.points,
         place: formData.place,
         description: formData.description,
         photo: url,
       };
-      // console.log(data);
+
       const response = await axios.put(
         `http://localhost:1123/api/v1/bazaar/${giftData.product_code}/editGift`,
         data,
@@ -63,11 +62,11 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
           withCredentials: true,
         }
       );
-
+      console.log(response.data.data);
       setGifts((prevGifts) =>
         prevGifts.map((item) =>
           item.product_code === giftData.product_code
-            ? { ...item, ...data }
+            ? response.data.data
             : item
         )
       );
@@ -76,6 +75,7 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
         onClose();
       }, 1000);
     } catch (err) {
+      console.log(err.response.data.message);
       toast.error(err.response.data.message);
     }
   };
@@ -109,9 +109,7 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
               type="file"
               id="photo"
               name="photo"
-              onChange={(e) =>
-                setFormData({ ...formData, photo: e.target.files[0] })
-              }
+              onChange={(e) => setFile(e.target.files[0])}
               className={styles.input}
             />
           </div>
