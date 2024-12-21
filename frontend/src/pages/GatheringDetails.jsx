@@ -243,8 +243,10 @@ function GatheringDetails() {
             )}
             <div className={styles.gatheringBtns}>
               <div onClick={() => handleJoin()} className={styles.btnContainer}>
-                <IoIosAddCircleOutline className={styles.addIcon} />
-                <p>{isJoined ? `Leave` : `JOIN`}</p>
+                {!isJoined && isOpen && (
+                  <IoIosAddCircleOutline className={styles.addIcon} />
+                )}
+                <p>{isJoined ? `Leave` : isOpen ? `JOIN` : `CLOSED`}</p>
               </div>
 
               <div
