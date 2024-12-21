@@ -217,6 +217,8 @@ function GatheringDetails() {
     }
   }
 
+  // console.log("gathering", gathering);
+
   return (
     <>
       {finalLoading && <Loading />}
@@ -264,9 +266,9 @@ function GatheringDetails() {
                 destination={{
                   title: "Destination",
                   name: place.name,
-                  hostId: gathering.host_id,
                 }}
                 host={host}
+                hostId={gathering.host_id}
               />
               <div className={styles.gatheringInfo}>
                 <GatheringInfo
