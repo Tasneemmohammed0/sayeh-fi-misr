@@ -54,7 +54,12 @@ function GatheringCard({
     <>
       <ToastContainer />
 
-      <div className={styles.card} onClick={onClick}>
+      <div
+        className={styles.card}
+        onClick={() => {
+          navigate(`/gatherings/${gathering.gathering_id}`);
+        }}
+      >
         {canEdit && selectedOption === "edit" && (
           <div className={styles.tooltip}>
             <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />
