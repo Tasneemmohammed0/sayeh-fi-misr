@@ -62,7 +62,7 @@ function AccountForm({ state, dispatch, handleCount }) {
         nationalities: state.nationality,
         username: state.username,
         email: state.email,
-        photo: url,
+        photo: url ? url : undefined,
         role: state.role,
         password: state.password,
       };
@@ -86,6 +86,9 @@ function AccountForm({ state, dispatch, handleCount }) {
         setError(3);
       } else if (err.response.data.message === "Username already in use") {
         setError(4);
+      } else {
+        console.log(err.message);
+        console.log(err.response.data.message);
       }
     } finally {
       setLoading(false);
