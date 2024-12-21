@@ -22,7 +22,6 @@ function GatheringDetails() {
   const [search, setSearch] = useState("");
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [finalLoading, setFinalLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const [addUser, setAddUser] = useState(false);
   const [deleteUser, setDeleteUser] = useState(false);
@@ -36,11 +35,13 @@ function GatheringDetails() {
   function checkGatheringTime() {
     const gatheringDate = new Date(gathering.gathering_date);
     const currentDate = new Date();
+
     // Set the time of both dates to 00:00:00 to ignore the time part
     currentDate.setHours(0, 0, 0, 0);
     gatheringDate.setHours(0, 0, 0, 0);
     const diffInMs = currentDate - gatheringDate;
     const oneDayInMs = 24 * 60 * 60 * 1000;
+
     // check if difference is one day or more
     if (diffInMs >= oneDayInMs) {
       setIsOpen(false);
@@ -51,7 +52,6 @@ function GatheringDetails() {
   useEffect(() => {
     const fetchGathering = async () => {
       try {
-        setLoadingData(true);
         setFinalLoading(true);
         const response = await axios.get(
           `http://localhost:1123/api/v1/gatherings/${gatheringId}`
@@ -67,7 +67,7 @@ function GatheringDetails() {
         // set all states
         setGathering(gatheringData);
         setIsOpen(gathering.is_open);
-        console.log(isOpen);
+
         setPlace({
           photo: gatheringData.photo,
           location: gatheringData.location,
@@ -80,17 +80,17 @@ function GatheringDetails() {
           last_name: gatheringData.last_name,
           phone_number: gatheringData.phone_number,
         });
+
         setUsers(response.data.data.users);
         setCurrentCapacity(response.data.data.current_capacity);
         setIsFull(response.data.data.isFull);
 
         checkGatheringTime();
 
-        setLoadingData(false);
         setFinalLoading(false);
       } catch (err) {
-        console.log(err.message);
-        setLoadingData(false);
+        toast(err.response.data.message);
+        setFinalLoading(false);
       }
     };
     fetchGathering();
@@ -100,6 +100,8 @@ function GatheringDetails() {
   useEffect(() => {
     async function checkJoiningStatus() {
       try {
+        if (!user) return;
+
         const response = await axios.get(
           `http://localhost:1123/api/v1/gatherings/${gatheringId}/checkJoined`,
           {
@@ -110,7 +112,7 @@ function GatheringDetails() {
         // set joining status
         setIsJoined(response.data.data);
       } catch (err) {
-        console.log(err.message);
+        toast(err.response.data.message);
       }
     }
     checkJoiningStatus();
@@ -190,7 +192,6 @@ function GatheringDetails() {
 
       toast("🎉 Joined successfully");
     } catch (err) {
-      console.log(err);
       // show descriptive message
       toast(`⚠️ ${err.response.data.message}`);
     }
@@ -211,14 +212,10 @@ function GatheringDetails() {
 
       toast("Deleted successfully");
     } catch (err) {
-      console.log(err);
       // show descriptive message
       toast(`⚠️ ${err.response.data.message}`);
     }
   }
-
-  // console.log("gathering", gathering);
-
   return (
     <>
       {finalLoading && <Loading />}
@@ -243,22 +240,27 @@ function GatheringDetails() {
                 </div>
               </div>
             )}
-            <div className={styles.gatheringBtns}>
-              <div onClick={() => handleJoin()} className={styles.btnContainer}>
-                {!isJoined && isOpen && (
-                  <IoIosAddCircleOutline className={styles.addIcon} />
-                )}
-                <p>{isJoined ? `Leave` : isOpen ? `JOIN` : `CLOSED`}</p>
-              </div>
+            {user && (
+              <div className={styles.gatheringBtns}>
+                <div
+                  onClick={() => handleJoin()}
+                  className={styles.btnContainer}
+                >
+                  {!isJoined && isOpen && (
+                    <IoIosAddCircleOutline className={styles.addIcon} />
+                  )}
+                  <p>{isJoined ? `Leave` : isOpen ? `JOIN` : `CLOSED`}</p>
+                </div>
 
-              <div
-                onClick={() => setIsReportFormOpen(true)}
-                className={styles.btnContainer}
-              >
-                <IoIosAddCircleOutline className={styles.addIcon} />
-                <p>Add Report</p>
+                <div
+                  onClick={() => setIsReportFormOpen(true)}
+                  className={styles.btnContainer}
+                >
+                  <IoIosAddCircleOutline className={styles.addIcon} />
+                  <p>Add Report</p>
+                </div>
               </div>
-            </div>
+            )}
             <hr style={{ marginTop: "10px" }}></hr>
 
             <div className={styles.info}>

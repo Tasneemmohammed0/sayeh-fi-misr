@@ -12,6 +12,7 @@
 
 .title {
   color: var(--our-white);
+  font-size: 2.5rem;
 
   position: absolute;
   top: 220px;
@@ -49,10 +50,9 @@
 }
 
 /* breif section  */
-
 .breif {
   font-size: 2rem;
-  color: #674636;
+  color: var(--our-brown);
   display: flex;
   flex-direction: column;
   padding: 1rem 1rem;
@@ -60,11 +60,12 @@
 
 .breif h3 {
   color: var(--our-brown);
+  margin-bottom: 0.7rem;
 }
 
 .description {
   padding: 0.5rem 0;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: var(--our-black);
 }
 
@@ -80,6 +81,7 @@
   display: flex;
   gap: 3rem;
   align-items: center;
+  padding: 2rem 1rem;
 }
 
 .gatheringBtns {
@@ -102,6 +104,22 @@
   color: var(--our-brown);
   cursor: pointer;
   text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.btnContainer > p::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--our-brown);
+  transition: width 0.3s;
+}
+
+.btnContainer > p:hover::after {
+  width: 100%;
 }
 
 .addIcon {
@@ -121,7 +139,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem;
+  /* margin: 1rem; */
   text-align: center;
   padding: 0 10rem;
 }
@@ -141,7 +159,11 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 30px;
-  padding: 2rem 6rem;
+  padding-left: 15rem;
+  padding-right: 0;
+  padding-top: 3rem;
+  padding-bottom: 10rem;
+  /* padding: 2rem 10rem; */
   /* margin-left: 40px; */
 }
 
@@ -164,7 +186,7 @@
 
 .user > p {
   font-size: 1.5rem;
-  color: var(--our-blue);
+  color: var(--our-black);
   cursor: pointer;
   transition: text-shadow 0.2s ease-in-out;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/placeDetails.module.css";
 import SeeMoreText from "../components/SeeMoreText";
@@ -13,6 +13,7 @@ import AddToListForm from "../components/AddToListForm";
 import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
+import { UserContext } from "../App";
 import { ToastContainer, toast } from "react-toastify";
 
 function PlaceDetails() {
@@ -27,6 +28,7 @@ function PlaceDetails() {
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [triggerFetch, setTriggerFetch] = useState(false);
+  const { user } = useContext(UserContext);
 
   // Fetch place details
   useEffect(() => {
@@ -52,6 +54,8 @@ function PlaceDetails() {
   // check if the place is visited
   useEffect(() => {
     const checkVisited = async () => {
+      if (!user) return;
+
       try {
         const response = await axios.get(
           `http://localhost:1123/api/v1/places/${placeId}/checkVisited`,
@@ -126,22 +130,17 @@ function PlaceDetails() {
           className={styles.backgroundImage}
           style={{ backgroundImage: `url(${place.photo})` }}
         >
-          {isBookmarked ? (
-            <>
-              <FaBookmark
-                onClick={handleBookmark}
-                className={styles.bookmarkIcon}
-              />
-              <AddToListForm
-                isOpen={isBookmarked}
-                setIsOpen={setIsBookmarked}
-                placeId={placeId}
-              />
-            </>
-          ) : (
+          {user && (
             <FaRegBookmark
               onClick={handleBookmark}
               className={styles.bookmarkIcon}
+            />
+          )}
+          {isBookmarked && (
+            <AddToListForm
+              isOpen={isBookmarked}
+              setIsOpen={setIsBookmarked}
+              placeId={placeId}
             />
           )}
           <h1 className={styles.title}>{place.name}</h1>
@@ -152,30 +151,32 @@ function PlaceDetails() {
             <h3>Breif</h3>
             <SeeMoreText text={place.description} />
           </div>
-          <div className={styles.placeBtns}>
-            <div className={styles.btnContainer}>
-              <IoAddCircleSharp
-                onClick={handleVisited}
-                className={styles.addIcon}
-              />
-              <p className={styles.btnLabel} onClick={handleVisited}>
-                Visited
-              </p>
-            </div>
+          {user && (
+            <div className={styles.placeBtns}>
+              <div className={styles.btnContainer}>
+                <IoAddCircleSharp
+                  onClick={handleVisited}
+                  className={styles.addIcon}
+                />
+                <p className={styles.btnLabel} onClick={handleVisited}>
+                  Visited
+                </p>
+              </div>
 
-            <div className={styles.btnContainer}>
-              <IoAddCircleSharp
-                onClick={() => setIsReportFormOpen(true)}
-                className={styles.addIcon}
-              />
-              <p
-                className={styles.btnLabel}
-                onClick={() => setIsReportFormOpen(true)}
-              >
-                Add Report
-              </p>
+              <div className={styles.btnContainer}>
+                <IoAddCircleSharp
+                  onClick={() => setIsReportFormOpen(true)}
+                  className={styles.addIcon}
+                />
+                <p
+                  className={styles.btnLabel}
+                  onClick={() => setIsReportFormOpen(true)}
+                >
+                  Add Report
+                </p>
+              </div>
             </div>
-          </div>
+          )}
           <hr className={styles.horizontalLine}></hr>
           <section id="info" className={styles.info}>
             <PlaceTicketPrice
@@ -196,16 +197,18 @@ function PlaceDetails() {
           <section id="reviews" className={styles.reviewSection}>
             <div className={styles.reviewsHeader}>
               <h3>See what visitors are saying</h3>
-              <div style={{ display: "flex", gap: "0.6rem" }}>
-                <h5 onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}>
-                  Share Your Review
-                </h5>
+              {user && (
+                <div style={{ display: "flex", gap: "0.6rem" }}>
+                  <h5 onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}>
+                    Share Your Review
+                  </h5>
 
-                <IoAddCircleSharp
-                  className={styles.addIcon}
-                  onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}
-                />
-              </div>
+                  <IoAddCircleSharp
+                    className={styles.addIcon}
+                    onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}
+                  />
+                </div>
+              )}
             </div>
             <DetailsPlaceCards reviews={reviews} />
             <ReviewForm
@@ -228,16 +231,18 @@ function PlaceDetails() {
           <section id="photos" className={styles.photoSection}>
             <div className={styles.reviewsHeader}>
               <h3>Captured Moments of {place.name} 🌍</h3>
-              <div style={{ display: "flex", gap: "0.6rem" }}>
-                <h5 onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}>
-                  Got a Shot to Share? Show Us Your Perspective!
-                </h5>
+              {user && (
+                <div style={{ display: "flex", gap: "0.6rem" }}>
+                  <h5 onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}>
+                    Got a Shot to Share? Show Us Your Perspective!
+                  </h5>
 
-                <IoAddCircleSharp
-                  className={styles.addIcon}
-                  onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}
-                />
-              </div>
+                  <IoAddCircleSharp
+                    className={styles.addIcon}
+                    onClick={() => setIsPhotosFormOpen(!isPhotosFormOpen)}
+                  />
+                </div>
+              )}
             </div>
             <DetailsPlaceCards photos={photos} />
             <PhotoForm

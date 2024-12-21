@@ -60,6 +60,8 @@ function Tabs({ destination, host, hostId }) {
                   width: "40px",
                   height: "40px",
                   borderRadius: "50%",
+                  cursor: "pointer",
+                  border: "2px solid var(--our-brown)",
                 }}
               />
             )}
@@ -68,15 +70,16 @@ function Tabs({ destination, host, hostId }) {
                 marginLeft: "20px",
                 marginRight: "10px",
                 fontWeight: "bold",
-                fontSize: "22px",
-                color: "var(--our-blue)",
+                fontSize: "23px",
+                color: "var(--our-brown)",
+                cursor: "pointer",
               }}
             >
               {host.first_name} {host.last_name}
             </div>
             <IoNavigateCircleOutline
               className={styles.icon}
-              color="var(--our-blue)"
+              color="var(--our-brown)"
               fontSize="25px"
               onClick={() => {
                 navigate(`/profile/${hostId}`);
