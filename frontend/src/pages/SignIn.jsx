@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
-
 //// form validation
 import { useFormik } from "formik";
 import * as yup from "Yup";
@@ -15,12 +14,15 @@ import { HiOutlineLockClosed } from "react-icons/hi";
 import styles from "../styles/signIn.module.css";
 import Loading from "../components/Loading";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import ErrorMessage from "../components/ErrorMessage";
 function SignIn() {
   const [submit, setSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const validationSchema = yup.object({
@@ -78,18 +80,20 @@ function SignIn() {
           <HiOutlineLockClosed className={styles.inputIcon} />
           <input
             className={styles.input}
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
           />
+          <span onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
         </div>
 
         <Link to="/forgetpassword" className={styles.forget}>
-          {" "}
-          Forget Password ?{" "}
+          Forget Password
         </Link>
         <button
           type="submit"
@@ -99,21 +103,18 @@ function SignIn() {
           Sign In
         </button>
         <p>
-          {" "}
-          Don't have an account ?<Link to="/signup"> Register </Link>
+          You don't have an account?<Link to="/signup"> Register </Link>
         </p>
         {submit && (
           <ul className={styles.errorList}>
             {formik.touched.email && formik.errors.email && (
               <li>
-                {" "}
-                <ErrorMessage error={formik.errors.email} />{" "}
+                <ErrorMessage error={formik.errors.email} />
               </li>
             )}
             {formik.touched.password && formik.errors.password && (
               <li>
-                {" "}
-                <ErrorMessage error={formik.errors.password} />{" "}
+                <ErrorMessage error={formik.errors.password} />
               </li>
             )}
             {error && (
