@@ -5,10 +5,10 @@ import axios from "axios";
 import Loading from "./Loading";
 import styles from "../styles/WishListForm.module.css";
 
-function WishListForm({ isOpen, handleForm, user_id, can, setWishLists }) {
+function WishListForm({ isOpen, handleForm, user_id, setWishLists }) {
   const [wishlistName, setWishlistName] = useState("");
   const [description, setDescription] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
@@ -17,7 +17,7 @@ function WishListForm({ isOpen, handleForm, user_id, can, setWishLists }) {
     e.preventDefault();
     setLoading(true);
     try {
-      if (!wishlistName || !can) {
+      if (!wishlistName) {
         setError(true);
         return;
       }
@@ -34,21 +34,27 @@ function WishListForm({ isOpen, handleForm, user_id, can, setWishLists }) {
         }
       );
       setWishLists((prev) => [...prev, response.data.data]);
-      handleForm(false);
-      setWishlistName("");
-      setDescription("");
+      handleClose();
     } catch (err) {
-      console.log(err.message);
+      console.log(err.response.data.message);
+      setError(err.response.data.message);
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleClose() {
+    handleForm(false);
+    setWishlistName("");
+    setDescription("");
+    setError("");
   }
 
   return (
     <div className={styles.popupOverlay}>
       {loading && <Loading />}
       <div className={styles.popup}>
-        <button className={styles.popupClose} onClick={() => handleForm(false)}>
+        <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
         <h2>Create Wishlist</h2>
@@ -73,7 +79,7 @@ function WishListForm({ isOpen, handleForm, user_id, can, setWishLists }) {
               maxLength={200}
             ></textarea>
           </label>
-          {error && <ErrorMessage error="Wishlist name is required" />}
+          {error.length > 0 && <ErrorMessage error={error} />}
           <button
             type="submit"
             className={styles.formButton}
