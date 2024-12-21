@@ -91,7 +91,7 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
     description: gathering.description,
     status: gathering.is_open,
     gathering_date: formatDate(gathering.gathering_date),
-    language: gathering?.language || "",
+    language: gathering.spoken_language,
   });
 
   function handleChange(e) {
@@ -119,6 +119,7 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
       description,
       is_open: formData.status,
       gathering_date,
+      spoken_language: formData.language,
     };
 
     try {

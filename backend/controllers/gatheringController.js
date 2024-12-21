@@ -246,6 +246,7 @@ exports.createGathering = async (req, res) => {
       description,
       max_capacity,
       place_name,
+      spoken_language,
     } = req.body;
 
     if (
@@ -254,7 +255,8 @@ exports.createGathering = async (req, res) => {
       !gathering_date ||
       !description ||
       !max_capacity ||
-      !place_name
+      !place_name ||
+      !spoken_language
     ) {
       return res.status(400).json({
         status: "fail",

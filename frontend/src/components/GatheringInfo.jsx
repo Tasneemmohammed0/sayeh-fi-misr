@@ -44,10 +44,11 @@ function GatheringInfo({ gathering, currentCapacity }) {
         {gathering.duration && <p>Duration: {gathering.duration}h</p>}
       </div>
 
-      {/* make this the language   */}
       <div className={styles.detailItem}>
         <LuLanguages className={styles.icon} />
-        {gathering.duration && <p>Language: {gathering.duration}h</p>}
+        {gathering.spoken_language && (
+          <p>Language: {gathering.spoken_language}</p>
+        )}
       </div>
 
       <div className={styles.detailItem}>

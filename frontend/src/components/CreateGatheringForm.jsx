@@ -159,6 +159,7 @@ function CreateGatheringForm({
           max_capacity: parseInt(formState.max_capacity, 10),
           place_name: formState.place_id,
           host_id: formState.host_id,
+          spoken_language: formState.language,
         },
         {
           withCredentials: true,

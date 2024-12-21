@@ -1,4 +1,6 @@
-
+.colorMain {
+  background-color: #f3d9c2;
+}
 .imageContainer {
   position: relative;
   width: 100%;
@@ -6,9 +8,8 @@
   overflow: hidden;
 }
 
-
 .imageContainer::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -18,28 +19,26 @@
   z-index: 1;
 }
 
-.mainImage{
+.mainImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-
-
-.bar{
+.bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 30px 0;
 }
-.searchWrapper{
+.searchWrapper {
   position: relative;
   display: flex;
   align-items: center;
   margin: 0 20px;
   flex-wrap: wrap;
 }
-.searchInput{
+.searchInput {
   width: 750px;
   height: 50px;
   border-radius: 150px;
@@ -47,27 +46,26 @@
   padding: 0 20px;
   font-size: 16px;
   outline: none;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   text-indent: 25px;
   margin: 0 20px;
- 
 }
-.searchInput::placeholder{
-  color: #8F8A8A;
+.searchInput::placeholder {
+  color: #8f8a8a;
   text-transform: uppercase;
   font-family: var(--second-font);
 }
-.searchInput:focus{
-  border: 1px solid var(--our-blue  );
+.searchInput:focus {
+  border: 1px solid var(--our-blue);
 }
-.searchIcon{
+.searchIcon {
   position: absolute;
-  left: 30px ;
+  left: 30px;
   font-size: 30px;
-  color: #8F8A8A;
+  color: #8f8a8a;
 }
 
-.select{
+.select {
   width: 200px;
   height: 50px;
   border-radius: 150px;
@@ -75,18 +73,12 @@
   padding: 0 20px;
   font-size: 16px;
   outline: none;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   text-indent: 25px;
   margin: 0 20px;
-  overflow-y: scroll !important; 
+  overflow-y: scroll !important;
 }
-.option{
+.option {
   font-size: 16px;
   font-family: var(--second-font);
-}
-
-.colorMain{
-  background-color: #F3D9C2;
-  height: 100%;
-
 }
