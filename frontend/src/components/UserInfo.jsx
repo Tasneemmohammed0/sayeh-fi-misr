@@ -80,7 +80,13 @@ function UserInfo({
             alt="user profile"
             className={styles.avater}
           />
-          <h2 style={{ marginTop: "20px", marginBottom: "20px " }}>
+          <h2
+            style={{
+              marginTop: "20px",
+              marginBottom: "20px ",
+              alignSelf: "flex-start",
+            }}
+          >
             {user.username}
           </h2>
           <div>
