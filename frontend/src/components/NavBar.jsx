@@ -96,18 +96,20 @@ function NavBar() {
           )}
         </li>
 
-        <li>
-          <NavLink
-            to="/profile"
-            activeclassname="active-link"
-            className={styles.link}
-          >
-            <img
-              src={user?.profile_pic || `../src/assets/images/userAvatar.png`}
-              className={styles.profileIcon}
-            />
-          </NavLink>
-        </li>
+        {user && (
+          <li>
+            <NavLink
+              to="/profile"
+              activeclassname="active-link"
+              className={styles.link}
+            >
+              <img
+                src={user?.profile_pic || `../src/assets/images/userAvatar.png`}
+                className={styles.profileIcon}
+              />
+            </NavLink>
+          </li>
+        )}
       </ul>
     </nav>
   );
