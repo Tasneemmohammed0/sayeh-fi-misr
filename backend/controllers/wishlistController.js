@@ -34,7 +34,6 @@ exports.createWishlist = async (req, res, next) => {
   try {
     await db.query("COMMIT");
     const { user_id, name, description } = req.body;
-
     // Validate name to not be a number
     if (name && +name) {
       return res.status(400).json({
@@ -42,6 +41,12 @@ exports.createWishlist = async (req, res, next) => {
         message: "Name can't be a number",
       });
     }
+    // Check if empty name or whitespace
+    if (!name.trim())
+      return res.status(400).json({
+        status: "fai",
+        message: "Name can't be empty",
+      });
 
     // Validate description to not be a number
     if (description && +description) {
@@ -50,6 +55,12 @@ exports.createWishlist = async (req, res, next) => {
         message: "Description can't be a number",
       });
     }
+    if (!description.trim())
+      return res.status(400).json({
+        status: "fai",
+        message: "Description can't be empty",
+      });
+
     const query = `
     INSERT INTO wishlist (name, user_id, date, description) VALUES($1, $2, CURRENT_DATE, $3) RETURNING *
     `;
@@ -104,11 +115,11 @@ exports.updateWishlist = async (req, res) => {
     }
     const params = [];
     const conditions = [];
-    if (name) {
+    if (name.trim()) {
       params.push(name);
       conditions.push(`name=$${params.length}`);
     }
-    if (description) {
+    if (description.trim()) {
       params.push(description);
       conditions.push(`description=$${params.length}`);
     }
