@@ -7,7 +7,8 @@
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
-  z-index: 10;
+  align-items: center;
+  z-index: 1000;
 }
 
 .popupClose {
@@ -51,9 +52,12 @@
 .formLabel {
   font-size: 1.1rem;
   color: #674636;
+}
+
+.formGroup {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .photo {
@@ -64,7 +68,6 @@
   padding: 10px;
   font-size: 15px;
   background-color: rgb(255, 240, 240);
-  margin-left: 1rem;
 }
 
 .imagePreview {
@@ -85,7 +88,6 @@
 }
 
 .captionText {
-  margin-left: 10px;
   padding: 10px;
   height: 50px;
   width: 300px;

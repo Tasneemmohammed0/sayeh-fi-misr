@@ -6,13 +6,13 @@ import AccountForm from "../components/AccountForm";
 function reducer(state, action) {
   switch (action.type) {
     case "updateFirstname":
-      if (action.payload.length < 1) {
+      if (action.payload.trim().length < 1) {
         return {
           ...state,
           first_name: action.payload,
-          error_firstname: "Firstname must be at least 3 characters long",
+          error_firstname: "Firstname can't be empty",
         };
-      } else if (action.payload.length > 50) {
+      } else if (action.payload.trim().length > 50) {
         return {
           ...state,
           error_firstname: "Firstname must be less than 50 characters long",
@@ -26,13 +26,13 @@ function reducer(state, action) {
       return { ...state, first_name: action.payload, error_firstname: "" };
 
     case "updateLastname":
-      if (action.payload.length < 1) {
+      if (action.payload.trim().length < 1) {
         return {
           ...state,
           last_name: action.payload,
           error_lastname: "Lastname must be at least 3 characters long",
         };
-      } else if (action.payload.length > 50) {
+      } else if (action.payload.trim().length > 50) {
         return {
           ...state,
           error_lastname: "Lastname must be less than 50 characters long",
@@ -57,13 +57,13 @@ function reducer(state, action) {
 
     ///////////////////////////////////////////////////////////
     case "updateUsername":
-      if (action.payload.length < 3) {
+      if (action.payload.trim().length < 1) {
         return {
           ...state,
           username: action.payload,
-          error_username: "Username must be at least 3 characters long",
+          error_username: "Username can't be empty",
         };
-      } else if (action.payload.length > 50) {
+      } else if (action.payload.trim().length > 50) {
         return {
           ...state,
           username: action.payload,
@@ -74,7 +74,7 @@ function reducer(state, action) {
     case "updateProfilepic":
       return { ...state, profilepic: action.payload };
     case "updateEmail":
-      if (!action.payload.includes("@")) {
+      if (!action.payload.trim().includes("@")) {
         return {
           ...state,
           email: action.payload,
@@ -106,13 +106,13 @@ function reducer(state, action) {
       return { ...state, role: action.payload };
 
     case "updatePhone":
-      if (action.payload.length < 11) {
+      if (action.payload.trim().length < 11) {
         return {
           ...state,
           phone: action.payload,
           error_phone: "Phone number must be at least 11 characters long",
         };
-      } else if (action.payload.length > 11) {
+      } else if (action.payload.trim().length > 11) {
         return {
           ...state,
           phone: action.payload,

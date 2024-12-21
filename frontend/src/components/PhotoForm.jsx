@@ -92,8 +92,8 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
         <button className={styles.popupClose} onClick={handleClose}>
           <IoMdClose />
         </button>
-        <label className={styles.formLabel}>
-          Choose a photo
+        <div className={styles.formGroup}>
+          <label className={styles.formLabel}>Choose a photo</label>
           <input
             className={styles.photo}
             type="file"
@@ -104,17 +104,17 @@ function PhotoForm({ isOpen, setIsOpen, placeId, setTriggerFetch }) {
               if (url) setPhoto(url);
             }}
           />
-        </label>
-        <label className={styles.formLabel}>
-          Caption
+        </div>
+        <div className={styles.formGroup}>
+          <label className={styles.formLabel}>Caption</label>
           <textarea
             className={styles.captionText}
             placeholder="Write your caption.."
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
             maxLength={400}
-          ></textarea>
-        </label>
+          />
+        </div>
 
         {photo && (
           <img

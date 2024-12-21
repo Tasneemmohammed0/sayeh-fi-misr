@@ -7,7 +7,8 @@
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
-  z-index: 10;
+  align-items: center;
+  z-index: 1000;
 }
 
 .popupClose {
@@ -60,14 +61,13 @@
 }
 
 .title {
-  margin-left: 10px;
   height: 40px;
   width: 360px;
   border-radius: 10px;
   border: 1px solid black;
   padding: 10px;
   font-size: 15px;
-  background-color: #ddcfb7;
+  background-color: rgb(255, 240, 240);
 }
 
 .reviewText {
