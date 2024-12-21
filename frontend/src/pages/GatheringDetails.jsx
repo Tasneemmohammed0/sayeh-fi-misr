@@ -22,7 +22,6 @@ function GatheringDetails() {
   const [search, setSearch] = useState("");
   const [isReportFormOpen, setIsReportFormOpen] = useState(false);
   const [finalLoading, setFinalLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const [addUser, setAddUser] = useState(false);
   const [deleteUser, setDeleteUser] = useState(false);
@@ -53,7 +52,6 @@ function GatheringDetails() {
   useEffect(() => {
     const fetchGathering = async () => {
       try {
-        setLoadingData(true);
         setFinalLoading(true);
         const response = await axios.get(
           `http://localhost:1123/api/v1/gatherings/${gatheringId}`
@@ -89,11 +87,10 @@ function GatheringDetails() {
 
         checkGatheringTime();
 
-        setLoadingData(false);
         setFinalLoading(false);
       } catch (err) {
-        console.log(err.message);
-        setLoadingData(false);
+        toast(err.response.data.message);
+        setFinalLoading(false);
       }
     };
     fetchGathering();
@@ -103,6 +100,8 @@ function GatheringDetails() {
   useEffect(() => {
     async function checkJoiningStatus() {
       try {
+        if (!user) return;
+
         const response = await axios.get(
           `http://localhost:1123/api/v1/gatherings/${gatheringId}/checkJoined`,
           {
@@ -113,7 +112,7 @@ function GatheringDetails() {
         // set joining status
         setIsJoined(response.data.data);
       } catch (err) {
-        console.log(err.message);
+        toast(err.response.data.message);
       }
     }
     checkJoiningStatus();
@@ -193,7 +192,6 @@ function GatheringDetails() {
 
       toast("🎉 Joined successfully");
     } catch (err) {
-      console.log(err);
       // show descriptive message
       toast(`⚠️ ${err.response.data.message}`);
     }
@@ -214,14 +212,10 @@ function GatheringDetails() {
 
       toast("Deleted successfully");
     } catch (err) {
-      console.log(err);
       // show descriptive message
       toast(`⚠️ ${err.response.data.message}`);
     }
   }
-
-  // console.log("gathering", gathering);
-
   return (
     <>
       {finalLoading && <Loading />}
