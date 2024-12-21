@@ -86,52 +86,6 @@ exports.getAllPlaces = async (req, res) => {
   }
 };
 
-// Get All Place Reviews Route Handler
-exports.getPlaceReviews = async (req, res) => {
-  try {
-    const data = await db.query(
-      `SELECT Distinct U.user_id, U.first_name, U.last_name, U.profile_pic,  R.title, R.rating, R.date, R.main_content 
-    FROM visitor U, review R 
-    WHERE R.user_id = U.user_id AND place_id = $1`,
-      [req.params.id]
-    );
-
-    res.status(200).json({
-      status: "success",
-      legnth: data.rows.length,
-      data: data.rows,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err.message,
-    });
-  }
-};
-
-// Get All Place Photos Route Handler
-exports.getAllPhotos = async (req, res) => {
-  try {
-    const data = await db.query(
-      `SELECT Distinct U.user_id, U.first_name, U.last_name, U.profile_pic, P.photo_id, P.photo, P.date, P.caption
-    FROM visitor U, photo P
-    WHERE P.user_id = U.user_id AND P.place_id = $1`,
-      [req.params.id]
-    );
-
-    res.status(200).json({
-      status: "success",
-      legnth: data.rows.length,
-      data: data.rows,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err.message,
-    });
-  }
-};
-
 // Post Review Route Handler
 exports.postReview = async (req, res) => {
   console.log(req.user);
