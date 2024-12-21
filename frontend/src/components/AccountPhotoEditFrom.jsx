@@ -38,19 +38,26 @@ function AccountPhotoEditFrom({ onClose, photo, user, setUser }) {
       setLoading(true);
 
       let url = await handlesImage(currentPhoto);
-      let state = {
-        profile_pic: url,
-      };
-      const response = await axios.patch(
-        "http://localhost:1123/api/v1/users",
-        {
-          state,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(response.data);
+      let response;
+      if (!url)
+        response = await axios.delete(
+          `http://localhost:1123/api/v1/users/picture`,
+          { withCredentials: true }
+        );
+      else {
+        let state = {
+          profile_pic: url,
+        };
+        response = await axios.patch(
+          "http://localhost:1123/api/v1/users",
+          {
+            state,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+      }
       if (response.data.status !== "fail") {
         setUser({ ...user, profile_pic: url });
         toast.success("Profile picture updated successfully!");

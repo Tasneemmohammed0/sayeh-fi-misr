@@ -23,7 +23,9 @@ function EditPostForm({ post, onClose, setPostList }) {
       toast.success("Post updated successfully.");
       setPostList((prev) =>
         prev.map((item) =>
-          item.photo_id === post.photo_id ? { ...item, caption: caption } : item
+          item.photo_id === post.photo_id
+            ? { ...item, caption: caption.trim() }
+            : item
         )
       );
       setCaption("");

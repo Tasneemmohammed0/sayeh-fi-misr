@@ -73,7 +73,7 @@ function AllPlaces() {
         </select>
       </div>
 
-      <PlacesList search={search} filter={city} />
+      <PlacesList search={search?.trim()} filter={city} />
     </main>
   );
 }
