@@ -31,7 +31,6 @@ function ReviewsList({ id, canEdit, setStats }) {
         reviews.map((review, index) => {
           return (
             <li key={index}>
-              {" "}
               <Review
                 setStats={setStats}
                 review={review}
@@ -39,7 +38,7 @@ function ReviewsList({ id, canEdit, setStats }) {
                 setLoading={setLoading}
                 loading={loading}
                 canEdit={canEdit}
-              />{" "}
+              />
             </li>
           );
         })}

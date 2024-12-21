@@ -6,6 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import UserPhotoPost from "./UserPhotoPost";
 import axios from "axios";
+
 function UserPhotosList({ id, canEdit, setStats }) {
   const [postList, setPostList] = useState([]);
   const [loading, setLoading] = useState(false);

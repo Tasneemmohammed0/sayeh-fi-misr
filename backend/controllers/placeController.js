@@ -28,13 +28,13 @@ exports.getPlaceDetails = async (req, res) => {
     const [placeData, reviewsData, photosData] = await Promise.all([
       db.query(`SELECT * FROM place WHERE place_id =$1`, [placeId]),
       db.query(
-        `SELECT Distinct U.first_name, U.last_name, U.profile_pic, R.review_id, R.title, R.rating, R.date, R.main_content 
+        `SELECT Distinct U.user_id, U.first_name, U.last_name, U.profile_pic, R.review_id, R.title, R.rating, R.date, R.main_content 
     FROM visitor U, review R 
     WHERE R.user_id = U.user_id AND place_id = $1`,
         [placeId]
       ),
       db.query(
-        `SELECT Distinct U.first_name, U.last_name, U.profile_pic, P.photo_id, P.photo, P.date, P.caption
+        `SELECT Distinct U.user_id, U.first_name, U.last_name, U.profile_pic, P.photo_id, P.photo, P.date, P.caption
     FROM visitor U, photo P
     WHERE P.user_id = U.user_id AND P.place_id = $1`,
         [placeId]
@@ -76,52 +76,6 @@ exports.getAllPlaces = async (req, res) => {
     res.status(200).json({
       status: "success",
       length: data.rows.length,
-      data: data.rows,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err.message,
-    });
-  }
-};
-
-// Get All Place Reviews Route Handler
-exports.getPlaceReviews = async (req, res) => {
-  try {
-    const data = await db.query(
-      `SELECT Distinct U.first_name, U.last_name, U.profile_pic,  R.title, R.rating, R.date, R.main_content 
-    FROM visitor U, review R 
-    WHERE R.user_id = U.user_id AND place_id = $1`,
-      [req.params.id]
-    );
-
-    res.status(200).json({
-      status: "success",
-      legnth: data.rows.length,
-      data: data.rows,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err.message,
-    });
-  }
-};
-
-// Get All Place Photos Route Handler
-exports.getAllPhotos = async (req, res) => {
-  try {
-    const data = await db.query(
-      `SELECT Distinct U.first_name, U.last_name, U.profile_pic, P.photo_id, P.photo, P.date, P.caption
-    FROM visitor U, photo P
-    WHERE P.user_id = U.user_id AND P.place_id = $1`,
-      [req.params.id]
-    );
-
-    res.status(200).json({
-      status: "success",
-      legnth: data.rows.length,
       data: data.rows,
     });
   } catch (err) {

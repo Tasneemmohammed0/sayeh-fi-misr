@@ -64,7 +64,9 @@ function GatheringCard({
 
       <div
         className={styles.card}
+
         onClick={(e) => handleClick(e, gathering.gathering_id)}
+
       >
         {canEdit && selectedOption === "edit" && (
           <div className={styles.tooltip}>

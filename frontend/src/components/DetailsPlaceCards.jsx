@@ -43,6 +43,7 @@ function Cards({ reviews, photos }) {
                   date={review.date}
                   firstName={review.first_name}
                   lastName={review.last_name}
+                  userId={review.user_id}
                   userProfilePic={review.profile_pic}
                 />
               </SwiperSlide>
@@ -65,6 +66,7 @@ function Cards({ reviews, photos }) {
                   firstName={photo.first_name}
                   lastName={photo.last_name}
                   userProfilePic={photo.profile_pic}
+                  userId={photo.user_id}
                 />
               </SwiperSlide>
             );

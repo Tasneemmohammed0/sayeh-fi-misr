@@ -8,10 +8,7 @@ const router = express.Router();
 router.get("/", placeController.getAllPlaces);
 // Get one place request
 router.get("/:id", placeController.getPlaceDetails);
-// Get all reviews for a place
-router.get("/:id/reviews", placeController.getPlaceReviews);
-// Get all photos of a place
-router.get("/:id/photos", placeController.getAllPhotos);
+
 // Post a review for the place
 router.post(
   "/:id/addReview",

@@ -2,6 +2,7 @@
 import styles from "../styles/PhotoCard.module.css";
 import Stars from "./Stars";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function PhotoCard({
   photo,
@@ -9,7 +10,9 @@ function PhotoCard({
   firstName = "",
   lastName = "",
   userProfilePic,
+  userId,
 }) {
+  const navigate = useNavigate();
   // format date
   const formattedDate = new Date(date);
   const formattedDateString = formattedDate.toLocaleDateString("en-GB", {
@@ -19,7 +22,12 @@ function PhotoCard({
   });
 
   return (
-    <div className={styles.container}>
+    <div
+      onClick={() => {
+        navigate(`/profile/${userId}#photos`);
+      }}
+      className={styles.container}
+    >
       <img
         src={photo.uploadedPhoto}
         alt="uploaded photo"
