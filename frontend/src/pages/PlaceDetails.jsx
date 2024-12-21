@@ -130,22 +130,17 @@ function PlaceDetails() {
           className={styles.backgroundImage}
           style={{ backgroundImage: `url(${place.photo})` }}
         >
-          {isBookmarked ? (
-            <>
-              <FaBookmark
-                onClick={handleBookmark}
-                className={styles.bookmarkIcon}
-              />
-              <AddToListForm
-                isOpen={isBookmarked}
-                setIsOpen={setIsBookmarked}
-                placeId={placeId}
-              />
-            </>
-          ) : (
+          {user && (
             <FaRegBookmark
               onClick={handleBookmark}
               className={styles.bookmarkIcon}
+            />
+          )}
+          {isBookmarked && (
+            <AddToListForm
+              isOpen={isBookmarked}
+              setIsOpen={setIsBookmarked}
+              placeId={placeId}
             />
           )}
           <h1 className={styles.title}>{place.name}</h1>
