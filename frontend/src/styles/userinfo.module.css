@@ -77,6 +77,58 @@
 .badge:hover {
   transform: scale(1.1);
 }
+.badgeWrapper {
+  position: relative;
+  display: inline-block;
+  text-align: center; /* Centers badge and name */
+  margin: 15px;
+}
+
+.badgeName {
+  margin-top: 10px; /* Space between badge and name */
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+  display: block;
+}
+
+.tooltip {
+  visibility: hidden;
+  background-color: #674636;
+  color: #fff;
+  text-align: left;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  position: absolute;
+  bottom: 110%; /* Position above the badge */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+  white-space: normal;
+  width: 220px;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.badgeWrapper:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
 
 .lists {
   display: flex;
