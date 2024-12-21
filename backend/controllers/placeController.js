@@ -134,22 +134,19 @@ exports.getAllPhotos = async (req, res) => {
 
 // Post Review Route Handler
 exports.postReview = async (req, res) => {
-  console.log(req.user.user_id);
   try {
     const data = await db.query(
       `INSERT INTO review (rating, date, title, main_content, user_id, place_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [
         +req.body.rating,
         req.body.date,
-        req.body.title,
-        req.body.main_content,
+        req.body.title.trim(),
+        req.body.main_content.trim(),
         req.user.user_id,
         req.params.id,
       ]
     );
-    console.log("NPOT CAUGHT");
     //Add this review to user's activities
-
     try {
       await addPoints(req.user.user_id, "review", 20);
     } catch (err) {
@@ -191,7 +188,7 @@ exports.postPhoto = async (req, res) => {
       [
         req.body.photo,
         req.body.date,
-        req.body.caption,
+        req.body.caption?.trim(),
         req.user.user_id,
         req.params.id,
       ]

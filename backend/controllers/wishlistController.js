@@ -55,16 +55,11 @@ exports.createWishlist = async (req, res, next) => {
         message: "Description can't be a number",
       });
     }
-    if (!description.trim())
-      return res.status(400).json({
-        status: "fai",
-        message: "Description can't be empty",
-      });
 
     const query = `
     INSERT INTO wishlist (name, user_id, date, description) VALUES($1, $2, CURRENT_DATE, $3) RETURNING *
     `;
-    const response = await db.query(query, [name, user_id, description]);
+    const response = await db.query(query, [name, user_id, description.trim()]);
 
     res.status(200).json({
       status: "success",

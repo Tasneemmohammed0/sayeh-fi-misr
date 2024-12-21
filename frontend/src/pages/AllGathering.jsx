@@ -71,7 +71,7 @@ function AllGathering() {
         </select>
       </div>
 
-      <GatheringList search={search} filter={city} />
+      <GatheringList search={search?.trim()} filter={city} />
     </main>
   );
 }

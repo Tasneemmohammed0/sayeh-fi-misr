@@ -73,11 +73,11 @@ exports.signup = async (req, res, next) => {
     if (!req.body.photo) req.body.photo = `https://i.imgur.com/QZdzLWx.png`;
 
     const newUser = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      username: req.body.username,
+      firstName: req.body.firstName.trim(),
+      lastName: req.body.lastName.trim(),
+      username: req.body.username.trim(),
       role: req.body.role,
-      email: req.body.email,
+      email: req.body.email.trim(),
       photo: req.body.photo,
       gender: req.body.gender,
       age: +req.body.age,
