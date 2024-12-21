@@ -143,17 +143,18 @@ function ReviewForm({
         )}
         <div className={styles.reviewContent}>
           {!isReport && (
-            <label className={styles.formLabel}>
-              <span>Title</span>
+            <div>
+              <label className={styles.formLabel}>
+                <span>Title</span>
+              </label>
               <input
-                style={{ marginLeft: "2rem" }}
                 className={styles.title}
                 type="text"
                 placeholder={"Enter review title"}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-            </label>
+            </div>
           )}
           {isReport && (
             <>
