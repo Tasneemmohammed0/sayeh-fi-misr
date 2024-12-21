@@ -63,6 +63,12 @@
   font-size: 16px;
   /* color: #555; */
   line-height: 1.5;
+  display: block;
+  margin: 5px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: normal;
+  margin-bottom: 35px;
 }
 
 .editBtn {

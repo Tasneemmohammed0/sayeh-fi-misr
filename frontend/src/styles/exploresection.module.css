@@ -7,6 +7,7 @@
   display: flex;
   justify-content: space-evenly;
   padding: 24px;
+  padding-top: 50px;
 }
 .secondaryHeading {
   font-size: 30px;
@@ -55,9 +56,10 @@
   font-family: var(--main-font);
   letter-spacing: 1px;
   margin: 20px 0;
+  cursor: pointer;
 }
 
-.see-more:hover {
+.seeMore:hover {
   transform: translateY(-5px);
 }
 
