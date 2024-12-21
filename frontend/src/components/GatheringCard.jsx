@@ -124,7 +124,7 @@ function GatheringCard({
             className={`${styles.cardIcon}`}
             style={{ color: "orange" }}
           />
-          <p style={{ fontSize: "16px" }}>{gathering.name}</p>
+          <p style={{ fontSize: "16px" }}>{gathering.city}</p>
         </div>
         <div className={styles.dottedLine}></div>
         <div className={styles.cardFooter}>
