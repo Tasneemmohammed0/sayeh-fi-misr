@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import styles from "../styles/GatheringInfo.module.css";
+import { LuLanguages } from "react-icons/lu";
 import {
   FaCalendarAlt,
   FaClock,
@@ -42,6 +43,13 @@ function GatheringInfo({ gathering, currentCapacity }) {
         <FaHourglassHalf className={styles.icon} />
         {gathering.duration && <p>Duration: {gathering.duration}h</p>}
       </div>
+
+      {/* make this the language   */}
+      <div className={styles.detailItem}>
+        <LuLanguages className={styles.icon} />
+        {gathering.duration && <p>Language: {gathering.duration}h</p>}
+      </div>
+
       <div className={styles.detailItem}>
         <FaUsers className={styles.icon} />
         <span>Current Capacity: {currentCapacity}</span>

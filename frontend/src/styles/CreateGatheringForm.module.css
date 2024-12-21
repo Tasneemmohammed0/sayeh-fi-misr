@@ -56,6 +56,13 @@
   width: 100px;
 }
 
+.buttonsGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-span: 2;
+}
+
 .cancelButton {
   background-color: #f44336;
   color: white;

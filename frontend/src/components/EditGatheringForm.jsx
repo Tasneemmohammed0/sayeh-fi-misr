@@ -7,6 +7,69 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { UserContext } from "../App";
 
+const languages = [
+  "English",
+  "Spanish",
+  "French",
+  "German",
+  "Chinese",
+  "Arabic",
+  "Hindi",
+  "Russian",
+  "Japanese",
+  "Portuguese",
+  "Italian",
+  "Korean",
+  "Turkish",
+  "Dutch",
+  "Swedish",
+  "Polish",
+  "Finnish",
+  "Norwegian",
+  "Danish",
+  "Greek",
+  "Thai",
+  "Vietnamese",
+  "Indonesian",
+  "Czech",
+  "Hungarian",
+  "Romanian",
+  "Bulgarian",
+  "Slovak",
+  "Ukrainian",
+  "Malay",
+  "Bengali",
+  "Tamil",
+  "Telugu",
+  "Malayalam",
+  "Kannada",
+  "Marathi",
+  "Gujarati",
+  "Urdu",
+  "Persian",
+  "Swahili",
+  "Amharic",
+  "Hausa",
+  "Yoruba",
+  "Igbo",
+  "Zulu",
+  "Xhosa",
+  "Afrikaans",
+  "Albanian",
+  "Serbian",
+  "Macedonian",
+  "Croatian",
+  "Slovenian",
+  "Lithuanian",
+  "Latvian",
+  "Estonian",
+  "Icelandic",
+  "Irish",
+  "Welsh",
+  "Basque",
+  "Catalan",
+];
+
 function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
   if (!isOpen) return null;
 
@@ -28,6 +91,7 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
     description: gathering.description,
     status: gathering.is_open,
     gathering_date: formatDate(gathering.gathering_date),
+    language: gathering?.language || "",
   });
 
   function handleChange(e) {
@@ -138,6 +202,25 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
               )}
             </select>
           </div>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Language:</label>
+            <select
+              name="language"
+              value={formData.language}
+              className={`${styles.input} ${styles.select}`}
+              onChange={handleChange}
+            >
+              <option value="" disabled key={0}>
+                Select Language
+              </option>
+              {languages.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="capacity">
               Capacity:

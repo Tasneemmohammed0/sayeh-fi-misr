@@ -64,9 +64,7 @@ function GatheringCard({
 
       <div
         className={styles.card}
-
         onClick={(e) => handleClick(e, gathering.gathering_id)}
-
       >
         {canEdit && selectedOption === "edit" && (
           <div className={styles.tooltip}>
@@ -121,7 +119,7 @@ function GatheringCard({
             <LuCalendarDays className={styles.cardIcon} />
             <p style={{ fontSize: "12px" }}>
               {" "}
-              Duration:{gathering.duration} hours{" "}
+              Duration:{gathering.duration} hr
             </p>
           </div>
           <div className={styles.cardInfoDiv}>

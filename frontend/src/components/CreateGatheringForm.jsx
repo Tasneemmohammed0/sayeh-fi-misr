@@ -20,12 +20,78 @@ const formReducer = (state, action) => {
       return { ...state, place_id: action.value };
     case "UPDATE_HOST_ID":
       return { ...state, host_id: action.value };
+
+    case "UPDATE_LANGUAGE":
+      return { ...state, language: action.value };
+
     case "RESET_FORM":
       return action.initialState;
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
 };
+const languages = [
+  "English",
+  "Spanish",
+  "French",
+  "German",
+  "Chinese",
+  "Arabic",
+  "Hindi",
+  "Russian",
+  "Japanese",
+  "Portuguese",
+  "Italian",
+  "Korean",
+  "Turkish",
+  "Dutch",
+  "Swedish",
+  "Polish",
+  "Finnish",
+  "Norwegian",
+  "Danish",
+  "Greek",
+  "Thai",
+  "Vietnamese",
+  "Indonesian",
+  "Czech",
+  "Hungarian",
+  "Romanian",
+  "Bulgarian",
+  "Slovak",
+  "Ukrainian",
+  "Malay",
+  "Bengali",
+  "Tamil",
+  "Telugu",
+  "Malayalam",
+  "Kannada",
+  "Marathi",
+  "Gujarati",
+  "Urdu",
+  "Persian",
+  "Swahili",
+  "Amharic",
+  "Hausa",
+  "Yoruba",
+  "Igbo",
+  "Zulu",
+  "Xhosa",
+  "Afrikaans",
+  "Albanian",
+  "Serbian",
+  "Macedonian",
+  "Croatian",
+  "Slovenian",
+  "Lithuanian",
+  "Latvian",
+  "Estonian",
+  "Icelandic",
+  "Irish",
+  "Welsh",
+  "Basque",
+  "Catalan",
+];
 
 function CreateGatheringForm({
   id,
@@ -44,6 +110,7 @@ function CreateGatheringForm({
     max_capacity: "",
     place_id: "",
     host_id: id,
+    language: "",
   };
   const [error, setError] = useState("");
   const [formState, dispatch] = useReducer(formReducer, initialState);
@@ -189,6 +256,31 @@ function CreateGatheringForm({
                     ))}
                   </select>
                 </label>
+
+                <label className={styles.formLabel}>
+                  Language:
+                  <select
+                    name="language"
+                    value={formState.language || ""}
+                    className={styles.formSelect}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "UPDATE_LANGUAGE",
+                        value: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="" disabled>
+                      Select Language
+                    </option>
+                    {languages.map((lang) => (
+                      <option key={lang} value={lang}>
+                        {lang}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
                 <label className={styles.formLabel}>
                   Description:
                   <textarea
@@ -200,24 +292,11 @@ function CreateGatheringForm({
                   />
                 </label>
 
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+                <div className={styles.buttonsGroup}>
                   <button type="submit" className={styles.submitButton}>
                     Submit
                   </button>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+
                   <button
                     type="button"
                     className={styles.cancelButton}
