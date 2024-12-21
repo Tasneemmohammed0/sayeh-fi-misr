@@ -143,12 +143,12 @@ exports.getUserGatherings = async (req, res, next) => {
     SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
     FROM gathering g, place p, host h
     WHERE g.place_id=p.place_id AND h.user_id=g.host_id AND h.user_id=$1
-
     UNION
 
     SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name
     FROM gathering g, visitor_gathering vg, host h, place p
     WHERE g.place_id=p.place_id AND h.user_id=g.host_id AND vg.user_id=$1 AND vg.gathering_id=g.gathering_id
+    ORDER BY gathering_date DESC;
     `;
     const response = await db.query(hostQuery, [id]);
     const hostGatherings = response.rows;
@@ -249,8 +249,8 @@ exports.updateUser = async (req, res) => {
         params.length
       } RETURNING *`;
     }
-
     const response = await db.query(query, params);
+
     const user = response.rows[0];
     if (user?.password) user.password = undefined;
 
@@ -267,6 +267,24 @@ exports.updateUser = async (req, res) => {
     res.status(201).json({
       status: "success",
       data: user,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.deletePhoto = async (req, res) => {
+  try {
+    const user = await db.query(
+      `UPDATE visitor SET profile_pic='${`https://i.imgur.com/QZdzLWx.png`}' WHERE user_id=$1 RETURNING *`,
+      [req.user.user_id]
+    );
+    res.status(200).json({
+      status: "success",
+      data: user.rows[0],
     });
   } catch (err) {
     res.status(400).json({

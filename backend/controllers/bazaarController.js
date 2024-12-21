@@ -139,6 +139,12 @@ exports.addGift = async (req, res) => {
         message: "Name must be a string with a maximum of 50 characters.",
       });
     }
+    if (!name.trim() || !description.trim()) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Can't leave empty fields",
+      });
+    }
 
     if (typeof points !== "number" || points < 0) {
       return res.status(400).json({
@@ -183,7 +189,7 @@ exports.editGift = async (req, res) => {
     if (
       (typeof name === "string" && !name.trim()) ||
       !points ||
-      !description.trim()
+      !description?.trim()
     ) {
       return res.status(400).json({
         status: "fail",

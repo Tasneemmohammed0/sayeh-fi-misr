@@ -9,7 +9,6 @@ import ChangePasswordForm from "../components/ChangePasswordForm";
 import Signout from "../components/Signout";
 import axios from "axios";
 import AccountPhotoEditFrom from "../components/AccountPhotoEditFrom";
-import NavBar from "../components/NavBar";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -237,7 +236,6 @@ function AccountSetting() {
         }}
         onClick={(e) => handleEdit(e, "")}
       >
-        <NavBar open={false} />
         <ToastContainer />
         <h1 className={styles.heading}>Account Settings</h1>
 

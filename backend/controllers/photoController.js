@@ -33,17 +33,10 @@ exports.deletePhoto = async (req, res) => {
 // Update a photo
 exports.updatePhoto = async (req, res) => {
   try {
-    if (!req.body.caption) {
-      return res.status(400).json({
-        status: "fail",
-        message: "Empty fields exist",
-      });
-    }
-
     const query = `UPDATE photo SET caption=$1 WHERE photo_id=$2 AND user_id=$3 RETURNING *`;
 
     const data = await db.query(query, [
-      req.body.caption,
+      req.body.caption?.trim(),
       req.params.id,
       req.user.user_id,
     ]);

@@ -61,7 +61,7 @@ function ReviewForm({
       if (isReport) notify("Report Submitted Successfully!");
       else notify("🎉 Review Submitted Successfully!");
     } catch (err) {
-      toast(`${err.response.data.message}`);
+      notify(`${err.response.data.message}`, true);
     }
   }
 
@@ -110,12 +110,12 @@ function ReviewForm({
   }
 
   // pretty alerts
-  function notify(msg) {
+  function notify(msg, fail = false) {
     Swal.fire({
-      icon: "success",
-      title: "Success!",
+      icon: fail ? "error" : "success",
+      title: fail ? "Failed" : "Success!",
       text: msg,
-      timer: 3000,
+      timer: 2000,
     });
   }
 

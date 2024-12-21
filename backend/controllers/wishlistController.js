@@ -34,10 +34,32 @@ exports.createWishlist = async (req, res, next) => {
   try {
     await db.query("COMMIT");
     const { user_id, name, description } = req.body;
+    // Validate name to not be a number
+    if (name && +name) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Name can't be a number",
+      });
+    }
+    // Check if empty name or whitespace
+    if (!name.trim())
+      return res.status(400).json({
+        status: "fai",
+        message: "Name can't be empty",
+      });
+
+    // Validate description to not be a number
+    if (description && +description) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Description can't be a number",
+      });
+    }
+
     const query = `
     INSERT INTO wishlist (name, user_id, date, description) VALUES($1, $2, CURRENT_DATE, $3) RETURNING *
     `;
-    const response = await db.query(query, [name, user_id, description]);
+    const response = await db.query(query, [name, user_id, description.trim()]);
 
     res.status(200).json({
       status: "success",
@@ -46,9 +68,12 @@ exports.createWishlist = async (req, res, next) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
+    let message = err.message;
+    if (err.message.includes("unique"))
+      message = "You already have a wishlsit with this name";
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message,
     });
   }
 };
@@ -57,6 +82,22 @@ exports.updateWishlist = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description } = req.body;
+
+    // Validate name to not be a number
+    if (name && +name) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Name can't be a number",
+      });
+    }
+
+    // Validate description to not be a number
+    if (description && +description) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Description can't be a number",
+      });
+    }
     const wishlist = await db.query(
       `SELECT * FROM wishlist WHERE wishlist_id=$1`,
       [id]
@@ -69,11 +110,11 @@ exports.updateWishlist = async (req, res) => {
     }
     const params = [];
     const conditions = [];
-    if (name) {
+    if (name.trim()) {
       params.push(name);
       conditions.push(`name=$${params.length}`);
     }
-    if (description) {
+    if (description.trim()) {
       params.push(description);
       conditions.push(`description=$${params.length}`);
     }
@@ -96,9 +137,12 @@ exports.updateWishlist = async (req, res) => {
       data: response.rows[0],
     });
   } catch (err) {
+    let message = err.message;
+    if (err.message.includes("unique"))
+      message = "You already have a wishlsit with this name";
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message,
     });
   }
 };
