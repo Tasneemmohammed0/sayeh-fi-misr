@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -11,6 +13,8 @@ import { EffectCoverflow, Navigation, Autoplay } from "swiper/modules";
 import styles from "../styles/trending.module.css";
 
 function TrandingPlaces({ places }) {
+  const navigate = useNavigate();
+  console.log("trending", places);
   return (
     <section className={styles.backGround} id="trending">
       <h2 className={styles.head}>
@@ -37,7 +41,10 @@ function TrandingPlaces({ places }) {
       >
         {places.map((place, index) => (
           <SwiperSlide key={index} style={{ backgroundColor: "transparent" }}>
-            <div className={styles.place}>
+            <div
+              className={styles.place}
+              onClick={() => navigate(`/places/${place.place_id}`)}
+            >
               <img
                 src={place.photo}
                 alt={place.name}

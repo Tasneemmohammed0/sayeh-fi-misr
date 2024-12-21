@@ -10,7 +10,7 @@
 
 .card {
   width: 350px;
-  height: 500px;
+  height: 530px;
   background-color: var(--our-white) !important;
   border-radius: 16px;
   overflow: hidden;
@@ -20,11 +20,12 @@
   flex-direction: column;
   margin: 1rem;
   transition: var(--main-transition);
+  padding: 10px 5px;
 }
 
 .card:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
 }
 
 .cardImage {
@@ -113,6 +114,8 @@
   transform: translate(-50%, -50%);
   cursor: pointer;
 }
+
+/*   options            */
 
 .tooltip {
   position: relative;

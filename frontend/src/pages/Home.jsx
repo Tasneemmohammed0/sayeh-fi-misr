@@ -9,19 +9,27 @@ import Loading from "../components/Loading";
 
 function Home() {
   const [trendingPlaces, setTrendingPlaces] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const endpoint = `http://localhost:1123/api/v1/trendingsection`;
         const response = await axios.get(endpoint);
         setTrendingPlaces(response.data.data);
         console.log(trendingPlaces);
       } catch (err) {
         console.log(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <main>

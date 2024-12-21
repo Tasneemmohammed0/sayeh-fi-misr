@@ -120,7 +120,7 @@ function NavBar({ open = true }) {
               className={styles.link}
             >
               <img
-                src={user?.profile_pic || `../src/assets/images/userAvatar.png`}
+                src={user.profile_pic || `../src/assets/images/userAvatar.png`}
                 className={styles.profileIcon}
               />
             </NavLink>

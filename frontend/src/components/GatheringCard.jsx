@@ -15,7 +15,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 function GatheringCard({
   gathering,
-  onClick,
   selectedOption = null,
   setGatheringList,
   setLoading,
@@ -50,11 +49,23 @@ function GatheringCard({
     setShowEditForm(true);
   }
 
+  function handleClick(e, id) {
+    if (
+      e.target.tagName.toLowerCase() !== "svg" &&
+      e.target.tagName.toLowerCase() !== "path"
+    ) {
+      navigate(`/gatherings/${id}`);
+    }
+  }
+
   return (
     <>
       <ToastContainer />
 
-      <div className={styles.card} onClick={onClick}>
+      <div
+        className={styles.card}
+        onClick={(e) => handleClick(e, gathering.gathering_id)}
+      >
         {canEdit && selectedOption === "edit" && (
           <div className={styles.tooltip}>
             <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />
