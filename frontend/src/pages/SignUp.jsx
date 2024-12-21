@@ -173,7 +173,7 @@ function SignUp() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   function handleCount(e, dir) {
     if (count === 0 && dir !== "next") {

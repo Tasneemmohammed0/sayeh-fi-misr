@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-
 import styles from "../styles/accountForm.module.css";
 import ErrorMessage from "./ErrorMessage";
 import { FaArrowLeft } from "react-icons/fa";
@@ -7,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import axios from "axios";
 import { UserContext } from "../App";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 function AccountForm({ state, dispatch, handleCount }) {
   const backGrounds = [
     "Tourism and Hospitality Management",
@@ -18,6 +19,9 @@ function AccountForm({ state, dispatch, handleCount }) {
   const [error, setError] = useState(0);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
   async function handleSubmit(e) {
     try {
@@ -67,7 +71,6 @@ function AccountForm({ state, dispatch, handleCount }) {
         User.phone = state.phone;
         User.background = state.background;
       }
-      // console.log(User);
 
       const res = await axios.post(
         "http://localhost:1123/api/v1/users/signup",
@@ -211,27 +214,44 @@ function AccountForm({ state, dispatch, handleCount }) {
 
       <div className={styles.inputWrapper}>
         <label className={styles.label}>Password</label>
-        <input
-          className={styles.input}
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={(e) =>
-            dispatch({ type: "updatePassword", payload: e.target.value })
-          }
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            className={styles.input}
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Password"
+            onChange={(e) =>
+              dispatch({ type: "updatePassword", payload: e.target.value })
+            }
+          />
+          <span
+            className={styles.icon}
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
         <ErrorMessage error={state.error_password} />
       </div>
 
       <div className={styles.inputWrapper}>
         <label className={styles.label}>Confirm Password</label>
-        <input
-          className={styles.input}
-          type="password"
-          name="password"
-          placeholder="Confirm Password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            className={styles.input}
+            type="password"
+            name="password"
+            placeholder="Confirm Password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <span
+            className={styles.icon}
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
+
         {error == 2 && (
           <ErrorMessage error="Confirm Password must match the Password" />
         )}
