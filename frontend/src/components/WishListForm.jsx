@@ -18,7 +18,7 @@ function WishListForm({ isOpen, handleForm, user_id, setWishLists }) {
     setLoading(true);
     try {
       if (!wishlistName) {
-        setError(true);
+        setError("Wishlist name is required");
         return;
       }
       setError(false);
