@@ -113,11 +113,12 @@ function GatheringDetails() {
         // set joining status
         setIsJoined(response.data.data);
       } catch (err) {
+        if (!user) return;
         toast(err.response.data.message);
       }
     }
     checkJoiningStatus();
-  }, [addUser, deletedUser]);
+  }, [addUser, deletedUser, user]);
 
   async function handleJoin() {
     try {
