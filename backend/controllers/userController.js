@@ -249,8 +249,8 @@ exports.updateUser = async (req, res) => {
         params.length
       } RETURNING *`;
     }
-
     const response = await db.query(query, params);
+
     const user = response.rows[0];
     if (user?.password) user.password = undefined;
 
@@ -267,6 +267,24 @@ exports.updateUser = async (req, res) => {
     res.status(201).json({
       status: "success",
       data: user,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.deletePhoto = async (req, res) => {
+  try {
+    const user = await db.query(
+      `UPDATE visitor SET profile_pic='${`https://i.imgur.com/QZdzLWx.png`}' WHERE user_id=$1 RETURNING *`,
+      [req.user.user_id]
+    );
+    res.status(200).json({
+      status: "success",
+      data: user.rows[0],
     });
   } catch (err) {
     res.status(400).json({
