@@ -16,14 +16,11 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
         const endpoint = `http://localhost:1123/api/v1/trendingsection`;
         const response = await axios.get(endpoint);
         setTrendingPlaces(response.data.data);
       } catch (err) {
         console.log(err);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
