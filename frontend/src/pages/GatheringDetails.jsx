@@ -119,7 +119,7 @@ function GatheringDetails() {
   async function handleJoin() {
     try {
       // check if close
-      if (!isOpen) {
+      if (!isOpen && !isJoined) {
         toast("Gathering is closed");
         return;
       }
@@ -157,7 +157,7 @@ function GatheringDetails() {
       // send join request to API
       setIsJoined((isJoined) => !isJoined);
     } catch (err) {
-      console.log(err);
+      toast.error(`${err.response.data.message}`);
     }
   }
 
@@ -217,6 +217,8 @@ function GatheringDetails() {
     }
   }
 
+  // console.log("gathering", gathering);
+
   return (
     <>
       {finalLoading && <Loading />}
@@ -242,19 +244,18 @@ function GatheringDetails() {
               </div>
             )}
             <div className={styles.gatheringBtns}>
-              <div className={styles.btnContainer}>
-                <IoIosAddCircleOutline
-                  onClick={() => handleJoin()}
-                  className={styles.addIcon}
-                />
-                <p>{isJoined ? `Leave` : `JOIN`}</p>
+              <div onClick={() => handleJoin()} className={styles.btnContainer}>
+                {!isJoined && isOpen && (
+                  <IoIosAddCircleOutline className={styles.addIcon} />
+                )}
+                <p>{isJoined ? `Leave` : isOpen ? `JOIN` : `CLOSED`}</p>
               </div>
 
-              <div className={styles.btnContainer}>
-                <IoIosAddCircleOutline
-                  onClick={() => setIsReportFormOpen(true)}
-                  className={styles.addIcon}
-                />
+              <div
+                onClick={() => setIsReportFormOpen(true)}
+                className={styles.btnContainer}
+              >
+                <IoIosAddCircleOutline className={styles.addIcon} />
                 <p>Add Report</p>
               </div>
             </div>
@@ -265,9 +266,9 @@ function GatheringDetails() {
                 destination={{
                   title: "Destination",
                   name: place.name,
-                  hostId: gathering.host_id,
                 }}
                 host={host}
+                hostId={gathering.host_id}
               />
               <div className={styles.gatheringInfo}>
                 <GatheringInfo

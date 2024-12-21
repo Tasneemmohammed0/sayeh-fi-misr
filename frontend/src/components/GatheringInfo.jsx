@@ -45,7 +45,7 @@ function GatheringInfo({ gathering, currentCapacity }) {
       <div className={styles.detailItem}>
         <FaUsers className={styles.icon} />
         <span>Current Capacity: {currentCapacity}</span>
-        {gathering.max_capacity && (
+        {gathering.max_capacity !== undefined && (
           <span className={styles.maxCapacity}>
             Max Capacity: {gathering.max_capacity}
           </span>

@@ -28,9 +28,10 @@
 
 .form {
   position: relative;
-  height: 560px;
+  height: fit-content;
   width: 500px;
   display: flex;
+  row-gap: 30px;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -51,7 +52,7 @@
   font-size: 1rem;
   color: #674636;
   display: flex;
-  justify-content: center;
+  margin-bottom: 10px;
 }
 
 .formLabel > span {
@@ -70,11 +71,10 @@
 }
 
 .reviewText {
-  margin-left: 10px;
   padding: 10px;
-  height: 300px;
+  height: 100px;
   width: 360px;
-  background-color: #ddcfb7;
+  background-color: rgb(255, 240, 240);
   border: 1px solid var(--our-blue);
   border-radius: 10px;
   font-size: 15px;
@@ -110,15 +110,15 @@
   display: flex;
   flex-direction: column;
   align-items: first baseline;
-  gap: 0.7rem;
-  padding: 0rem 2rem;
+  gap: 1.1rem;
+  padding: 0rem 2.3rem;
 }
 
 /*Report styles*/
 .severity {
   display: flex;
-  align-self: center;
-  gap: 1rem;
+
+  gap: 3rem;
   color: var(--our-blue);
   cursor: pointer;
   margin-top: 10px;
@@ -132,5 +132,4 @@
   padding: 0.2rem;
   font-size: 15px;
   background-color: rgb(255, 240, 240);
-  margin-left: 10px;
 }

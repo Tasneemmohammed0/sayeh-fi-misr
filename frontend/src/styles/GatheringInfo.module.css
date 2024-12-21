@@ -2,7 +2,7 @@
   padding: 20px;
   font-family: var(--main-font);
   font-size: 14px;
-  color: var(--our-blue);
+  color: var(--our-black);
   line-height: 1.6;
   margin-top: 20px;
   margin-left: 20px;
@@ -20,7 +20,7 @@
 
 .icon {
   font-size: 20px;
-  color: var(--our-blue);
+  color: var(--our-brown);
   margin-right: 10px;
 }
 

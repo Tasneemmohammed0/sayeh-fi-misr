@@ -8,10 +8,9 @@ import { useNavigate } from "react-router-dom";
 function Tabs({ destination, host, hostId }) {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(destination.title);
-
   return (
     <div className={styles.container}>
-      <h3 className={styles.header}>Ticket Price</h3>
+      <h3 className={styles.header}>Gathering Info</h3>
       <div className={styles.tabs}>
         <button
           className={`${styles.tab} ${
@@ -35,6 +34,7 @@ function Tabs({ destination, host, hostId }) {
           <div
             style={{
               marginTop: "30px",
+              padding: "0 20px",
             }}
           >
             <PlaceLocation
@@ -44,22 +44,22 @@ function Tabs({ destination, host, hostId }) {
           </div>
         ) : (
           <div
+            onClick={() => navigate(`/profile/${hostId}`)}
             style={{
               display: "flex",
               alignItems: "center",
               marginTop: "20px",
+              padding: "0 40px",
             }}
           >
             {host.profile_pic && (
               <img
-                onClick={() => navigate(`/profile/${hostId}`)}
                 src={host.profile_pic}
                 alt="host-pic"
                 style={{
                   width: "40px",
                   height: "40px",
                   borderRadius: "50%",
-                  cursor: "pointer",
                 }}
               />
             )}
@@ -70,16 +70,17 @@ function Tabs({ destination, host, hostId }) {
                 fontWeight: "bold",
                 fontSize: "22px",
                 color: "var(--our-blue)",
-                cursor: "pointer",
               }}
             >
               {host.first_name} {host.last_name}
             </div>
             <IoNavigateCircleOutline
-              onClick={() => navigate(`/profile/${hostId}`)}
               className={styles.icon}
               color="var(--our-blue)"
               fontSize="25px"
+              onClick={() => {
+                navigate(`/profile/${hostId}`);
+              }}
             />
           </div>
         )}
