@@ -4,7 +4,7 @@ import Loading from "../components/Loading";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-function ReviewsList({ id, canEdit, setStats }) {
+function ReviewsList({ id, canEdit, setStats, setTriggerBadges }) {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -36,6 +36,7 @@ function ReviewsList({ id, canEdit, setStats }) {
                 setStats={setStats}
                 review={review}
                 setReviews={setReviews}
+                setTriggerBadges={setTriggerBadges}
                 setLoading={setLoading}
                 loading={loading}
                 canEdit={canEdit}

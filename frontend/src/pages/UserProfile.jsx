@@ -16,6 +16,8 @@ function UserProfile() {
   const currentUser = useLoaderData();
   const { user } = useContext(UserContext);
   const [stats, setStats] = useState({});
+  const [triggerBadges, setTriggerBadges] = useState(false);
+
   const { id } = useParams();
   const [selectedList, setSelectedList] = useState("Reviews");
 
@@ -45,6 +47,7 @@ function UserProfile() {
             canEdit={currentUser.user_id === user?.user_id}
             selectedList={selectedList}
             setSelectedList={setSelectedList}
+            triggerBadges={triggerBadges}
           />
         </section>
         <section style={{ background: "#D3C4A9", padding: "20px 10px " }}>
@@ -52,6 +55,7 @@ function UserProfile() {
             <ReviewsList
               id={currentUser.user_id}
               setStats={setStats}
+              setTriggerBadges={setTriggerBadges}
               canEdit={currentUser?.user_id === user?.user_id}
             />
           )}

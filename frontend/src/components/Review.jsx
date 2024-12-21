@@ -13,6 +13,7 @@ function Review({
   loading,
   canEdit,
   setStats,
+  setTriggerBadges,
 }) {
   const formattedDate = new Date(review.date);
 
@@ -33,6 +34,7 @@ function Review({
           withCredentials: true,
         }
       );
+      console.log(review, "=====");
       setReviews((prevReviews) => {
         return prevReviews.filter((r) => r.review_id !== review.review_id);
       });
@@ -42,6 +44,7 @@ function Review({
           reviews_count: prevStats.reviews_count - 1,
         };
       });
+      setTriggerBadges((prevState) => !prevState);
 
       setLoading(false);
     } catch (err) {

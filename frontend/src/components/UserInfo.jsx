@@ -16,6 +16,7 @@ function UserInfo({
   canEdit,
   stats,
   setStats,
+  triggerBadges,
 }) {
   useEffect(() => {
     const handleHashChange = () => {
@@ -49,7 +50,7 @@ function UserInfo({
     };
 
     if (user?.user_id) fetchBadges();
-  }, [user]);
+  }, [user, triggerBadges]);
 
   // User Stats
   useEffect(() => {

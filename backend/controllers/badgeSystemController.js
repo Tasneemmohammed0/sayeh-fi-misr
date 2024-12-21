@@ -49,7 +49,6 @@ exports.assignBadge = async (
           `INSERT INTO visitor_badge (user_id, badge_name, date) VALUES ($1, $2, $3) RETURNING *`,
           [userId, badgeName, insertDate]
         );
-        console.log("Badge assigned:");
       } catch (err) {
         console.error("Error inserting badge:", err.message);
       }
@@ -61,7 +60,6 @@ exports.deleteBadge = async (userId, badgeName, relationName, threshold) => {
   // Check if the he passed the threshold
 
   const badgeExist = await checkBadgeExistence(userId, badgeName);
-  console.log(badgeExist, "===========");
   if (badgeExist) {
     const criteriaCount = await checkCriteria(userId, relationName);
     if (criteriaCount < threshold) {
@@ -72,7 +70,6 @@ exports.deleteBadge = async (userId, badgeName, relationName, threshold) => {
           `DELETE FROM visitor_badge WHERE user_id=$1 AND badge_name =$2 RETURNING *`,
           [userId, badgeName]
         );
-        console.log("Badge deleted:");
       } catch (err) {
         console.error("Error deleting badge:", err.message);
       }
