@@ -46,9 +46,12 @@ exports.createWishlist = async (req, res, next) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
+    let message = err.message;
+    if (err.message.includes("unique"))
+      message = "You already have a wishlsit with this name";
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message,
     });
   }
 };
@@ -96,9 +99,12 @@ exports.updateWishlist = async (req, res) => {
       data: response.rows[0],
     });
   } catch (err) {
+    let message = err.message;
+    if (err.message.includes("unique"))
+      message = "You already have a wishlsit with this name";
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message,
     });
   }
 };
