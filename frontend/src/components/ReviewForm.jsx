@@ -57,13 +57,11 @@ function ReviewForm({
 
       // Update the review list
       if (!isReport) setTriggerFetch((prev) => !prev);
-    } catch {
-      toast("❌ Error submitting");
-    } finally {
       // show success message
-      isReport
-        ? notify("Report Submitted Successfully!")
-        : notify("🎉 Review Submitted Successfully!");
+      if (isReport) notify("Report Submitted Successfully!");
+      else notify("🎉 Review Submitted Successfully!");
+    } catch (err) {
+      toast(`${err.response.data.message}`);
     }
   }
 

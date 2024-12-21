@@ -45,6 +45,7 @@ function Tabs({ destination, host, hostId }) {
           </div>
         ) : (
           <div
+            onClick={() => navigate(`/profile/${hostId}`)}
             style={{
               display: "flex",
               alignItems: "center",
@@ -54,7 +55,6 @@ function Tabs({ destination, host, hostId }) {
           >
             {host.profile_pic && (
               <img
-                onClick={() => navigate(`/profile/${hostId}`)}
                 src={host.profile_pic}
                 alt="host-pic"
                 style={{
@@ -78,7 +78,6 @@ function Tabs({ destination, host, hostId }) {
               {host.first_name} {host.last_name}
             </div>
             <IoNavigateCircleOutline
-              onClick={() => navigate(`/profile/${hostId}`)}
               className={styles.icon}
               color="var(--our-blue)"
               fontSize="25px"

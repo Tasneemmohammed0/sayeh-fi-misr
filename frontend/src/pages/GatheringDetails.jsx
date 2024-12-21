@@ -157,7 +157,7 @@ function GatheringDetails() {
       // send join request to API
       setIsJoined((isJoined) => !isJoined);
     } catch (err) {
-      console.log(err);
+      toast.error(`${err.response.data.message}`);
     }
   }
 
