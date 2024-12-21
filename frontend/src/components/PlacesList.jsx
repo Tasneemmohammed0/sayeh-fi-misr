@@ -15,11 +15,8 @@ function PlacesList({
   search,
   filter,
   gridCount = "4",
-  count = 100,
   role = "user",
   setShowAddPlace,
-  showAddPlace,
-  setLoading,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,15 +26,11 @@ function PlacesList({
   const [message, setMessage] = useState(null);
 
   const { places: Places, setPlaces } = useContext(UserContext);
-  let places = Places;
 
-  if (count !== 100) {
-    places = Places.slice(0, count);
-  }
+  let places = Places;
 
   const handleSelectedPlace = (e, id) => {
     // admin
-    console.log(e.target.tagName.toLowerCase());
     if (
       e.target.tagName.toLowerCase() !== "svg" &&
       e.target.tagName.toLowerCase() !== "path"
@@ -47,9 +40,11 @@ function PlacesList({
   };
 
   if (search) {
-    places = places.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
-    );
+    places = places.filter((item) => {
+      return (
+        item.name && item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    });
   }
 
   if (filter && filter !== "all") {
@@ -80,8 +75,6 @@ function PlacesList({
   function addPlace() {
     setShowAddPlace(true);
   }
-
-  console.log("places", places);
 
   return (
     <>

@@ -33,6 +33,10 @@ body {
   --main-transition: all 0.6s;
 
   font-family: "Quicksand", sans-serif;
+  /* height: 100%; */
+}
+
+#root {
   height: 100%;
 }
 /* Default (Mobile-first) */

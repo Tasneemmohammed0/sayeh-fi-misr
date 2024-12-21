@@ -21,7 +21,6 @@ function UserList({ users, setLoading, setUsers }) {
   async function handleEdit(id, role) {
     try {
       setLoading(true);
-      console.log("ID:", id);
       const response = await axios.post(
         `http://localhost:1123/api/v1/users/createadmin/${id}`,
         {
@@ -63,7 +62,10 @@ function UserList({ users, setLoading, setUsers }) {
             users.map((user, index) => (
               <tr key={index} className={styles.tr}>
                 <td className={styles.td}>
-                  <Link to={`/profile/${user.id}`} style={{ color: "black" }}>
+                  <Link
+                    to={`/profile/${user.user_id}`}
+                    style={{ color: "black" }}
+                  >
                     {user.username}
                   </Link>
                 </td>

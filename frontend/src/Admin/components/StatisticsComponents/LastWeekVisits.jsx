@@ -14,7 +14,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { IoMdReturnLeft } from "react-icons/io";
 
 // Register Chart.js modules
 ChartJS.register(
@@ -27,17 +26,25 @@ ChartJS.register(
   Legend
 );
 
-function LastWeekVisits() {
+function LastWeekVisits({ setLoading }) {
   const [counts, setCounts] = useState([]);
   const [days, setDays] = useState([]);
-  const [loading, setLoading] = useState(true);
   const { places } = useContext(UserContext);
-  const [place, setPlace] = useState(null);
+  const [place, setPlace] = useState("");
+
+  // Update the default place when `places` changes
   useEffect(() => {
-    setPlace(places[0]?.place_id);
+    if (places.length > 0 && !place) {
+      setPlace(places[0]?.name);
+    }
+  }, [places, place]);
+
+  useEffect(() => {
     async function fetchData() {
       try {
         if (!place) return;
+
+        setLoading(true);
         const res = await axios.get(
           `http://localhost:1123/api/v1/stats/place/${place}`,
           {
@@ -45,19 +52,15 @@ function LastWeekVisits() {
           }
         );
 
-        if (res.data && res.data.status !== "fail" && res.data.data) {
-          const validData = res.data.data.filter(
-            (item) => item.visit_count != null && item.visit_date
-          );
+        const validData = res.data.data.filter(
+          (item) => item.visit_count != null && item.visit_date
+        );
 
-          const counts = validData.map((item) => item.visit_count);
-          const days = validData.map((item) => item.visit_date);
+        const counts = validData.map((item) => item.visit_count);
+        const days = validData.map((item) => item.visit_date);
 
-          setCounts(counts);
-          setDays(days);
-        } else {
-          console.error("Invalid API response.");
-        }
+        setCounts(counts);
+        setDays(days);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -66,10 +69,6 @@ function LastWeekVisits() {
     }
     fetchData();
   }, [place, places]);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   if (days.length === 0 || counts.length === 0) {
     return <p>No data available for the last week.</p>;
@@ -138,8 +137,8 @@ function LastWeekVisits() {
             onChange={(e) => setPlace(e.target.value)}
             className={style.select}
           >
-            {places.map((place) => (
-              <option key={place?.place_id} value={place?.place_id}>
+            {places.map((place, index) => (
+              <option key={index + 1} value={place?.name}>
                 {place?.name}
               </option>
             ))}

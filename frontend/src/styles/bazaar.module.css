@@ -1,5 +1,6 @@
 .mainBazaar {
   background-color: #fff8e8;
+  height: 100%;
 }
 .bazaarHeader {
   height: 30vh;
@@ -35,6 +36,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  height: 100%;
 }
 .pointsBox {
   display: flex;

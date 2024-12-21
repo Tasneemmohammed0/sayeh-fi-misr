@@ -11,7 +11,7 @@ function EditPlaceForm({ isOpen, card, onClose }) {
   const { places: Places, setPlaces } = useContext(UserContext);
   const [formData, setFormData] = useState({
     place_id: card.place_id,
-    name: card.name,
+    name: +card.name ? +card.name : card.name,
     location: card.location,
     city: card.city,
     photo: card.photo,
@@ -61,7 +61,6 @@ function EditPlaceForm({ isOpen, card, onClose }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Submitted Data:", formData);
     try {
       const res = await axios.patch(
         `http://localhost:1123/api/v1/places`,
@@ -71,22 +70,18 @@ function EditPlaceForm({ isOpen, card, onClose }) {
         }
       );
 
-      console.log(res.data);
-
       toast.success("Place updated successfully.");
       setPlaces(
         Places.map((place) =>
-          place.place_id === card.place_id ? { ...place, ...formData } : place
+          place.place_id === card.place_id ? res.data.data : place
         )
       );
+      setTimeout(() => {
+        onClose();
+      }, 1000);
     } catch (err) {
-      console.log(err);
-      toast.error("Failed to update place.");
+      toast.error(err.response.data.message);
     }
-
-    setTimeout(() => {
-      onClose();
-    }, 1000);
   }
 
   return (

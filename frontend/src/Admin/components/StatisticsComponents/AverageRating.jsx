@@ -4,9 +4,9 @@ import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import style from "../../styles/AdminStatistics.module.css";
 import Loading from "../../../components/Loading";
 import ErrorMessage from "../../../components/ErrorMessage";
-function AverageRating() {
+function AverageRating({ setLoading }) {
   const [city, setCity] = useState("Cairo");
-  const [loading, setLoading] = useState(false);
+
   const [value, setValue] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -46,10 +46,8 @@ function AverageRating() {
         );
         setValue(Number(+response.data.data.rate).toFixed(2));
 
-        // console.log(res.data);
         setErrorMessage("");
       } catch (err) {
-        console.log(err);
         setErrorMessage(err.response.data.message);
       } finally {
         setLoading(false);
@@ -68,7 +66,6 @@ function AverageRating() {
   };
   return (
     <div className={style.card}>
-      {loading && <Loading />}
       <h3 className={style.header}>City Average Ratings</h3>
       <select
         value={city}

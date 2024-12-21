@@ -2,24 +2,26 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../../styles/TopNationalities.module.css";
 
-function TopNationalities() {
+function TopNationalities({ setLoading }) {
   const [nationalitiesData, setNationalitiesData] = useState([]);
 
   useEffect(() => {
     const fetchNationalitiesData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           "http://localhost:1123/api/v1/stats/nationalities",
           {
             withCredentials: true,
           }
         );
-        console.log(response.data);
         if (response.data.status !== "fail") {
           setNationalitiesData(response.data.data);
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 

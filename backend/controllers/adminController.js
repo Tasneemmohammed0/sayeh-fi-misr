@@ -164,6 +164,39 @@ exports.createPlace = async (req, res, next) => {
         message: "Fields are missing",
       });
     }
+    // Validate opening hours
+    const timeRangeRegex =
+      /([1-9]|1[0-2]):[0-5][0-9](am|pm)\s+to\s+([1-9]|1[0-2]):[0-5][0-9](am|pm)/i;
+
+    if (!opening_hours_holidays.match(timeRangeRegex)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid opening holidays hours format",
+      });
+    }
+    if (!opening_hours_working_days.match(timeRangeRegex)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid opening working days hours format",
+      });
+    }
+
+    // Validate links
+    const linkRegex =
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+
+    if (location && !location.match(linkRegex)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid location link",
+      });
+    }
+    if (photo && !photo.match(linkRegex)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid photo link",
+      });
+    }
 
     // Validate ticket prices
     const ticketPrices = [
@@ -238,77 +271,137 @@ exports.updatePlace = async (req, res, next) => {
     let query = `
     UPDATE place
     `;
-    const { place_id } = req.body;
+    const {
+      place_id,
+      location,
+      photo,
+      name,
+      foreign_adult_ticket_price,
+      foreign_student_ticket_price,
+      egyptian_student_ticket_price,
+      egyptian_adult_ticket_price,
+      opening_hours_holidays,
+      opening_hours_working_days,
+      city,
+      description,
+    } = req.body;
+    if (name && typeof name === "number") {
+      return res.status(400).json({
+        status: "fail",
+        message: "Name can't be a number",
+      });
+    }
     if (!place_id) {
       return res.status(400).json({
         status: "fail",
         message: "There's no such place id",
       });
     }
+
+    // Validate links
+    const linkRegex =
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+
+    if (location && !location.match(linkRegex)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid location link",
+      });
+    }
+    if (photo && !photo.match(linkRegex)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid photo link",
+      });
+    }
+
+    // Validate opening hours
+    const timeRangeRegex =
+      /([1-9]|1[0-2]):[0-5][0-9](am|pm)\s+to\s+([1-9]|1[0-2]):[0-5][0-9](am|pm)/i;
+
+    if (
+      opening_hours_holidays &&
+      !opening_hours_holidays.match(timeRangeRegex)
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid opening holidays hours format",
+      });
+    }
+    if (
+      opening_hours_working_days &&
+      !opening_hours_working_days.match(timeRangeRegex)
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid opening working days hours format",
+      });
+    }
+
     const params = [];
     const conditions = [];
-    if (req.body.name) {
-      params.push(req.body.name);
+    if (name) {
+      params.push(name);
       conditions.push(` name=$${params.length}`);
     }
-    if (req.body.location) {
-      params.push(req.body.location);
+    if (location) {
+      params.push(location);
       conditions.push(`location=$${params.length}`);
     }
-    if (req.body.city) {
-      params.push(req.body.city);
+    if (city) {
+      params.push(city);
       conditions.push(`city=$${params.length}`);
     }
-    if (req.body.photo) {
-      params.push(req.body.photo);
+    if (photo) {
+      params.push(photo);
       conditions.push(`photo=$${params.length}`);
     }
-    if (req.body.description) {
-      params.push(req.body.description);
+    if (description) {
+      params.push(description);
       conditions.push(`description=$${params.length}`);
     }
-    if (req.body.foreign_adult_ticket_price != undefined) {
-      if (+req.body.foreign_adult_ticket_price < 0)
+    if (foreign_adult_ticket_price != undefined) {
+      if (+foreign_adult_ticket_price < 0)
         return res.status(400).json({
           status: "fail",
-          message: "Opening hours must be positive numbers.",
+          message: "Ticket price must be positive numbers.",
         });
-      params.push(req.body.foreign_adult_ticket_price);
+      params.push(foreign_adult_ticket_price);
       conditions.push(`foreign_adult_ticket_price=$${params.length}`);
     }
-    if (req.body.foreign_student_ticket_price != undefined) {
-      if (+req.body.foreign_student_ticket_price < 0)
+    if (foreign_student_ticket_price != undefined) {
+      if (+foreign_student_ticket_price < 0)
         return res.status(400).json({
           status: "fail",
-          message: "Opening hours must be positive numbers.",
+          message: "Ticket price must be positive numbers.",
         });
-      params.push(req.body.foreign_student_ticket_price);
+      params.push(foreign_student_ticket_price);
       conditions.push(`foreign_student_ticket_price=$${params.length}`);
     }
-    if (req.body.egyptian_student_ticket_price != undefined) {
-      if (+req.body.foreign_student_ticket_price < 0)
+    if (egyptian_student_ticket_price != undefined) {
+      if (+foreign_student_ticket_price < 0)
         return res.status(400).json({
           status: "fail",
-          message: "Opening hours must be positive numbers.",
+          message: "Ticket price must be positive numbers.",
         });
-      params.push(req.body.egyptian_student_ticket_price);
+      params.push(egyptian_student_ticket_price);
       conditions.push(`egyptian_student_ticket_price=$${params.length}`);
     }
-    if (req.body.egyptian_adult_ticket_price != undefined) {
-      if (+req.body.foreign_student_ticket_price < 0)
+    if (egyptian_adult_ticket_price != undefined) {
+      if (+foreign_student_ticket_price < 0)
         return res.status(400).json({
           status: "fail",
-          message: "Opening hours must be positive numbers.",
+          message: "Ticket price must be positive numbers.",
         });
-      params.push(req.body.egyptian_adult_ticket_price);
+      params.push(egyptian_adult_ticket_price);
       conditions.push(`egyptian_adult_ticket_price=$${params.length}`);
     }
-    if (req.body.opening_hours_holidays) {
-      params.push(req.body.opening_hours_holidays);
+    if (opening_hours_holidays) {
+      params.push(opening_hours_holidays);
       conditions.push(`opening_hours_holidays=$${params.length}`);
     }
-    if (req.body.opening_hours_working_days) {
-      params.push(req.body.opening_hours_working_days);
+    if (opening_hours_working_days) {
+      params.push(opening_hours_working_days);
       conditions.push(`opening_hours_working_days=$${params.length}`);
     }
     params.push(place_id);
@@ -322,7 +415,7 @@ exports.updatePlace = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       length: response.rowCount,
-      data: response.rows,
+      data: response.rows[0],
     });
   } catch (err) {
     let message = err.message;

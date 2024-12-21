@@ -3,31 +3,27 @@ import axios from "axios";
 import GatheringCard from "../../../components/GatheringCard";
 import style from "../../styles/AdminStatistics.module.css";
 
-function MostPopularGathering() {
+function MostPopularGathering({ setLoading }) {
   const [gatheringData, setGatheringData] = useState(null);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(
           "http://localhost:1123/api/v1/stats/gathering",
           { withCredentials: true }
         );
 
-        // console.log(res.data);
-
         if (res && res.data && res.data.status !== "fail") {
           const { gathering_id, count } = res.data.data;
           setCount(count);
-
-          console.log(gathering_id);
 
           const gatheringRes = await axios.get(
             `http://localhost:1123/api/v1/gatherings/${gathering_id}`,
             { withCredentials: true }
           );
-          console.log(gatheringRes.data);
 
           if (
             gatheringRes &&
@@ -39,6 +35,8 @@ function MostPopularGathering() {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 

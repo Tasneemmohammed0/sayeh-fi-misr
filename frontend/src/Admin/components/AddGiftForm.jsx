@@ -64,7 +64,6 @@ function AddGiftForm({ onClose, setGifts, places }) {
       photo: url,
       is_available: true,
     };
-    //console.log("==========Data", data);
     try {
       const response = await axios.post(
         `http://localhost:1123/api/v1/bazaar/addGift`,
@@ -74,19 +73,13 @@ function AddGiftForm({ onClose, setGifts, places }) {
         }
       );
 
-      if (response.status === "fail") {
-        toast.error("Failed to add gift");
-        return;
-      }
-      // console.log("==========Gift", response.data.data);
       setGifts((prev) => [...prev, response.data.data]);
       toast.success("Gift added successfully");
       setTimeout(() => {
         onClose();
       }, 1000);
     } catch (err) {
-      console.log(err.message);
-      toast.error("Failed to add gift");
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -97,7 +90,7 @@ function AddGiftForm({ onClose, setGifts, places }) {
       <ToastContainer />
       {loading && <Loading />}
       <div className={styles.modal}>
-        <h2 className={styles.title}>Edit Gift</h2>
+        <h2 className={styles.title}>Add Gift</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
             <label htmlFor="name" className={styles.label}>
@@ -156,11 +149,11 @@ function AddGiftForm({ onClose, setGifts, places }) {
               className={styles.select}
               required
             >
-              <option value="" disabled>
+              <option value="" disabled key={0}>
                 Select a place
               </option>
               {places.map((place) => (
-                <option key={place.id} value={place.name}>
+                <option key={place.place_id} value={place.name}>
                   {place.name}
                 </option>
               ))}

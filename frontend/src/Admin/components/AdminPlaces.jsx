@@ -4,10 +4,12 @@ import { IoIosSearch } from "react-icons/io";
 import styles from "../../styles/AllPlaces.module.css";
 import PlacesList from "../../components/PlacesList";
 import CreatePlaceForm from "./CreatePlaceForm";
+import Loading from "../../components/Loading";
 
 function AdminPlaces() {
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
+  const [loading, setLoading] = useState(false);
   const cities = [
     "Cairo",
     "Giza",
@@ -36,6 +38,7 @@ function AdminPlaces() {
 
   return (
     <section id="places">
+      {loading && <Loading />}
       <h2 style={{ textAlign: "center", margin: "20px" }}>Places </h2>
       <div className={styles.bar} style={{ marginBottom: "30px" }}>
         <div className={styles.searchWrapper}>
@@ -79,6 +82,7 @@ function AdminPlaces() {
       {showAddPlace && (
         <CreatePlaceForm
           isOpen={showAddPlace}
+          setLoading={setLoading}
           onClose={() => setShowAddPlace(false)}
         />
       )}

@@ -8,6 +8,8 @@ import axios from "axios";
 import Loading from "../../src/components/Loading";
 import EditGiftForm from "../Admin/components/EditGiftForm";
 import { UserContext } from "../App";
+import { Toaster, toast } from "sonner";
+
 function Gift({
   card,
   totalPoints,
@@ -59,7 +61,7 @@ function Gift({
         prevGifts.filter((item) => item.product_code !== id)
       );
     } catch (err) {
-      console.error("Error deleting gift:", err.message);
+      toast.error(err.response.data.message);
     } finally {
       setIsLoading(false);
     }

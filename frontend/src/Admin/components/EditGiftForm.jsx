@@ -12,6 +12,7 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
     place: giftData?.place_name || "",
     description: giftData?.description || "",
   });
+  const [file, setFile] = useState();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,34 +22,50 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dtnpd6qvp/image/upload";
+    if (file) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "Amrhany");
+      data.append("cloud_name", "dtnpd6qvp");
+
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      return urlimage.url;
+    } else {
+      return "";
+    }
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
+
+      let url = await handlesImage(file);
+
       const data = {
-        name: formData.name,
+        name: +formData.name ? +formData.name : formData.name,
         points: formData.points,
         place: formData.place,
         description: formData.description,
+        photo: url,
       };
-      // console.log(data);
-      const response = axios.put(
+
+      const response = await axios.put(
         `http://localhost:1123/api/v1/bazaar/${giftData.product_code}/editGift`,
         data,
         {
           withCredentials: true,
         }
       );
-
-      if (response.status === "fail") {
-        toast.error("Failed to update gift");
-        return;
-      }
-
       setGifts((prevGifts) =>
         prevGifts.map((item) =>
           item.product_code === giftData.product_code
-            ? { ...item, ...data }
+            ? response.data.data
             : item
         )
       );
@@ -57,7 +74,7 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
         onClose();
       }, 1000);
     } catch (err) {
-      console.error(err.message);
+      toast.error(err.response.data.message);
     }
   };
 
@@ -83,13 +100,26 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="price" className={styles.label}>
-              Price
+            <label htmlFor="photo" className={styles.label}>
+              Photo
+            </label>
+            <input
+              type="file"
+              id="photo"
+              name="photo"
+              onChange={(e) => setFile(e.target.files[0])}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="points" className={styles.label}>
+              points
             </label>
             <input
               type="number"
-              id="price"
-              name="price"
+              id="points"
+              name="points"
               value={formData.points}
               onChange={handleChange}
               className={styles.input}
@@ -109,11 +139,11 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
               className={styles.select}
               required
             >
-              <option value="" disabled>
+              <option value="" disabled key={0}>
                 Select a place
               </option>
-              {places.map((place) => (
-                <option key={place.id} value={place.name}>
+              {places.map((place, index) => (
+                <option key={index + 1} value={place.name}>
                   {place.name}
                 </option>
               ))}
