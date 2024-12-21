@@ -143,6 +143,23 @@
   background-color: green;
 }
 
+.passwordWrapper {
+  position: relative;
+  width: 60%;
+}
+
+.passwordWrapper > .input {
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  right: 0.4rem;
+  top: 0.4rem;
+  cursor: pointer;
+  color: rgb(132, 69, 69);
+}
+
 /*
 helper classes
 */

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import { useEffect, useState, useReducer } from "react";
 import styles from "../styles/signup.module.css";
 import PersonalForm from "../components/PersonalForm";
 import AccountForm from "../components/AccountForm";
@@ -17,7 +17,7 @@ function reducer(state, action) {
           ...state,
           error_firstname: "Firstname must be less than 50 characters long",
         };
-      } else if (!/^[a-zA-Z\s]+$/.test(action.payload)) {
+      } else if (!/^[a-zA-Z\u0621-\u064A\s]+$/.test(action.payload)) {
         return {
           ...state,
           error_firstname: "Firstname must only contain letters and spaces",
@@ -37,7 +37,7 @@ function reducer(state, action) {
           ...state,
           error_lastname: "Lastname must be less than 50 characters long",
         };
-      } else if (!/^[a-zA-Z\s]+$/.test(action.payload)) {
+      } else if (!/^[a-zA-Z\u0621-\u064A\s]+$/.test(action.payload)) {
         return {
           ...state,
           error_lastname: "Lastname must only contain letters and spaces",
@@ -150,7 +150,7 @@ function SignUp() {
     error_firstname: "",
     last_name: "",
     error_lastname: "",
-    age: 0,
+    age: "Select Age",
     gender: "",
     country: "",
     city: "",

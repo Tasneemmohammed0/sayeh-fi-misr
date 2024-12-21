@@ -8,7 +8,12 @@ import Loading from "./Loading";
 function PersonalForm({ state, dispatch, handleCount }) {
   const age = [];
 
-  for (let i = 18; i <= 100; i++) {
+  for (let i = 12; i <= 100; i++) {
+    if (i == 12) {
+      age.push("Select Age");
+      continue;
+    }
+
     age.push(i.toString());
   }
 
@@ -22,8 +27,8 @@ function PersonalForm({ state, dispatch, handleCount }) {
         const result = await GetCountries();
         dispatch({ type: "setCountries", payload: result });
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching countries:", error);
+      } catch (err) {
+        setError(err.response.data.message);
         setLoading(false);
       }
     };
@@ -33,26 +38,21 @@ function PersonalForm({ state, dispatch, handleCount }) {
   function handleCountryChange(e) {
     const Countryname = e.target.value;
     const Country = state.countries.find((item) => item.name == Countryname);
-    console.log(Country);
     dispatch({ type: "updateCountry", payload: Country.name });
 
-    /// get cities
-
+    // get cities
     GetState(Country.id)
       .then((result) => {
         dispatch({ type: "setCities", payload: result });
       })
       .catch((error) => {
-        console.error("Error fetching states:", error);
+        setError(error.response.data.message);
         dispatch({ type: "setCities", payload: [] });
       });
   }
 
   function handleCityChange(e) {
-    const cityname = e.target.value; // id of the   state
-    console.log(cityname);
-    // const  City = state.cities.find((item) => item.id == cityid);
-    // console.log( City.name);
+    const cityname = e.target.value; // id of the state
 
     dispatch({ type: "updateCity", payload: cityname });
   }
@@ -60,33 +60,27 @@ function PersonalForm({ state, dispatch, handleCount }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(state.first_name);
-    console.log(state.last_name);
-
     if (!state.first_name || !state.last_name) {
       setError(1);
-      console.log("error 1");
       return;
     }
     if (
       !state.age ||
+      state.age === "Select Age" ||
       !state.gender ||
       !state.nationality ||
       !state.country ||
       !state.city
     ) {
       setError(1);
-      console.log("error 2");
       return;
     }
-    console.log("go to next");
+
     handleCount(e, "next");
     setError(0);
   }
 
   ////////////////////////////////////////////////////
-
-  console.log(state);
   return (
     <form className={styles.form}>
       {loading && <Loading />}
@@ -128,11 +122,12 @@ function PersonalForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateAge", payload: e.target.value })
           }
         >
-          <option disabled key={0}>
-            Select Age
-          </option>
           {age.map((item, index) => (
-            <option key={index} value={item.toString()}>
+            <option
+              key={index}
+              value={item.toString()}
+              disabled={item === "Select Age"}
+            >
               {item.toString()}
             </option>
           ))}

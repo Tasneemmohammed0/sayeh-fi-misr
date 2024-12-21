@@ -194,9 +194,22 @@ exports.signup = async (req, res, next) => {
       },
     });
   } catch (err) {
+    let message = err.message;
+    if (
+      err.message ===
+      `duplicate key value violates unique constraint "visitor_email_key"`
+    ) {
+      message = "Email already in use";
+    } else if (
+      err.message ===
+      `duplicate key value violates unique constraint "visitor_username_key"`
+    ) {
+      message = "Username already in use";
+    }
+
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message,
     });
   }
 };
