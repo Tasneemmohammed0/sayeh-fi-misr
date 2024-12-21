@@ -118,19 +118,19 @@ function Card({
         </div>
         <div className={styles.cardInfo}>
           <div className={styles.cardInfoDiv}>
-            <Link to={`/places/${card.place_id}`}>
+            <Link to={`/places/${card.place_id}`} style={{ color: "black" }}>
               <MdOutlineReviews className={styles.cardIcon} />
             </Link>
             <p style={{ fontSize: "12px" }}>Reviews</p>
           </div>
           <div className={styles.cardInfoDiv}>
-            <Link to={`/places/${card.place_id}`}>
+            <Link to={`/places/${card.place_id}`} style={{ color: "black" }}>
               <IoCameraOutline className={styles.cardIcon} />
             </Link>
             <p style={{ fontSize: "12px" }}>Photos</p>
           </div>
           <div className={styles.cardInfoDiv}>
-            <Link to={`/places/${card.place_id}`}>
+            <Link to={`/places/${card.place_id}`} style={{ color: "black" }}>
               <IoPeopleOutline className={styles.cardIcon} />
             </Link>
             <p style={{ fontSize: "12px" }}>People</p>
