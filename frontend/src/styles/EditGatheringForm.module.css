@@ -1,4 +1,3 @@
-/* Overlay that covers the entire screen */
 .overlay {
   position: fixed;
   top: 0;
@@ -7,110 +6,93 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
 }
 
-/* Modal container */
-.modal {
+.popup {
+  position: relative;
   background: #fff;
-  border-radius: 10px;
   padding: 20px;
-  width: 400px;
+  border-radius: 10px;
+  width: 600px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: absolute;
 }
 
-/* Close button */
+.form {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 20px;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.formInput,
+.formTextarea,
+.formSelect {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submitButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.buttonsGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-span: 2;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.openButton {
+  background-color: #008cba;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .closeButton {
   position: absolute;
-  top: 10px;
+  top: 20px;
   right: 10px;
-  background: none;
   border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/* Modal heading */
-.heading {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-/* Form container */
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* Form group for individual inputs */
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-/* Labels for inputs */
-.label {
-  font-weight: bold;
-  color: #555;
-}
-
-/* Input fields styling */
-.input,
-.textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-/* Textarea specific styles */
-.textarea {
-  resize: none;
-  height: 80px;
-}
-
-/* Save button styling */
-.saveButton {
-  background: #4caf50;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
+  background-color: transparent;
+  font-size: 30px;
   transition: all 0.3s;
-}
-
-.saveButton:hover {
-  background: #45a049;
-}
-
-.select {
-  width: 100% !important;
-  background-color: white !important;
-  border: 1px solid #ccc !important;
-  border-radius: 5px !important;
-  height: 45px !important;
-}
-
-.statusButton {
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s;
-  width: 50%;
 }
-
-.statusButton:hover {
-  background-color: #eefd1a; /* open */
-  background-color: #e10a0a; /* closed */
+.closeButton:hover {
+  color: red;
 }
