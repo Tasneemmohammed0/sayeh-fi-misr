@@ -29,7 +29,7 @@ function Cards({ reviews, photos }) {
           reviews.map((review, index) => {
             // check review title or content
             if (!review.title && !review.main_content) return null;
-
+            console.log(review.user_id);
             return (
               <SwiperSlide key={index}>
                 <ReviewCard
@@ -42,6 +42,7 @@ function Cards({ reviews, photos }) {
                   date={review.date}
                   firstName={review.first_name}
                   lastName={review.last_name}
+                  userId={review.user_id}
                   userProfilePic={review.profile_pic}
                 />
               </SwiperSlide>
@@ -64,6 +65,7 @@ function Cards({ reviews, photos }) {
                   firstName={photo.first_name}
                   lastName={photo.last_name}
                   userProfilePic={photo.profile_pic}
+                  userId={photo.user_id}
                 />
               </SwiperSlide>
             );
