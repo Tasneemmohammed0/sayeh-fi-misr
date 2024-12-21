@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/placeDetails.module.css";
 import SeeMoreText from "../components/SeeMoreText";
@@ -13,6 +13,7 @@ import AddToListForm from "../components/AddToListForm";
 import Loading from "../components/Loading";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
+import { UserContext } from "../App";
 import { ToastContainer, toast } from "react-toastify";
 
 function PlaceDetails() {
@@ -27,6 +28,7 @@ function PlaceDetails() {
   const [isPhotosFormOpen, setIsPhotosFormOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [triggerFetch, setTriggerFetch] = useState(false);
+  const { user } = useContext(UserContext);
 
   // Fetch place details
   useEffect(() => {
@@ -52,6 +54,8 @@ function PlaceDetails() {
   // check if the place is visited
   useEffect(() => {
     const checkVisited = async () => {
+      if (!user) return;
+
       try {
         const response = await axios.get(
           `http://localhost:1123/api/v1/places/${placeId}/checkVisited`,
