@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import styles from "../styles/review.module.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Review({
   review,
@@ -14,10 +15,10 @@ function Review({
   canEdit,
   setStats,
 }) {
-  const formattedDate = new Date(review.date);
-
+  const navigate = useNavigate();
   const [edit, setEdit] = useState(false);
 
+  const formattedDate = new Date(review.date);
   const formattedDateString = formattedDate.toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "long",
@@ -52,11 +53,13 @@ function Review({
 
   return (
     <>
-      <div className={styles.review}>
+      <div
+        className={styles.review}
+        onClick={() => navigate(`/places/${review.place_id}#reviews`)}
+      >
         <div className={styles.info}>
           <img src={review.photo} alt={review.name} className={styles.img} />
           <div style={{ display: "flex", gap: "10px ", fontSize: "20px" }}>
-            {" "}
             <Stars count={review.rating} fontSize="20px" />
           </div>
           <p> Written in {formattedDateString}</p>

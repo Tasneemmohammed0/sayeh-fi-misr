@@ -3,8 +3,10 @@ import styles from "../styles/UserPhotoPost.module.css";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import EditPostForm from "./EditPostForm";
 function UserPhotoPost({ post, selectedOption, setPostList, setStats }) {
+  const navigate = useNavigate();
   const [showEditForm, setShowEditForm] = useState(false);
 
   // format date
@@ -41,7 +43,10 @@ function UserPhotoPost({ post, selectedOption, setPostList, setStats }) {
 
   return (
     <>
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        onClick={() => navigate(`/places/${post.place_id}#photos`)}
+      >
         {selectedOption === "edit" && (
           <div className={styles.tooltip}>
             <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />

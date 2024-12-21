@@ -40,7 +40,7 @@ exports.getUserReviews = async (req, res, next) => {
   try {
     // query returns place photo, place name, review title, review rating, review date, review content
     const query = `
-    SELECT P.photo, P.name,R.review_id ,R.title, R.rating, R.date, R.main_content 
+    SELECT P.place_id, P.photo, P.name,R.review_id ,R.title, R.rating, R.date, R.main_content 
     FROM PLACE P, REVIEW R 
     WHERE R.place_id = P.place_id AND R.user_id = $1`;
 
@@ -63,7 +63,7 @@ exports.getUserReviews = async (req, res, next) => {
 // Get all photos posted by user_id
 exports.getUserPhotos = async (req, res, next) => {
   try {
-    const query = `SELECT DISTINCT Ph.photo_id, Ph.photo, Ph.date, Ph.caption, Ph.place_id, Pl.name AS place_name FROM photo Ph, place Pl
+    const query = `SELECT DISTINCT  Pl.place_id, Ph.photo_id, Ph.photo, Ph.date, Ph.caption, Ph.place_id, Pl.name AS place_name FROM photo Ph, place Pl
     WHERE Ph.user_id = $1 AND Ph.place_id = Pl.place_id`;
 
     const params = [+req.params.id];

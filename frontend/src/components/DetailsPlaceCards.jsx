@@ -29,7 +29,7 @@ function Cards({ reviews, photos }) {
           reviews.map((review, index) => {
             // check review title or content
             if (!review.title && !review.main_content) return null;
-            console.log(review.user_id);
+
             return (
               <SwiperSlide key={index}>
                 <ReviewCard
