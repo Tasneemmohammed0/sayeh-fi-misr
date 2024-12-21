@@ -15,6 +15,8 @@ import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
+import NavBar from "../components/NavBar";
+
 function PlaceDetails() {
   const { placeId } = useParams();
   const [place, setPlace] = useState({});
@@ -122,6 +124,7 @@ function PlaceDetails() {
       {finalLoading && <Loading />}
       <ToastContainer />
       <main className={styles.main}>
+        <NavBar open={false} />
         <div
           className={styles.backgroundImage}
           style={{ backgroundImage: `url(${place.photo})` }}

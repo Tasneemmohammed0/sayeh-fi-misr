@@ -1,16 +1,20 @@
-import React, { useEffect, useContext } from "react";
-import { NavLink } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
-import styles from "../styles/NavBar.module.css";
+import React, { useState, useEffect, useContext } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
+import styles from "../styles/NavBar.module.css";
 
-function NavBar() {
+function NavBar({ open = true }) {
   const { user, setUser } = useContext(UserContext);
+  const [allow, setAllow] = useState(open);
+  const location = useLocation(); // Get current location
+
+  // Check if the current path is "/"
+
   const handleLogout = async () => {
     console.log("Logging out..");
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:1123/api/v1/users/logout",
         {},
         { withCredentials: true }
@@ -20,6 +24,7 @@ function NavBar() {
       console.log(err);
     }
   };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 500) {
@@ -36,10 +41,21 @@ function NavBar() {
     };
   }, []);
 
+  const handleClick = () => {
+    if (location.pathname === "/" || location.pathname === "/home") {
+      setAllow(true);
+      return; // Do nothing if on the home page
+    }
+    setAllow((prev) => !prev); // Toggle menu visibility
+  };
+
   return (
     <nav className={styles.navbar} id="navbar">
-      <div className={styles.logo}>Sayeh fe Misr</div>
-      <ul className={styles.navLinks}>
+      <div className={styles.logo} onClick={handleClick}>
+        Sayeh fe Misr
+      </div>
+
+      <ul className={`  ${allow ? styles.navLinks : styles.navlinkopen}  `}>
         <li>
           <NavLink to="/" activeclassname="active-link" className={styles.link}>
             Home

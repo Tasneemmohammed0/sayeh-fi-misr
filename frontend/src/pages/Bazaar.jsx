@@ -4,6 +4,7 @@ import Gift from "../components/Gift";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Loading from "../components/Loading";
+import NavBar from "../components/NavBar";
 
 function Bazaar() {
   const [gifts, setGifts] = useState([]);
@@ -61,6 +62,7 @@ function Bazaar() {
     <>
       {loading && <Loading />}
       <div className={styles.mainBazaar}>
+        <NavBar open={false} />
         <div className={styles.bazaarHeader}>
           <h1>The Bazaar</h1>
           <p>Spend your points and get prizes for free</p>

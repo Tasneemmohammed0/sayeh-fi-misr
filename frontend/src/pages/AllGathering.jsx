@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import styles from "../styles/AllPlaces.module.css";
 import GatheringList from "../components/GatheringList";
+import NavBar from "../components/NavBar";
 function AllGathering() {
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
@@ -31,6 +32,7 @@ function AllGathering() {
 
   return (
     <main className={styles.colorMain}>
+      <NavBar open={false} />
       <div className={styles.imageContainer}>
         <img
           src="/src/assets/images/temple.png"

@@ -11,7 +11,7 @@ import UserGatheingList from "../components/UserGatheingList";
 import UserPhotosList from "../components/UserPhotosList";
 import { UserContext } from "../App";
 import Loading from "../components/Loading";
-
+import NavBar from "../components/NavBar";
 function UserProfile() {
   const currentUser = useLoaderData();
   const { user } = useContext(UserContext);
@@ -25,6 +25,7 @@ function UserProfile() {
   return (
     <>
       <div>
+        <NavBar open={false} />
         <section
           style={{
             backgroundColor: "#ece3d3",

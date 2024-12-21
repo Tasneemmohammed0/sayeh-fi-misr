@@ -3,6 +3,8 @@ import { IoIosSearch } from "react-icons/io";
 import styles from "../styles/AllPlaces.module.css";
 import PlacesList from "../components/PlacesList";
 import Loading from "../components/Loading";
+import NavBar from "../components/NavBar";
+import { FaBars } from "react-icons/fa";
 function AllPlaces() {
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
@@ -33,7 +35,7 @@ function AllPlaces() {
 
   return (
     <main className={styles.colorMain}>
-      {/* {loading && <Loading />} */}
+      <NavBar open={false} />
       <div className={styles.imageContainer}>
         <img
           src="/src/assets/images/temple.png"

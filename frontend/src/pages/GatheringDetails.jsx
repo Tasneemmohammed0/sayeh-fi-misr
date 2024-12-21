@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../App";
 import axios from "axios";
+import NavBar from "../components/NavBar";
 
 function GatheringDetails() {
   const { gatheringId } = useParams();
@@ -225,6 +226,7 @@ function GatheringDetails() {
       <ToastContainer />
       {place && (
         <main className={styles.main}>
+          <NavBar open={false} />
           <div
             className={styles.backgroundImage}
             style={{ backgroundImage: `url(${place.photo})` }}
