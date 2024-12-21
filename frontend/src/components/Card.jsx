@@ -84,7 +84,6 @@ function Card({
         {selectedOption === "edit" && (
           <div className={styles.tooltip}>
             <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />
-            <span className={styles.tooltipText}>Edit</span>
           </div>
         )}
 
@@ -95,7 +94,6 @@ function Card({
               className={styles.opIcons}
               style={{ color: "red" }}
             />
-            <span className={styles.tooltipText}>Delete</span>
           </div>
         )}
 
