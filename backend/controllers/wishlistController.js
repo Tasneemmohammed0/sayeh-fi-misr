@@ -34,6 +34,22 @@ exports.createWishlist = async (req, res, next) => {
   try {
     await db.query("COMMIT");
     const { user_id, name, description } = req.body;
+
+    // Validate name to not be a number
+    if (name && +name) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Name can't be a number",
+      });
+    }
+
+    // Validate description to not be a number
+    if (description && +description) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Description can't be a number",
+      });
+    }
     const query = `
     INSERT INTO wishlist (name, user_id, date, description) VALUES($1, $2, CURRENT_DATE, $3) RETURNING *
     `;
@@ -60,6 +76,22 @@ exports.updateWishlist = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description } = req.body;
+
+    // Validate name to not be a number
+    if (name && +name) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Name can't be a number",
+      });
+    }
+
+    // Validate description to not be a number
+    if (description && +description) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Description can't be a number",
+      });
+    }
     const wishlist = await db.query(
       `SELECT * FROM wishlist WHERE wishlist_id=$1`,
       [id]
