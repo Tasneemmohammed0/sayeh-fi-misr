@@ -117,19 +117,11 @@ exports.getGatheringDetails = async (req, res) => {
     `;
     const allUsers = await db.query(allUsersQuery, [req.params.id]);
 
-    const allLanguagesQuery = `
-    SELECT spoken_language
-    FROM gathering_spoken_language
-    WHERE gathering_id=$1
-    `;
-    const allLanguages = await db.query(allLanguagesQuery, [req.params.id]);
-
     res.status(200).json({
       status: "success",
       data: {
         gathering: gatheringDetails.rows,
         users: allUsers.rows,
-        languages: allLanguages.rows,
         current_capacity: req.gathering.current_capacity,
         isFull: req.gathering.is_full,
       },
@@ -178,14 +170,21 @@ exports.updateGathering = async (req, res) => {
     const placeResult = await db.query(placeQuery, [req.body.placeName]);
     const place_id = placeResult.rows[0].place_id;
 
-    const { title, duration, description, max_capacity, gathering_date } =
-      req.body;
+    const {
+      title,
+      duration,
+      description,
+      max_capacity,
+      gathering_date,
+      spoken_language,
+    } = req.body;
     if (
       !title ||
       !duration ||
       !description ||
       !max_capacity ||
-      !gathering_date
+      !gathering_date ||
+      !spoken_language
     ) {
       return res.status(400).json({
         status: "fail",
@@ -193,22 +192,38 @@ exports.updateGathering = async (req, res) => {
       });
     }
 
+    if (max_capacity <= 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Maximum capacity must be a positive number",
+      });
+    }
+
+    if (duration <= 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Duration must be a positive number",
+      });
+    }
+
     if (new Date(gathering_date) < Date.now()) {
       return res.status(400).json({
         status: "fail",
-        message: "Can't make a gathering in the past!",
+        message: "Can't create a gathering in the past!",
       });
     }
+
     const data = await db.query(
       `UPDATE gathering
-    	SET  title=$1, duration=$2,  description=$3, max_capacity=$4,place_id=$5
-	    WHERE gathering_id=$6 AND host_id=$7 RETURNING *`,
+    	SET  title=$1, duration=$2,  description=$3, max_capacity=$4, place_id=$5, spoken_language=$6
+	    WHERE gathering_id=$7 AND host_id=$8 RETURNING *`,
       [
         title,
         duration,
         description,
         max_capacity,
         place_id,
+        spoken_language,
         req.params.id,
         req.user.user_id,
       ]
@@ -298,20 +313,19 @@ exports.createGathering = async (req, res) => {
     const place_id = placeResult.rows[0].place_id;
 
     const insertQuery = `
-      INSERT INTO gathering (title, duration, gathering_date, description, max_capacity, place_id, host_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING*
+      INSERT INTO gathering (title, duration, gathering_date, description, max_capacity, place_id, host_id, spoken_language)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING*
     `;
-    // place_photo, host_first_name
 
     const gatheringData = await db.query(insertQuery, [
       req.body.title,
       req.body.duration,
       req.body.gathering_date,
-
       req.body.description,
       req.body.max_capacity,
       place_id,
       req.user.user_id,
+      spoken_language,
     ]);
     const getData = `
     SELECT g.*, p.photo, p.name, p.city, p.location, h.first_name, h.last_name

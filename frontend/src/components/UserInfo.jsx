@@ -84,7 +84,7 @@ function UserInfo({
             style={{
               marginTop: "20px",
               marginBottom: "20px ",
-              alignSelf: "flex-start",
+              alignSelf: "center",
             }}
           >
             {user.username}

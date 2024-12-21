@@ -142,7 +142,7 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
         onClose: () => onClose(), // Close the modal after the toast disappears
       });
     } catch (error) {
-      toast.error(error.message, {
+      toast.error(error.response.data.message, {
         position: "top-right",
         autoClose: 800,
       });
@@ -161,31 +161,27 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
         draggable={false}
         theme="light"
       />
-      <div className={styles.modal}>
+      <div className={styles.popup}>
         <button className={styles.closeButton} onClick={onClose}>
           <IoMdClose />
         </button>
-        <h2 className={styles.heading}>Edit Gathering</h2>
+        <h2>Edit Gathering</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="title">
-              Title:
-            </label>
+          <label className={styles.formLabel} htmlFor="title">
+            Title:
             <input
-              className={styles.input}
+              className={styles.formInput}
               type="text"
               id="title"
               name="title"
               value={formData.title}
               onChange={handleChange}
             />
-          </div>
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="name">
-              Place:
-            </label>
+          </label>
+          <label className={styles.formLabel} htmlFor="name">
+            Place:
             <select
-              className={`${styles.input} ${styles.select}`}
+              className={styles.formSelect}
               value={formData.placeName}
               name="placeName"
               onChange={handleChange}
@@ -202,13 +198,14 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
                   )
               )}
             </select>
-          </div>
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Language:</label>
+          </label>
+
+          <label className={styles.formLabel}>
+            Language:
             <select
               name="language"
               value={formData.language}
-              className={`${styles.input} ${styles.select}`}
+              className={styles.formSelect}
               onChange={handleChange}
             >
               <option value="" disabled key={0}>
@@ -220,74 +217,71 @@ function EditGatheringForm({ gathering, isOpen, onClose, setGatheringList }) {
                 </option>
               ))}
             </select>
-          </div>
+          </label>
 
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="capacity">
-              Capacity:
-            </label>
+          <label className={styles.formLabel} htmlFor="capacity">
+            Capacity:
             <input
-              className={styles.input}
+              className={styles.formInput}
               type="number"
               id="capacity"
               name="capacity"
               value={formData.capacity}
               onChange={handleChange}
             />
-          </div>
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="gathering_date">
-              Gathering Date:
-            </label>
+          </label>
+
+          <label className={styles.formLabel} htmlFor="gathering_date">
+            Gathering Date:
             <input
-              className={styles.input}
+              className={styles.formInput}
               type="date"
               id="gathering_date"
               name="gathering_date"
               value={formData.gathering_date}
               onChange={handleChange}
             />
-          </div>
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="duration">
-              Duration (hours):
-            </label>
+          </label>
+
+          <label className={styles.formLabel} htmlFor="duration">
+            Duration (hours):
             <input
-              className={styles.input}
+              className={styles.formInput}
               type="number"
               id="duration"
               name="duration"
               value={formData.duration}
               onChange={handleChange}
             />
-          </div>
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="description">
-              Description:
-            </label>
+          </label>
+
+          <label className={styles.formLabel} htmlFor="description">
+            Description:
             <textarea
-              className={styles.textarea}
+              className={styles.formTextarea}
               id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
             />
+          </label>
+          <div className={styles.buttonsGroup}>
+            <button
+              className={styles.cancelButton}
+              type="button"
+              style={{
+                background: formData.status ? "#e10a0a" : "rgb(90, 253, 26)",
+              }}
+              onClick={() =>
+                setFormData((prev) => ({ ...prev, status: !prev.status }))
+              }
+            >
+              {formData.status ? "Close" : "Open"}
+            </button>
+            <button type="submit" className={styles.submitButton}>
+              Save
+            </button>
           </div>
-          <button
-            className={styles.statusButton}
-            type="button"
-            style={{
-              background: formData.status ? "#e10a0a" : "rgb(90, 253, 26)",
-            }}
-            onClick={() =>
-              setFormData((prev) => ({ ...prev, status: !prev.status }))
-            }
-          >
-            {formData.status ? "Close" : "Open"}
-          </button>
-          <button type="submit" className={styles.saveButton}>
-            Save
-          </button>
         </form>
       </div>
     </div>
