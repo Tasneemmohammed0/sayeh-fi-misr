@@ -127,16 +127,19 @@ function UserInfo({
                 Badges Earned
               </h3>
               <div className={styles.badgeContainer}>
-                {badges.map((badge, index) => {
-                  return (
+                {badges.map((badge, index) => (
+                  <div key={index} className={styles.badgeWrapper}>
                     <img
                       src={badge.icon}
-                      alt="badge"
-                      key={index}
+                      alt={badge.name}
                       className={styles.badge}
                     />
-                  );
-                })}
+                    <span className={styles.badgeName}>{badge.name}</span>
+                    <div className={styles.tooltip}>
+                      <p>{badge.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
