@@ -5,14 +5,12 @@ import axios from "axios";
 import styles from "../styles/NavBar.module.css";
 
 function NavBar({ open = true, currentUser, setCurrentUser }) {
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [allow, setAllow] = useState(open);
   const location = useLocation(); // Get current location
-
   // Check if the current path is "/"
 
   const handleLogout = async () => {
-    console.log("Logging out..");
     try {
       await axios.post(
         "http://localhost:1123/api/v1/users/logout",
@@ -97,7 +95,7 @@ function NavBar({ open = true, currentUser, setCurrentUser }) {
           </li>
         ) : null}
         <li onClick={handleLogout}>
-          {currentUser ? (
+          {currentUser || user ? (
             <NavLink activeclassname="active-link" className={styles.link}>
               Sign Out
             </NavLink>
@@ -112,7 +110,7 @@ function NavBar({ open = true, currentUser, setCurrentUser }) {
           )}
         </li>
 
-        {currentUser && (
+        {(currentUser || user) && (
           <li>
             <NavLink
               to="/profile"
@@ -120,7 +118,7 @@ function NavBar({ open = true, currentUser, setCurrentUser }) {
               className={styles.link}
             >
               <img
-                src={currentUser?.profile_pic}
+                src={currentUser ? currentUser.profile_pic : user?.profile_pic}
                 className={styles.profileIcon}
               />
             </NavLink>
