@@ -4,15 +4,13 @@ import { UserContext } from "../App";
 import axios from "axios";
 import styles from "../styles/NavBar.module.css";
 
-function NavBar({ open = true }) {
+function NavBar({ open = true, currentUser, setCurrentUser }) {
   const { user, setUser } = useContext(UserContext);
   const [allow, setAllow] = useState(open);
   const location = useLocation(); // Get current location
-
   // Check if the current path is "/"
 
   const handleLogout = async () => {
-    console.log("Logging out..");
     try {
       await axios.post(
         "http://localhost:1123/api/v1/users/logout",
@@ -20,6 +18,8 @@ function NavBar({ open = true }) {
         { withCredentials: true }
       );
       setUser(null);
+      setCurrentUser(null);
+      currentUser = null;
     } catch (err) {
       console.log(err);
     }
@@ -35,7 +35,6 @@ function NavBar({ open = true }) {
     };
 
     window.addEventListener("scroll", handleScroll);
-    console.log("USER:", user);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -48,7 +47,6 @@ function NavBar({ open = true }) {
     }
     setAllow((prev) => !prev); // Toggle menu visibility
   };
-
   return (
     <nav className={styles.navbar} id="navbar">
       <div className={styles.logo} onClick={handleClick}>
@@ -85,7 +83,7 @@ function NavBar({ open = true }) {
           </NavLink>
         </li>
 
-        {user?.role === "admin" ? (
+        {currentUser?.role === "admin" ? (
           <li>
             <NavLink
               to="/dashboard"
@@ -97,7 +95,7 @@ function NavBar({ open = true }) {
           </li>
         ) : null}
         <li onClick={handleLogout}>
-          {user ? (
+          {currentUser || user ? (
             <NavLink activeclassname="active-link" className={styles.link}>
               Sign Out
             </NavLink>
@@ -112,7 +110,7 @@ function NavBar({ open = true }) {
           )}
         </li>
 
-        {user && (
+        {(currentUser || user) && (
           <li>
             <NavLink
               to="/profile"
@@ -120,7 +118,7 @@ function NavBar({ open = true }) {
               className={styles.link}
             >
               <img
-                src={user?.profile_pic || `../src/assets/images/userAvatar.png`}
+                src={currentUser ? currentUser.profile_pic : user?.profile_pic}
                 className={styles.profileIcon}
               />
             </NavLink>

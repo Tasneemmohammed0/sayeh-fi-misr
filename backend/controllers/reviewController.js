@@ -57,13 +57,13 @@ exports.updateReview = async (req, res) => {
       conditions.push(`rating=$${params.length}`);
     }
 
-    if (title) {
-      params.push(title);
+    if (title.trim()) {
+      params.push(title.trim());
       conditions.push(`title=$${params.length}`);
     }
 
-    if (main_content) {
-      params.push(main_content);
+    if (main_content.trim()) {
+      params.push(main_content.trim());
       conditions.push(`main_content=$${params.length}`);
     }
 

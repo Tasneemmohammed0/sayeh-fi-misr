@@ -69,12 +69,15 @@ exports.login = async (req, res, next) => {
 exports.signup = async (req, res, next) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+    if (!req.body.photo) req.body.photo = `https://i.imgur.com/QZdzLWx.png`;
+
     const newUser = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      username: req.body.username,
+      firstName: req.body.firstName.trim(),
+      lastName: req.body.lastName.trim(),
+      username: req.body.username.trim(),
       role: req.body.role,
-      email: req.body.email,
+      email: req.body.email.trim(),
       photo: req.body.photo,
       gender: req.body.gender,
       age: +req.body.age,
@@ -125,6 +128,7 @@ exports.signup = async (req, res, next) => {
         status: "fail",
         message: "Age must be positive",
       });
+
     // Add user to database and return it
     const insertUserQuery = `
       INSERT INTO visitor 

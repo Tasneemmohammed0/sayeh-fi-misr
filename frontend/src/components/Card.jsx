@@ -1,17 +1,21 @@
 import React, { useContext, useState } from "react";
+
+import { UserContext } from "../App";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
 import { FaLocationDot } from "react-icons/fa6";
-import { MdOutlineReviews, MdOutlineArrowRightAlt } from "react-icons/md";
+import { MdOutlineReviews } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
-import Stars from "./Stars";
-import styles from "../styles/card.module.css";
-import { LuCalendarDays } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import { UserContext } from "../App";
+
 import EditPlaceForm from "../Admin/components/EditPlaceForm";
-import { Link } from "react-router-dom";
+import Stars from "./Stars";
+
+import styles from "../styles/card.module.css";
+import { ToastContainer, toast } from "react-toastify";
+
 function Card({
   card,
   selectedOption,
@@ -80,7 +84,6 @@ function Card({
         {selectedOption === "edit" && (
           <div className={styles.tooltip}>
             <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />
-            <span className={styles.tooltipText}>Edit</span>
           </div>
         )}
 
@@ -91,7 +94,6 @@ function Card({
               className={styles.opIcons}
               style={{ color: "red" }}
             />
-            <span className={styles.tooltipText}>Delete</span>
           </div>
         )}
 
