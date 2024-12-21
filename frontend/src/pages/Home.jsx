@@ -12,6 +12,7 @@ function Home() {
   const [trendingPlaces, setTrendingPlaces] = useState([]);
   let currentUser = useLoaderData();
   const [curU, setcurU] = useState(currentUser);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
