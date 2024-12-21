@@ -1,6 +1,5 @@
 .main {
-  background-color: var(--our-light-white);
-  height: 100vh;
+  background-color: var(--our-white);
 }
 
 .backgroundImage {
@@ -20,7 +19,7 @@
 }
 
 .container {
-  padding: 1.5rem 5rem;
+  padding: 3rem 10rem;
 }
 
 .joinLabel {
@@ -52,11 +51,15 @@
 /* breif section  */
 
 .breif {
-  font-size: 1.6rem;
-  color: var(--our-blue);
-  margin-top: 1rem;
+  font-size: 2rem;
+  color: #674636;
   display: flex;
   flex-direction: column;
+  padding: 1rem 1rem;
+}
+
+.breif h3 {
+  color: var(--our-brown);
 }
 
 .description {
@@ -119,12 +122,12 @@
   align-items: center;
   margin: 1rem;
   text-align: center;
+  padding: 0 10rem;
 }
 
 .usersHeader {
   font-size: 1.2rem;
   color: var(--our-brown);
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -137,18 +140,18 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 30px;
-  padding: 2rem 5rem;
+  padding: 2rem 6rem;
   /* margin-left: 40px; */
 }
 
 /* Align first row to the right */
 .usersContainer > :nth-child(even) {
-  justify-content: flex-start; /* Align users to the right */
+  justify-content: flex-start;
 }
 
 /* Align second row to the left */
 .usersContainer > :nth-child(odd) {
-  justify-content: flex-start; /* Align users to the left */
+  justify-content: flex-start;
 }
 
 .user {

@@ -35,6 +35,7 @@ function Tabs({ destination, host, hostId }) {
           <div
             style={{
               marginTop: "30px",
+              padding: "0 20px",
             }}
           >
             <PlaceLocation
@@ -48,6 +49,7 @@ function Tabs({ destination, host, hostId }) {
               display: "flex",
               alignItems: "center",
               marginTop: "20px",
+              padding: "0 40px",
             }}
           >
             {host.profile_pic && (

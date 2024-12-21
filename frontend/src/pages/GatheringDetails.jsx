@@ -119,7 +119,7 @@ function GatheringDetails() {
   async function handleJoin() {
     try {
       // check if close
-      if (!isOpen) {
+      if (!isOpen && !isJoined) {
         toast("Gathering is closed");
         return;
       }
@@ -242,19 +242,16 @@ function GatheringDetails() {
               </div>
             )}
             <div className={styles.gatheringBtns}>
-              <div className={styles.btnContainer}>
-                <IoIosAddCircleOutline
-                  onClick={() => handleJoin()}
-                  className={styles.addIcon}
-                />
+              <div onClick={() => handleJoin()} className={styles.btnContainer}>
+                <IoIosAddCircleOutline className={styles.addIcon} />
                 <p>{isJoined ? `Leave` : `JOIN`}</p>
               </div>
 
-              <div className={styles.btnContainer}>
-                <IoIosAddCircleOutline
-                  onClick={() => setIsReportFormOpen(true)}
-                  className={styles.addIcon}
-                />
+              <div
+                onClick={() => setIsReportFormOpen(true)}
+                className={styles.btnContainer}
+              >
+                <IoIosAddCircleOutline className={styles.addIcon} />
                 <p>Add Report</p>
               </div>
             </div>

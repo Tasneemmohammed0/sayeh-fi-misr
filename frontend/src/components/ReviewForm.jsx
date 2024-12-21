@@ -158,24 +158,30 @@ function ReviewForm({
             </label>
           )}
           {isReport && (
-            <label className={styles.formLabel}>
-              <span>Reason</span>
-              <select
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                className={styles.dropList}
-              >
-                <option>Offensive</option>
-                <option>Spam</option>
-                <option>Inappropriate</option>
-                <option>Other</option>
-              </select>
-            </label>
+            <>
+              <div>
+                <label className={styles.formLabel}>
+                  <span>Reason</span>
+                </label>
+                <select
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  className={styles.dropList}
+                >
+                  <option>Offensive</option>
+                  <option>Spam</option>
+                  <option>Inappropriate</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </>
           )}
-          <label className={styles.formLabel}>
-            <span style={{ marginTop: "0.5rem" }}>
-              {isReport ? "Content" : "Review"}
-            </span>
+          <div>
+            <label className={styles.formLabel}>
+              <span style={{ marginTop: "0.5rem" }}>
+                {isReport ? "Content" : "Review"}
+              </span>
+            </label>
             <textarea
               className={styles.reviewText}
               placeholder={
@@ -185,7 +191,7 @@ function ReviewForm({
               onChange={(e) => setReview(e.target.value)}
               maxLength={400}
             ></textarea>
-          </label>
+          </div>
           {isReport && (
             <div className={styles.severity}>
               <p>Severity</p>
