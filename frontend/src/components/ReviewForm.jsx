@@ -18,7 +18,7 @@ function ReviewForm({
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const [rate, setRate] = useState(0);
-  const [reason, setReason] = useState("Offensive");
+  const [reason, setReason] = useState("");
 
   if (!isOpen) return null;
 
@@ -108,7 +108,7 @@ function ReviewForm({
     setReview("");
     setIsOpen(false);
     setRate(0);
-    setReason("Offensive");
+    setReason("");
   }
 
   // pretty alerts
@@ -168,6 +168,9 @@ function ReviewForm({
                   onChange={(e) => setReason(e.target.value)}
                   className={styles.dropList}
                 >
+                  <option value="" disabled>
+                    Select reason
+                  </option>
                   <option>Offensive</option>
                   <option>Spam</option>
                   <option>Inappropriate</option>
