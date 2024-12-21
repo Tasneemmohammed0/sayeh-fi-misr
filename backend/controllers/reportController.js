@@ -3,17 +3,17 @@ const db = require("../db/index.js");
 // Add Report on a place
 exports.addReport = async (req, res) => {
   try {
+    const { date, severity, reason, description } = req.body;
+    if (!severity || !reason.trim() || !description.trim()) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Can't leave empty fields",
+      });
+    }
     const reportData = await db.query(
       `INSERT INTO report (date, severity, reason, description, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [
-        req.body.date,
-        req.body.severity,
-        req.body.reason,
-        req.body.description,
-        req.user.user_id,
-      ]
+      [date, severity, reason, description, req.user.user_id]
     );
-
     let data = null;
     if (req.body.entityType === "place") {
       // insert to report_place table

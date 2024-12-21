@@ -20,8 +20,8 @@ FROM
 JOIN 
     place p ON g.place_id = p.place_id
 JOIN 
-    host h ON g.host_id = h.user_id;
-
+    host h ON g.host_id = h.user_id
+    ORDER BY g.gathering_date DESC;
 `);
 
     res.status(200).json({

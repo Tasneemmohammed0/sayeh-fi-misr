@@ -28,7 +28,8 @@ function Cards({ reviews, photos }) {
         {reviews &&
           reviews.map((review, index) => {
             // check review title or content
-            if (!review.title && !review.main_content) return null;
+            if (!review.title.trim() && !review.main_content.trim())
+              return null;
 
             return (
               <SwiperSlide key={index}>

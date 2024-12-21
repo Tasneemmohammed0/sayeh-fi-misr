@@ -147,11 +147,11 @@ exports.createPlace = async (req, res, next) => {
 
     // Validate empty fields
     if (
-      !name ||
+      !name.trim() ||
       !location ||
       !city ||
       !type ||
-      !description ||
+      !description.trim() ||
       foreign_adult_ticket_price === undefined ||
       egyptian_adult_ticket_price === undefined ||
       foreign_student_ticket_price === undefined ||
@@ -340,7 +340,7 @@ exports.updatePlace = async (req, res, next) => {
 
     const params = [];
     const conditions = [];
-    if (name) {
+    if (name.trim()) {
       params.push(name);
       conditions.push(` name=$${params.length}`);
     }
@@ -356,7 +356,7 @@ exports.updatePlace = async (req, res, next) => {
       params.push(photo);
       conditions.push(`photo=$${params.length}`);
     }
-    if (description) {
+    if (description.trim()) {
       params.push(description);
       conditions.push(`description=$${params.length}`);
     }
