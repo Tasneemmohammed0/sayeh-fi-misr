@@ -233,7 +233,7 @@ function AccountForm({ state, dispatch, handleCount }) {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         {error == 2 && (
-          <ErrorMessage error="Confirm password Must Equal Password" />
+          <ErrorMessage error="Confirm Password must match the Password" />
         )}
       </div>
 
@@ -258,7 +258,6 @@ function AccountForm({ state, dispatch, handleCount }) {
 
       <div>
         {error === 1 && <ErrorMessage error="All fields are required" />}
-        {error && <ErrorMessage error={error} />}
       </div>
     </form>
   );

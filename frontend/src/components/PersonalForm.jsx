@@ -8,7 +8,12 @@ import Loading from "./Loading";
 function PersonalForm({ state, dispatch, handleCount }) {
   const age = [];
 
-  for (let i = 18; i <= 100; i++) {
+  for (let i = 12; i <= 100; i++) {
+    if (i == 12) {
+      age.push("Select Age");
+      continue;
+    }
+
     age.push(i.toString());
   }
 
@@ -49,19 +54,13 @@ function PersonalForm({ state, dispatch, handleCount }) {
   }
 
   function handleCityChange(e) {
-    const cityname = e.target.value; // id of the   state
-    console.log(cityname);
-    // const  City = state.cities.find((item) => item.id == cityid);
-    // console.log( City.name);
+    const cityname = e.target.value; // id of the state
 
     dispatch({ type: "updateCity", payload: cityname });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    console.log(state.first_name);
-    console.log(state.last_name);
 
     if (!state.first_name || !state.last_name) {
       setError(1);
@@ -70,6 +69,7 @@ function PersonalForm({ state, dispatch, handleCount }) {
     }
     if (
       !state.age ||
+      state.age === "Select Age" ||
       !state.gender ||
       !state.nationality ||
       !state.country ||
@@ -128,11 +128,15 @@ function PersonalForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateAge", payload: e.target.value })
           }
         >
-          <option disabled key={0}>
+          {/* <option disabled key={0}>
             Select Age
-          </option>
+          </option> */}
           {age.map((item, index) => (
-            <option key={index} value={item.toString()}>
+            <option
+              key={index}
+              value={item.toString()}
+              disabled={item === "Select Age"}
+            >
               {item.toString()}
             </option>
           ))}

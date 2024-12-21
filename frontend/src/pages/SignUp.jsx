@@ -150,7 +150,7 @@ function SignUp() {
     error_firstname: "",
     last_name: "",
     error_lastname: "",
-    age: 0,
+    age: "Select Age",
     gender: "",
     country: "",
     city: "",
