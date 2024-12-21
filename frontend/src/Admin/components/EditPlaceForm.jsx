@@ -61,7 +61,6 @@ function EditPlaceForm({ isOpen, card, onClose }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Submitted Data:", formData);
     try {
       const res = await axios.patch(
         `http://localhost:1123/api/v1/places`,
@@ -70,8 +69,6 @@ function EditPlaceForm({ isOpen, card, onClose }) {
           withCredentials: true,
         }
       );
-
-      console.log(res.data);
 
       toast.success("Place updated successfully.");
       setPlaces(
@@ -83,7 +80,6 @@ function EditPlaceForm({ isOpen, card, onClose }) {
         onClose();
       }, 1000);
     } catch (err) {
-      console.log(err);
       toast.error(err.response.data.message);
     }
   }

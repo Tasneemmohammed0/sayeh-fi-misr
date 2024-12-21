@@ -62,7 +62,6 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
           withCredentials: true,
         }
       );
-      console.log(response.data.data);
       setGifts((prevGifts) =>
         prevGifts.map((item) =>
           item.product_code === giftData.product_code
@@ -75,7 +74,6 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
         onClose();
       }, 1000);
     } catch (err) {
-      console.log(err.response.data.message);
       toast.error(err.response.data.message);
     }
   };

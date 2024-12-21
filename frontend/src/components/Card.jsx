@@ -64,14 +64,11 @@ function Card({
         setPlaces(Places.filter((place) => place.place_id !== id));
       }
     } catch (err) {
-      console.log(err);
+      toast.error(err.message);
     }
-    console.log("delete", id);
     setShowEditForm(false);
   }
   function handleEdit() {
-    console.log("edit", card.place_id);
-
     setShowEditForm(true);
   }
 

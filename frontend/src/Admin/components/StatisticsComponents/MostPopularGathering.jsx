@@ -16,19 +16,14 @@ function MostPopularGathering({ setLoading }) {
           { withCredentials: true }
         );
 
-        // console.log(res.data);
-
         if (res && res.data && res.data.status !== "fail") {
           const { gathering_id, count } = res.data.data;
           setCount(count);
-
-          console.log(gathering_id);
 
           const gatheringRes = await axios.get(
             `http://localhost:1123/api/v1/gatherings/${gathering_id}`,
             { withCredentials: true }
           );
-          console.log(gatheringRes.data);
 
           if (
             gatheringRes &&

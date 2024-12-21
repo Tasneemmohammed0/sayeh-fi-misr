@@ -16,8 +16,6 @@ function VisitorsCount({ setLoading }) {
           }
         );
 
-        console.log(res.data);
-
         if (res.data.status !== "fail") {
           const formattedData = res.data.data.map((item, index) => ({
             id: index,

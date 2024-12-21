@@ -15,7 +15,6 @@ function TopNationalities({ setLoading }) {
             withCredentials: true,
           }
         );
-        console.log(response.data);
         if (response.data.status !== "fail") {
           setNationalitiesData(response.data.data);
         }

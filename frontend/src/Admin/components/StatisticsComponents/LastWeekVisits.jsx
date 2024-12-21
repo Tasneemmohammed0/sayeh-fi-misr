@@ -52,19 +52,15 @@ function LastWeekVisits({ setLoading }) {
           }
         );
 
-        if (res.data && res.data.status !== "fail" && res.data.data) {
-          const validData = res.data.data.filter(
-            (item) => item.visit_count != null && item.visit_date
-          );
+        const validData = res.data.data.filter(
+          (item) => item.visit_count != null && item.visit_date
+        );
 
-          const counts = validData.map((item) => item.visit_count);
-          const days = validData.map((item) => item.visit_date);
+        const counts = validData.map((item) => item.visit_count);
+        const days = validData.map((item) => item.visit_date);
 
-          setCounts(counts);
-          setDays(days);
-        } else {
-          console.error("Invalid API response.");
-        }
+        setCounts(counts);
+        setDays(days);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

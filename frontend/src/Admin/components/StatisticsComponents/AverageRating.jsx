@@ -46,10 +46,8 @@ function AverageRating({ setLoading }) {
         );
         setValue(Number(+response.data.data.rate).toFixed(2));
 
-        // console.log(res.data);
         setErrorMessage("");
       } catch (err) {
-        console.log(err);
         setErrorMessage(err.response.data.message);
       } finally {
         setLoading(false);

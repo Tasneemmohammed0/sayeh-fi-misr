@@ -26,7 +26,6 @@ function ReportCard({ card, setReports, setLoading, setMessage }) {
       );
       setMessage("Report resolved successfully");
     } catch (err) {
-      console.log(err);
       setMessage("Failed to resolve report");
     } finally {
       setLoading(false);

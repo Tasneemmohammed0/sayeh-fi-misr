@@ -21,7 +21,6 @@ function UserList({ users, setLoading, setUsers }) {
   async function handleEdit(id, role) {
     try {
       setLoading(true);
-      console.log("ID:", id);
       const response = await axios.post(
         `http://localhost:1123/api/v1/users/createadmin/${id}`,
         {

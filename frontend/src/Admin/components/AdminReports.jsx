@@ -30,7 +30,6 @@ function AdminReports() {
           ...(res.data.data.gatherings_reports || []),
         ];
 
-        console.log(combinedReports);
         setReports(combinedReports);
       } catch (err) {
         console.log(err);

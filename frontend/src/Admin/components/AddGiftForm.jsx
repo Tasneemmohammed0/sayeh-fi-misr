@@ -23,8 +23,6 @@ function AddGiftForm({ onClose, setGifts, places }) {
     }));
   };
 
-  console.log(places);
-
   async function handlesImage(filex) {
     const file = filex;
     const CLOUDINARY_URL =
@@ -66,7 +64,6 @@ function AddGiftForm({ onClose, setGifts, places }) {
       photo: url,
       is_available: true,
     };
-    //console.log("==========Data", data);
     try {
       const response = await axios.post(
         `http://localhost:1123/api/v1/bazaar/addGift`,

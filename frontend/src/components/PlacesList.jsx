@@ -31,7 +31,6 @@ function PlacesList({
 
   const handleSelectedPlace = (e, id) => {
     // admin
-    console.log(e.target.tagName.toLowerCase());
     if (
       e.target.tagName.toLowerCase() !== "svg" &&
       e.target.tagName.toLowerCase() !== "path"
@@ -76,8 +75,6 @@ function PlacesList({
   function addPlace() {
     setShowAddPlace(true);
   }
-
-  console.log("places", places);
 
   return (
     <>

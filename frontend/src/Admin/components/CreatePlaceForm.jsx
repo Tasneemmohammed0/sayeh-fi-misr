@@ -160,6 +160,10 @@ function CreatePlaceForm({ isOpen, onClose, setLoading }) {
               value={formData.type}
               onChange={handleChange}
             >
+              <option value="" disabled name="type" key={0}>
+                {" "}
+                Select Type{" "}
+              </option>
               {types.map((type) => (
                 <option key={type} value={type} name="type">
                   {type}

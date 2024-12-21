@@ -118,7 +118,6 @@ exports.addGift = async (req, res) => {
     const placeResult = await db.query(placeQuery, [req.body.place_name]);
 
     const place_id = placeResult.rows[0].place_id;
-    console.log(place_id);
 
     const { name, photo, points, description, is_available } = req.body;
 

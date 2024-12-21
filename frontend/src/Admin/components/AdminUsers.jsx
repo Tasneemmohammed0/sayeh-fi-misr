@@ -20,7 +20,6 @@ function AdminUsers() {
         );
 
         setUsers(res.data.data);
-        console.log(res.data.data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -49,8 +48,6 @@ function AdminUsers() {
     }
     Search();
   }, [search, role]);
-
-  console.log(search);
 
   return (
     <section className={styles.section} id="users">

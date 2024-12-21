@@ -54,7 +54,6 @@ function CountsByType({ setLoading }) {
             photosCount: +item.photos_count,
           }));
           setDataSet(transformedData);
-          console.log(transformedData);
         }
       } catch (err) {
         console.error(err.message);
