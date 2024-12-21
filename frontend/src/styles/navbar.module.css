@@ -19,7 +19,8 @@
   transition: color 0.1s ease;
 }
 
-.navLinks {
+.navLinks,
+.navlinkopen {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,6 +29,7 @@
   padding: 0.5rem 4rem;
   height: 2.5rem;
   width: 75%;
+  transition: all 0.3s;
 }
 
 .profileIcon {
@@ -52,4 +54,9 @@
 .logo:hover,
 .active-link {
   color: var(--our-yellow);
+}
+
+.navlinkopen {
+  /* display: none; */
+  opacity: 0;
 }
