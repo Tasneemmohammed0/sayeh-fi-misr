@@ -26,12 +26,7 @@ function UserProfile() {
     <>
       <div>
         <NavBar open={false} />
-        <section
-          style={{
-            backgroundColor: "#ece3d3",
-            borderBottom: "1px solid black",
-          }}
-        >
+        <section className={styles.profileContainer}>
           <div className={styles.coverPhoto}>
             <img
               src="/src/assets/images/temple.png"
