@@ -27,12 +27,9 @@ function App() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const endpoint =
-          location.pathname === "/"
-            ? `http://localhost:1123/api/v1`
-            : `http://localhost:1123/api/v1/places`;
-
-        const response = await axios.get(endpoint);
+        const response = await axios.get(
+          "http://localhost:1123/api/v1/places/"
+        );
         setPlaces(response.data.data);
       } catch (err) {
         console.log(err.message);

@@ -6,6 +6,8 @@ import Card from "./Card";
 function HomePlace({ count }) {
   const { places: userPlaces } = useContext(UserContext);
   const displayedPlaces = userPlaces.slice(0, count);
+  console.log("orignal", userPlaces);
+  console.log("count places ", displayedPlaces);
   const navigate = useNavigate();
   const list = {
     display: "grid",
