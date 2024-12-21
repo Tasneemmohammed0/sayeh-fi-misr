@@ -10,10 +10,14 @@ exports.getWishlist = async (req, res, next) => {
     `;
     const response = await db.query(query, [id]);
 
-    if (!response.rowCount) {
+    const ex = await db.query(`SELECT * FROM wishlist WHERE wishlist_id=$1`, [
+      id,
+    ]);
+
+    if (!ex.rowCount) {
       return res.status(404).json({
         status: "fail",
-        message: "Wishlist doesn't exist",
+        message: "Wishlist not found",
       });
     }
 
