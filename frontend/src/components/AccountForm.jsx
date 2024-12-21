@@ -82,10 +82,10 @@ function AccountForm({ state, dispatch, handleCount }) {
       setUser(res.data.data);
       navigate("/home");
     } catch (err) {
-      if (err.response.data.message.includes("email")) {
-        setError("Email already in use");
-      } else if (err.response.data.message.includes("username")) {
-        setError("Username already in use");
+      if (err.response.data.message === "Email already in use") {
+        setError(3);
+      } else if (err.response.data.message === "Username already in use") {
+        setError(4);
       }
     } finally {
       setLoading(false);
@@ -126,6 +126,7 @@ function AccountForm({ state, dispatch, handleCount }) {
           }
         />
         <ErrorMessage error={state.error_username} />
+        {error === 4 && <ErrorMessage error="username already in use" />}
       </div>
       <div className={styles.inputWrapper}>
         <label className={styles.label}>Email</label>
@@ -139,6 +140,7 @@ function AccountForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateEmail", payload: e.target.value })
           }
         />
+        {error === 3 && <ErrorMessage error="Email already in use" />}
         <ErrorMessage error={state.error_email} />
       </div>
 
@@ -259,10 +261,9 @@ function AccountForm({ state, dispatch, handleCount }) {
 
       <div>
         <button className={styles.btn} onClick={(e) => handleCount(e, "back")}>
-          {" "}
           <span className={styles.arrow}>
             <FaArrowLeft />
-          </span>{" "}
+          </span>
           Previous
         </button>
       </div>
