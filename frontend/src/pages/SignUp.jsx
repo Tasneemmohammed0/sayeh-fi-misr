@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import { useEffect, useState, useReducer } from "react";
 import styles from "../styles/signup.module.css";
 import PersonalForm from "../components/PersonalForm";
 import AccountForm from "../components/AccountForm";
@@ -173,7 +173,7 @@ function SignUp() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
 
   function handleCount(e, dir) {
     if (count === 0 && dir !== "next") {

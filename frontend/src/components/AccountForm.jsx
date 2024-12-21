@@ -239,7 +239,7 @@ function AccountForm({ state, dispatch, handleCount }) {
         <div className={styles.passwordWrapper}>
           <input
             className={styles.input}
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             name="password"
             placeholder="Confirm Password"
             onChange={(e) => setConfirmPassword(e.target.value)}
