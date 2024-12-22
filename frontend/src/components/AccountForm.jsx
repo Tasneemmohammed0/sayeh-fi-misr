@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import styles from "../styles/accountForm.module.css";
+import styles from "../styles/AccountForm.module.css";
 import ErrorMessage from "./ErrorMessage";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";

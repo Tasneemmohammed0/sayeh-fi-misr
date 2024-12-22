@@ -56,9 +56,9 @@ function PlaceDetails() {
   // check if the place is visited
   useEffect(() => {
     const checkVisited = async () => {
-      if (!user) return;
-
       try {
+        if (!user) return;
+
         const response = await axios.get(
           `http://localhost:1123/api/v1/places/${placeId}/checkVisited`,
           { withCredentials: true }
@@ -70,7 +70,7 @@ function PlaceDetails() {
       }
     };
     checkVisited();
-  }, []);
+  }, [user]);
 
   // Scroll to the target section when hash changes
   useEffect(() => {

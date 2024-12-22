@@ -9,6 +9,7 @@ import { MdOutlineReviews } from "react-icons/md";
 import { IoCameraOutline, IoPeopleOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 import EditPlaceForm from "../Admin/components/EditPlaceForm";
 import Stars from "./Stars";
@@ -30,6 +31,7 @@ function Card({
     /*  admin */
   }
 
+  const navigate = useNavigate();
   const [deleted, setDeleted] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const { places: Places, setPlaces } = useContext(UserContext);
@@ -76,11 +78,23 @@ function Card({
     setShowEditForm(true);
   }
 
+  function handleClick(e, id) {
+    if (
+      e.target.tagName.toLowerCase() !== "svg" &&
+      e.target.tagName.toLowerCase() !== "path"
+    ) {
+      navigate(`/places/${id}`);
+    }
+  }
+
   if (!card.place_id) return null;
 
   return (
     <>
-      <div className={styles.card} onClick={onClick}>
+      <div
+        className={styles.card}
+        onClick={(e) => handleClick(e, card.place_id)}
+      >
         {selectedOption === "edit" && (
           <div className={styles.tooltip}>
             <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />

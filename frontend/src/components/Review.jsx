@@ -53,12 +53,14 @@ function Review({
 
   return (
     <>
-      <div
-        className={styles.review}
-        onClick={() => navigate(`/places/${review.place_id}#reviews`)}
-      >
+      <div className={styles.review}>
         <div className={styles.info}>
-          <img src={review.photo} alt={review.name} className={styles.img} />
+          <img
+            src={review.photo}
+            alt={review.name}
+            className={styles.img}
+            onClick={() => navigate(`/places/${review.place_id}#reviews`)}
+          />
           <div style={{ display: "flex", gap: "10px ", fontSize: "20px" }}>
             <Stars count={review.rating} fontSize="20px" />
           </div>
