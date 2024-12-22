@@ -4,13 +4,14 @@ import styles from "../styles/WishListForm.module.css";
 import ErrorMessage from "./ErrorMessage";
 import axios from "axios";
 import Loading from "../components/Loading";
+import { toast } from "sonner";
 
 function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [disable, setDisable] = useState(true);
-  const [error, setError] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
@@ -26,12 +27,12 @@ function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
     // Error Handling
 
     if (!currentPassword || !newPassword || !confirmPassword) {
-      setError("All fields are required.");
+      toast.error("All fields are required.");
       return;
     }
 
     if (newPassword.length < 8) {
-      setError("Password must be at least 8 characters long.");
+      toast.error("Password must be at least 8 characters long.");
       return;
     }
 
@@ -40,19 +41,17 @@ function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
         /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/
       )
     ) {
-      setError(
+      toast.error(
         "Password must contain at least one uppercase letter, one lowercase letter, and one number"
       );
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setError("New password and confirmation do not match.");
+      toast.error("New password and confirmation do not match.");
       return;
     }
 
-    console.log({ currentPassword, newPassword });
-    // TODO: Post to the API to change the password
     try {
       setLoading(true);
       const response = await axios.post(
@@ -64,15 +63,13 @@ function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
         },
         { withCredentials: true }
       );
-      console.log("RESPONSE:", response);
+      toast.success("Password changed successfully.");
       handleForm(false);
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setError("");
     } catch (err) {
-      console.log(err.response.data.message);
-      return setError(err.response.data.message);
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -83,7 +80,6 @@ function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
-    setError("");
   }
 
   return (
@@ -95,14 +91,6 @@ function ChangePasswordForm({ isOpen, handleForm, userPassword }) {
         </button>
         <h2>Change Password</h2>
         <form>
-          {error === "Current password is correct you can change it ." && (
-            <ErrorMessage error={error} color="green" />
-          )}
-          {error &&
-            error !== "Current password is correct you can change it ." && (
-              <ErrorMessage error={error} />
-            )}
-
           {/* Current Password */}
           <label className={styles.formLabel}>
             Current Password:

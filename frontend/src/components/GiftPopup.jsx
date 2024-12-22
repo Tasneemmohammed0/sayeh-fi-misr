@@ -17,10 +17,6 @@ function GiftPopup({ card, handleForm, totalPoints, updatePoints }) {
         withCredentials: true,
       });
       if (response.status == 200) {
-        //close the popup
-        // toast.success("");
-        console.log(response.data);
-
         setMessage(
           "Gift purchased successfully order code  : " +
             response.data.data.order_id

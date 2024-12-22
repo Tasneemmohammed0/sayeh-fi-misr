@@ -58,10 +58,6 @@ function GatheringDetails() {
           `http://localhost:1123/api/v1/gatherings/${gatheringId}`
         );
 
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
         // get gathering
         const gatheringData = response.data.data.gathering[0];
 

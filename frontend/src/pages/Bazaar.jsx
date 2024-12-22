@@ -18,16 +18,8 @@ function Bazaar() {
         const endpoint = `http://localhost:1123/api/v1/bazaar`;
 
         const response = await axios.get(endpoint);
-        if (response.status === "fail") {
-          console.log("error");
-          return;
-        }
-
         setLoading(false);
         setGifts(response.data.data);
-
-        console.log("==========Gift", response.data.data);
-        console.log(response.data);
       } catch (err) {
         console.log(err.message);
       }

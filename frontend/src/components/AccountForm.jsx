@@ -87,7 +87,6 @@ function AccountForm({ state, dispatch, handleCount }) {
       } else if (err.response.data.message === "Username already in use") {
         setError(4);
       } else {
-        console.log(err.message);
         console.log(err.response.data.message);
       }
     } finally {

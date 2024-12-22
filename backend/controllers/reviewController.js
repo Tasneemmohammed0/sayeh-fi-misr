@@ -42,10 +42,8 @@ exports.updateReview = async (req, res) => {
     const params = [];
     const conditions = [];
     const { rating, title, main_content } = req.body;
-    console.log(title);
 
     if (title && typeof title === "number") {
-      console.log(title);
       return res.status(400).json({
         status: "fail",
         message: "Title can't be a number",

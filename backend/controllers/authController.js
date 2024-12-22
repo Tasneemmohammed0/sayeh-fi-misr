@@ -20,7 +20,6 @@ const formatSQLDate = (timestamp) => {
 
 // Example usage:
 const sqlDate = formatSQLDate(Date.now());
-console.log(sqlDate); // Output: "YYYY-MM-DD HH:MM:SS"
 
 exports.login = async (req, res, next) => {
   try {
@@ -240,13 +239,11 @@ exports.protect = async (req, res, next) => {
       }
       currentUser = user;
     }); // sets the user in request body
-    console.log("CURRENT USER:", currentUser);
     // 3) Check if user still exists
     const query = `
   SELECT DISTINCT user_id FROM visitor WHERE user_id=$1
   `;
     const result = await db.query(query, [currentUser.user_id]);
-    console.log("ROWCOUNT:", result.rowCount);
     if (!result.rowCount || result.rowCount === 0) {
       res.clearCookie("jwt");
       return res.status(400).json({

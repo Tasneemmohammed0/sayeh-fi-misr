@@ -79,7 +79,7 @@ exports.checkCapacity = async (req, res, next) => {
 
     // Add current capacity and is_full to req.gathering
     req.gathering = {};
-    console.log(data.rows);
+
     req.gathering.current_capacity =
       data.rows && data.rows.length > 0 ? +data.rows[0].current_capacity : 0;
     req.gathering.is_full =
@@ -157,7 +157,6 @@ exports.deleteGathering = async (req, res) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
-    console.log(err);
     res.status(400).json({
       message: err.message,
     });
@@ -166,7 +165,6 @@ exports.deleteGathering = async (req, res) => {
 exports.updateGathering = async (req, res) => {
   try {
     const placeQuery = "SELECT place_id FROM place WHERE name = $1";
-    console.log(req.body);
     const placeResult = await db.query(placeQuery, [req.body.placeName]);
     const place_id = placeResult.rows[0].place_id;
 

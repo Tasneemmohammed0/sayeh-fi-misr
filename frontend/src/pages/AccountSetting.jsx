@@ -4,6 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { useLoaderData } from "react-router-dom";
 import { UserContext } from "../App";
 
+import { Toaster } from "sonner";
+
 import "react-toastify/dist/ReactToastify.css";
 import ChangePasswordForm from "../components/ChangePasswordForm";
 import Signout from "../components/Signout";
@@ -152,7 +154,6 @@ function AccountSetting() {
     profile: currentUser?.profile_pic,
   });
 
-  console.log(currentUser);
   if (!currentUser) return <h1>Please login</h1>;
 
   function handleEdit(e, type) {
@@ -192,12 +193,9 @@ function AccountSetting() {
     );
     if (errors.length > 0) {
       if (state?.error_firstname === "Firstname must not be empty") {
-        console.log("empty here first ");
-        console.log(currentUser);
         dispatch({ type: "updateFirstname", payload: currentUser?.first_name });
       }
       if (state?.error_lastname === "Lastname must not be empty") {
-        console.log("empty here last ");
         dispatch({ type: "updateLastname", payload: currentUser?.last_name });
       }
       if (state?.error_username === "Usernane must not be empty") {
@@ -217,8 +215,6 @@ function AccountSetting() {
       },
       { withCredentials: true }
     );
-    console.log(state);
-    console.log(response);
     toast.success("Account settings updated successfully!");
     setEdit("");
   }
@@ -237,6 +233,8 @@ function AccountSetting() {
         onClick={(e) => handleEdit(e, "")}
       >
         <ToastContainer />
+        <Toaster richColors />
+
         <h1 className={styles.heading}>Account Settings</h1>
 
         <form className={styles.form}>
