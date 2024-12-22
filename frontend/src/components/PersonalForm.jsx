@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/personalForm.module.css";
 import { FaArrowRight } from "react-icons/fa";
-import ErrorMessage from "./ErrorMessage";
 import NationalitySelect from "./NationalitySelect";
 import { GetCountries, GetState } from "react-country-state-city";
 import Loading from "./Loading";
+import { toast } from "sonner";
 function PersonalForm({ state, dispatch, handleCount }) {
   const age = [];
 
@@ -17,7 +17,6 @@ function PersonalForm({ state, dispatch, handleCount }) {
     age.push(i.toString());
   }
 
-  const [error, setError] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,7 +27,7 @@ function PersonalForm({ state, dispatch, handleCount }) {
         dispatch({ type: "setCountries", payload: result });
         setLoading(false);
       } catch (err) {
-        setError(err.response.data.message);
+        toast.error(err.response.data.message);
         setLoading(false);
       }
     };
@@ -46,7 +45,7 @@ function PersonalForm({ state, dispatch, handleCount }) {
         dispatch({ type: "setCities", payload: result });
       })
       .catch((error) => {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
         dispatch({ type: "setCities", payload: [] });
       });
   }
@@ -60,24 +59,37 @@ function PersonalForm({ state, dispatch, handleCount }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!state.first_name || !state.last_name) {
-      setError(1);
+    if (!state.first_name) {
+      toast.error("Please fill the first name");
       return;
     }
-    if (
-      !state.age ||
-      state.age === "Select Age" ||
-      !state.gender ||
-      !state.nationality ||
-      !state.country ||
-      !state.city
-    ) {
-      setError(1);
+
+    if (!state.last_name) {
+      toast.error("Please fill the last name");
+      return;
+    }
+
+    if (!state.age || state.age === "Select Age") {
+      toast.error("Please select the age");
+      return;
+    }
+
+    if (!state.gender) {
+      toast.error("Please select the gender");
+      return;
+    }
+
+    if (!state.country) {
+      toast.error("Please select the country");
+      return;
+    }
+
+    if (!state.city) {
+      toast.error("Please select the city");
       return;
     }
 
     handleCount(e, "next");
-    setError(0);
   }
 
   ////////////////////////////////////////////////////
@@ -96,7 +108,6 @@ function PersonalForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateFirstname", payload: e.target.value })
           }
         />
-        <ErrorMessage error={state.error_firstname} />
       </div>
       <div className={styles.inputWrapper}>
         <label className={styles.label}>Last Name</label>
@@ -110,7 +121,6 @@ function PersonalForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateLastname", payload: e.target.value })
           }
         />
-        <ErrorMessage error={state.error_lastname} />
       </div>
       <div className={`${styles.inputWrapper} ${styles.start}`}>
         <label className={`${styles.label} ${styles.marginR}`}>Age</label>
@@ -207,12 +217,6 @@ function PersonalForm({ state, dispatch, handleCount }) {
           </span>
         </button>
       </div>
-
-      {error == 1 && (
-        <div>
-          <ErrorMessage error="Please fill all the fields" fontSize="15px" />
-        </div>
-      )}
     </form>
   );
 }
