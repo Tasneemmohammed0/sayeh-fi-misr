@@ -88,31 +88,36 @@ exports.getPlaceVisits = async (req, res) => {
     );
     const placeId = dataId.rows[0].place_id;
     const data = await db.query(
-      `SELECT date, COUNT(*) AS visit_count
+      `SELECT DATE(date) AS day, 
+      COUNT(*) AS visit_count
       FROM visitor_place
-      WHERE place_id=$1 and date >= CURRENT_DATE - INTERVAL '7 days'
-      GROUP BY date
-      ORDER BY date;`,
+      WHERE place_id = $1 
+      AND date >= CURRENT_DATE - INTERVAL '7 DAY'
+      GROUP BY DATE(date)
+      ORDER BY day;`,
       [placeId]
     );
 
+    console.log(data.rows);
     // Generate an array of the last 7 days
     const days = [];
     for (let i = 0; i < 7; i++) {
       days.push(format(subDays(new Date(), i), "yyyy-MM-dd"));
     }
     days.reverse(); // Ensure ascending order
+
     const totalDays = [];
     for (let i = 0; i < days.length; i += 1) {
       const day = days[i];
       const found = data.rows.find(
-        (row) => row.date.toISOString().split("T")[0] === day
+        (row) => row.day.toISOString().split("T")[0] === day
       );
       totalDays.push({
         visit_date: day,
         visit_count: found ? +found.visit_count : 0,
       });
     }
+    console.log(totalDays);
 
     res.status(200).json({
       status: "success",
