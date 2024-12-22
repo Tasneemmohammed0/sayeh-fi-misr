@@ -86,6 +86,11 @@ function AccountForm({ state, dispatch, handleCount }) {
         setError(3);
       } else if (err.response.data.message === "Username already in use") {
         setError(4);
+      } else if (
+        err.response.data.message ===
+        `duplicate key value violates unique constraint "host_phone_number_key"`
+      ) {
+        setError(5);
       } else {
         console.log(err.response.data.message);
       }
@@ -191,6 +196,9 @@ function AccountForm({ state, dispatch, handleCount }) {
               }
             />
             <ErrorMessage error={state.error_phone} />
+            {error === 5 && (
+              <ErrorMessage error="Phone number already in use" />
+            )}
           </div>
 
           <div className={styles.inputWrapper}>
