@@ -43,10 +43,7 @@ function UserPhotoPost({ post, selectedOption, setPostList, setStats }) {
 
   return (
     <>
-      <div
-        className={styles.container}
-        onClick={() => navigate(`/places/${post.place_id}#photos`)}
-      >
+      <div className={styles.container}>
         {selectedOption === "edit" && (
           <div className={styles.tooltip}>
             <CiEdit onClick={() => handleEdit()} className={styles.opIcons} />
@@ -73,7 +70,10 @@ function UserPhotoPost({ post, selectedOption, setPostList, setStats }) {
         >
           <img src={post.photo} alt="card image" className={styles.image} />
         </div>
-        <div className={styles.details}>
+        <div
+          className={styles.details}
+          onClick={() => navigate(`/places/${post.place_id}#photos`)}
+        >
           <h2 className={styles.title}>{post.caption}</h2>
         </div>
         <div className={styles.details}>

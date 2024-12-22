@@ -21,7 +21,7 @@ function UserPhotosList({ id, canEdit, setStats }) {
         const response = await axios.get(
           `http://localhost:1123/api/v1/users/photos/${id}`
         );
-        console.log("response", response.data.data);
+
         setPostList(response.data.data);
         setLoading(false);
       } catch (err) {
