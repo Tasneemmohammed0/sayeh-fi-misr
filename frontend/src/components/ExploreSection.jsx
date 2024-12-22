@@ -37,7 +37,7 @@ function ExploreSection() {
       {activeTab === "places" ? (
         <HomePlace count={4} />
       ) : (
-        <GatheringList count={6} />
+        <GatheringList count={4} />
       )}
       <button
         className={styles.seeMore}
