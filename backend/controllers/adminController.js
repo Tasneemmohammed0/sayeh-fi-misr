@@ -121,9 +121,19 @@ exports.deletePlace = async (req, res, next) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
+
+    console.log(err.message);
+    let message = err.message;
+    if (
+      err.message ==
+      `update or delete on table "gift" violates foreign key constraint "fk_visitor_gift_gift" on table "visitor_gift"`
+    ) {
+      message = "Can't delete place, there is a gift that refer to it";
+    }
+
     res.status(400).json({
       status: "fail",
-      message: err,
+      message,
     });
   }
 };
