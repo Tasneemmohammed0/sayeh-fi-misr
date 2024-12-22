@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 import EditPlaceForm from "../Admin/components/EditPlaceForm";
 import Stars from "./Stars";
-
+import Swal from "sweetalert2";
 import styles from "../styles/card.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -45,14 +45,17 @@ function Card({
             withCredentials: true,
           }
         );
+
         if (response.status === 200) {
           setVisitList(visitList.filter((place) => place.place_id !== id));
           toast.success("Place Deleted successfully.");
-        } else {
-          toast.error(
-            "An error occured while deleting the place please try again later."
-          );
         }
+        // } else {
+        //   toast.error(
+        //     "An error occured while deleting the place please try again later."
+        //   );
+        // }
+
         setStats((prevStats) => {
           return {
             ...prevStats,
@@ -70,7 +73,7 @@ function Card({
         setPlaces(Places.filter((place) => place.place_id !== id));
       }
     } catch (err) {
-      toast.error(err.message);
+      notify(err.response.data.message);
     }
     setShowEditForm(false);
   }
@@ -85,6 +88,16 @@ function Card({
     ) {
       navigate(`/places/${id}`);
     }
+  }
+
+  // pretty alerts
+  function notify(msg) {
+    Swal.fire({
+      icon: "error",
+      title: "Failed!",
+      text: msg,
+      timer: 3000,
+    });
   }
 
   if (!card.place_id) return null;
