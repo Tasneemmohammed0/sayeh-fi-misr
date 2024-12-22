@@ -66,6 +66,7 @@
   font-weight: 600;
   word-spacing: 4px;
   color: var(--our-black);
+  text-transform: capitalize;
 }
 .giftPlace {
   color: rgba(0, 0, 0, 0.6);
