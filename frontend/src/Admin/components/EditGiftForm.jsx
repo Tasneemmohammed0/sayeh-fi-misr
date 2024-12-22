@@ -80,6 +80,7 @@ function EditGiftForm({ onClose, giftData, setGifts, places }) {
 
   return (
     <div className={styles.overlay}>
+      {loading && <Loading />}
       <ToastContainer />
       <div className={styles.modal}>
         <h2 className={styles.title}>Edit Gift</h2>
