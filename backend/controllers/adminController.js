@@ -2,7 +2,6 @@ const db = require("../db/index");
 
 exports.getAll = async (req, res, next) => {
   try {
-    console.log("PARAMS:", req.params);
     const { username, email, age, role, gender } = req.query;
     let query = `SELECT DISTINCT * FROM visitor`;
     const params = [];
@@ -122,7 +121,7 @@ exports.deletePlace = async (req, res, next) => {
   } catch (err) {
     await db.query("ROLLBACK");
 
-    console.log(err.message);
+    
     let message = err.message;
     if (
       err.message ==
@@ -261,8 +260,7 @@ exports.createPlace = async (req, res, next) => {
       data: response.rows,
     });
   } catch (err) {
-    let message = err.message;
-    console.log(err.message);
+    let message = err.message;;
     if (err.message.includes("duplicate")) {
       if (err.message.includes("place_name_key"))
         message = "There's already a place with this name";

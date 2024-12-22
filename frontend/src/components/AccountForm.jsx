@@ -7,7 +7,7 @@ import Loading from "./Loading";
 import axios from "axios";
 import { UserContext } from "../App";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
+import { toast } from "sonner";
 function AccountForm({ state, dispatch, handleCount }) {
   const backGrounds = [
     "Tourism and Hospitality Management",
@@ -26,27 +26,35 @@ function AccountForm({ state, dispatch, handleCount }) {
   async function handleSubmit(e) {
     try {
       e.preventDefault();
-      setError(0);
-      if (
-        state.username === "" ||
-        state.email === "" ||
-        state.role === "" ||
-        state.password === ""
-      ) {
-        setError(1);
+      if (state.username === "") {
+        toast.error("Username is required");
+        return;
+      }
+      if (state.email === "") {
+        toast.error("Email is required");
+        return;
+      }
+      if (state.role === "") {
+        toast.error("Role is required");
+        return;
+      }
+      if (state.password === "") {
+        toast.error("Password is required");
         return;
       }
       if (state.password !== confirmPassword) {
-        setError(2);
+        toast.error("Confirm Password must match the Password");
         return;
       }
-
-      if (
-        state.role == "host" &&
-        (state.phone === "" || state.background === "")
-      ) {
-        setError(1);
-        return;
+      if (state.role === "host") {
+        if (state.phone === "") {
+          toast.error("Phone number is required for host");
+          return;
+        }
+        if (state.background === "") {
+          toast.error("Educational background is required for host");
+          return;
+        }
       }
 
       setLoading(true);
@@ -80,16 +88,10 @@ function AccountForm({ state, dispatch, handleCount }) {
         }
       );
       setUser(res.data.data);
+
       navigate("/home");
     } catch (err) {
-      if (err.response.data.message === "Email already in use") {
-        setError(3);
-      } else if (err.response.data.message === "Username already in use") {
-        setError(4);
-      } else {
-        console.log(err.message);
-        console.log(err.response.data.message);
-      }
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -128,8 +130,6 @@ function AccountForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateUsername", payload: e.target.value })
           }
         />
-        <ErrorMessage error={state.error_username} />
-        {error === 4 && <ErrorMessage error="username already in use" />}
       </div>
       <div className={styles.inputWrapper}>
         <label className={styles.label}>Email</label>
@@ -143,8 +143,6 @@ function AccountForm({ state, dispatch, handleCount }) {
             dispatch({ type: "updateEmail", payload: e.target.value })
           }
         />
-        {error === 3 && <ErrorMessage error="Email already in use" />}
-        <ErrorMessage error={state.error_email} />
       </div>
 
       <div className={styles.inputWrapper}>
@@ -191,7 +189,6 @@ function AccountForm({ state, dispatch, handleCount }) {
                 dispatch({ type: "updatePhone", payload: e.target.value })
               }
             />
-            <ErrorMessage error={state.error_phone} />
           </div>
 
           <div className={styles.inputWrapper}>
@@ -236,7 +233,6 @@ function AccountForm({ state, dispatch, handleCount }) {
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-        <ErrorMessage error={state.error_password} />
       </div>
 
       <div className={styles.inputWrapper}>
@@ -256,10 +252,6 @@ function AccountForm({ state, dispatch, handleCount }) {
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-
-        {error == 2 && (
-          <ErrorMessage error="Confirm Password must match the Password" />
-        )}
       </div>
 
       <div>
@@ -278,10 +270,6 @@ function AccountForm({ state, dispatch, handleCount }) {
         >
           Submit
         </button>
-      </div>
-
-      <div>
-        {error === 1 && <ErrorMessage error="All fields are required" />}
       </div>
     </form>
   );

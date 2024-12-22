@@ -41,6 +41,8 @@ function VisitorsCount({ setLoading }) {
         series={[
           {
             data: chartData,
+            faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+            highlightScope: { fade: "global", highlight: "item" },
           },
         ]}
         width={400}

@@ -54,7 +54,7 @@ exports.getPoints = async (req, res) => {
       req.user.user_id,
     ]);
     const spentPoints = +spentPointsData.rows[0]?.spent_points || 0;
-    console.log(gainedPoints, spentPoints);
+
     // Handle delete some activities after purchase a gift
     const totalPoints =
       gainedPoints > spentPoints ? gainedPoints - spentPoints : 0;

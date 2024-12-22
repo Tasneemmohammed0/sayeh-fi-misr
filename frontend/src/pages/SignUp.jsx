@@ -2,7 +2,7 @@ import { useEffect, useState, useReducer } from "react";
 import styles from "../styles/signup.module.css";
 import PersonalForm from "../components/PersonalForm";
 import AccountForm from "../components/AccountForm";
-
+import { Toaster, toast } from "sonner";
 function reducer(state, action) {
   switch (action.type) {
     case "updateFirstname":
@@ -192,6 +192,7 @@ function SignUp() {
 
   return (
     <div className={styles.backGround}>
+      <Toaster richColors position="top-right" />
       <h2 className={styles.head}>Explore the beauty of Egypt</h2>
 
       {count == 0 && (

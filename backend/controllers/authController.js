@@ -20,7 +20,6 @@ const formatSQLDate = (timestamp) => {
 
 // Example usage:
 const sqlDate = formatSQLDate(Date.now());
-console.log(sqlDate); // Output: "YYYY-MM-DD HH:MM:SS"
 
 exports.login = async (req, res, next) => {
   try {
@@ -68,6 +67,7 @@ exports.login = async (req, res, next) => {
 
 exports.signup = async (req, res, next) => {
   try {
+    await db.query("BEGIN");
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     if (!req.body.photo) req.body.photo = `https://i.imgur.com/QZdzLWx.png`;
@@ -109,8 +109,7 @@ exports.signup = async (req, res, next) => {
       !age ||
       !country ||
       !city ||
-      !password ||
-      nationalities.length === 0
+      !password
     ) {
       return res.status(400).json({
         status: "fail",
@@ -169,19 +168,21 @@ exports.signup = async (req, res, next) => {
     const user = result.rows[0];
 
     let insertNationalityQuery;
-    newUser.nationalities.forEach(async (nationality) => {
-      insertNationalityQuery = `
+    if (newUser.nationalities) {
+      for (const nationality of newUser.nationalities) {
+        insertNationalityQuery = `
         INSERT INTO visitor_nationality
         VALUES($1, $2)
       `;
-      await db.query(insertNationalityQuery, [user.user_id, nationality]);
-    });
+        await db.query(insertNationalityQuery, [user.user_id, nationality]);
+      }
+    }
     await db.query("COMMIT");
+
     user.password = undefined; // prevent hashed password from showing in the result
     const token = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
-
     // set response cookies to be the token
     res.cookie("jwt", token, {
       httpOnly: true,
@@ -198,6 +199,7 @@ exports.signup = async (req, res, next) => {
       },
     });
   } catch (err) {
+    await db.query("ROLLBACK");
     let message = err.message;
     if (
       err.message ===
@@ -209,8 +211,11 @@ exports.signup = async (req, res, next) => {
       `duplicate key value violates unique constraint "visitor_username_key"`
     ) {
       message = "Username already in use";
-    }
-
+    } else if (
+      err.message ===
+      `duplicate key value violates unique constraint "host_phone_number_key"`
+    )
+      message = "Phone number already in use";
     res.status(400).json({
       status: "fail",
       message,
@@ -240,13 +245,11 @@ exports.protect = async (req, res, next) => {
       }
       currentUser = user;
     }); // sets the user in request body
-    console.log("CURRENT USER:", currentUser);
     // 3) Check if user still exists
     const query = `
-  SELECT DISTINCT user_id FROM visitor WHERE user_id=$1
-  `;
+    SELECT DISTINCT * FROM visitor WHERE user_id=$1
+    `;
     const result = await db.query(query, [currentUser.user_id]);
-    console.log("ROWCOUNT:", result.rowCount);
     if (!result.rowCount || result.rowCount === 0) {
       res.clearCookie("jwt");
       return res.status(400).json({
@@ -254,7 +257,7 @@ exports.protect = async (req, res, next) => {
         message: "User no longer exists, please login again",
       });
     }
-
+    if (result.rows[0] !== currentUser) currentUser = result.rows[0];
     // 5) Grant access
     req.user = currentUser;
     next();

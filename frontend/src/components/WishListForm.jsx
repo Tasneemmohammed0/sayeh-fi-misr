@@ -36,7 +36,6 @@ function WishListForm({ isOpen, handleForm, user_id, setWishLists }) {
       setWishLists((prev) => [...prev, response.data.data]);
       handleClose();
     } catch (err) {
-      console.log(err.response.data.message);
       setError(err.response.data.message);
     } finally {
       setLoading(false);

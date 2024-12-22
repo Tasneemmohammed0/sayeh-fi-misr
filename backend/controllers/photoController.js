@@ -23,7 +23,6 @@ exports.deletePhoto = async (req, res) => {
     });
   } catch (err) {
     await db.query("ROLLBACK");
-    console.log(err);
     res.status(400).json({
       message: err.message,
     });

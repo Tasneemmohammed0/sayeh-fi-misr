@@ -14,7 +14,7 @@ function DashBoard() {
   const { user } = useContext(UserContext);
   const currentUser = useLoaderData();
   if (currentUser?.role !== "admin") return <h1>Unauthorized</h1>;
-  console.log(user);
+
   return (
     <main className={style.main}>
       <Sidebar active={active} setActive={setActive} user={currentUser} />
@@ -31,7 +31,6 @@ export default DashBoard;
 export async function dashboardLoader() {
   let cu = null;
   try {
-    console.log("loader user  called");
     const response = await axios.get(`http://localhost:1123/api/v1/users/me`, {
       withCredentials: true,
     });

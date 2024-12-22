@@ -192,7 +192,6 @@ exports.getUserBadges = async (req, res) => {
 exports.getUserStats = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const query = `
    SELECT 
     (SELECT COUNT(*) FROM visitor_place VP WHERE VP.user_id=$1) AS places_count,
@@ -200,7 +199,6 @@ exports.getUserStats = async (req, res) => {
     (SELECT COUNT(*) FROM photo P WHERE P.user_id=$1) AS photos_count;`;
 
     const response = await db.query(query, [id]);
-    console.log(response);
     res.status(200).json({
       status: "success",
       length: response.rowCount,

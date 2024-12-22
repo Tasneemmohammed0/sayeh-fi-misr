@@ -31,7 +31,7 @@ function EditReviewForm({
           withCredentials: true,
         }
       );
-      console.log(response.data.data);
+
       setReviews((prev) =>
         prev.map((r) =>
           r.review_id === review.review_id ? response.data.data : r
