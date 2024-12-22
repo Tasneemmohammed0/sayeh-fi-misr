@@ -175,6 +175,7 @@ exports.updateGathering = async (req, res) => {
       max_capacity,
       gathering_date,
       spoken_language,
+      is_open,
     } = req.body;
     if (
       !title ||
@@ -213,8 +214,8 @@ exports.updateGathering = async (req, res) => {
 
     const data = await db.query(
       `UPDATE gathering
-    	SET  title=$1, duration=$2,  description=$3, max_capacity=$4, place_id=$5, spoken_language=$6
-	    WHERE gathering_id=$7 AND host_id=$8 RETURNING *`,
+    	SET  title=$1, duration=$2,  description=$3, max_capacity=$4, place_id=$5, spoken_language=$6, is_open=$7
+	    WHERE gathering_id=$8 AND host_id=$9 RETURNING *`,
       [
         title,
         duration,
@@ -222,6 +223,7 @@ exports.updateGathering = async (req, res) => {
         max_capacity,
         place_id,
         spoken_language,
+        is_open,
         req.params.id,
         req.user.user_id,
       ]
