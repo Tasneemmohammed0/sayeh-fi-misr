@@ -203,6 +203,7 @@
   cursor: pointer;
   transition: box-shadow 0.2s ease-in-out;
   border: 1px solid var(--our-blue);
+  object-fit: cover;
 }
 
 .user > img:hover {
