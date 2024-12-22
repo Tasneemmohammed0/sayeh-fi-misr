@@ -80,7 +80,7 @@ function VisitedList({ id, canEdit, setStats }) {
             inVisitList={true}
             setVisitList={setVisitList}
             setLoading={setLoading}
-            onClick={() => handleClick(item.place_id)}
+            onClick={(e) => handleClick(item.place_id, e)}
           />
         </div>
       ))}

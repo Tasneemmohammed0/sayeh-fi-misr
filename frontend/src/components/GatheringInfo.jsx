@@ -35,10 +35,12 @@ function GatheringInfo({ gathering, currentCapacity }) {
         <FaCalendarAlt className={styles.icon} />
         <p>Date: {formattedDate}</p>
       </div>
-      <div className={styles.detailItem}>
-        <FaClock className={styles.icon} />
-        <p>Start Time: {formattedTime}</p>
-      </div>
+
+      {/* <div className={styles.detailItem}>
+          <FaClock className={styles.icon} />
+          <p>Start Time: {formattedTime}</p>
+        </div> */}
+
       <div className={styles.detailItem}>
         <FaHourglassHalf className={styles.icon} />
         {gathering.duration && <p>Duration: {gathering.duration}h</p>}
