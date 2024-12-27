@@ -82,7 +82,7 @@ We welcome contributions to Sayeh fi Misr! Please fork the repository and submit
 
 ## 🌐 Live Version
 
-Check out the live version of Sayeh fi Misr here:  
+Check out the live version of Sayeh fi Misr here but run locally for a better version:  
 [Sayeh fi Misr](https://sayeh-fe-misr-bice.vercel.app/)
 
 ---
