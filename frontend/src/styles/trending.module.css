@@ -1,0 +1,69 @@
+.backGround {
+  background: linear-gradient(
+    180deg,
+    var(--our-light-sand) 56%,
+    var(--our-dark-sand) 50%
+  );
+  height: 100vh;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 24px;
+}
+
+.head {
+  font-size: 30px;
+  color: #783004;
+  margin: 20px 0;
+  text-transform: capitalize;
+}
+
+.special {
+  font-family: "Georgia", serif;
+  font-size: 2rem;
+  color: #d2691e; /* Warm brown color */
+  font-weight: bold;
+  /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); */
+
+  padding-bottom: 0.2em;
+  transition: border-bottom 0.3s ease;
+}
+
+.place {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px 5px;
+}
+.image {
+  width: 400px;
+  height: 500px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+.image:hover {
+  transform: translateY(-10px);
+}
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: black !important; /* Changes the arrow color to black */
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  color: gray !important; /* Optional: Changes the arrow color on hover */
+}

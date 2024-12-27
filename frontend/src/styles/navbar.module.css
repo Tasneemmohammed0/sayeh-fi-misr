@@ -1,0 +1,63 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background-color: transparent;
+  position: fixed;
+  z-index: 100;
+  transition: var(--main-transition);
+}
+
+.logo {
+  color: var(--our-white);
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.5rem 1.6rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: color 0.1s ease;
+}
+
+.navLinks,
+.navlinkopen {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 1.5rem;
+  padding: 0.5rem 4rem;
+  height: 2.5rem;
+  width: 75%;
+  transition: all 0.3s;
+}
+
+.profileIcon {
+  color: var(--our-white);
+  font-size: 1.7rem;
+  transition: color 0.1s ease;
+  margin-top: 0.3rem;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.link {
+  color: var(--our-white);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.1s ease;
+}
+
+.link:hover,
+.profileIcon:hover,
+.logo:hover,
+.active-link {
+  color: var(--our-yellow);
+}
+
+.navlinkopen {
+  /* display: none; */
+  opacity: 0;
+}

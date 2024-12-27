@@ -1,0 +1,38 @@
+.editIcon,
+.deleteIcon,
+.optionIcon,
+.addIcon {
+  font-size: 40px;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+  cursor: pointer;
+  background-color: white;
+
+  /* transition: all 0.3s; */
+}
+
+.editIcon {
+  color: yellow;
+}
+
+.deleteIcon {
+  color: #e74c3c;
+}
+
+.optionIcon {
+  color: #3498db;
+}
+
+.addIcon {
+  color: #2ecc71;
+}
+
+.editIcon:hover,
+.deleteIcon:hover,
+.optionIcon:hover,
+.addIcon:hover {
+  color: var(--our-hover-blue);
+  transform: translateY(-5px);
+}

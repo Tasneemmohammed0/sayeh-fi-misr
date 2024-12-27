@@ -1,0 +1,110 @@
+/* ReportCard.module.css */
+
+.card {
+  position: relative;
+  border: 1px solid #b49e9e;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  background-color: #f8f9fa;
+}
+
+/* Add hover animation to the card */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.reportInfo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* Add this to your ReportCard.module.css */
+.severity {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+  width: fit-content;
+  margin-bottom: 8px;
+}
+
+.severity-low {
+  background-color: green;
+  color: white;
+}
+
+.severity-medium {
+  background-color: yellow;
+  color: black;
+}
+
+.severity-high {
+  background-color: red;
+  color: white;
+}
+
+.detailItem {
+  flex: 1 1 45%;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.description {
+  margin-top: 16px;
+}
+.description p {
+  display: block;
+  margin: 5px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: normal;
+  margin-bottom: 35px;
+}
+
+.description h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.button {
+  position: absolute;
+  bottom: 10px;
+  left: 45%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* Add hover animation to the button */
+.button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}

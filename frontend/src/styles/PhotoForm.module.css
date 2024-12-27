@@ -1,0 +1,99 @@
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popupClose {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  margin-bottom: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #674636;
+  cursor: pointer;
+}
+
+.popupClose:hover {
+  color: rgb(191, 52, 52);
+}
+
+.form {
+  position: relative;
+  height: 520px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff8e8;
+  margin-top: 100px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.form > h3 {
+  font-size: 1.5rem;
+  color: #674636;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.formLabel {
+  font-size: 1.1rem;
+  color: #674636;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.photo {
+  height: 40px;
+  width: 300px;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 15px;
+  background-color: rgb(255, 240, 240);
+}
+
+.imagePreview {
+  height: 250px;
+  width: 250px;
+  border-radius: 10px;
+}
+
+.formButton {
+  height: 40px;
+  width: 200px;
+  border-radius: 10px;
+  background-color: #674636;
+  color: var(--our-white);
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.captionText {
+  padding: 10px;
+  height: 50px;
+  width: 300px;
+  background-color: rgb(255, 240, 240);
+  border: 1px solid var(--our-blue);
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--our-black);
+}

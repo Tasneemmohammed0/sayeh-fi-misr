@@ -1,0 +1,135 @@
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popupClose {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  margin-bottom: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #674636;
+  cursor: pointer;
+}
+
+.popupClose:hover {
+  color: rgb(191, 52, 52);
+}
+
+.form {
+  position: relative;
+  height: fit-content;
+  width: 500px;
+  display: flex;
+  row-gap: 30px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff8e8;
+  margin-top: 100px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.form > h3 {
+  font-size: 1.6rem;
+  color: #674636;
+  padding: 0.2rem 1rem;
+  text-align: center;
+}
+
+.formLabel {
+  font-size: 1rem;
+  color: #674636;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.formLabel > span {
+  margin-top: 0.3rem;
+}
+
+.title {
+  height: 40px;
+  width: 360px;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 15px;
+  background-color: rgb(255, 240, 240);
+}
+
+.reviewText {
+  padding: 10px;
+  height: 100px;
+  width: 360px;
+  background-color: rgb(255, 240, 240);
+  border: 1px solid var(--our-blue);
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--our-black);
+}
+
+.formButton {
+  height: 40px;
+  width: 120px;
+  border-radius: 10px;
+  background-color: #674636;
+  color: var(--our-white);
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.formButton:hover {
+  transform: scale(1.05);
+}
+
+.photo {
+  height: 40px;
+  width: 300px;
+  border-radius: 10px;
+  border: 1px solid var(--our-blue);
+  padding: 10px;
+  font-size: 15px;
+  background-color: rgb(255, 240, 240);
+}
+
+.reviewContent {
+  display: flex;
+  flex-direction: column;
+  align-items: first baseline;
+  gap: 1.1rem;
+  padding: 0rem 2.3rem;
+}
+
+/*Report styles*/
+.severity {
+  display: flex;
+
+  gap: 3rem;
+  color: var(--our-blue);
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.dropList {
+  height: 30px;
+  width: 360px;
+  border-radius: 10px;
+  border: 1px solid var(--our-blue);
+  padding: 0.2rem;
+  font-size: 15px;
+  background-color: rgb(255, 240, 240);
+}

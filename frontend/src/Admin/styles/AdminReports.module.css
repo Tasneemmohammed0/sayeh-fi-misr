@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header {
+  font-size: 2rem;
+  text-align: center;
+  margin: 40px 0;
+}
+
+.reportList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(450px, 1fr));
+  gap: 20px;
+
+  width: 100%;
+  margin: 10px auto;
+}
+
+.filter {
+  align-self: flex-end;
+  margin: 20px;
+}
+
+.select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: none;
+}

@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+  margin-left: 2rem;
+  margin-bottom: 4.7rem;
+}
+
+.header {
+  color: var(--our-blue);
+  font-size: 2rem;
+  color: #674636;
+  margin-bottom: 15px;
+}
+
+.select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dropList {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #ddcfb7;
+  padding: 0.6rem 0.6rem;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.dropList:focus {
+  outline: none;
+  border: 1px solid var(--our-green);
+}

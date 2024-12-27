@@ -1,0 +1,29 @@
+.container {
+  padding: 20px;
+  font-family: var(--main-font);
+  font-size: 14px;
+  color: var(--our-black);
+  line-height: 1.6;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.detailItem:last-child {
+  margin-bottom: 0;
+}
+
+.icon {
+  font-size: 20px;
+  color: var(--our-brown);
+  margin-right: 10px;
+}
+
+.maxCapacity {
+  margin-left: 10px;
+}

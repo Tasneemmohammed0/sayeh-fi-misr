@@ -1,0 +1,84 @@
+.mainBazaar {
+  background-color: #fff8e8;
+}
+.bazaarHeader {
+  height: 30vh;
+  background-color: var(--our-brown);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+}
+.bazaarHeader h1 {
+  color: #f7eed3;
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 2.6rem;
+  letter-spacing: 0.2rem;
+}
+.bazaarHeader p {
+  color: #f0efef;
+  opacity: 50%;
+  font-size: 90%;
+  font-family: "Inter";
+  letter-spacing: 0.2rem;
+}
+
+.bazaarContent {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+.pointsContainer {
+  margin-bottom: 5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+.pointsBox {
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid;
+  background-color: var(--our-brown);
+  padding: 1rem 2rem;
+  margin-right: 4rem;
+  transition: all 0.3s;
+}
+.pointsBox:hover {
+  transform: translateY(-5px);
+}
+.points {
+  color: orange;
+  font-family: "Inter";
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.yourPoints {
+  color: #f7eed3;
+  margin-right: 10px;
+}
+
+.giftContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: center;
+  column-gap: 5rem;
+  row-gap: 2rem;
+  margin: 30px;
+}
+
+@media (max-width: 1120px) {
+  .giftContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .giftContainer {
+    grid-template-columns: 1fr;
+  }
+}

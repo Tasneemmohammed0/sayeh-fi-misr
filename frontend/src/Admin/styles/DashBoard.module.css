@@ -1,0 +1,10 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr; /* Sidebar width and content area */
+  gap: 20px;
+  padding: 0 20px;
+  background: var(--our-gray);
+  height: 100vh;
+  overflow-y: auto;
+  margin-left: 180px; /* Match the fixed sidebar width */
+}

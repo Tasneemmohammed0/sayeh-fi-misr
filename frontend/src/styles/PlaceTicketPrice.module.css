@@ -1,0 +1,62 @@
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  width: 350px;
+  background-color: #ddcfb7;
+  height: 100%;
+  width: 100%;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.tab {
+  padding: 1rem 1rem;
+  cursor: pointer;
+  background-color: #ddcfb7;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  border-radius: 50px;
+  border: none;
+  width: 50%;
+}
+
+.tab:hover {
+  background-color: inherit;
+}
+
+.tab.active {
+  background-color: #674636;
+}
+
+.header {
+  font-size: 2rem;
+  color: #674636;
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+  color: var(--our-black);
+  font-size: 1.1rem;
+  padding: 1rem 1rem;
+}
+
+.adult,
+.child {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.container {
+  width: 50%;
+  padding: 0.5rem 0.4rem;
+  border-radius: 50px;
+  width: 50%;
+}
+
+.icon:hover {
+  transform: scale(1.11);
+  cursor: pointer;
+}

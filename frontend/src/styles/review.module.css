@@ -1,0 +1,83 @@
+.review {
+  display: grid;
+  grid-template-columns: 23% 75%;
+  gap: 20px;
+  padding: 20px 10px;
+  border-radius: 20px;
+  background-color: var(--our-white);
+  margin: 20px 0;
+  transition: all 0.3s;
+}
+
+.review:hover {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  /* border: 2px solid var(--our-yellow); */
+  box-shadow: 0 2px 15px 1px rgb(0, 0, 0);
+}
+
+.info,
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.text {
+  align-items: start;
+  padding: 0 10px;
+}
+
+img {
+  width: 285px;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.p {
+  font-size: 16px;
+  color: #674636;
+  line-height: 1.5;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 40px;
+  flex-direction: row;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.editbutton,
+.deletebutton {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.6s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.editbutton {
+  background-color: var(--our-yellow);
+  color: var(--our-white);
+}
+
+.deletebutton {
+  background-color: rgb(214, 56, 56);
+  color: var(--our-white);
+}
+
+.editbutton:hover,
+.deletebutton:hover {
+  background-color: var(--our-hover-blue);
+  color: white;
+}

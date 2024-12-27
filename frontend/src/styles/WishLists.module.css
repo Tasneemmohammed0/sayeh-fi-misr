@@ -1,0 +1,161 @@
+.create {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px 40px;
+  padding: 10px;
+  background-color: var(--our-yellow);
+  color: white;
+  font-weight: 500;
+  font-size: 15px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.6s;
+}
+.create:hover {
+  background-color: white;
+  color: var(--our-yellow);
+  /* transform: translateY(-5px); */
+}
+
+.allWishLists {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  margin: 0 50px;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+  height: 100%;
+}
+
+.wishListInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 35px;
+  background-color: #f9f9f9;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 40px 10px 10px 10px;
+  transition: all 0.5s;
+  cursor: pointer;
+  color: black;
+  background-color: var(--our-white);
+}
+.wishListInfo:hover {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  /* border: 2px solid var(--our-yellow); */
+  box-shadow: 0 2px 15px 1px rgb(0, 0, 0);
+}
+
+.titleStyle {
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.description {
+  font-size: 16px;
+  /* color: #555; */
+  line-height: 1.5;
+  display: block;
+  margin: 5px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: normal;
+  margin-bottom: 35px;
+}
+
+.editBtn {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.editBtn:hover {
+  background-color: #218838;
+}
+
+.deleteBtn {
+  background-color: #e1483f;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 7px;
+}
+.deleteBtn:hover {
+  background-color: #ee7771;
+}
+/* pop up form style    */
+
+.popupContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popupContent {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.popupContent h3 {
+  margin-bottom: 20px;
+}
+
+.popupContent form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.popupContent form input,
+.popupContent form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonGroup button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttonGroup button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+
+.buttonGroup button:last-child {
+  background-color: #dc3545;
+  color: white;
+}

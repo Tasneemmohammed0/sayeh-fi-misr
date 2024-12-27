@@ -1,0 +1,190 @@
+.form {
+  width: 100%;
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 2rem;
+  height: 600px;
+  position: relative;
+  margin: 2rem auto;
+}
+
+.inputWrapper {
+  margin: 1.5rem 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.label {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--our-white);
+  display: block;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  position: absolute;
+  top: -30px;
+  left: 70px;
+}
+.input {
+  padding: 5px;
+  border: 0;
+  width: 60%;
+  border: 1px solid var(--our-light-gray);
+  background-color: var(--our-light-gray);
+  transition: var(--main-transition);
+  color: black;
+  position: relative;
+  align-self: center;
+  border-radius: 5px;
+  height: 30px;
+}
+
+.input::placeholder {
+  color: var(--our-black);
+  opacity: 0.6;
+}
+
+.input:focus {
+  border: 1px solid var(--our-blue);
+  outline: none;
+}
+
+/* Style for the select dropdown */
+.select {
+  width: 60%;
+  padding: 3px 5px;
+  font-size: 16px;
+  border: 1px solid var(--our-blue);
+  border-radius: 5px;
+  background-color: var(--our-light-gray);
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s;
+  height: 30px;
+}
+
+/* Style for the dropdown options */
+.option {
+  font-size: 16px; /* Match the select font size */
+  padding: 5px; /* Add padding inside options */
+}
+
+.select:hover {
+  border-color: var(--our-yellow);
+}
+
+.select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.btn {
+  background-color: rgb(132, 69, 69);
+  color: var(--our-white);
+  padding: 10px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--main-transition);
+  margin-top: 20px;
+  text-align: center;
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 60%;
+  left: 70px;
+}
+.btn:hover {
+  background-color: var(--our-yellow);
+  color: var(--our-white);
+  transform: translateY(-5px);
+}
+
+.btn > .arrow {
+  opacity: 0;
+  margin-left: 5px; /* Add space between text and arrow */
+  transition: opacity var(--main-transition);
+  position: relative;
+  top: 2px;
+  right: 0px;
+  width: 0;
+}
+
+.btn:hover > .arrow {
+  opacity: 1;
+}
+
+.btn .arrow {
+  opacity: 0;
+  transition: var(--main-transition);
+}
+
+.btn:hover .arrow {
+  opacity: 1;
+  right: 35px;
+}
+
+.specialBtn {
+  background-color: var(--our-green);
+}
+.specialBtn:hover {
+  background-color: green;
+}
+
+.passwordWrapper {
+  position: relative;
+  width: 60%;
+}
+
+.passwordWrapper > .input {
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  right: 0.4rem;
+  top: 0.4rem;
+  cursor: pointer;
+  color: rgb(132, 69, 69);
+}
+
+/*
+helper classes
+*/
+.start {
+  align-self: flex-start;
+}
+.end {
+  align-self: flex-end;
+}
+.center {
+  align-self: center;
+}
+
+.marginY {
+  margin: 10px 0;
+}
+
+.marginL {
+  margin-left: 5px;
+}
+
+.marginR {
+  margin-right: 5px;
+}
+
+.marginX {
+  margin: 0 10px;
+}
