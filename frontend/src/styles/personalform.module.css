@@ -1,4 +1,4 @@
-.form{
+.form {
   width: 100%;
   max-width: 800px;
   display: grid;
@@ -13,33 +13,40 @@
   margin: 2rem auto;
 }
 
+@media (max-width: 768px) {
+  .form {
+    padding: 1rem;
+    height: 700px;
+  }
+}
+
 .inputWrapper {
   margin: 1.5rem 0;
   position: relative;
-  display: flex ;
+  display: flex;
   flex-direction: column;
   gap: 5px;
   align-items: center;
 }
 
-.label{
+.label {
   font-size: 20px;
   font-weight: bold;
   color: var(--our-white);
   display: block;
-  margin-bottom: 5px ;
+  margin-bottom: 5px;
   margin-left: 5px;
   position: absolute;
   top: -30px;
-  left:70px
+  left: 70px;
 }
-.input{
+.input {
   padding: 5px;
   border: 0;
   width: 60%;
   border: 1px solid var(--our-light-gray);
   background-color: var(--our-light-gray);
-  transition:   var(--main-transition);
+  transition: var(--main-transition);
   color: black;
   position: relative;
   align-self: center;
@@ -47,28 +54,27 @@
   height: 30px;
 }
 
-.input::placeholder{
+.input::placeholder {
   color: var(--our-black);
   opacity: 0.6;
 }
 
-.input:focus{
+.input:focus {
   border: 1px solid var(--our-blue);
   outline: none;
 }
-
 
 /* Style for the select dropdown */
 .select {
   width: 60%;
   padding: 3px 5px;
-  font-size: 16px; 
+  font-size: 16px;
   border: 1px solid var(--our-blue);
   border-radius: 5px;
   background-color: var(--our-light-gray);
-  color: #333; 
-  cursor: pointer; 
-  transition:  0.3s; 
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s;
   height: 30px;
 }
 
@@ -76,18 +82,28 @@
 .select option {
   font-size: 16px; /* Match the select font size */
   padding: 5px; /* Add padding inside options */
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
 
-
 .select:hover {
-  border-color: var(--our-yellow); 
+  border-color: var(--our-yellow);
 }
 
 .select:focus {
-  outline: none; 
-  border-color: #007bff; 
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 .btn {
   background-color: var(--our-green);
@@ -98,7 +114,7 @@
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
-  transition:   var(--main-transition);
+  transition: var(--main-transition);
   margin-top: 20px;
   text-align: center;
   bottom: 40px;
@@ -109,6 +125,13 @@
   position: relative;
   left: 75px;
 }
+
+@media (max-width: 768px) {
+  .btn {
+    bottom: 5px;
+  }
+}
+
 .btn:hover {
   background-color: var(--our-yellow);
   color: var(--our-white);
@@ -118,19 +141,17 @@
 .btn > .arrow {
   opacity: 0;
   margin-left: 5px; /* Add space between text and arrow */
-  transition: opacity  var(--main-transition);
+  transition: opacity var(--main-transition);
   position: relative;
   top: 3px;
   left: 0px;
-transform: translateX(-10px);
+  transform: translateX(-10px);
 }
-
-
 
 .btn .arrow {
   opacity: 0;
-  
-  transition:   var(--main-transition);
+
+  transition: var(--main-transition);
 }
 
 .btn:hover .arrow {
@@ -138,36 +159,31 @@ transform: translateX(-10px);
   left: 15px;
 }
 
-
-
-
 /*
 helper classes
 */
-.start{
-align-self: flex-start;
+.start {
+  align-self: flex-start;
 }
-.end{
-align-self: flex-end;
+.end {
+  align-self: flex-end;
 }
-.center{
-align-self: center;
-}
-
-
-.marginY{
-margin: 10px 0;
+.center {
+  align-self: center;
 }
 
-.marginL{
-margin-left: 5px;
+.marginY {
+  margin: 10px 0;
 }
 
-.marginR{
-margin-right: 5px;
+.marginL {
+  margin-left: 5px;
 }
 
-.marginX{
-margin: 0 10px;
+.marginR {
+  margin-right: 5px;
 }
 
+.marginX {
+  margin: 0 10px;
+}
