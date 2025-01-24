@@ -9,17 +9,20 @@
 @media (max-width: 1440px) {
   .list {
     grid-template-columns: repeat(2, minmax(350px, 1fr));
+    padding: 0 50px;
   }
 }
 @media (max-width: 1024px) {
   .list {
     grid-template-columns: repeat(2, minmax(350px, 1fr));
+    padding: 0 30px;
   }
 }
 
 @media (max-width: 768px) {
   .list {
     grid-template-columns: repeat(1, minmax(350px, 1fr));
+    padding: 0 20px;
   }
 }
 

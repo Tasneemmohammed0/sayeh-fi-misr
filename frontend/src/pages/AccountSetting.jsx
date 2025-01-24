@@ -222,14 +222,13 @@ function AccountSetting() {
   return (
     <>
       <div
-        className="container"
         style={{
-          height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
         }}
+        className="container"
         onClick={(e) => handleEdit(e, "")}
       >
         <ToastContainer />
@@ -353,7 +352,7 @@ function AccountSetting() {
             </button>
           </div>
 
-          <div className={styles.formGroup}>
+          <div className={styles.buttonsGroup}>
             <button
               className={`${styles.button} ${styles.password}`}
               onClick={(e) => {

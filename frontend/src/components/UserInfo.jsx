@@ -82,9 +82,10 @@ function UserInfo({
           />
           <h2
             style={{
-              marginTop: "20px",
+              marginTop: "30px",
               marginBottom: "20px ",
-              alignSelf: "center",
+              textAlign: "start",
+              width: "100%",
             }}
           >
             {user.username}
@@ -106,25 +107,26 @@ function UserInfo({
             )}
           </div>
         </div>
+
         <div className={styles.info}>
           <ul className={styles.statistics}>
             <li className={styles.statisticsItem}>
-              <span style={{ fontSize: "30px", marginBottom: "5px" }}>
+              <span className={styles.statisticsItemNumber}>
                 {stats.places_count}
               </span>
-              <span>Places Visited</span>
+              <span className={styles.statisticsItemText}>Places Visited</span>
             </li>
             <li className={styles.statisticsItem}>
-              <span style={{ fontSize: "30px", marginBottom: "5px" }}>
+              <span className={styles.statisticsItemNumber}>
                 {stats.reviews_count}
               </span>
-              <span>Reviews</span>
+              <span className={styles.statisticsItemText}>Reviews</span>
             </li>
             <li className={styles.statisticsItem}>
-              <span style={{ fontSize: "30px", marginBottom: "5px" }}>
+              <span className={styles.statisticsItemNumber}>
                 {stats.photos_count}
               </span>
-              <span>Photos</span>
+              <span className={styles.statisticsItemText}>Photos</span>
             </li>
           </ul>
           {badges.length > 0 && (

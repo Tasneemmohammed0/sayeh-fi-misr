@@ -17,8 +17,9 @@
   padding: 0 1.2rem;
   justify-content: space-between;
   position: relative;
-  height: 340px;
+  /* height: 340px; */
   margin-top: 125px;
+  flex-wrap: wrap;
 }
 .avater {
   position: absolute;
@@ -28,6 +29,20 @@
   height: 250px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+@media (max-width: 992px) {
+  .userWrapper {
+    margin-top: 20px;
+  }
+  .avater {
+    /* top: -100px; */
+    /* left: 50%; */
+    top: -150px;
+    width: 150px;
+    height: 150px;
+    /* transform: translateX(-50%); */
+  }
 }
 
 .p {
@@ -46,6 +61,7 @@
   gap: 5px;
   position: relative;
 }
+
 .statisticsItem::after {
   content: " ";
   width: 2px;
@@ -60,6 +76,21 @@
   display: none;
 }
 
+.statisticsItemText,
+.statisticsItemNumber {
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 992px) {
+  .statisticsItemText {
+    font-size: 20px;
+  }
+  .statisticsItemNumber {
+    font-size: 25px;
+  }
+}
+
 .badgeContainer {
   display: flex;
   gap: 20px;
@@ -69,12 +100,27 @@
   margin: 20px 0;
   border-radius: 20px;
 }
+
+@media (max-width: 992px) {
+  .badgeContainer {
+    padding: 5px;
+    margin: 10px 0;
+  }
+}
+
 .badge {
   width: 100px;
   height: 100%;
   object-fit: cover;
   transition: var(--main-transition);
 }
+
+@media (max-width: 992px) {
+  .badge {
+    width: 80px;
+  }
+}
+
 .badge:hover {
   transform: scale(1.1);
 }
@@ -140,6 +186,14 @@
   flex-direction: row;
 }
 
+@media (max-width: 992px) {
+  .lists {
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+  }
+}
+
 .listItem {
   font-size: 25px;
   padding-bottom: 5px;
@@ -147,6 +201,13 @@
   position: relative;
   cursor: pointer;
 }
+
+@media (max-width: 992px) {
+  .listItem {
+    font-size: 14px;
+  }
+}
+
 .listItem:hover {
   color: var(--our-yellow);
   transform: scale(1.05);
