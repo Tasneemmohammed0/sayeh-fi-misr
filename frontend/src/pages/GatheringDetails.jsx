@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/GatheringDetails.module.css";
 import Loading from "../components/Loading";
+import SeeMoreText from "../components/SeeMoreText";
 import Tabs from "../components/GatheringTabs";
 import GatheringInfo from "../components/GatheringInfo";
 import ReviewForm from "../components/ReviewForm";
@@ -234,9 +235,7 @@ function GatheringDetails() {
             {gathering.description && (
               <div className={styles.breif}>
                 <h3>Breif</h3>
-                <div className={styles.description}>
-                  {gathering.description}
-                </div>
+                <SeeMoreText text={gathering.description} />
               </div>
             )}
             {user && (
