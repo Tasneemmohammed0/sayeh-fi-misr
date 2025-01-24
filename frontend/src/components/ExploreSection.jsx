@@ -12,7 +12,7 @@ function ExploreSection() {
       <h2 className={styles.secondaryHeading}>
         Explore {activeTab === "places" ? "Places" : "Gatherings"}
       </h2>
-      <h1 className={styles.mainHeading}>Let’s create your next adventure</h1>
+      <h2 className={styles.mainHeading}>Let’s create your next adventure</h2>
       <div className={styles.solidLine}></div>
       {/* Links to toggle between tabs */}
       <ul className={styles.links}>

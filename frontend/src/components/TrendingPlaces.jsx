@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useMediaQuery } from "react-responsive";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -9,12 +9,12 @@ import "swiper/css/bundle";
 
 import { EffectCoverflow, Navigation, Autoplay } from "swiper/modules";
 
-//// our styles
+// Import our styles
 import styles from "../styles/trending.module.css";
 
 function TrandingPlaces({ places }) {
   const navigate = useNavigate();
-  console.log("trending", places);
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   return (
     <section className={styles.backGround} id="trending">
       <h2 className={styles.head}>
@@ -35,9 +35,9 @@ function TrandingPlaces({ places }) {
           slideShadows: false,
         }}
         loop={true}
-        navigation={true}
+        navigation={!isMobile} // Disable navigation on mobile
         modules={[EffectCoverflow, Navigation, Autoplay]}
-        className="mySwiper container"
+        className={`mySwiper container ${styles.swiperContainer}`}
       >
         {places.map((place, index) => (
           <SwiperSlide key={index} style={{ backgroundColor: "transparent" }}>

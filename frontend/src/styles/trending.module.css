@@ -58,12 +58,42 @@
   text-transform: capitalize;
 }
 
-.swiper-button-prev,
-.swiper-button-next {
-  color: black !important; /* Changes the arrow color to black */
+/* Adjust background for smaller screens */
+@media (max-width: 768px) {
+  .backGround {
+    padding: 0 12px;
+    height: auto; /* Allow content to adapt to mobile screen height */
+    justify-content: center;
+  }
+
+  .head {
+    font-size: 1.5rem; /* Smaller font for mobile */
+    text-align: center;
+  }
+
+  .special {
+    font-size: 1.75rem; /* Adjust special text size */
+  }
+
+  .place {
+    padding: 10px 5px; /* Reduce padding on mobile */
+  }
+
+  .image {
+    width: 250px; /* Smaller image size for mobile */
+    height: 300px;
+  }
 }
 
-.swiper-button-prev:hover,
-.swiper-button-next:hover {
-  color: gray !important; /* Optional: Changes the arrow color on hover */
+/* Remove navigation arrows on mobile */
+.mySwiper .swiper-button-next,
+.mySwiper .swiper-button-prev {
+  display: none; /* Hide arrows */
+}
+
+@media (min-width: 769px) {
+  .mySwiper .swiper-button-next,
+  .mySwiper .swiper-button-prev {
+    display: block; /* Show arrows only on larger screens */
+  }
 }
