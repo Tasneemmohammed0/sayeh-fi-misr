@@ -2,12 +2,14 @@
   background-color: #fff8e8;
 }
 .bazaarHeader {
-  height: 30vh;
+  /* height: 30%; */
   background-color: var(--our-brown);
   display: flex;
+  padding: 40px 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   row-gap: 2rem;
 }
 .bazaarHeader h1 {
@@ -69,6 +71,7 @@
   column-gap: 5rem;
   row-gap: 2rem;
   margin: 30px;
+  padding-bottom: 20px;
 }
 
 @media (max-width: 1120px) {
