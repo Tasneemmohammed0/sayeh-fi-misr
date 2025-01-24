@@ -9,15 +9,17 @@
   padding: 24px;
   padding-top: 50px;
 }
-.secondaryHeading {
-  font-size: 30px;
-  color: var(--our-yellow);
-  font-family: var(--main-font);
-  margin: 0;
-}
+
 .mainHeading {
   font-size: 40px;
   color: black;
+  font-family: var(--main-font);
+  margin: 0;
+}
+
+.secondaryHeading {
+  font-size: 30px;
+  color: var(--our-yellow);
   font-family: var(--main-font);
   margin: 0;
 }
@@ -74,4 +76,57 @@
   width: 20%;
   margin-top: 8px;
   margin-bottom: 50px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .secondaryHeading {
+    font-size: 20px; /* Smaller font for tablets */
+  }
+
+  .mainHeading {
+    margin-top: 5px;
+    font-size: 25px; /* Adjust font size */
+  }
+
+  .links {
+    gap: 15px; /* Reduce gap between links */
+  }
+
+  .links a {
+    font-size: 20px; /* Reduce link font size */
+  }
+
+  .seeMore {
+    font-size: 18px; /* Smaller button text */
+    width: 70%; /* Adjust width for better usability */
+  }
+}
+
+@media (max-width: 480px) {
+  .secondaryHeading {
+    font-size: 18px; /* Even smaller font for phones */
+  }
+
+  .mainHeading {
+    font-size: 20px; /* Adjust for smaller screens */
+    margin-top: 5px;
+  }
+
+  .links {
+    gap: 10px; /* Reduce gap for smaller screens */
+  }
+
+  .links a {
+    font-size: 18px; /* Reduce link font size further */
+  }
+
+  .seeMore {
+    font-size: 16px; /* Smaller button text for phones */
+    width: 90%; /* Full width for smaller screens */
+  }
+
+  .solidLine {
+    width: 70%; /* Adjust line width */
+  }
 }
