@@ -188,7 +188,7 @@ function PlaceDetails() {
               otherChildPrice={place.foreign_student_ticket_price}
               otherAdultPrice={place.foreign_adult_ticket_price}
             />
-            <div>
+            <div className={styles.wrapperContainer}>
               <OpeningHours
                 openingHoursNormal={place.opening_hours_working_days}
                 openingHoursHoliday={place.opening_hours_holidays}

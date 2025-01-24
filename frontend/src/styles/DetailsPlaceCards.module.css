@@ -1,0 +1,10 @@
+.wrapper {
+}
+
+@media (max-width: 992px) {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

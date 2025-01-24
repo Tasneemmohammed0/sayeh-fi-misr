@@ -29,7 +29,49 @@
 }
 
 .container {
-  padding: 3rem 10rem;
+  padding: 3rem 5rem;
+}
+
+/* Original Media Query */
+@media (max-width: 992px) {
+  .container {
+    padding: 3rem;
+  }
+}
+
+/* Media Query for Screens 768px - 992px */
+@media (max-width: 768px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+}
+
+/* New Media Query: Screens 576px - 768px */
+@media (max-width: 576px) {
+  .container {
+    padding: 2.5rem 0.5rem;
+  }
+}
+
+/* New Media Query: Screens 480px - 576px */
+@media (max-width: 480px) {
+  .container {
+    padding: 2rem 0.5rem;
+  }
+}
+
+/* New Media Query: Screens 320px - 480px */
+@media (max-width: 320px) {
+  .container {
+    padding: 1.5rem 0.25rem;
+  }
+}
+
+/* New Media Query: Screens Below 320px */
+@media (max-width: 280px) {
+  .container {
+    padding: 1rem 0.25rem;
+  }
 }
 
 /* breif section  */
@@ -58,9 +100,28 @@
   gap: 3rem;
 }
 
+@media (max-width: 768px) {
+  .info {
+    flex-direction: column;
+  }
+}
+
+.wrapperContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .wrapperContainer {
+    width: 100%;
+  }
+}
+
 /*Reviews Section*/
 .reviewSection {
-  padding: 110px 15px;
+  padding: 100px 15px;
 }
 
 .photoSection {
@@ -79,6 +140,12 @@
   font-size: 2rem;
   color: #674636;
   margin-bottom: 0.6rem;
+}
+
+@media (max-width: 768px) {
+  .reviewsHeader > h3 {
+    font-size: 1.5rem;
+  }
 }
 
 .reviewsHeader > div > h5,
