@@ -3,25 +3,28 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
 import PhotoCard from "./PhotoCard";
+import styles from "../styles/DetailsPlaceCards.module.css";
+import { useMediaQuery } from "react-responsive";
 
 function Cards({ reviews, photos }) {
+  const isMobile = useMediaQuery({ query: "(max-width: 992px)" });
+
   return (
     <>
       <Swiper
         key={reviews ? "reviews" : "photos"}
-        spaceBetween={10}
-        slidesPerView={3}
-        navigation={true}
+        spaceBetween={20}
+        slidesPerView={1}
+        navigation={isMobile ? false : true}
         modules={[Navigation]}
         breakpoints={{
+          1400: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
           1024: {
-            slidesPerView: 3, // 3 slides on larger screens
-          },
-          768: {
-            slidesPerView: 2, // 2 slides on medium screens
-          },
-          480: {
-            slidesPerView: 1, // 1 slide on small screens
+            slidesPerView: 2,
+            spaceBetween: 20,
           },
         }}
       >
@@ -33,19 +36,21 @@ function Cards({ reviews, photos }) {
 
             return (
               <SwiperSlide key={index}>
-                <ReviewCard
-                  key={review.review_id}
-                  review={{
-                    rating: review.rating,
-                    title: review.title,
-                    mainContent: review.main_content,
-                  }}
-                  date={review.date}
-                  firstName={review.first_name}
-                  lastName={review.last_name}
-                  userId={review.user_id}
-                  userProfilePic={review.profile_pic}
-                />
+                <div className={styles.wrapper}>
+                  <ReviewCard
+                    key={review.review_id}
+                    review={{
+                      rating: review.rating,
+                      title: review.title,
+                      mainContent: review.main_content,
+                    }}
+                    date={review.date}
+                    firstName={review.first_name}
+                    lastName={review.last_name}
+                    userId={review.user_id}
+                    userProfilePic={review.profile_pic}
+                  />
+                </div>
               </SwiperSlide>
             );
           })}
@@ -56,18 +61,20 @@ function Cards({ reviews, photos }) {
 
             return (
               <SwiperSlide key={index}>
-                <PhotoCard
-                  key={photo.photo_id}
-                  photo={{
-                    uploadedPhoto: photo.photo,
-                    caption: photo.caption,
-                  }}
-                  date={photo.date}
-                  firstName={photo.first_name}
-                  lastName={photo.last_name}
-                  userProfilePic={photo.profile_pic}
-                  userId={photo.user_id}
-                />
+                <div className={styles.wrapper}>
+                  <PhotoCard
+                    key={photo.photo_id}
+                    photo={{
+                      uploadedPhoto: photo.photo,
+                      caption: photo.caption,
+                    }}
+                    date={photo.date}
+                    firstName={photo.first_name}
+                    lastName={photo.last_name}
+                    userProfilePic={photo.profile_pic}
+                    userId={photo.user_id}
+                  />
+                </div>
               </SwiperSlide>
             );
           })}
