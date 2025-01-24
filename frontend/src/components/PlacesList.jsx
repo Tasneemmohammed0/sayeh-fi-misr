@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from "react";
+import { React, useState, useContext } from "react";
 import styles from "../styles/placeslist.module.css";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -9,7 +9,6 @@ import { IoAddSharp } from "react-icons/io5";
 import { FiSettings } from "react-icons/fi";
 import Card from "./Card";
 import { UserContext } from "../App";
-import { pad } from "@cloudinary/url-gen/actions/resize";
 
 function PlacesList({
   search,
@@ -50,16 +49,6 @@ function PlacesList({
   if (filter && filter !== "all") {
     places = places.filter((item) => item.city === filter);
   }
-
-  const styleslist = {
-    display: "grid",
-    gridTemplateColumns: `repeat(${gridCount}, minmax(350px, 1fr))`,
-    rowGap: "30px",
-    margin: "50px 0",
-    padding: "0 50px",
-    position: "relative",
-  };
-
   function handleOptions() {
     setShowOptions((op) => !op);
     setSelectedOption(null);
@@ -78,7 +67,7 @@ function PlacesList({
 
   return (
     <>
-      <div style={styleslist} className={styles.list}>
+      <div className={styles.list}>
         {/* for admin  */}
         {role == "admin" && (
           <div style={{ position: "absolute", top: "-40px", right: "10px" }}>
