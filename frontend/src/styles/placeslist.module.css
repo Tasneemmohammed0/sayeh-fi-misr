@@ -11,7 +11,7 @@
     grid-template-columns: repeat(3, minmax(350px, 1fr));
   }
 }
-@media (max-width: 1024px) {
+@media (max-width: 1095px) {
   .list {
     grid-template-columns: repeat(2, minmax(350px, 1fr));
   }
