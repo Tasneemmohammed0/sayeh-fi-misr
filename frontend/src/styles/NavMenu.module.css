@@ -1,0 +1,54 @@
+.ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 1.5rem;
+  padding: 0.5rem 4rem;
+  height: 2.5rem;
+  width: 75%;
+  transition: all 0.3s ease-in-out;
+}
+
+.navLinks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 1.5rem;
+  padding: 0.5rem 4rem;
+  height: 2.5rem;
+  width: 75%;
+  transition: all 0.3s ease-in-out;
+}
+
+.navlinkopen {
+  opacity: 0; /* Hidden when slider is used */
+}
+
+.link {
+  color: var(--our-white);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.link:hover,
+.active-link {
+  color: var(--our-yellow);
+}
+
+.profileIcon {
+  color: var(--our-white);
+  font-size: 1.7rem;
+  transition: color 0.2s ease;
+  margin-top: 0.3rem;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profileIcon:hover {
+  color: var(--our-yellow);
+}

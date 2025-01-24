@@ -16,48 +16,23 @@
   padding: 0.5rem 1.6rem;
   border-radius: 1.5rem;
   cursor: pointer;
-  transition: color 0.1s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.navLinks,
-.navlinkopen {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 1.5rem;
-  padding: 0.5rem 4rem;
-  height: 2.5rem;
-  width: 75%;
-  transition: all 0.3s;
-}
-
-.profileIcon {
-  color: var(--our-white);
-  font-size: 1.7rem;
-  transition: color 0.1s ease;
-  margin-top: 0.3rem;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.link {
-  color: var(--our-white);
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: color 0.1s ease;
-}
-
-.link:hover,
-.profileIcon:hover,
-.logo:hover,
-.active-link {
+.logo:hover {
   color: var(--our-yellow);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.navlinkopen {
-  /* display: none; */
-  opacity: 0;
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+  }
 }

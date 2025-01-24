@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
+import { useMediaQuery } from "react-responsive"; // Import from react-responsive
 import styles from "../styles/NavBar.module.css";
+import SliderMenu from "./SliderMenu";
+import NavMenu from "./NavMenu";
 
 function NavBar({ open = true, currentUser, setCurrentUser }) {
   const { user, setUser } = useContext(UserContext);
   const [allow, setAllow] = useState(open);
-  const location = useLocation(); // Get current location
-  // Check if the current path is "/"
+  const [sliderOpen, setSliderOpen] = useState(false); // State for slider
+  const isMobile = useMediaQuery({ query: "(max-width: 992px)" }); // Mobile breakpoint
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
@@ -41,90 +45,35 @@ function NavBar({ open = true, currentUser, setCurrentUser }) {
   }, []);
 
   const handleClick = () => {
-    if (location.pathname === "/" || location.pathname === "/home") {
-      setAllow(true);
-      return; // Do nothing if on the home page
-    }
-    setAllow((prev) => !prev); // Toggle menu visibility
+    if (isMobile) setSliderOpen((prev) => !prev);
+    else setAllow((prev) => !prev);
   };
+
   return (
     <nav className={styles.navbar} id="navbar">
       <div className={styles.logo} onClick={handleClick}>
         Sayeh fe Misr
       </div>
 
-      <ul className={`  ${allow ? styles.navLinks : styles.navlinkopen}  `}>
-        <li>
-          <NavLink to="/" activeclassname="active-link" className={styles.link}>
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/gatherings"
-            activeclassname="active-link"
-            className={styles.link}
-          >
-            Gatherings
-          </NavLink>
-        </li>
-        <li>
-          <a href="#trending" className={styles.link}>
-            Trending Places
-          </a>
-        </li>
-        <li>
-          <NavLink
-            to="/bazaar"
-            activeclassname="active-link"
-            className={styles.link}
-          >
-            Bazaar
-          </NavLink>
-        </li>
+      {/* Render NavMenu on larger screens */}
+      {!isMobile && allow && (
+        <NavMenu
+          currentUser={currentUser}
+          user={user}
+          handleLogout={handleLogout}
+        />
+      )}
 
-        {currentUser?.role === "admin" ? (
-          <li>
-            <NavLink
-              to="/dashboard"
-              activeclassname="active-link"
-              className={styles.link}
-            >
-              Dashboard
-            </NavLink>
-          </li>
-        ) : null}
-        <li onClick={handleLogout}>
-          {currentUser || user ? (
-            <NavLink activeclassname="active-link" className={styles.link}>
-              Sign Out
-            </NavLink>
-          ) : (
-            <NavLink
-              to="/signin"
-              activeclassname="active-link"
-              className={styles.link}
-            >
-              Sign In
-            </NavLink>
-          )}
-        </li>
-
-        {(currentUser || user) && (
-          <li>
-            <NavLink
-              to="/profile"
-              activeclassname="active-link"
-              className={styles.link}
-            >
-              <img
-                src={currentUser ? currentUser.profile_pic : user?.profile_pic}
-                className={styles.profileIcon}
-              />
-            </NavLink>
-          </li>
-        )}
-      </ul>
+      {/* Render SliderMenu only on mobile */}
+      {isMobile && (
+        <SliderMenu
+          sliderOpen={sliderOpen}
+          setSliderOpen={setSliderOpen}
+          currentUser={currentUser}
+          user={user}
+          handleLogout={handleLogout}
+        />
+      )}
     </nav>
   );
 }
